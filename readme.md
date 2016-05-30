@@ -33,3 +33,7 @@ There is an examples folder which I will try to add to as the library matures, b
 ## Docs
 
 See the docs folder for more information. (This will grow)
+
+## HEADS UP
+
+This was not designed with performance in mind, it should be performant enough for most scenarios, and given its reactive nature and decoupled design you can easily replace implementations at will, but as lots of people love performance metrics etc, I have none and have put performance secondary to functionality.
