@@ -3,7 +3,7 @@ using Zenject;
 
 namespace Assets.Examples.RandomReactions.Installers
 {
-    public class ReationsInstaller : MonoInstaller
+    public class ReactionsInstaller : MonoInstaller
     {
         public override void InstallBindings()
         {

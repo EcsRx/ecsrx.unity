@@ -141,5 +141,14 @@ namespace EcsRx.Systems.Executor
                 _systemSubscriptions.Add(system, new List<SubscriptionToken>(subscriptions));
             }
         }
+
+        public int GetSubscriptionCountForSystem(ISystem system)
+        {
+            if(!_systemSubscriptions.ContainsKey(system)) { return 0; }
+            return _systemSubscriptions[system].Count;
+        }
+
+        public int GetTotalSubscriptions()
+        {  return _systemSubscriptions.Values.Sum(x => x.Count); }
     }
 }

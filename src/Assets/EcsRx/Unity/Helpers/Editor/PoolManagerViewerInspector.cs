@@ -14,18 +14,18 @@ namespace EcsRx.Unity.Helpers
 
             if (poolManager == null)
             {
-                EditorGUILayout.TextArea("Pool Manager Inactive");
+                EditorGUILayout.LabelField("Pool Manager Inactive");
                 return;
             }
-
-            EditorGUILayout.TextArea("Active Pools");
+            
+            EditorGUILayout.TextField("Active Pools");
             EditorGUILayout.Space();
 
             foreach (var pool in poolManager.Pools)
             {
                 EditorGUILayout.BeginVertical();
-                EditorGUILayout.TextArea("Pool: " + pool.Name);
-                EditorGUILayout.TextArea("Entities: " + pool.Entities.Count());
+                EditorGUILayout.LabelField("Pool: " + pool.Name);
+                EditorGUILayout.LabelField("Entities: " + pool.Entities.Count());
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.Space();
             }

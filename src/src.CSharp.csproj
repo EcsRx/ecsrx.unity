@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -124,12 +126,18 @@
     <Compile Include="Assets\EcsRx\Framework\Systems\ISetupSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ISystem.cs" />
     <Compile Include="Assets\EcsRx\Unity\EcsRxContainer.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Helpers\ActiveSystemsViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\Helpers\PoolManagerViewer.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Installers\AutoRegisterSystemsInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\DefaultEcsRxInstaller.cs" />
+    <Compile Include="Assets\Examples\AutoRegisterSystems\AppContainer.cs" />
+    <Compile Include="Assets\Examples\AutoRegisterSystems\Components\ViewComponent.cs" />
+    <Compile Include="Assets\Examples\AutoRegisterSystems\Systems\RandomMovementSystem.cs" />
+    <Compile Include="Assets\Examples\AutoRegisterSystems\Systems\ViewSetupSystem.cs" />
     <Compile Include="Assets\Examples\RandomReactions\AppContainer.cs" />
     <Compile Include="Assets\Examples\RandomReactions\Components\HasCubeComponent.cs" />
     <Compile Include="Assets\Examples\RandomReactions\Components\RandomColorComponent.cs" />
-    <Compile Include="Assets\Examples\RandomReactions\Installers\ReationsInstaller.cs" />
+    <Compile Include="Assets\Examples\RandomReactions\Installers\ReactionsInstaller.cs" />
     <Compile Include="Assets\Examples\RandomReactions\Systems\ColorChangingSystem.cs" />
     <Compile Include="Assets\Examples\RandomReactions\Systems\CubeColourChangerSystem.cs" />
     <Compile Include="Assets\Examples\RandomReactions\Systems\CubeSetupSystem.cs" />
@@ -385,5 +393,6 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
