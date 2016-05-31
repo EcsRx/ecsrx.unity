@@ -1,5 +1,7 @@
 # EcsRx
 
+[![Join the chat at https://gitter.im/grofit/ecsrx](https://badges.gitter.im/grofit/ecsrx.svg)](https://gitter.im/grofit/ecsrx?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 EcsRx is a reactive take on the common ECS pattern with a well separated design and support for dependency injection (if you want it).
 
 ## Dependencies
