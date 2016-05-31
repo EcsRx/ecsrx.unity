@@ -26,9 +26,11 @@ Install both the above packages, install Zenject, install UniRx then assuming yo
 
 Much like any other ECS implementation you have the notion of entities (`IEntity`), components (`IComponent`) and systems (`ISystem`), although there are a few types of systems which you can implement based upon your needs, check out the docs folder for more information on these subjects as its more than just a 1 liner.
 
-## Examples
+## Running Examples
 
-There is an examples folder which I will try to add to as the library matures, but there are 2 examples there currently.
+If you want to run the examples then just clone it and open the unity project in the `src` folder, then run the examples, I will try to add to as the library matures, but there are 2 examples there currently.
+
+There are also a suite of tests which are being expanded as the project grows, it was written with testability in mind.
 
 ## Docs
 
