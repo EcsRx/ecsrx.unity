@@ -3,7 +3,7 @@ using EcsRx.Entities;
 
 namespace EcsRx.Events
 {
-    public class EntityReactionEvent<T> : EventArgs
+    public class EntityReactionEvent<T>
     {
         public IEntity Entity { get; private set; }
         public T ReactionData { get; private set; }

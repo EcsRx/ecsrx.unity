@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Components;
 using EcsRx.Entities;
+using EcsRx.Events;
 using EcsRx.Tests.Components;
 using NSubstitute;
 using NUnit.Framework;
+using UniRx;
 
 namespace EcsRx.Tests
 {
@@ -15,7 +17,8 @@ namespace EcsRx.Tests
         [Test]
         public void should_correctly_add_component()
         {
-            var entity = new Entity(1);
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+            var entity = new Entity(1, mockMessageBroker);
             var dummyComponent = Substitute.For<IComponent>();
 
             entity.AddComponent(dummyComponent);
@@ -26,20 +29,20 @@ namespace EcsRx.Tests
         [Test]
         public void should_correctly_raise_event_when_adding_component()
         {
-            var entity = new Entity(1);
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+            var entity = new Entity(1, mockMessageBroker);
             var dummyComponent = Substitute.For<IComponent>();
 
-            var wasCalled = false;
-            entity.OnComponentAdded += (o, e) => wasCalled = true;
             entity.AddComponent(dummyComponent);
 
-            Assert.That(wasCalled);
+            mockMessageBroker.Received().Publish(Arg.Is<ComponentAddedEvent>(x => x.Entity == entity && x.Component == dummyComponent));
         }
 
         [Test]
         public void should_correctly_remove_component()
         {
-            var entity = new Entity(1);
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+            var entity = new Entity(1, mockMessageBroker);
             var dummyComponent = Substitute.For<IComponent>();
             entity.AddComponent(dummyComponent);
             
@@ -51,21 +54,20 @@ namespace EcsRx.Tests
         [Test]
         public void should_correctly_raise_event_when_removing_component()
         {
-            var entity = new Entity(1);
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+            var entity = new Entity(1, mockMessageBroker);
             var dummyComponent = Substitute.For<IComponent>();
             entity.AddComponent(dummyComponent);
-
-            var wasCalled = false;
-            entity.OnComponentRemoved += (o, e) => wasCalled = true;
             entity.RemoveComponent(dummyComponent);
 
-            Assert.That(wasCalled);
+            mockMessageBroker.Received().Publish(Arg.Is<ComponentRemovedEvent>(x => x.Entity == entity && x.Component == dummyComponent));
         }
 
         [Test]
         public void should_return_true_when_entity_has_component()
         {
-            var entity = new Entity(1);
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+            var entity = new Entity(1, mockMessageBroker);
             var dummyComponent = new TestComponentOne();
             entity.AddComponent(dummyComponent);
 
@@ -75,7 +77,8 @@ namespace EcsRx.Tests
         [Test]
         public void should_return_true_when_entity_matches_all_components()
         {
-            var entity = new Entity(1);
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+            var entity = new Entity(1, mockMessageBroker);
             entity.AddComponent(new TestComponentOne());
             entity.AddComponent(new TestComponentTwo());
 
@@ -85,7 +88,8 @@ namespace EcsRx.Tests
         [Test]
         public void should_return_false_when_entity_does_not_match_all_components()
         {
-            var entity = new Entity(1);
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+            var entity = new Entity(1, mockMessageBroker);
             entity.AddComponent(new TestComponentOne());
 
             Assert.IsFalse(entity.HasComponents(typeof(TestComponentOne), typeof(TestComponentTwo)));
@@ -94,7 +98,8 @@ namespace EcsRx.Tests
         [Test]
         public void should_return_false_when_entity_is_missing_component()
         {
-            var entity = new Entity(1);
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+            var entity = new Entity(1, mockMessageBroker);
 
             Assert.IsFalse(entity.HasComponent<TestComponentOne>());
         }
@@ -102,7 +107,8 @@ namespace EcsRx.Tests
         [Test]
         public void should_throw_error_when_adding_component_that_already_exists()
         {
-            var entity = new Entity(1);
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+            var entity = new Entity(1, mockMessageBroker);
             var dummyComponent = Substitute.For<IComponent>();
             entity.AddComponent(dummyComponent);
 
@@ -112,14 +118,16 @@ namespace EcsRx.Tests
         [Test]
         public void should_not_throw_error_when_removing_non_existent_component_with_generic()
         {
-            var entity = new Entity(1);
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+            var entity = new Entity(1, mockMessageBroker);
             entity.RemoveComponent<TestComponentOne>();
         }
 
         [Test]
         public void should_not_throw_error_when_removing_non_existent_component_with_instance()
         {
-            var entity = new Entity(1);
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+            var entity = new Entity(1, mockMessageBroker);
             var dummyComponent = new TestComponentOne();
 
             entity.RemoveComponent(dummyComponent);

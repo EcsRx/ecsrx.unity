@@ -1,58 +1,35 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using EcsRx.Components;
 using EcsRx.Entities;
-using EcsRx.EventHandlers;
 using EcsRx.Events;
-using EcsRx.Extensions;
-using EcsRx.Groups;
 using EcsRx.Pools.Identifiers;
+using UniRx;
 
 namespace EcsRx.Pools
 {
     public class Pool : IPool
     {
         private readonly IList<IEntity> _entities;
-
-        public event EntityHandler OnEntityAdded;
-        public event EntityHandler OnEntityRemoved;
-        public event EntityComponentHandler OnEntityComponentAdded;
-        public event EntityComponentHandler OnEntityComponentRemoved;
         
         public string Name { get; private set; }
         public IEnumerable<IEntity> Entities { get { return _entities;} }
         public IIdentifyGenerator IdentityGenerator { get; private set; }
+        public IMessageBroker MessageBroker { get; private set; }
 
-        public Pool(string name, IIdentifyGenerator identityGenerator)
+        public Pool(string name, IIdentifyGenerator identityGenerator, IMessageBroker messageBroker)
         {
             _entities = new List<IEntity>();
             Name = name;
             IdentityGenerator = identityGenerator;
-        }
-
-        private void EntityComponentRemoved(object sender, ComponentEvent<IComponent> args)
-        {
-            if(OnEntityComponentRemoved != null)
-            { OnEntityComponentRemoved(this, new EntityComponentEvent(sender as IEntity, args.Component));}
-        }
-
-        private void EntityComponentAdded(object sender, ComponentEvent<IComponent> args)
-        {
-            if(OnEntityComponentAdded != null)
-            { OnEntityComponentAdded(this, new EntityComponentEvent(sender as IEntity, args.Component)); }
+            MessageBroker = messageBroker;
         }
 
         public IEntity CreateEntity()
         {
             var newId = IdentityGenerator.GenerateId();
-            var entity = new Entity(newId);
+            var entity = new Entity(newId, MessageBroker);
             _entities.Add(entity);
-
-            entity.OnComponentAdded += EntityComponentAdded;
-            entity.OnComponentRemoved += EntityComponentRemoved; ;
-
-            if(OnEntityAdded != null)
-            { OnEntityAdded(this, new EntityEvent(entity)); }
+            
+            MessageBroker.Publish(new EntityAddedEvent(entity, this));
 
             return entity;
         }
@@ -61,11 +38,7 @@ namespace EcsRx.Pools
         {
             _entities.Remove(entity);
 
-            entity.OnComponentAdded -= EntityComponentAdded;
-            entity.OnComponentRemoved -= EntityComponentRemoved;
-
-            if (OnEntityRemoved == null) { return; }
-            OnEntityRemoved(this, new EntityEvent(entity));
+            MessageBroker.Publish(new EntityRemovedEvent(entity, this));
         }
     }
 }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Components;
-using EcsRx.EventHandlers;
 using EcsRx.Events;
 using EcsRx.Extensions;
+using UniRx;
 
 namespace EcsRx.Entities
 {
@@ -12,23 +12,22 @@ namespace EcsRx.Entities
     {
         private readonly Dictionary<Type, IComponent> _components;
 
-        public event ComponentHandler OnComponentAdded;
-        public event ComponentHandler OnComponentRemoved;
+        public IMessageBroker MessageBroker { get; private set; }
 
         public int Id { get; private set; }
         public IEnumerable<IComponent> Components { get { return _components.Values; } }
 
-        public Entity(int id)
+        public Entity(int id, IMessageBroker messageBroker)
         {
             Id = id;
+            MessageBroker = messageBroker;
             _components = new Dictionary<Type, IComponent>();
         }
 
         public void AddComponent(IComponent component)
         {
             _components.Add(component.GetType(), component);
-            if(OnComponentAdded == null) { return; }
-            OnComponentAdded(this, new ComponentEvent<IComponent>(component));
+            MessageBroker.Publish(new ComponentAddedEvent(this, component));
         }
 
         public void AddComponent<T>() where T : class, IComponent, new()
@@ -39,8 +38,7 @@ namespace EcsRx.Entities
             if(!_components.ContainsKey(component.GetType())) { return; }
 
             _components.Remove(component.GetType());
-            if (OnComponentRemoved == null) { return; }
-            OnComponentRemoved(this, new ComponentEvent<IComponent>(component));
+            MessageBroker.Publish(new ComponentRemovedEvent(this, component));
         }
 
         public void RemoveComponent<T>() where T : class, IComponent

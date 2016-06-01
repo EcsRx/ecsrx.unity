@@ -1,8 +1,10 @@
 ﻿using System.Linq;
+using EcsRx.Events;
 using EcsRx.Pools;
 using EcsRx.Pools.Identifiers;
 using NSubstitute;
 using NUnit.Framework;
+using UniRx;
 
 namespace EcsRx.Tests
 {
@@ -16,7 +18,9 @@ namespace EcsRx.Tests
             var mockIdentityGenerator = Substitute.For<IIdentifyGenerator>();
             mockIdentityGenerator.GenerateId().Returns(expectedId);
 
-            var pool = new Pool("", mockIdentityGenerator);
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+
+            var pool = new Pool("", mockIdentityGenerator, mockMessageBroker);
             var entity = pool.CreateEntity();
 
             Assert.That(entity.Id, Is.EqualTo(expectedId));
@@ -28,21 +32,22 @@ namespace EcsRx.Tests
         public void should_raise_event_when_creating_entity()
         {
             var mockIdentityGenerator = Substitute.For<IIdentifyGenerator>();
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
 
             var hasRaised = false;
-            var pool = new Pool("", mockIdentityGenerator);
-            pool.OnEntityAdded += (sender, args) => hasRaised = true;
-            pool.CreateEntity();
+            var pool = new Pool("", mockIdentityGenerator, mockMessageBroker);
+            var entity =pool.CreateEntity();
 
-            Assert.IsTrue(hasRaised);
+            mockMessageBroker.Received().Publish(Arg.Is<EntityAddedEvent>(x => x.Entity == entity && x.Pool == pool));
         }
 
         [Test]
         public void should_add_created_entity_into_the_pool()
         {
             var mockIdentityGenerator = Substitute.For<IIdentifyGenerator>();
-            
-            var pool = new Pool("", mockIdentityGenerator);
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+
+            var pool = new Pool("", mockIdentityGenerator, mockMessageBroker);
             var entity = pool.CreateEntity();
 
             Assert.That(pool.Entities.Count(), Is.EqualTo(1));
@@ -53,22 +58,22 @@ namespace EcsRx.Tests
         public void should_raise_event_when_removing_entity()
         {
             var mockIdentityGenerator = Substitute.For<IIdentifyGenerator>();
-
-            var hasRaised = false;
-            var pool = new Pool("", mockIdentityGenerator);
-            pool.OnEntityRemoved += (sender, args) => hasRaised = true;
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
+            
+            var pool = new Pool("", mockIdentityGenerator, mockMessageBroker);
             var entity = pool.CreateEntity();
             pool.RemoveEntity(entity);
 
-            Assert.IsTrue(hasRaised);
+            mockMessageBroker.Received().Publish(Arg.Is<EntityRemovedEvent>(x => x.Entity == entity && x.Pool == pool));
         }
 
         [Test]
         public void should_remove_created_entity_from_the_pool()
         {
             var mockIdentityGenerator = Substitute.For<IIdentifyGenerator>();
+            var mockMessageBroker = Substitute.For<IMessageBroker>();
 
-            var pool = new Pool("", mockIdentityGenerator);
+            var pool = new Pool("", mockIdentityGenerator, mockMessageBroker);
             var entity = pool.CreateEntity();
             pool.RemoveEntity(entity);
 

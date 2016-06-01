@@ -1,45 +1,41 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Entities;
-using EcsRx.EventHandlers;
 using EcsRx.Events;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Pools.Identifiers;
+using UniRx;
 
 namespace EcsRx.Pools
 {
     public class PoolManager : IPoolManager
     {
         public const string DefaultPoolName = "default";
-
-        public event PooledEntityHandler OnEntityAdded;
-        public event PooledEntityHandler OnEntityRemoved;
-        public event EntityComponentHandler OnEntityComponentAdded;
-        public event EntityComponentHandler OnEntityComponentRemoved;
-
+        
         private IDictionary<GroupAccessorToken, IEnumerable<IEntity>> _groupAccessors;
         private IDictionary<string, IPool> _pools;
-        
+
+        public IMessageBroker MessageBroker { get; private set; }
         public IEnumerable<IPool> Pools { get { return _pools.Values; } }
         public IIdentifyGenerator IdentityGenerator { get; private set; }
 
-        public PoolManager(IIdentifyGenerator identityGenerator)
+        public PoolManager(IIdentifyGenerator identityGenerator, IMessageBroker messageBroker)
         {
             IdentityGenerator = identityGenerator;
+            MessageBroker = messageBroker;
             _groupAccessors = new Dictionary<GroupAccessorToken, IEnumerable<IEntity>>();
             _pools = new Dictionary<string, IPool>();
             CreatePool(DefaultPoolName);
         }
-
+        
         public IPool CreatePool(string name)
         {
-            var pool = new Pool(name, IdentityGenerator);
+            var pool = new Pool(name, IdentityGenerator, MessageBroker);
             _pools.Add(name, pool);
-            pool.OnEntityAdded += EntityAddedToPool;
-            pool.OnEntityRemoved += EntityRemovedFromPool;
-            pool.OnEntityComponentAdded += EntityComponentAdded;
-            pool.OnEntityComponentRemoved += EntityComponentRemoved;
+
+            MessageBroker.Publish(new PoolAddedEvent(pool));
+
             return pool;
         }
 
@@ -53,36 +49,7 @@ namespace EcsRx.Pools
             var pool = _pools[name];
             _pools.Remove(name);
 
-            pool.OnEntityAdded += EntityAddedToPool;
-            pool.OnEntityRemoved += EntityRemovedFromPool;
-            pool.OnEntityComponentAdded += EntityComponentAdded;
-            pool.OnEntityComponentRemoved += EntityComponentRemoved;
-        }
-
-        private void EntityComponentAdded(object sender, EntityComponentEvent args)
-        {
-            if (OnEntityComponentAdded != null)
-            { OnEntityComponentAdded(sender, args); }
-        }
-
-        private void EntityAddedToPool(object sender, EntityEvent args)
-        {
-            if(OnEntityAdded == null) { return; }
-            var poolName = (sender as IPool).Name;
-            OnEntityAdded(this, new PooledEntityEvent(poolName, args.Entity));
-        }
-
-        private void EntityComponentRemoved(object sender, EntityComponentEvent args)
-        {
-            if(OnEntityComponentRemoved != null)
-            { OnEntityComponentRemoved(sender, args); }
-        }
-
-        private void EntityRemovedFromPool(object sender, EntityEvent args)
-        {
-            if (OnEntityRemoved == null) { return; }
-            var poolName = (sender as IPool).Name;
-            OnEntityRemoved(this, new PooledEntityEvent(poolName, args.Entity));
+            MessageBroker.Publish(new PoolRemovedEvent(pool));
         }
         
         public IEnumerable<IEntity> GetEntitiesFor(IGroup group, string poolName = null)

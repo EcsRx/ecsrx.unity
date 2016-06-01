@@ -56,5 +56,8 @@ namespace EcsRx.Unity.Systems
         }
 
         protected virtual void CleanupView()
+        {
+            
+        }
     }
 }

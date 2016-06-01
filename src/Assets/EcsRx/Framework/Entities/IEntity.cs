@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using EcsRx.Components;
-using EcsRx.EventHandlers;
 
 namespace EcsRx.Entities
 {
     public interface IEntity
     {
-        event ComponentHandler OnComponentAdded;
-        event ComponentHandler OnComponentRemoved;
-        
         int Id { get; }
         IEnumerable<IComponent> Components { get; }
 

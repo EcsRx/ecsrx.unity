@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using EcsRx.Entities;
-using EcsRx.Groups;
-using EcsRx.Pools;
+﻿using EcsRx.Pools;
 using EcsRx.Systems;
 using EcsRx.Systems.Executor;
 using EcsRx.Systems.Executor.Handlers;
-using EcsRx.Tests.Components;
 using NSubstitute;
 using NUnit.Framework;
+using UniRx;
 
 namespace EcsRx.Tests
 {
@@ -19,10 +15,11 @@ namespace EcsRx.Tests
         public void should_identify_as_setup_system_and_add_to_systems()
         {
             var mockPoolManager = Substitute.For<IPoolManager>();
+            var messageBroker = Substitute.For<IMessageBroker>();
             var mockSetupSystemHandler = Substitute.For<ISetupSystemHandler>();
             var fakeSystem = Substitute.For<ISetupSystem>();
 
-            var systemExecutor = new SystemExecutor(mockPoolManager, 
+            var systemExecutor = new SystemExecutor(mockPoolManager, messageBroker,
                 null, null, mockSetupSystemHandler, null);
 
             systemExecutor.AddSystem(fakeSystem);
@@ -35,10 +32,11 @@ namespace EcsRx.Tests
         public void should_identify_as_react_with_data_system_and_add_to_systems()
         {
             var mockPoolManager = Substitute.For<IPoolManager>();
+            var messageBroker = Substitute.For<IMessageBroker>();
             var mockReactToDataSystemHandler = Substitute.For<IReactToDataSystemHandler>();
             var fakeSystem = Substitute.For<IReactToDataSystem<int>>();
 
-            var systemExecutor = new SystemExecutor(mockPoolManager,
+            var systemExecutor = new SystemExecutor(mockPoolManager, messageBroker,
                 null, null, null, mockReactToDataSystemHandler);
 
             systemExecutor.AddSystem(fakeSystem);
@@ -51,10 +49,11 @@ namespace EcsRx.Tests
         public void should_identify_as_reactive_entity_system_and_add_to_systems()
         {
             var mockPoolManager = Substitute.For<IPoolManager>();
+            var messageBroker = Substitute.For<IMessageBroker>();
             var mockReactToEntitySystemHandler = Substitute.For<IReactToEntitySystemHandler>();
             var fakeSystem = Substitute.For<IReactToEntitySystem>();
 
-            var systemExecutor = new SystemExecutor(mockPoolManager,
+            var systemExecutor = new SystemExecutor(mockPoolManager, messageBroker,
                 mockReactToEntitySystemHandler, null, null, null);
 
             systemExecutor.AddSystem(fakeSystem);
@@ -67,10 +66,11 @@ namespace EcsRx.Tests
         public void should_identify_as_reactive_group_system_and_add_to_systems()
         {
             var mockPoolManager = Substitute.For<IPoolManager>();
+            var messageBroker = Substitute.For<IMessageBroker>();
             var mockReactToGroupSystemHandler = Substitute.For<IReactToGroupSystemHandler>();
             var fakeSystem = Substitute.For<IReactToGroupSystem>();
 
-            var systemExecutor = new SystemExecutor(mockPoolManager,
+            var systemExecutor = new SystemExecutor(mockPoolManager, messageBroker,
                 null, mockReactToGroupSystemHandler, null, null);
 
             systemExecutor.AddSystem(fakeSystem);
@@ -83,10 +83,11 @@ namespace EcsRx.Tests
         public void should_remove_system_from_systems()
         {
             var mockPoolManager = Substitute.For<IPoolManager>();
+            var messageBroker = Substitute.For<IMessageBroker>();
             var mockSetupSystemHandler = Substitute.For<ISetupSystemHandler>();
             var fakeSystem = Substitute.For<ISetupSystem>();
 
-            var systemExecutor = new SystemExecutor(mockPoolManager,
+            var systemExecutor = new SystemExecutor(mockPoolManager, messageBroker,
                 null, null, mockSetupSystemHandler, null);
 
             systemExecutor.AddSystem(fakeSystem);
