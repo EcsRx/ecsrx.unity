@@ -4,6 +4,7 @@ using System.Linq;
 using EcsRx.Components;
 using EcsRx.EventHandlers;
 using EcsRx.Events;
+using EcsRx.Extensions;
 
 namespace EcsRx.Entities
 {
@@ -30,6 +31,9 @@ namespace EcsRx.Entities
             OnComponentAdded(this, new ComponentEvent<IComponent>(component));
         }
 
+        public void AddComponent<T>() where T : class, IComponent, new()
+        { AddComponent(new T()); }
+
         public void RemoveComponent(IComponent component)
         {
             if(!_components.ContainsKey(component.GetType())) { return; }
@@ -45,6 +49,12 @@ namespace EcsRx.Entities
 
             var component = GetComponent<T>();
             RemoveComponent(component);
+        }
+
+        public void RemoveAllComponents()
+        {
+            var components = Components.ToArray();
+            components.ForEachRun(RemoveComponent);
         }
 
         public bool HasComponent<T>() where T : class, IComponent

@@ -11,5 +11,10 @@ namespace EcsRx.Extensions
         {
             return pools.SelectMany(x => x.Entities);
         }
+
+        public static IPool GetContainingPoolFor(this IPoolManager poolManager, IEntity entity)
+        {
+            return poolManager.Pools.SingleOrDefault(x => x.Entities.Contains(entity));
+        }
     }
 }

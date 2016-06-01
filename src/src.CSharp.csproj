@@ -125,11 +125,15 @@
     <Compile Include="Assets\EcsRx\Framework\Systems\IReactToGroupSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ISetupSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ISystem.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Components\IViewComponent.cs" />
     <Compile Include="Assets\EcsRx\Unity\EcsRxContainer.cs" />
     <Compile Include="Assets\EcsRx\Unity\Helpers\ActiveSystemsViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\Helpers\PoolManagerViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\AutoRegisterSystemsInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\DefaultEcsRxInstaller.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityBinding.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\RegisterAsEntity.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Systems\ViewResolverSystem.cs" />
     <Compile Include="Assets\Examples\AutoRegisterSystems\AppContainer.cs" />
     <Compile Include="Assets\Examples\AutoRegisterSystems\Components\ViewComponent.cs" />
     <Compile Include="Assets\Examples\AutoRegisterSystems\Systems\RandomMovementSystem.cs" />

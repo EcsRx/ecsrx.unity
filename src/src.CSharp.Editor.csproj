@@ -113,6 +113,7 @@
   <ItemGroup>
     <Compile Include="Assets\EcsRx\Unity\Helpers\Editor\ActiveSystemsViewerInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\Helpers\Editor\PoolManagerViewerInspector.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EntityBindingInspector.cs" />
     <Compile Include="Assets\Tests\Editor\Components\TestComponentOne.cs" />
     <Compile Include="Assets\Tests\Editor\Components\TestComponentTwo.cs" />
     <Compile Include="Assets\Tests\Editor\EntityTests.cs" />
@@ -181,5 +182,6 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
