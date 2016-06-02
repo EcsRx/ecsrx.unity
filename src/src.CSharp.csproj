@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -81,7 +83,6 @@
     <Compile Include="Assets\EcsRx\Framework\Events\ComponentAddedEvent.cs" />
     <Compile Include="Assets\EcsRx\Framework\Events\ComponentRemovedEvent.cs" />
     <Compile Include="Assets\EcsRx\Framework\Events\EntityAddedEvent.cs" />
-    <Compile Include="Assets\EcsRx\Framework\Events\EntityReactionEvent.cs" />
     <Compile Include="Assets\EcsRx\Framework\Events\EntityRemovedEvent.cs" />
     <Compile Include="Assets\EcsRx\Framework\Events\PoolAddedEvent.cs" />
     <Compile Include="Assets\EcsRx\Framework\Events\PoolRemovedEvent.cs" />
