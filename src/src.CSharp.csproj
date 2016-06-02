@@ -137,6 +137,11 @@
     <Compile Include="Assets\Examples\AutoRegisterSystems\Components\ViewComponent.cs" />
     <Compile Include="Assets\Examples\AutoRegisterSystems\Systems\RandomMovementSystem.cs" />
     <Compile Include="Assets\Examples\AutoRegisterSystems\Systems\ViewSetupSystem.cs" />
+    <Compile Include="Assets\Examples\GameObjectBinding\AppContainer.cs" />
+    <Compile Include="Assets\Examples\GameObjectBinding\components\CubeComponent.cs" />
+    <Compile Include="Assets\Examples\GameObjectBinding\components\SphereComponent.cs" />
+    <Compile Include="Assets\Examples\GameObjectBinding\view-resolvers\CubeViewResolver.cs" />
+    <Compile Include="Assets\Examples\GameObjectBinding\view-resolvers\SphereViewResolver.cs" />
     <Compile Include="Assets\Examples\RandomReactions\AppContainer.cs" />
     <Compile Include="Assets\Examples\RandomReactions\Components\HasCubeComponent.cs" />
     <Compile Include="Assets\Examples\RandomReactions\Components\RandomColorComponent.cs" />
@@ -152,6 +157,12 @@
     <Compile Include="Assets\Examples\SimpleMovement\Systems\CameraFollowSystem.cs" />
     <Compile Include="Assets\Examples\SimpleMovement\Systems\PlayerControlSystem.cs" />
     <Compile Include="Assets\Examples\SimpleMovement\Systems\ViewSetupSystem.cs" />
+    <Compile Include="Assets\Examples\UsingBlueprints\AppContainer.cs" />
+    <Compile Include="Assets\Examples\UsingBlueprints\Blueprints\PlayerBlueprint.cs" />
+    <Compile Include="Assets\Examples\UsingBlueprints\Components\HasName.cs" />
+    <Compile Include="Assets\Examples\UsingBlueprints\Components\WithHealthComponent.cs" />
+    <Compile Include="Assets\Examples\UsingBlueprints\Groups\PlayerGroup.cs" />
+    <Compile Include="Assets\Examples\UsingBlueprints\Systems\PlayerReportingSystem.cs" />
     <Compile Include="Assets\Tests\PoolManagerTests.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\AssertionComponent.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\AssertionException.cs" />

@@ -6,6 +6,7 @@ using EcsRx.Extensions;
 using EcsRx.Pools;
 using EcsRx.Systems.Executor.Handlers;
 using UniRx;
+using UnityEngine;
 
 namespace EcsRx.Systems.Executor
 {
@@ -57,7 +58,7 @@ namespace EcsRx.Systems.Executor
         {
             var applicableSystems = _systems.GetApplicableSystems(args.Entity).ToArray();
             var effectedSystems = applicableSystems.Where(x => x.TargetGroup.TargettedComponents.Contains(args.Component.GetType()));
-
+            
             ApplyEntityToSystems(effectedSystems, args.Entity);
         }
 
@@ -79,7 +80,7 @@ namespace EcsRx.Systems.Executor
                 .ForEachRun(x => x.Setup(entity));
 
             systems.OfType<IReactToEntitySystem>()
-            .ForEachRun(x =>
+                .ForEachRun(x =>
             {
                 var subscription = ReactToEntitySystemHandler.ProcessEntity(x, entity);
                 _systemSubscriptions[x].Add(subscription);

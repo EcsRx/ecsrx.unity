@@ -30,12 +30,12 @@ namespace EcsRx.Pools
             var newId = IdentityGenerator.GenerateId();
             var entity = new Entity(newId, MessageBroker);
 
-            if (blueprint != null)
-            { blueprint.Apply(entity); }
-
             _entities.Add(entity);
 
             MessageBroker.Publish(new EntityAddedEvent(entity, this));
+
+            if (blueprint != null)
+            { blueprint.Apply(entity); }
 
             return entity;
         }

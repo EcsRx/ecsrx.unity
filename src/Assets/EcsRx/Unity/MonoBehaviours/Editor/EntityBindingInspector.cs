@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace EcsRx.Unity.Helpers
 {
-    [CustomEditor(typeof(EntityBindingInspector))]
+    [CustomEditor(typeof(EntityBinding))]
     public class EntityBindingInspector : Editor
     {
         public override void OnInspectorGUI()
@@ -38,7 +38,6 @@ namespace EcsRx.Unity.Helpers
                 EditorGUILayout.BeginVertical();
                 EditorGUILayout.LabelField(component.GetType().Name);
                 EditorGUILayout.EndVertical();
-                EditorGUILayout.Space();
             }
         }
     }
