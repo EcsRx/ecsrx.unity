@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Assets.EcsRx.Framework.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Groups;
 using UniRx;
@@ -17,5 +18,11 @@ namespace EcsRx.Extensions
 
         public static bool MatchesGroup(this IEntity entity, IGroup group)
         { return entity.HasComponents(group.TargettedComponents.ToArray()); }
+
+        public static IEntity ApplyBlueprint(this IEntity entity, IBlueprint blueprint)
+        {
+            blueprint.Apply(entity);
+            return entity;
+        }
     }
 }

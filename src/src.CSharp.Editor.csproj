@@ -119,6 +119,8 @@
     <Compile Include="Assets\Tests\Editor\EntityTests.cs" />
     <Compile Include="Assets\Tests\Editor\ISystemExtensionTests.cs" />
     <Compile Include="Assets\Tests\Editor\PoolTests.cs" />
+    <Compile Include="Assets\Tests\Editor\SetupSystemHandlerTests.cs" />
+    <Compile Include="Assets\Tests\Editor\ReactToGroupSystemHandlerTests.cs" />
     <Compile Include="Assets\Tests\Editor\ReactToEntitySystemHandlerTests.cs" />
     <Compile Include="Assets\Tests\Editor\SanityTests.cs" />
     <Compile Include="Assets\Tests\Editor\SystemExecutorTests.cs" />

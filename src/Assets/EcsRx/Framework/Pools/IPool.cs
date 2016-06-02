@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.EcsRx.Framework.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Pools.Identifiers;
 
@@ -11,7 +12,7 @@ namespace EcsRx.Pools
         IEnumerable<IEntity> Entities { get; }
         IIdentifyGenerator IdentityGenerator { get; }
 
-        IEntity CreateEntity();
+        IEntity CreateEntity(IBlueprint blueprint = null);
         void RemoveEntity(IEntity entity);
     }
 }

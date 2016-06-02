@@ -34,30 +34,26 @@ namespace EcsRx.Unity.Systems
             var viewObject = ResolveView(entity);
             viewComponent.View = viewObject;
 
+            IPool containingPool;
+
             var entityBinding = viewObject.GetComponent<EntityBinding>();
             if (entityBinding == null)
             {
                 entityBinding = viewObject.AddComponent<EntityBinding>();
                 entityBinding.Entity = entity;
 
-                var containingPool = PoolManager.GetContainingPoolFor(entity);
+                containingPool = PoolManager.GetContainingPoolFor(entity);
                 entityBinding.PoolName = containingPool.Name;
             }
+            else
+            { containingPool = PoolManager.GetPool(entityBinding.PoolName); }
 
-            viewObject.OnDestroyAsObservable()
-                .Subscribe(x => CleanupEntity(entity))
-                .Dispose();
-        }
-
-        protected virtual void CleanupEntity(IEntity entity)
-        {
-            var pool = PoolManager.GetPool();
-            pool.RemoveEntity(entity);
-        }
-
-        protected virtual void CleanupView()
-        {
-            
+            if (viewComponent.DestroyWithView)
+            {
+                viewObject.OnDestroyAsObservable()
+                    .Subscribe(x => containingPool.RemoveEntity(entity))
+                    .AddTo(viewObject);
+            }
         }
     }
 }

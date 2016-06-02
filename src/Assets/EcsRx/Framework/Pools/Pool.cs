@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Assets.EcsRx.Framework.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Events;
+using EcsRx.Extensions;
 using EcsRx.Pools.Identifiers;
 using UniRx;
 
@@ -23,12 +25,16 @@ namespace EcsRx.Pools
             MessageBroker = messageBroker;
         }
 
-        public IEntity CreateEntity()
+        public IEntity CreateEntity(IBlueprint blueprint = null)
         {
             var newId = IdentityGenerator.GenerateId();
             var entity = new Entity(newId, MessageBroker);
+
+            if (blueprint != null)
+            { blueprint.Apply(entity); }
+
             _entities.Add(entity);
-            
+
             MessageBroker.Publish(new EntityAddedEvent(entity, this));
 
             return entity;
