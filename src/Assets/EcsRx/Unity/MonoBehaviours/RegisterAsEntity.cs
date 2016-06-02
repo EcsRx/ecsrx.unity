@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Assets.Examples.AutoRegisterSystems.Components;
 using EcsRx.Entities;
 using EcsRx.Pools;
 using UnityEngine;
@@ -26,6 +27,7 @@ namespace EcsRx.Unity.MonoBehaviours
             { poolToUse = PoolManager.GetPool(PoolName); }
 
             var createdEntity = poolToUse.CreateEntity();
+            createdEntity.AddComponent(new ViewComponent { GameObject = gameObject });
             SetupEntityBinding(createdEntity);
         }
 

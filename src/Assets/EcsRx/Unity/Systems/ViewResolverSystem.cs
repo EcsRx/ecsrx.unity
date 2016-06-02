@@ -30,6 +30,7 @@ namespace EcsRx.Unity.Systems
         public virtual void Setup(IEntity entity)
         {
             var viewComponent = entity.GetComponent<ViewComponent>();
+            if(viewComponent.View != null) { return; }
 
             var viewObject = ResolveView(entity);
             viewComponent.View = viewObject;
