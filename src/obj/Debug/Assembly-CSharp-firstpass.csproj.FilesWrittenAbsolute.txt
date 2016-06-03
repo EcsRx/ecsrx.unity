@@ -1,0 +1,17 @@
+/Users/timriley/ecsrx/src/Temp/bin/Debug/Assembly-CSharp-firstpass.dll.mdb
+/Users/timriley/ecsrx/src/Temp/bin/Debug/Assembly-CSharp-firstpass.dll
+/Users/timriley/ecsrx/src/obj/Debug/Assembly-CSharp-firstpass.dll
+/Users/timriley/ecsrx/src/obj/Debug/Assembly-CSharp-firstpass.dll.mdb
+/Users/timriley/ecsrx/src/Temp/bin/Debug/UnityEngine.dll
+/Users/timriley/ecsrx/src/Temp/bin/Debug/UnityEditor.dll
+/Users/timriley/ecsrx/src/Temp/bin/Debug/UnityEngine.UI.dll
+/Users/timriley/ecsrx/src/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/timriley/ecsrx/src/Temp/bin/Debug/Mono.Cecil.dll
+/Users/timriley/ecsrx/src/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/timriley/ecsrx/src/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Users/timriley/ecsrx/src/Temp/bin/Debug/Unity.DataContract.dll
+/Users/timriley/ecsrx/src/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/timriley/ecsrx/src/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Users/timriley/ecsrx/src/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Users/timriley/ecsrx/src/Temp/bin/Debug/Unity.CecilTools.dll
+/Users/timriley/ecsrx/src/Temp/bin/Debug/Mono.Cecil.Pdb.dll
