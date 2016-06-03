@@ -11,6 +11,7 @@ namespace EcsRx.Unity.Helpers
     using System.Linq;
 
     [CustomEditor(typeof(EntityView))]
+    [System.Serializable]
     public class EntityViewInspector : Editor
     {
         EntityView view;
@@ -22,13 +23,28 @@ namespace EcsRx.Unity.Helpers
 
         void Awake()
         {
-            components.Add(typeof(CubeComponent));
-            components.Add(typeof(SphereComponent));
-            types = components.Select(_ => _.ToString()).ToArray();
+            // components.Add(typeof(CubeComponent));
+            // components.Add(typeof(SphereComponent));
+            // types = components.Select(_ => _.ToString()).ToArray();
         }
 
         public override void OnInspectorGUI()
         {
+            serializedObject.ApplyModifiedProperties();
+            serializedObject.Update();
+
+            if (GUILayout.Button("Create Entity"))
+            {
+                var id = UnityEngine.Random.Range(9999, 999999999);
+                view.Entity = new Entity(id, null);
+            }
+
+            if (GUILayout.Button("Destroy Entity"))
+            {
+                view.Pool.RemoveEntity(entity);
+                Destroy(view.gameObject);
+            }
+
             view = (EntityView)target;
             entity = view.Entity;
 
@@ -52,26 +68,30 @@ namespace EcsRx.Unity.Helpers
             EditorGUILayout.EndVertical();
             EditorGUILayout.Space();
 
-
-            if (GUILayout.Button("Destroy Entity"))
-            {
-								view.Pool.RemoveEntity(entity);
-                Destroy(view.gameObject);
-            }
-
-            EditorGUILayout.Space();
+            components.Add(typeof(CubeComponent));
+            components.Add(typeof(SphereComponent));
+            types = components.Select(_ => _.ToString()).ToArray();
             var index = -1;
             index = EditorGUILayout.Popup("Add Component", index, types);
             if (index >= 0)
             {
                 var type = components[index];
                 var component = (IComponent)Activator.CreateInstance(type);
-                entity.AddComponent(component);
+
+                if (Application.isPlaying)
+                {
+                    entity.AddComponent(component);
+                }
+                else
+                {
+                    Debug.Log(component.ToString());
+                    view.StagedComponents.Add(component);
+                }
             }
 
             EditorGUILayout.EndVertical();
 
-						EditorGUILayout.BeginVertical(GUI.skin.box);
+            EditorGUILayout.BeginVertical(GUI.skin.box);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Components (" + entity.Components.Count() + ")", EditorStyles.boldLabel);
             if (GUILayout.Button("▸", GUILayout.Width(20), GUILayout.Height(15)))
@@ -85,14 +105,25 @@ namespace EcsRx.Unity.Helpers
             EditorGUILayout.EndHorizontal();
 
             if (showComponents)
-						{
-							foreach (var component in entity.Components)
-							{
-									EditorGUILayout.BeginVertical(GUI.skin.box);
-									EditorGUILayout.LabelField(component.GetType().Name);
-									EditorGUILayout.EndVertical();
-							}
-						}
+            {
+                for (var i = 0; i < entity.Components.Count(); i++)
+                {
+                    EditorGUILayout.BeginHorizontal(GUI.skin.box);
+                    EditorGUILayout.LabelField(entity.Components.ElementAt(i).GetType().Name);
+                    if (GUILayout.Button("-", GUILayout.Width(20), GUILayout.Height(15)))
+                    {
+                        entity.RemoveComponent(entity.Components.ElementAt(i));
+                    }
+                    EditorGUILayout.EndHorizontal();
+                }
+            }
+
+            if (GUI.changed)
+            {
+                EditorUtility.SetDirty(target);
+                serializedObject.ApplyModifiedProperties();
+                serializedObject.Update();
+            }
         }
     }
 }
