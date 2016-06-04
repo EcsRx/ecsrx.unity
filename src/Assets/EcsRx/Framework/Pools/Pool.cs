@@ -11,7 +11,7 @@ namespace EcsRx.Pools
     public class Pool : IPool
     {
         private readonly IList<IEntity> _entities;
-        
+
         public string Name { get; private set; }
         public IEnumerable<IEntity> Entities { get { return _entities;} }
         public IIdentifyGenerator IdentityGenerator { get; private set; }
