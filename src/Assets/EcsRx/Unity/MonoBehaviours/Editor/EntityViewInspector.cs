@@ -1,12 +1,9 @@
 namespace EcsRx.Unity.Helpers
 {
     using UnityEngine;
-    using System.Collections;
     using UnityEditor;
-    using Entities;
     using System.Collections.Generic;
     using EcsRx.Components;
-    using Assets.Examples.ViewBinding.Components;
     using System;
     using System.Linq;
 
@@ -15,106 +12,129 @@ namespace EcsRx.Unity.Helpers
     public class EntityViewInspector : Editor
     {
         EntityView view;
-        IEntity entity;
 
         List<Type> components = new List<Type>();
         string[] types;
         bool showComponents;
 
-        void Awake()
-        {
-            // components.Add(typeof(CubeComponent));
-            // components.Add(typeof(SphereComponent));
-            // types = components.Select(_ => _.ToString()).ToArray();
-        }
-
         public override void OnInspectorGUI()
         {
-            serializedObject.ApplyModifiedProperties();
-            serializedObject.Update();
-
-            if (GUILayout.Button("Create Entity"))
-            {
-                var id = UnityEngine.Random.Range(9999, 999999999);
-                view.Entity = new Entity(id, null);
-            }
-
             if (GUILayout.Button("Destroy Entity"))
             {
-                view.Pool.RemoveEntity(entity);
+                view.Pool.RemoveEntity(view.Entity);
                 Destroy(view.gameObject);
             }
 
             view = (EntityView)target;
-            entity = view.Entity;
 
-            if (entity == null)
+            if (Application.isPlaying)
             {
-                EditorGUILayout.LabelField("No Entity Assigned");
-                return;
-            }
-
-            var poolName = view.PoolName;
-
-            EditorGUILayout.BeginVertical();
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Entity Id");
-            EditorGUILayout.LabelField(entity.Id.ToString());
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Pool Name");
-            EditorGUILayout.LabelField(string.IsNullOrEmpty(poolName) ? "Default" : poolName);
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.EndVertical();
-            EditorGUILayout.Space();
-
-            components.Add(typeof(CubeComponent));
-            components.Add(typeof(SphereComponent));
-            types = components.Select(_ => _.ToString()).ToArray();
-            var index = -1;
-            index = EditorGUILayout.Popup("Add Component", index, types);
-            if (index >= 0)
-            {
-                var type = components[index];
-                var component = (IComponent)Activator.CreateInstance(type);
-
-                if (Application.isPlaying)
+                if (view.Entity == null)
                 {
-                    entity.AddComponent(component);
+                    EditorGUILayout.LabelField("No Entity Assigned");
+                    return;
                 }
-                else
+
+                EditorGUILayout.BeginVertical();
+
+                EditorGUILayout.BeginHorizontal();
+                var id = view.Entity.Id.ToString();
+                EditorGUILayout.LabelField("Entity Id: ", id);
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.BeginHorizontal();
+                var pool = string.IsNullOrEmpty(view.PoolName) ? "Default" : view.PoolName;
+                EditorGUILayout.LabelField("Pool: ", pool);
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.Space();
+
+								EditorGUILayout.BeginHorizontal(GUI.skin.box);
+								var type = typeof(IComponent);
+                components = AppDomain.CurrentDomain.GetAssemblies()
+																		.SelectMany(s => s.GetTypes())
+                                    .Where(p => type.IsAssignableFrom(p)).ToList();
+                types = components.Select(_ => _.ToString()).ToArray();
+                var index = -1;
+                index = EditorGUILayout.Popup("Add Component", index, types);
+                if (index >= 0)
                 {
-                    Debug.Log(component.ToString());
-                    view.StagedComponents.Add(component);
+                    var component = (IComponent)Activator.CreateInstance(components[index]);
+                    view.Entity.AddComponent(component);
                 }
-            }
+								EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.EndVertical();
-
-            EditorGUILayout.BeginVertical(GUI.skin.box);
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Components (" + entity.Components.Count() + ")", EditorStyles.boldLabel);
-            if (GUILayout.Button("▸", GUILayout.Width(20), GUILayout.Height(15)))
-            {
-                showComponents = false;
-            }
-            if (GUILayout.Button("▾", GUILayout.Width(20), GUILayout.Height(15)))
-            {
-                showComponents = true;
-            }
-            EditorGUILayout.EndHorizontal();
-
-            if (showComponents)
-            {
-                for (var i = 0; i < entity.Components.Count(); i++)
+                EditorGUILayout.BeginHorizontal(GUI.skin.box);
+                EditorGUILayout.LabelField("Components (" + view.Entity.Components.Count() + ")", EditorStyles.boldLabel);
+                if (GUILayout.Button("▸", GUILayout.Width(20), GUILayout.Height(15)))
                 {
-                    EditorGUILayout.BeginHorizontal(GUI.skin.box);
-                    EditorGUILayout.LabelField(entity.Components.ElementAt(i).GetType().Name);
-                    if (GUILayout.Button("-", GUILayout.Width(20), GUILayout.Height(15)))
+                    showComponents = false;
+                }
+                if (GUILayout.Button("▾", GUILayout.Width(20), GUILayout.Height(15)))
+                {
+                    showComponents = true;
+                }
+                EditorGUILayout.EndHorizontal();
+
+                if (showComponents)
+                {
+                    for (var i = 0; i < view.Entity.Components.Count(); i++)
                     {
-                        entity.RemoveComponent(entity.Components.ElementAt(i));
+                        EditorGUILayout.BeginHorizontal(GUI.skin.box);
+                        EditorGUILayout.LabelField(view.Entity.Components.ElementAt(i).GetType().Name);
+                        if (GUILayout.Button("-", GUILayout.Width(20), GUILayout.Height(15)))
+                        {
+                            view.Entity.RemoveComponent(view.Entity.Components.ElementAt(i));
+                        }
+                        EditorGUILayout.EndHorizontal();
                     }
-                    EditorGUILayout.EndHorizontal();
+                }
+            }
+            else
+            {
+								EditorGUILayout.BeginHorizontal(GUI.skin.box);
+								var type = typeof(IComponent);
+                components = AppDomain.CurrentDomain.GetAssemblies()
+																		.SelectMany(s => s.GetTypes())
+                                    .Where(p => type.IsAssignableFrom(p)).ToList();
+                types = components.Select(_ => _.ToString()).ToArray();
+                var index = -1;
+                index = EditorGUILayout.Popup("Add Component", index, types);
+                if (index >= 0)
+                {
+                    view.StagedComponents.Add(types[index]);
+                }
+								EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.BeginHorizontal(GUI.skin.box);
+                EditorGUILayout.LabelField("Components (" + view.StagedComponents.Count() + ")", EditorStyles.boldLabel);
+                if (GUILayout.Button("▸", GUILayout.Width(20), GUILayout.Height(15)))
+                {
+                    showComponents = false;
+                }
+                if (GUILayout.Button("▾", GUILayout.Width(20), GUILayout.Height(15)))
+                {
+                    showComponents = true;
+                }
+                EditorGUILayout.EndHorizontal();
+
+                if (showComponents)
+                {
+                    var componentsToRemove = new List<int>();
+                    for (var i = 0; i < view.StagedComponents.Count(); i++)
+                    {
+                        EditorGUILayout.BeginHorizontal(GUI.skin.box);
+                        EditorGUILayout.LabelField(view.StagedComponents[i]);
+                        if (GUILayout.Button("-", GUILayout.Width(20), GUILayout.Height(15)))
+                        {
+                            componentsToRemove.Add(i);
+                        }
+                        EditorGUILayout.EndHorizontal();
+                    }
+
+                    for (var i = 0; i < componentsToRemove.Count(); i++)
+                    {
+                        view.StagedComponents.RemoveAt(componentsToRemove[i]);
+                    }
                 }
             }
 

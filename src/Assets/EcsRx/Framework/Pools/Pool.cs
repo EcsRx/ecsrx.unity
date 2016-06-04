@@ -40,12 +40,6 @@ namespace EcsRx.Pools
             return entity;
         }
 
-				public void AddEntity(IEntity entity)
-				{
-						_entities.Add(entity);
-						MessageBroker.Publish(new EntityAddedEvent(entity, this));
-				}
-
         public void RemoveEntity(IEntity entity)
         {
             _entities.Remove(entity);

@@ -13,7 +13,6 @@ namespace EcsRx.Pools
         IIdentifyGenerator IdentityGenerator { get; }
 
         IEntity CreateEntity(IBlueprint blueprint = null);
-				void AddEntity(IEntity entity);
         void RemoveEntity(IEntity entity);
     }
 }

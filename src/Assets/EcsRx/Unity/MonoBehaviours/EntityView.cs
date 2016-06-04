@@ -1,7 +1,6 @@
 namespace EcsRx.Unity.Helpers
 {
     using UnityEngine;
-    using System.Collections;
     using EcsRx.Entities;
     using EcsRx.Pools;
     using EcsRx.Unity.Components;
@@ -9,11 +8,10 @@ namespace EcsRx.Unity.Helpers
     using System.Linq;
     using System.Collections.Generic;
     using EcsRx.Components;
+    using System;
 
-    [System.Serializable]
     public class EntityView : MonoBehaviour
     {
-        public int g = 3;
         [Inject]
         public IPoolManager PoolManager { get; private set; }
 
@@ -22,7 +20,7 @@ namespace EcsRx.Unity.Helpers
 
         public IPool Pool;
 
-        public List<IComponent> StagedComponents = new List<IComponent>();
+        public List<string> StagedComponents = new List<string>();
 
         [Inject]
         public void RegisterEntity()
@@ -34,23 +32,13 @@ namespace EcsRx.Unity.Helpers
             else
             { Pool = PoolManager.GetPool(PoolName); }
 
-            if (Entity == null)
-            {
-                Entity = Pool.CreateEntity();
-                Debug.Log("entity created");
-            }
-            else
-            {
-                Pool.AddEntity(Entity);
-                Debug.Log("entity added");
-            }
-
+            Entity = Pool.CreateEntity();
             Entity.AddComponent(new ViewComponent { View = gameObject });
-
-            Debug.Log(StagedComponents.Count() + " staged components");
             for (int i = 0; i < StagedComponents.Count(); i++)
             {
-                Entity.AddComponent(StagedComponents[i]);
+                var type = Type.GetType(StagedComponents[i]);
+                var component = (IComponent)Activator.CreateInstance(type);
+                Entity.AddComponent(component);
             }
         }
     }
