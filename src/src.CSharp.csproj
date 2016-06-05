@@ -132,6 +132,7 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityBinding.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\InjectableMonoBehaviour.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\RegisterAsEntity.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Plugins\IEcsRxPlugin.cs" />
     <Compile Include="Assets\EcsRx\Unity\Systems\ViewResolverSystem.cs" />
     <Compile Include="Assets\Examples\AutoRegisterSystems\AppContainer.cs" />
     <Compile Include="Assets\Examples\AutoRegisterSystems\Components\ViewComponent.cs" />
@@ -142,6 +143,10 @@
     <Compile Include="Assets\Examples\GameObjectBinding\components\SphereComponent.cs" />
     <Compile Include="Assets\Examples\GameObjectBinding\view-resolvers\CubeViewResolver.cs" />
     <Compile Include="Assets\Examples\GameObjectBinding\view-resolvers\SphereViewResolver.cs" />
+    <Compile Include="Assets\Examples\PluginExample\AppContainer.cs" />
+    <Compile Include="Assets\Examples\PluginExample\HelloWorldPlugin\components\SayHelloWorldComponent.cs" />
+    <Compile Include="Assets\Examples\PluginExample\HelloWorldPlugin\HelloWorldPlugin.cs" />
+    <Compile Include="Assets\Examples\PluginExample\HelloWorldPlugin\systems\OutputHelloWorldSystem.cs" />
     <Compile Include="Assets\Examples\RandomReactions\AppContainer.cs" />
     <Compile Include="Assets\Examples\RandomReactions\Components\HasCubeComponent.cs" />
     <Compile Include="Assets\Examples\RandomReactions\Components\RandomColorComponent.cs" />
@@ -407,5 +412,6 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
