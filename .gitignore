@@ -1,6 +1,8 @@
 *.suo
 *.user
-/src/bin
+bin
+obj
+Temp
 /src/Library
-/src/Temp
 /src/Assets/Plugins/Editor/Atom.cs
+/src/src.userprefs
