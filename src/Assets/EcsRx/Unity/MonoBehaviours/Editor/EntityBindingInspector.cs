@@ -42,13 +42,13 @@ namespace EcsRx.Unity.Helpers
             
             EditorGUILayout.BeginVertical();
 
-            this.UseBoxLayout(() =>
+            this.UseVerticalBoxLayout(() =>
             {
                 var id = entityBinding.Entity.Id.ToString();
                 this.WithLabelField("Entity Id: ", id);
             });
 
-            this.UseBoxLayout(() =>
+            this.UseVerticalBoxLayout(() =>
             {
                 this.WithLabelField("Pool: ", entityBinding.Pool.Name);
             });
@@ -56,7 +56,7 @@ namespace EcsRx.Unity.Helpers
             EditorGUILayout.EndVertical();
             EditorGUILayout.Space();
             
-            this.UseBoxLayout(() =>
+            this.UseVerticalBoxLayout(() =>
             {
                 var components = GetAvailableComponents().ToArray();
                 var types = components.Select(_ => _.ToString()).ToArray();
@@ -69,7 +69,7 @@ namespace EcsRx.Unity.Helpers
                 }
             });
             
-            this.UseBoxLayout(() =>
+            this.UseHorizontalBoxLayout(() =>
             {
                 this.WithLabel("Components (" + entityBinding.Entity.Components.Count() + ")");
                 if (this.WithIconButton("▸"))
@@ -82,7 +82,7 @@ namespace EcsRx.Unity.Helpers
             {
                 for (var i = 0; i < entityBinding.Entity.Components.Count(); i++)
                 {
-                    this.UseBoxLayout(() =>
+                    this.UseVerticalBoxLayout(() =>
                     {
                         this.WithLabel(entityBinding.Entity.Components.ElementAt(i).GetType().Name);
                         if (this.WithIconButton("-"))

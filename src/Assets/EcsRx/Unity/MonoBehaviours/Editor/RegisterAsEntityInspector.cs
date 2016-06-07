@@ -1,4 +1,4 @@
-using EcsRx.Pools;
+﻿using EcsRx.Pools;
 using EcsRx.Unity.Helpers.Extensions;
 using EcsRx.Unity.MonoBehaviours;
 
@@ -16,13 +16,16 @@ namespace EcsRx.Unity.Helpers
     public class RegisterAsEntityInspector : Editor
     {
         private RegisterAsEntity registerAsEntity;
+
         private readonly IEnumerable<Type> allComponentTypes = AppDomain.CurrentDomain.GetAssemblies()
                                 .SelectMany(s => s.GetTypes())
                                 .Where(p => typeof(IComponent).IsAssignableFrom(p));
 
+        private bool showComponents;
+
         private void PoolSection()
         {
-            this.UseBoxLayout(() =>
+            this.UseVerticalBoxLayout(() =>
             {
                 registerAsEntity.PoolName = this.WithTextField("Pool: ", registerAsEntity.PoolName);
             });
@@ -30,30 +33,44 @@ namespace EcsRx.Unity.Helpers
 
         private void RemoveComponentSection()
         {
-            var componentsToRemove = new List<int>();
-            for (var i = 0; i < registerAsEntity.StagedComponents.Count(); i++)
+            EditorGUILayout.BeginVertical(EditorExtensions.DefaultBoxStyle);
+            this.WithHorizontalLayout(() =>
             {
-                this.UseBoxLayout(() =>
+                this.WithLabel("Components (" + registerAsEntity.StagedComponents.Count() + ")");
+                if (this.WithIconButton("▸")) { showComponents = false; }
+                if (this.WithIconButton("▾")) { showComponents = true; }
+            });
+
+            var componentsToRemove = new List<int>();
+            if (showComponents)
+            {
+                for (var i = 0; i < registerAsEntity.StagedComponents.Count(); i++)
                 {
-                    var componentType = registerAsEntity.StagedComponents[i];
-                    var namePortions = componentType.Split(',')[0].Split('.');
-                    var typeName = namePortions.Last();
-                    var typeNamespace = string.Join(".", namePortions.Take(namePortions.Length - 1).ToArray());
-
-                    this.WithVerticalLayout(() =>
+                    this.UseVerticalBoxLayout(() =>
                     {
-                        this.WithHorizontalLayout(() =>
+                        var componentType = registerAsEntity.StagedComponents[i];
+                        var namePortions = componentType.Split(',')[0].Split('.');
+                        var typeName = namePortions.Last();
+                        var typeNamespace = string.Join(".", namePortions.Take(namePortions.Length - 1).ToArray());
+
+                        this.WithVerticalLayout(() =>
                         {
-                            if (this.WithIconButton("-"))
-                            { componentsToRemove.Add(i); }
+                            this.WithHorizontalLayout(() =>
+                            {
+                                if (this.WithIconButton("-"))
+                                {
+                                    componentsToRemove.Add(i);
+                                }
 
-                            this.WithLabel(typeName);
+                                this.WithLabel(typeName);
+                            });
+
+                            EditorGUILayout.LabelField(typeNamespace);
                         });
-
-                        EditorGUILayout.LabelField(typeNamespace);
                     });
-                });
+                }
             }
+            EditorGUILayout.EndVertical();
 
             for (var i = 0; i < componentsToRemove.Count(); i++)
             { registerAsEntity.StagedComponents.RemoveAt(componentsToRemove[i]); }
@@ -61,9 +78,12 @@ namespace EcsRx.Unity.Helpers
 
         private void ComponentSelectionSection()
         {
-            this.UseBoxLayout(() =>
+            this.UseVerticalBoxLayout(() =>
             {
-                var availableTypes = allComponentTypes.Where(x => !registerAsEntity.StagedComponents.Contains(x.ToString())).ToArray();
+                var availableTypes = allComponentTypes
+                    .Where(x => !registerAsEntity.StagedComponents.Contains(x.ToString()))
+                    .ToArray();
+
                 var types = availableTypes.Select(x => string.Format("{0} [{1}]", x.Name, x.Namespace)).ToArray();
                 var index = -1;
                 index = EditorGUILayout.Popup("Add Component", index, types);

@@ -6,10 +6,10 @@ namespace EcsRx.Unity.Helpers.Extensions
 {
     public static class EditorExtensions
     {
-        private static readonly RectOffset DefaultPadding = new RectOffset(5, 5, 5, 5);
-        private static readonly GUIStyle DefaultBoxStyle = new GUIStyle(GUI.skin.box) { padding = DefaultPadding };
+        public static readonly RectOffset DefaultPadding = new RectOffset(5, 5, 5, 5);
+        public static readonly GUIStyle DefaultBoxStyle = new GUIStyle(GUI.skin.box) { padding = DefaultPadding };
 
-        public static void UseBoxLayout(this Editor editor, Action action)
+        public static void UseVerticalBoxLayout(this Editor editor, Action action)
         {
             EditorGUILayout.BeginVertical(DefaultBoxStyle);
             action();
@@ -21,6 +21,13 @@ namespace EcsRx.Unity.Helpers.Extensions
             EditorGUILayout.BeginVertical();
             action();
             EditorGUILayout.EndVertical();
+        }
+
+        public static void UseHorizontalBoxLayout(this Editor editor, Action action)
+        {
+            EditorGUILayout.BeginHorizontal(DefaultBoxStyle);
+            action();
+            EditorGUILayout.EndHorizontal();
         }
 
         public static void WithHorizontalLayout(this Editor editor, Action action)

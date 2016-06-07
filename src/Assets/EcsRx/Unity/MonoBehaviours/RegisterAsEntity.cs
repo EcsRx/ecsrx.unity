@@ -15,7 +15,10 @@ namespace EcsRx.Unity.MonoBehaviours
         [Inject]
         public IPoolManager PoolManager { get; private set; }
 
+        [SerializeField]
         public string PoolName;
+
+        [SerializeField]
         public List<string> StagedComponents = new List<string>();
 
         [Inject]
