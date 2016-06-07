@@ -9,6 +9,8 @@ namespace EcsRx.Unity.Helpers
     using System.Collections.Generic;
     using EcsRx.Components;
     using System;
+    using Assets.Examples.ViewBinding.Components;
+    using EcsRx.Json;
 
     public class EntityView : MonoBehaviour
     {
@@ -20,7 +22,11 @@ namespace EcsRx.Unity.Helpers
 
         public IPool Pool;
 
-        public List<string> StagedComponents = new List<string>();
+				[SerializeField]
+        public List<string> Components = new List<string>();
+
+				[SerializeField]
+        public List<string> Properties = new List<string>();
 
         [Inject]
         public void RegisterEntity()
@@ -34,10 +40,13 @@ namespace EcsRx.Unity.Helpers
 
             Entity = Pool.CreateEntity();
             Entity.AddComponent(new ViewComponent { View = gameObject });
-            for (int i = 0; i < StagedComponents.Count(); i++)
+            for (int i = 0; i < Components.Count(); i++)
             {
-                var type = Type.GetType(StagedComponents[i]);
+                var type = Type.GetType(Components[i]);
                 var component = (IComponent)Activator.CreateInstance(type);
+
+								var node = JSON.Parse(Properties[i]);
+								component.DeserializeComponent(node);
                 Entity.AddComponent(component);
             }
         }
