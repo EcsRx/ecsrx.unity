@@ -1,11 +1,12 @@
 ﻿using EcsRx.Entities;
+using EcsRx.Pools;
 using UnityEngine;
 
 namespace EcsRx.Unity.MonoBehaviours
 {
     public class EntityBinding : MonoBehaviour
     {
-        public string PoolName { get; set; }
+        public IPool Pool { get; set; }
         public IEntity Entity { get; set; }
     }
 }

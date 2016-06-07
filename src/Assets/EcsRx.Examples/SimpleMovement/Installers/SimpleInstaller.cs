@@ -1,5 +1,7 @@
-using Assets.Examples.SimpleMovement.Systems;
+using Assets.EcsRx.Examples.CustomGameObjectHandling.Systems;
 using Zenject;
+using CameraFollowSystem = Assets.Examples.SimpleMovement.Systems.CameraFollowSystem;
+using PlayerControlSystem = Assets.Examples.SimpleMovement.Systems.PlayerControlSystem;
 
 namespace Assets.Examples.SimpleMovement.Installers
 {

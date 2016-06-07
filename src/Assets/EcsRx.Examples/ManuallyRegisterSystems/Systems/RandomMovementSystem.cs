@@ -7,7 +7,7 @@ using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Assets.Examples.AutoRegisterSystems.Systems
+namespace Assets.EcsRx.Examples.ManuallyRegisterSystems.Systems
 {
     public class RandomMovementSystem : IReactToGroupSystem
     {

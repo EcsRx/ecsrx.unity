@@ -1,4 +1,4 @@
-﻿using Assets.Examples.SimpleMovement.Components;
+﻿using Assets.EcsRx.Examples.CustomGameObjectHandling.Components;
 using EcsRx.Entities;
 using EcsRx.Groups;
 using EcsRx.Systems;
@@ -6,7 +6,7 @@ using EcsRx.Unity.Components;
 using UniRx;
 using UnityEngine;
 
-namespace Assets.Examples.SimpleMovement.Systems
+namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Systems
 {
     public class PlayerControlSystem : IReactToGroupSystem
     {

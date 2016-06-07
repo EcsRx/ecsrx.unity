@@ -1,12 +1,10 @@
-﻿using Assets.EcsRx.Examples.CustomGameObjectHandling.Systems;
-using Assets.Examples.SimpleMovement.Components;
+﻿using Assets.EcsRx.Examples.CustomGameObjectHandling.Components;
+using Assets.EcsRx.Examples.CustomGameObjectHandling.Systems;
 using EcsRx.Unity;
 using EcsRx.Unity.Components;
 using Zenject;
-using CameraFollowSystem = Assets.Examples.SimpleMovement.Systems.CameraFollowSystem;
-using PlayerControlSystem = Assets.Examples.SimpleMovement.Systems.PlayerControlSystem;
 
-namespace Assets.Examples.SimpleMovement
+namespace Assets.EcsRx.Examples.CustomGameObjectHandling
 {
     public class AppContainer : EcsRxContainer
     {

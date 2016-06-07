@@ -1,7 +1,7 @@
 ﻿using EcsRx.Unity;
 using EcsRx.Unity.Components;
 
-namespace Assets.Examples.AutoRegisterSystems
+namespace Assets.EcsRx.Examples.ManuallyRegisterSystems
 {
     public class AppContainer : EcsRxContainer
     {
