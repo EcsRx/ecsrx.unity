@@ -16,14 +16,14 @@ namespace EcsRx.Pools
         private IDictionary<GroupAccessorToken, IEnumerable<IEntity>> _groupAccessors;
         private IDictionary<string, IPool> _pools;
 
-        public IMessageBroker MessageBroker { get; private set; }
+        public IEventSystem EventSystem { get; private set; }
         public IEnumerable<IPool> Pools { get { return _pools.Values; } }
         public IIdentifyGenerator IdentityGenerator { get; private set; }
 
-        public PoolManager(IIdentifyGenerator identityGenerator, IMessageBroker messageBroker)
+        public PoolManager(IIdentifyGenerator identityGenerator, IEventSystem eventSystem)
         {
             IdentityGenerator = identityGenerator;
-            MessageBroker = messageBroker;
+            EventSystem = eventSystem;
             _groupAccessors = new Dictionary<GroupAccessorToken, IEnumerable<IEntity>>();
             _pools = new Dictionary<string, IPool>();
             CreatePool(DefaultPoolName);
@@ -31,10 +31,10 @@ namespace EcsRx.Pools
         
         public IPool CreatePool(string name)
         {
-            var pool = new Pool(name, IdentityGenerator, MessageBroker);
+            var pool = new Pool(name, IdentityGenerator, EventSystem);
             _pools.Add(name, pool);
 
-            MessageBroker.Publish(new PoolAddedEvent(pool));
+            EventSystem.Publish(new PoolAddedEvent(pool));
 
             return pool;
         }
@@ -49,7 +49,7 @@ namespace EcsRx.Pools
             var pool = _pools[name];
             _pools.Remove(name);
 
-            MessageBroker.Publish(new PoolRemovedEvent(pool));
+            EventSystem.Publish(new PoolRemovedEvent(pool));
         }
         
         public IEnumerable<IEntity> GetEntitiesFor(IGroup group, string poolName = null)

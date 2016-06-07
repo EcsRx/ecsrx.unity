@@ -7,6 +7,9 @@ using Zenject;
 
 namespace EcsRx.Unity.Installers
 {
+    /// <summary>
+    /// This is for binding AND registering systems
+    /// </summary>
     public class AutoRegisterSystemsInstaller : MonoInstaller
     {
         public List<string> SystemNamespaces = new List<string>();

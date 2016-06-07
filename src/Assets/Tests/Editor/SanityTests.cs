@@ -1,4 +1,5 @@
-﻿using EcsRx.Pools;
+﻿using EcsRx.Events;
+using EcsRx.Pools;
 using EcsRx.Pools.Identifiers;
 using EcsRx.Systems.Executor;
 using EcsRx.Systems.Executor.Handlers;
@@ -14,7 +15,7 @@ namespace EcsRx.Tests
     {
         private SystemExecutor CreateExecutor()
         {
-            var messageBroker = new MessageBroker();
+            var messageBroker = new EventSystem(new MessageBroker());
             var identityGenerator = new SequentialIdentityGenerator();
             var poolManager = new PoolManager(identityGenerator, messageBroker);
             var reactsToEntityHandler = new ReactToEntitySystemHandler(poolManager);

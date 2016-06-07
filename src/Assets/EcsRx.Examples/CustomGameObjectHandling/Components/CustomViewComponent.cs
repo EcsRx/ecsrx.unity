@@ -5,6 +5,6 @@ namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Components
 {
     public class CustomViewComponent : IComponent
     {
-        public GameObject View { get; set; }
+        public GameObject CustomView { get; set; }
     }
 }

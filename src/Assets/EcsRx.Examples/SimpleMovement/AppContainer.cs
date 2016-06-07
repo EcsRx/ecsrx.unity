@@ -11,7 +11,7 @@ namespace Assets.Examples.SimpleMovement
     public class AppContainer : EcsRxContainer
     {
         [Inject]
-        public ViewSetupSystem ViewSetupSystem { get; private set; }
+        public CustomViewSetupSystem CustomViewSetupSystem { get; private set; }
 
         [Inject]
         public PlayerControlSystem PlayerControlSystem { get; private set; }
@@ -21,7 +21,7 @@ namespace Assets.Examples.SimpleMovement
 
         protected override void SetupSystems()
         {
-            SystemExecutor.AddSystem(ViewSetupSystem);
+            SystemExecutor.AddSystem(CustomViewSetupSystem);
             SystemExecutor.AddSystem(PlayerControlSystem);
             SystemExecutor.AddSystem(CameraFollowSystem);
         }

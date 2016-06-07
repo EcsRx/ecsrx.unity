@@ -15,7 +15,7 @@ namespace EcsRx.Systems.Executor
         private readonly IList<ISystem> _systems; 
         private readonly Dictionary<ISystem, IList<SubscriptionToken>> _systemSubscriptions; 
 
-        public IMessageBroker MessageBroker { get; private set; }
+        public IEventSystem EventSystem { get; private set; }
         public IPoolManager PoolManager { get; private set; }
         public IEnumerable<ISystem> Systems { get { return _systems; } }
 
@@ -24,21 +24,21 @@ namespace EcsRx.Systems.Executor
         public ISetupSystemHandler SetupSystemHandler { get; private set; }
         public IReactToDataSystemHandler ReactToDataSystemHandler { get; private set; }
 
-        public SystemExecutor(IPoolManager poolManager, IMessageBroker messageBroker,
+        public SystemExecutor(IPoolManager poolManager, IEventSystem eventSystem,
             IReactToEntitySystemHandler reactToEntitySystemHandler, IReactToGroupSystemHandler reactToGroupSystemHandler, 
             ISetupSystemHandler setupSystemHandler, IReactToDataSystemHandler reactToDataSystemHandler)
         {
             PoolManager = poolManager;
-            MessageBroker = messageBroker;
+            EventSystem = eventSystem;
             ReactToEntitySystemHandler = reactToEntitySystemHandler;
             ReactToGroupSystemHandler = reactToGroupSystemHandler;
             SetupSystemHandler = setupSystemHandler;
             ReactToDataSystemHandler = reactToDataSystemHandler;
 
-            MessageBroker.Receive<EntityAddedEvent>().Subscribe(OnEntityAddedToPool);
-            MessageBroker.Receive<EntityRemovedEvent>().Subscribe(OnEntityRemovedFromPool);
-            MessageBroker.Receive<ComponentAddedEvent>().Subscribe(OnEntityComponentAdded);
-            MessageBroker.Receive<ComponentRemovedEvent>().Subscribe(OnEntityComponentRemoved);
+            EventSystem.Receive<EntityAddedEvent>().Subscribe(OnEntityAddedToPool);
+            EventSystem.Receive<EntityRemovedEvent>().Subscribe(OnEntityRemovedFromPool);
+            EventSystem.Receive<ComponentAddedEvent>().Subscribe(OnEntityComponentAdded);
+            EventSystem.Receive<ComponentRemovedEvent>().Subscribe(OnEntityComponentRemoved);
             
             _systems = new List<ISystem>();
             _systemSubscriptions = new Dictionary<ISystem, IList<SubscriptionToken>>();

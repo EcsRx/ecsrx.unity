@@ -1,3 +1,4 @@
+using EcsRx.Events;
 using EcsRx.Pools;
 using EcsRx.Pools.Identifiers;
 using EcsRx.Systems.Executor;
@@ -12,6 +13,7 @@ namespace EcsRx.Unity.Installers
         public override void InstallBindings()
         {
             Container.Bind<IMessageBroker>().To<MessageBroker>().AsSingle();
+            Container.Bind<IEventSystem>().To<EventSystem>().AsSingle();
             Container.Bind<IIdentifyGenerator>().To<SequentialIdentityGenerator>().AsSingle();
             Container.Bind<IPoolManager>().To<PoolManager>().AsSingle();
 

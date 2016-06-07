@@ -12,22 +12,22 @@ namespace EcsRx.Entities
     {
         private readonly Dictionary<Type, IComponent> _components;
 
-        public IMessageBroker MessageBroker { get; private set; }
+        public IEventSystem EventSystem { get; private set; }
 
         public int Id { get; private set; }
         public IEnumerable<IComponent> Components { get { return _components.Values; } }
 
-        public Entity(int id, IMessageBroker messageBroker)
+        public Entity(int id, IEventSystem eventSystem)
         {
             Id = id;
-            MessageBroker = messageBroker;
+            EventSystem = eventSystem;
             _components = new Dictionary<Type, IComponent>();
         }
 
         public void AddComponent(IComponent component)
         {
             _components.Add(component.GetType(), component);
-            MessageBroker.Publish(new ComponentAddedEvent(this, component));
+            EventSystem.Publish(new ComponentAddedEvent(this, component));
         }
 
         public void AddComponent<T>() where T : class, IComponent, new()
@@ -38,7 +38,7 @@ namespace EcsRx.Entities
             if(!_components.ContainsKey(component.GetType())) { return; }
 
             _components.Remove(component.GetType());
-            MessageBroker.Publish(new ComponentRemovedEvent(this, component));
+            EventSystem.Publish(new ComponentRemovedEvent(this, component));
         }
 
         public void RemoveComponent<T>() where T : class, IComponent

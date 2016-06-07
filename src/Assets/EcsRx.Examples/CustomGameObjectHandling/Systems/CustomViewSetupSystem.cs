@@ -3,21 +3,20 @@ using EcsRx.Entities;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Systems;
-using EcsRx.Unity.Components;
 using UnityEngine;
 
 namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Systems
 {
-    public class ViewSetupSystem : ISetupSystem
+    public class CustomViewSetupSystem : ISetupSystem
     {
         public IGroup TargetGroup { get { return new Group().WithComponent<CustomViewComponent>();} }
         
         public void Setup(IEntity entity)
         {
-            var viewComponent = entity.GetComponent<ViewComponent>();
-            viewComponent.View = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            viewComponent.View.name = "entity-" + entity.Id;
-            var rigidBody = viewComponent.View.AddComponent<Rigidbody>();
+            var viewComponent = entity.GetComponent<CustomViewComponent>();
+            viewComponent.CustomView = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            viewComponent.CustomView.name = "entity-" + entity.Id;
+            var rigidBody = viewComponent.CustomView.AddComponent<Rigidbody>();
             rigidBody.freezeRotation = true;
         }
     }

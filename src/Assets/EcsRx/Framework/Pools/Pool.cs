@@ -15,24 +15,24 @@ namespace EcsRx.Pools
         public string Name { get; private set; }
         public IEnumerable<IEntity> Entities { get { return _entities;} }
         public IIdentifyGenerator IdentityGenerator { get; private set; }
-        public IMessageBroker MessageBroker { get; private set; }
+        public IEventSystem EventSystem { get; private set; }
 
-        public Pool(string name, IIdentifyGenerator identityGenerator, IMessageBroker messageBroker)
+        public Pool(string name, IIdentifyGenerator identityGenerator, IEventSystem eventSystem)
         {
             _entities = new List<IEntity>();
             Name = name;
             IdentityGenerator = identityGenerator;
-            MessageBroker = messageBroker;
+            EventSystem = eventSystem;
         }
 
         public IEntity CreateEntity(IBlueprint blueprint = null)
         {
             var newId = IdentityGenerator.GenerateId();
-            var entity = new Entity(newId, MessageBroker);
+            var entity = new Entity(newId, EventSystem);
 
             _entities.Add(entity);
 
-            MessageBroker.Publish(new EntityAddedEvent(entity, this));
+            EventSystem.Publish(new EntityAddedEvent(entity, this));
 
             if (blueprint != null)
             { blueprint.Apply(entity); }
@@ -44,7 +44,7 @@ namespace EcsRx.Pools
         {
             _entities.Remove(entity);
 
-            MessageBroker.Publish(new EntityRemovedEvent(entity, this));
+            EventSystem.Publish(new EntityRemovedEvent(entity, this));
         }
     }
 }

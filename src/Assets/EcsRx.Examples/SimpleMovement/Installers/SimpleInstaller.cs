@@ -9,7 +9,7 @@ namespace Assets.Examples.SimpleMovement.Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<ViewSetupSystem>().ToSelf().AsSingle();
+            Container.Bind<CustomViewSetupSystem>().ToSelf().AsSingle();
             Container.Bind<PlayerControlSystem>().ToSelf().AsSingle();
             Container.Bind<CameraFollowSystem>().ToSelf().AsSingle();
         }
