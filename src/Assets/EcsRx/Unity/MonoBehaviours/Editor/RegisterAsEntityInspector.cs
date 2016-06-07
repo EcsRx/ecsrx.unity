@@ -16,54 +16,82 @@ namespace EcsRx.Unity.Helpers
     public class RegisterAsEntityInspector : Editor
     {
         private RegisterAsEntity registerAsEntity;
-        
-        private IEnumerable<Type> GetAvailableComponents()
-        {
-            var type = typeof(IComponent);
-            return AppDomain.CurrentDomain.GetAssemblies()
+        private readonly IEnumerable<Type> allComponentTypes = AppDomain.CurrentDomain.GetAssemblies()
                                 .SelectMany(s => s.GetTypes())
-                                .Where(p => type.IsAssignableFrom(p));
-        }
+                                .Where(p => typeof(IComponent).IsAssignableFrom(p));
 
-        public override void OnInspectorGUI()
+        private void PoolSection()
         {
-            registerAsEntity = (RegisterAsEntity)target;
-            
-            var components = GetAvailableComponents();
-
             this.UseBoxLayout(() =>
             {
-                var types = components.Select(_ => _.ToString()).ToArray();
-                var index = -1;
-                index = EditorGUILayout.Popup("Add Component", index, types);
-                if (index >= 0)
-                {
-                    registerAsEntity.StagedComponents.Add(types[index]);
-                }
+                registerAsEntity.PoolName = this.WithTextField("Pool: ", registerAsEntity.PoolName);
             });
+        }
 
+        private void RemoveComponentSection()
+        {
             var componentsToRemove = new List<int>();
             for (var i = 0; i < registerAsEntity.StagedComponents.Count(); i++)
             {
                 this.UseBoxLayout(() =>
                 {
-                    EditorGUILayout.LabelField(registerAsEntity.StagedComponents[i]);
-                    if (this.WithIconButton("-"))
-                    { componentsToRemove.Add(i); }
+                    var componentType = registerAsEntity.StagedComponents[i];
+                    var namePortions = componentType.Split(',')[0].Split('.');
+                    var typeName = namePortions.Last();
+                    var typeNamespace = string.Join(".", namePortions.Take(namePortions.Length - 1).ToArray());
+
+                    this.WithVerticalLayout(() =>
+                    {
+                        this.WithHorizontalLayout(() =>
+                        {
+                            if (this.WithIconButton("-"))
+                            { componentsToRemove.Add(i); }
+
+                            this.WithLabel(typeName);
+                        });
+
+                        EditorGUILayout.LabelField(typeNamespace);
+                    });
                 });
             }
-            
-            for (var i = 0; i < componentsToRemove.Count(); i++)
-            {
-                registerAsEntity.StagedComponents.RemoveAt(componentsToRemove[i]);
-            }
 
+            for (var i = 0; i < componentsToRemove.Count(); i++)
+            { registerAsEntity.StagedComponents.RemoveAt(componentsToRemove[i]); }
+        }
+
+        private void ComponentSelectionSection()
+        {
+            this.UseBoxLayout(() =>
+            {
+                var availableTypes = allComponentTypes.Where(x => !registerAsEntity.StagedComponents.Contains(x.ToString())).ToArray();
+                var types = availableTypes.Select(x => string.Format("{0} [{1}]", x.Name, x.Namespace)).ToArray();
+                var index = -1;
+                index = EditorGUILayout.Popup("Add Component", index, types);
+                if (index >= 0)
+                {
+                    registerAsEntity.StagedComponents.Add(availableTypes.ElementAt(index).ToString());
+                }
+            });
+        }
+
+        private void PersistChanges()
+        {
             if (GUI.changed)
             {
                 EditorUtility.SetDirty(target);
                 serializedObject.ApplyModifiedProperties();
                 serializedObject.Update();
             }
+        }
+
+        public override void OnInspectorGUI()
+        {
+            registerAsEntity = (RegisterAsEntity)target;
+            
+            PoolSection();
+            ComponentSelectionSection();
+            RemoveComponentSection();
+            PersistChanges();
         }
     }
 }

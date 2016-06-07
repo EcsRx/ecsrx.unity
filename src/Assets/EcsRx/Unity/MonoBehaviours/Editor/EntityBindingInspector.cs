@@ -45,12 +45,12 @@ namespace EcsRx.Unity.Helpers
             this.UseBoxLayout(() =>
             {
                 var id = entityBinding.Entity.Id.ToString();
-                this.WithField("Entity Id: ", id);
+                this.WithLabelField("Entity Id: ", id);
             });
 
             this.UseBoxLayout(() =>
             {
-                this.WithField("Pool: ", entityBinding.Pool.Name);
+                this.WithLabelField("Pool: ", entityBinding.Pool.Name);
             });
             
             EditorGUILayout.EndVertical();
