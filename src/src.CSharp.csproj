@@ -99,6 +99,7 @@
     <Compile Include="Assets\EcsRx.Examples\GameObjectBinding\view-resolvers\CubeViewResolver.cs" />
     <Compile Include="Assets\EcsRx.Examples\GameObjectBinding\view-resolvers\SphereViewResolver.cs" />
     <Compile Include="Assets\EcsRx.Examples\ManuallyRegisterSystems\AppContainer.cs" />
+    <Compile Include="Assets\EcsRx.Examples\ManuallyRegisterSystems\Installers\ManualInstaller.cs" />
     <Compile Include="Assets\EcsRx.Examples\ManuallyRegisterSystems\Systems\DefaultViewResolver.cs" />
     <Compile Include="Assets\EcsRx.Examples\ManuallyRegisterSystems\Systems\RandomMovementSystem.cs" />
     <Compile Include="Assets\EcsRx.Examples\PluginExample\AppContainer.cs" />
