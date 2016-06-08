@@ -35,10 +35,10 @@ namespace EcsRx.Unity.Systems
             var viewObject = ResolveView(entity);
             viewComponent.View = viewObject;
 
-            var entityBinding = viewObject.GetComponent<EntityBinding>();
+            var entityBinding = viewObject.GetComponent<EntityView>();
             if (entityBinding == null)
             {
-                entityBinding = viewObject.AddComponent<EntityBinding>();
+                entityBinding = viewObject.AddComponent<EntityView>();
                 entityBinding.Entity = entity;
                 
                 entityBinding.Pool = PoolManager.GetContainingPoolFor(entity);

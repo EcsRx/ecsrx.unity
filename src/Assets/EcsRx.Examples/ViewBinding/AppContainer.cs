@@ -1,4 +1,4 @@
-﻿using Assets.EcsRx.Examples.GameObjectBinding.components;
+﻿using Assets.EcsRx.Examples.ViewBinding.Components;
 using EcsRx.Unity;
 using EcsRx.Unity.Components;
 

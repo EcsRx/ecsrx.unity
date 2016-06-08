@@ -10,6 +10,8 @@ namespace Assets.EcsRx.Examples.ViewBinding.ViewResolvers
 {
     public class SphereViewResolver : ViewResolverSystem
     {
+        private readonly Transform ParentTrasform = GameObject.Find("Entities").transform;
+
         public override IGroup TargetGroup
         {
             get { return base.TargetGroup.WithComponent<SphereComponent>(); }
@@ -21,6 +23,7 @@ namespace Assets.EcsRx.Examples.ViewBinding.ViewResolvers
         {
             var view = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             view.transform.position = new Vector3(2,0,0);
+            view.transform.parent = ParentTrasform;
             return view;
         }
     }
