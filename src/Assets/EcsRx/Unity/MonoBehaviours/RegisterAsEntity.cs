@@ -51,7 +51,11 @@ namespace EcsRx.Unity.MonoBehaviours
         {
             for (var i = 0; i < StagedComponents.Count(); i++)
             {
-                var type = Type.GetType(StagedComponents[i]);
+                var typeName = StagedComponents[i];
+                Debug.Log(typeName);
+                var type = Type.GetType(typeName);
+                Debug.Log(type);
+                if(type == null) { throw new Exception("Cannot resolve type for [" + typeName + "]"); }
                 var component = (IComponent)Activator.CreateInstance(type);
                 entity.AddComponent(component);
             }

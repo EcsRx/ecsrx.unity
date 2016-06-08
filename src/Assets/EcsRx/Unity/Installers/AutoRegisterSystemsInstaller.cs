@@ -3,6 +3,7 @@ using System.Linq;
 using EcsRx.Extensions;
 using EcsRx.Systems;
 using EcsRx.Systems.Executor;
+using EcsRx.Unity.Systems;
 using Zenject;
 
 namespace EcsRx.Unity.Installers
@@ -27,7 +28,7 @@ namespace EcsRx.Unity.Installers
             var allSystems = Container.ResolveAll<ISystem>();
             var systemExecutor = Container.Resolve<ISystemExecutor>();
 
-            var orderedSystems = allSystems.OrderByDescending(x => x is ISetupSystem);
+            var orderedSystems = allSystems.OrderByDescending(x => x is ViewResolverSystem || x is ISetupSystem);
             orderedSystems.ForEachRun(systemExecutor.AddSystem);
         }
     }
