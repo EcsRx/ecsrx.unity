@@ -1,4 +1,4 @@
-﻿using Assets.EcsRx.Examples.ViewBinding.Components;
+﻿using Assets.EcsRx.Examples.SceneFirstSetup.Components;
 using EcsRx.Entities;
 using EcsRx.Extensions;
 using EcsRx.Groups;
@@ -6,7 +6,7 @@ using EcsRx.Pools;
 using EcsRx.Unity.Systems;
 using UnityEngine;
 
-namespace Assets.EcsRx.Examples.ViewBinding.ViewResolvers
+namespace Assets.EcsRx.Examples.SceneFirstSetup.ViewResolvers
 {
     public class SphereViewResolver : ViewResolverSystem
     {

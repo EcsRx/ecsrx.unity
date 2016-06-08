@@ -1,6 +1,6 @@
 ﻿using EcsRx.Components;
 
-namespace Assets.EcsRx.Examples.ViewBinding.Components
+namespace Assets.EcsRx.Examples.SceneFirstSetup.Components
 {
     public class SphereComponent : IComponent
     {}

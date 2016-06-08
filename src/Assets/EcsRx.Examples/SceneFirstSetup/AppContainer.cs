@@ -1,8 +1,8 @@
-﻿using Assets.EcsRx.Examples.ViewBinding.Components;
+﻿using Assets.EcsRx.Examples.SceneFirstSetup.Components;
 using EcsRx.Unity;
 using EcsRx.Unity.Components;
 
-namespace Assets.EcsRx.Examples.ViewBinding
+namespace Assets.EcsRx.Examples.SceneFirstSetup
 {
     public class AppContainer : EcsRxContainer
     {
