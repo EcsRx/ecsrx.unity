@@ -17,7 +17,7 @@ namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Systems
             get
             {
                 return new GroupBuilder()
-                    .WithComponent<ViewComponent>()
+                    .WithComponent<CustomViewComponent>()
                     .WithComponent<PlayerControlledComponent>()
                     .Build();
             }
@@ -38,8 +38,8 @@ namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Systems
             if (Input.GetKey(KeyCode.W)) { forardMovement = 1.0f; }
             if (Input.GetKey(KeyCode.S)) { forardMovement = -1.0f; }
 
-            var viewComponent = entity.GetComponent<ViewComponent>();
-            var transform = viewComponent.View.transform;
+            var viewComponent = entity.GetComponent<CustomViewComponent>();
+            var transform = viewComponent.CustomView.transform;
             var newPosition = transform.position;
 
             newPosition.x += strafeMovement * MovementSpeed * Time.deltaTime;

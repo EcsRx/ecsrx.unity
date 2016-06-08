@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
 using EcsRx.Systems;
-using UnityEngine;
 using Zenject;
 
 namespace EcsRx.Unity.Installers
@@ -16,11 +14,8 @@ namespace EcsRx.Unity.Installers
         public override void InstallBindings()
         {
             
-            Container.Bind<ISystem>().To(x => x.AllTypes().DerivingFrom<ISystem>().InNamespaces(SystemNamespaces));
-            /*
-            var systems = Container.ResolveAll<ISystem>();
-            Debug.Log(string.Join(", ", systems.Select(x => x.GetType().Name).ToArray()));
-            */
+            Container.Bind<ISystem>().To(x => x.AllTypes().DerivingFrom<ISystem>().InNamespaces(SystemNamespaces)).AsSingle();
+            Container.Bind(x => x.AllTypes().DerivingFrom<ISystem>().InNamespaces(SystemNamespaces)).AsSingle();
         }
     }
 }

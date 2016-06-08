@@ -1,7 +1,6 @@
 ﻿using Assets.EcsRx.Examples.CustomGameObjectHandling.Components;
 using Assets.EcsRx.Examples.CustomGameObjectHandling.Systems;
 using EcsRx.Unity;
-using EcsRx.Unity.Components;
 using Zenject;
 
 namespace Assets.EcsRx.Examples.CustomGameObjectHandling
@@ -28,7 +27,7 @@ namespace Assets.EcsRx.Examples.CustomGameObjectHandling
         {
             var defaultPool = PoolManager.GetPool();
             var viewEntity = defaultPool.CreateEntity();
-            viewEntity.AddComponent(new ViewComponent());
+            viewEntity.AddComponent(new CustomViewComponent());
             viewEntity.AddComponent(new PlayerControlledComponent());
             viewEntity.AddComponent(new CameraFollowsComponent());
         }

@@ -96,8 +96,10 @@ namespace EcsRx.Unity.Helpers
 
         private void PersistChanges()
         {
+            Debug.Log("ARK");
             if (GUI.changed)
             {
+                Debug.Log("SAVING STUFF");
                 EditorUtility.SetDirty(target);
                 serializedObject.ApplyModifiedProperties();
                 serializedObject.Update();
