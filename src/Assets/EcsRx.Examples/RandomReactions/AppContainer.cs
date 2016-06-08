@@ -1,29 +1,14 @@
-﻿using Assets.Examples.RandomReactions.Components;
-using Assets.Examples.RandomReactions.Systems;
+﻿using Assets.EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Unity;
-using Zenject;
+using EcsRx.Unity.Components;
 
-namespace Assets.Examples.RandomReactions
+namespace Assets.EcsRx.Examples.RandomReactions
 {
     public class AppContainer : EcsRxContainer
     {
         private readonly int _cubeCount = 500;
 
-        [Inject]
-        public ColorChangingSystem ColorChangingSystem { get; private set; }
-
-        [Inject]
-        public CubeSetupSystem CubeSetupSystem { get; private set; }
-
-        [Inject]
-        public CubeColourChangerSystem CubeColourChangerSystem { get; private set; }
-
-        protected override void SetupSystems()
-        {
-            SystemExecutor.AddSystem(CubeSetupSystem);
-            SystemExecutor.AddSystem(ColorChangingSystem);
-            SystemExecutor.AddSystem(CubeColourChangerSystem);
-        }
+        protected override void SetupSystems() {}
 
         protected override void SetupEntities()
         {
@@ -32,7 +17,7 @@ namespace Assets.Examples.RandomReactions
             for (var i = 0; i < _cubeCount; i++)
             {
                 var viewEntity = defaultPool.CreateEntity();
-                viewEntity.AddComponent(new HasCubeComponent());
+                viewEntity.AddComponent(new ViewComponent());
                 viewEntity.AddComponent(new RandomColorComponent());
             }
         }

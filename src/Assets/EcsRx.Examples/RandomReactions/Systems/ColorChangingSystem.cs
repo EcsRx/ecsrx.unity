@@ -1,11 +1,11 @@
-using Assets.Examples.RandomReactions.Components;
+using Assets.EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Entities;
 using EcsRx.Groups;
 using EcsRx.Systems;
 using UniRx;
 using UnityEngine;
 
-namespace Assets.Examples.RandomReactions.Systems
+namespace Assets.EcsRx.Examples.RandomReactions.Systems
 {
     public class ColorChangingSystem : IReactToGroupSystem, ISetupSystem
     {

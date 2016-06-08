@@ -107,11 +107,10 @@
     <Compile Include="Assets\EcsRx.Examples\PluginExample\HelloWorldPlugin\components\SayHelloWorldComponent.cs" />
     <Compile Include="Assets\EcsRx.Examples\PluginExample\HelloWorldPlugin\systems\OutputHelloWorldSystem.cs" />
     <Compile Include="Assets\EcsRx.Examples\RandomReactions\AppContainer.cs" />
-    <Compile Include="Assets\EcsRx.Examples\RandomReactions\Components\HasCubeComponent.cs" />
     <Compile Include="Assets\EcsRx.Examples\RandomReactions\Components\RandomColorComponent.cs" />
     <Compile Include="Assets\EcsRx.Examples\RandomReactions\Systems\ColorChangingSystem.cs" />
     <Compile Include="Assets\EcsRx.Examples\RandomReactions\Systems\CubeColourChangerSystem.cs" />
-    <Compile Include="Assets\EcsRx.Examples\RandomReactions\Systems\CubeSetupSystem.cs" />
+    <Compile Include="Assets\EcsRx.Examples\RandomReactions\ViewResolvers\CubeViewResolver.cs" />
     <Compile Include="Assets\EcsRx.Examples\SimpleMovement\AppContainer.cs" />
     <Compile Include="Assets\EcsRx.Examples\SimpleMovement\Components\CameraFollows.cs" />
     <Compile Include="Assets\EcsRx.Examples\SimpleMovement\Components\PlayerControlledComponent.cs" />

@@ -1,11 +1,12 @@
-using Assets.Examples.RandomReactions.Components;
+using Assets.EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Entities;
 using EcsRx.Groups;
 using EcsRx.Systems;
+using EcsRx.Unity.Components;
 using UniRx;
 using UnityEngine;
 
-namespace Assets.Examples.RandomReactions.Systems
+namespace Assets.EcsRx.Examples.RandomReactions.Systems
 {
     public class CubeColourChangerSystem : IReactToEntitySystem
     {
@@ -14,7 +15,7 @@ namespace Assets.Examples.RandomReactions.Systems
             get
             {
                 return new GroupBuilder()
-                    .WithComponent<HasCubeComponent>()
+                    .WithComponent<ViewComponent>()
                     .WithComponent<RandomColorComponent>()
                     .Build();
             }
@@ -29,8 +30,8 @@ namespace Assets.Examples.RandomReactions.Systems
         public void Execute(IEntity entity)
         {
             var colorComponent = entity.GetComponent<RandomColorComponent>();
-            var cubeComponent = entity.GetComponent<HasCubeComponent>();
-            var renderer = cubeComponent.Cube.GetComponent<Renderer>();
+            var cubeComponent = entity.GetComponent<ViewComponent>();
+            var renderer = cubeComponent.View.GetComponent<Renderer>();
             renderer.material.color = colorComponent.Color.Value;
         }
     }

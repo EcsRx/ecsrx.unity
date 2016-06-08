@@ -1,12 +1,14 @@
-﻿using Assets.Examples.RandomReactions.Components;
+﻿using Assets.EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Entities;
+using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Systems;
+using EcsRx.Pools;
+using EcsRx.Unity.Systems;
 using UnityEngine;
 
-namespace Assets.Examples.RandomReactions.Systems
+namespace Assets.EcsRx.Examples.RandomReactions.ViewResolvers
 {
-    public class CubeSetupSystem : ISetupSystem
+    public class CubeViewResolver : ViewResolverSystem
     {
         private const float _spacing = 2.0f;
         private const int _perRow = 10;
@@ -16,29 +18,23 @@ namespace Assets.Examples.RandomReactions.Systems
 
         private GameObject _coloredCubePrefab;
 
-        public CubeSetupSystem()
+        public CubeViewResolver(IPoolManager poolManager) : base(poolManager)
         {
             _coloredCubePrefab = (GameObject)Resources.Load("colored-cube");
         }
 
-        public IGroup TargetGroup
+        public override IGroup TargetGroup
         {
-            get
-            {
-                return new GroupBuilder()
-                    .WithComponent<HasCubeComponent>()
-                    .WithComponent<RandomColorComponent>()
-                    .Build();
-            }
+            get { return base.TargetGroup.WithComponent<RandomColorComponent>(); }
         }
 
-        public void Setup(IEntity entity)
+        public override GameObject ResolveView(IEntity entity)
         {
-            var cubeComponent = entity.GetComponent<HasCubeComponent>();
-            cubeComponent.Cube = (GameObject)Object.Instantiate(_coloredCubePrefab, _nextPosition, Quaternion.identity);
+            var view = (GameObject)Object.Instantiate(_coloredCubePrefab, _nextPosition, Quaternion.identity);
             IncrementRow();
+            return view;
         }
-
+        
         private void IncrementRow()
         {
             _currentOnRow++;

@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace Assets.Examples.RandomReactions.Components
+namespace Assets.EcsRx.Examples.RandomReactions.Components
 {
     public class RandomColorComponent : IComponent
     {
