@@ -114,10 +114,9 @@
     <Compile Include="Assets\EcsRx.Examples\SimpleMovement\AppContainer.cs" />
     <Compile Include="Assets\EcsRx.Examples\SimpleMovement\Components\CameraFollows.cs" />
     <Compile Include="Assets\EcsRx.Examples\SimpleMovement\Components\PlayerControlledComponent.cs" />
-    <Compile Include="Assets\EcsRx.Examples\SimpleMovement\Installers\SimpleInstaller.cs" />
     <Compile Include="Assets\EcsRx.Examples\SimpleMovement\Systems\CameraFollowSystem.cs" />
     <Compile Include="Assets\EcsRx.Examples\SimpleMovement\Systems\PlayerControlSystem.cs" />
-    <Compile Include="Assets\EcsRx.Examples\SimpleMovement\Systems\ViewSetupSystem.cs" />
+    <Compile Include="Assets\EcsRx.Examples\SimpleMovement\ViewResolvers\DefaultViewResolver.cs" />
     <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\AppContainer.cs" />
     <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\Blueprints\PlayerBlueprint.cs" />
     <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\Components\HasName.cs" />

@@ -1,8 +1,8 @@
-﻿using Assets.Examples.GameObjectBinding.components;
+﻿using Assets.EcsRx.Examples.GameObjectBinding.components;
 using EcsRx.Unity;
 using EcsRx.Unity.Components;
 
-namespace Assets.Examples.ViewBinding
+namespace Assets.EcsRx.Examples.ViewBinding
 {
     public class AppContainer : EcsRxContainer
     {

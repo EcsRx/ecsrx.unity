@@ -1,4 +1,4 @@
-﻿using Assets.Examples.ViewBinding.Components;
+﻿using Assets.EcsRx.Examples.ViewBinding.Components;
 using EcsRx.Entities;
 using EcsRx.Extensions;
 using EcsRx.Groups;
@@ -6,7 +6,7 @@ using EcsRx.Pools;
 using EcsRx.Unity.Systems;
 using UnityEngine;
 
-namespace Assets.Examples.ViewBinding
+namespace Assets.EcsRx.Examples.ViewBinding.ViewResolvers
 {
     public class CubeViewResolver : ViewResolverSystem
     {

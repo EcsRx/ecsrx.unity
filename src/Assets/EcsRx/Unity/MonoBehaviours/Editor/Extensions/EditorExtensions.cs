@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace EcsRx.Unity.Helpers.Extensions
 {
@@ -62,6 +64,13 @@ namespace EcsRx.Unity.Helpers.Extensions
             var result = EditorGUILayout.TextField(value);
             EditorGUILayout.EndHorizontal();
             return result;
+        }
+
+        // Only works with unity 5.3+
+        public static void SaveActiveSceneChanges(this Editor editor)
+        {
+            var activeScene = SceneManager.GetActiveScene();
+            EditorSceneManager.MarkSceneDirty(activeScene);
         }
     }
 }

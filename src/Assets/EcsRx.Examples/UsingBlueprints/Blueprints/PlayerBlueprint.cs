@@ -1,9 +1,8 @@
-﻿using Assets.EcsRx.Framework.Blueprints;
-using Assets.Examples.UsingBlueprints.Components;
+﻿using Assets.EcsRx.Examples.UsingBlueprints.Components;
+using Assets.EcsRx.Framework.Blueprints;
 using EcsRx.Entities;
-using UnityEngine;
 
-namespace Assets.Examples.UsingBlueprints.Blueprints
+namespace Assets.EcsRx.Examples.UsingBlueprints.Blueprints
 {
     public class PlayerBlueprint : IBlueprint
     {

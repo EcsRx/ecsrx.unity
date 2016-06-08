@@ -3,7 +3,7 @@ using EcsRx.Pools;
 using EcsRx.Unity.Systems;
 using UnityEngine;
 
-namespace Assets.Examples.AutoRegisterSystems.Systems
+namespace Assets.EcsRx.Examples.AutoRegisterSystems.Systems
 {
     public class DefaultViewResolver : ViewResolverSystem
     {

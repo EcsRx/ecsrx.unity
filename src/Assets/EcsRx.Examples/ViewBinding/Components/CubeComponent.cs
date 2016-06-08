@@ -1,6 +1,6 @@
 ﻿using EcsRx.Components;
 
-namespace Assets.Examples.ViewBinding.Components
+namespace Assets.EcsRx.Examples.ViewBinding.Components
 {
     public class CubeComponent : IComponent
     {

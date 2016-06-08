@@ -1,6 +1,6 @@
 ﻿using EcsRx.Components;
 
-namespace Assets.Examples.UsingBlueprints.Components
+namespace Assets.EcsRx.Examples.UsingBlueprints.Components
 {
     public class HasName : IComponent
     {

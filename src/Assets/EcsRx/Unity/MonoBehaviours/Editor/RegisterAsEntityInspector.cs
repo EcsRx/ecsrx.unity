@@ -1,6 +1,7 @@
 ﻿using EcsRx.Pools;
 using EcsRx.Unity.Helpers.Extensions;
 using EcsRx.Unity.MonoBehaviours;
+using UnityEngine.SceneManagement;
 
 namespace EcsRx.Unity.Helpers
 {
@@ -96,14 +97,8 @@ namespace EcsRx.Unity.Helpers
 
         private void PersistChanges()
         {
-            Debug.Log("ARK");
             if (GUI.changed)
-            {
-                Debug.Log("SAVING STUFF");
-                EditorUtility.SetDirty(target);
-                serializedObject.ApplyModifiedProperties();
-                serializedObject.Update();
-            }
+            { this.SaveActiveSceneChanges(); }
         }
 
         public override void OnInspectorGUI()

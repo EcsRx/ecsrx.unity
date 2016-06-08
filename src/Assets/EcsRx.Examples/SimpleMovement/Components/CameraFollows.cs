@@ -1,7 +1,7 @@
 ﻿using EcsRx.Components;
 using UnityEngine;
 
-namespace Assets.Examples.SimpleMovement.Components
+namespace Assets.EcsRx.Examples.SimpleMovement.Components
 {
     public class CameraFollowsComponent : IComponent
     {

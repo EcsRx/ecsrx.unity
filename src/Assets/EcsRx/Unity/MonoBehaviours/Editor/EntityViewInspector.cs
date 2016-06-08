@@ -6,7 +6,6 @@ namespace EcsRx.Unity.Helpers
     using EcsRx.Components;
     using System;
     using System.Linq;
-    using Assets.Examples.ViewBinding.Components;
     using EcsRx.Json;
     using System.Reflection;
 

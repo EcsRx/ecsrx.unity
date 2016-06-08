@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Examples.PluginExample.HelloWorldPlugin.systems;
+using Assets.EcsRx.Examples.PluginExample.HelloWorldPlugin.systems;
 using EcsRx.Systems;
 using EcsRx.Unity.Plugins;
 using Zenject;
 
-namespace Assets.Examples.PluginExample.HelloWorldPlugin
+namespace Assets.EcsRx.Examples.PluginExample.HelloWorldPlugin
 {
     public class HelloWorldPlugin : IEcsRxPlugin
     {

@@ -1,6 +1,6 @@
 ﻿using EcsRx.Components;
 
-namespace Assets.Examples.GameObjectBinding.components
+namespace Assets.EcsRx.Examples.GameObjectBinding.components
 {
     public class SphereComponent : IComponent
     {

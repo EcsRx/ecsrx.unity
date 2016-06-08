@@ -3,7 +3,7 @@ using EcsRx.Pools;
 using EcsRx.Unity.Systems;
 using UnityEngine;
 
-namespace Assets.Examples.SimpleMovement.Systems
+namespace Assets.EcsRx.Examples.SimpleMovement.ViewResolvers
 {
     public class DefaultViewResolver : ViewResolverSystem
     {

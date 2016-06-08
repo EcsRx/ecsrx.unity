@@ -1,6 +1,6 @@
 ﻿using EcsRx.Components;
 
-namespace Assets.Examples.SimpleMovement.Components
+namespace Assets.EcsRx.Examples.SimpleMovement.Components
 {
     public class PlayerControlledComponent : IComponent
     {}

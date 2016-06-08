@@ -1,17 +1,16 @@
+using UnityEngine;
+using EcsRx.Entities;
+using EcsRx.Pools;
+using EcsRx.Unity.Components;
+using Zenject;
+using System.Linq;
+using System.Collections.Generic;
+using EcsRx.Components;
+using System;
+using EcsRx.Json;
+
 namespace EcsRx.Unity.Helpers
 {
-    using UnityEngine;
-    using EcsRx.Entities;
-    using EcsRx.Pools;
-    using EcsRx.Unity.Components;
-    using Zenject;
-    using System.Linq;
-    using System.Collections.Generic;
-    using EcsRx.Components;
-    using System;
-    using Assets.Examples.ViewBinding.Components;
-    using EcsRx.Json;
-
     public class EntityView : MonoBehaviour
     {
         [Inject]
@@ -22,10 +21,10 @@ namespace EcsRx.Unity.Helpers
 
         public IPool Pool;
 
-				[SerializeField]
+		[SerializeField]
         public List<string> Components = new List<string>();
 
-				[SerializeField]
+		[SerializeField]
         public List<string> Properties = new List<string>();
 
         [Inject]

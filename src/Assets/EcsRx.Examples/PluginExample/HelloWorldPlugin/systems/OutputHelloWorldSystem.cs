@@ -1,10 +1,10 @@
-﻿using Assets.Examples.PluginExample.HelloWorldPlugin.components;
+﻿using Assets.EcsRx.Examples.PluginExample.HelloWorldPlugin.components;
 using EcsRx.Entities;
 using EcsRx.Groups;
 using EcsRx.Systems;
 using UnityEngine;
 
-namespace Assets.Examples.PluginExample.HelloWorldPlugin.systems
+namespace Assets.EcsRx.Examples.PluginExample.HelloWorldPlugin.systems
 {
     public class OutputHelloWorldSystem : ISetupSystem
     {

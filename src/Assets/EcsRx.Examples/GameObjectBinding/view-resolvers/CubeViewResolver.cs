@@ -1,4 +1,4 @@
-﻿using Assets.Examples.GameObjectBinding.components;
+﻿using Assets.EcsRx.Examples.GameObjectBinding.components;
 using EcsRx.Entities;
 using EcsRx.Extensions;
 using EcsRx.Groups;
@@ -6,7 +6,7 @@ using EcsRx.Pools;
 using EcsRx.Unity.Systems;
 using UnityEngine;
 
-namespace Assets.Examples.GameObjectBinding
+namespace Assets.EcsRx.Examples.GameObjectBinding
 {
     public class CubeViewResolver : ViewResolverSystem
     {

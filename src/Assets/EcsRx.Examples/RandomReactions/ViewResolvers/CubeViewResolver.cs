@@ -1,7 +1,4 @@
-﻿using Assets.EcsRx.Examples.RandomReactions.Components;
-using EcsRx.Entities;
-using EcsRx.Extensions;
-using EcsRx.Groups;
+﻿using EcsRx.Entities;
 using EcsRx.Pools;
 using EcsRx.Unity.Systems;
 using UnityEngine;
@@ -21,11 +18,6 @@ namespace Assets.EcsRx.Examples.RandomReactions.ViewResolvers
         public CubeViewResolver(IPoolManager poolManager) : base(poolManager)
         {
             _coloredCubePrefab = (GameObject)Resources.Load("colored-cube");
-        }
-
-        public override IGroup TargetGroup
-        {
-            get { return base.TargetGroup.WithComponent<RandomColorComponent>(); }
         }
 
         public override GameObject ResolveView(IEntity entity)

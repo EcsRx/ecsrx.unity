@@ -2,7 +2,6 @@
 using EcsRx.Entities;
 using EcsRx.Groups;
 using EcsRx.Systems;
-using EcsRx.Unity.Components;
 using UniRx;
 using UnityEngine;
 

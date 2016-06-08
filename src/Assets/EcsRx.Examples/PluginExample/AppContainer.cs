@@ -1,7 +1,7 @@
-﻿using Assets.Examples.PluginExample.HelloWorldPlugin.components;
+﻿using Assets.EcsRx.Examples.PluginExample.HelloWorldPlugin.components;
 using EcsRx.Unity;
 
-namespace Assets.Examples.PluginExample
+namespace Assets.EcsRx.Examples.PluginExample
 {
     public class AppContainer : EcsRxContainer
     {

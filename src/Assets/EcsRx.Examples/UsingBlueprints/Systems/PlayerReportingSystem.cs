@@ -1,11 +1,11 @@
-﻿using Assets.Examples.UsingBlueprints.Components;
-using Assets.Examples.UsingBlueprints.Groups;
+﻿using Assets.EcsRx.Examples.UsingBlueprints.Components;
+using Assets.EcsRx.Examples.UsingBlueprints.Groups;
 using EcsRx.Entities;
 using EcsRx.Groups;
 using EcsRx.Systems;
 using UnityEngine;
 
-namespace Assets.Examples.UsingBlueprints.Systems
+namespace Assets.EcsRx.Examples.UsingBlueprints.Systems
 {
     public class PlayerReportingSystem : ISetupSystem
     {

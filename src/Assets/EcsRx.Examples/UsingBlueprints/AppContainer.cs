@@ -1,7 +1,7 @@
-﻿using Assets.Examples.UsingBlueprints.Blueprints;
+﻿using Assets.EcsRx.Examples.UsingBlueprints.Blueprints;
 using EcsRx.Unity;
 
-namespace Assets.Examples.UsingBlueprints
+namespace Assets.EcsRx.Examples.UsingBlueprints
 {
     public class AppContainer : EcsRxContainer
     {
