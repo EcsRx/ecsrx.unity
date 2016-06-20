@@ -19,8 +19,7 @@ namespace EcsRx.Extensions
         public static IObservable<IEntity> WaitForPredicateMet(this IEntity entity, Predicate<IEntity> predicate)
         {
             return Observable.EveryUpdate()
-                .Where(x => predicate(entity))
-                .First()
+                .First(x => predicate(entity))
                 .Select(x => entity);
         }
 

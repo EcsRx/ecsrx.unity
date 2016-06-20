@@ -76,7 +76,6 @@ namespace EcsRx.Systems.Executor
 
         private void ApplyEntityToSystems(IEnumerable<ISystem> systems, IEntity entity)
         {
-            
             systems.OfType<ISetupSystem>()
                 .OrderByPriority()
                 .ForEachRun(x =>
