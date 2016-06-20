@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using EcsRx.Entities;
 using EcsRx.Pools;
 
 namespace EcsRx.Systems.Executor.Handlers
@@ -5,6 +7,7 @@ namespace EcsRx.Systems.Executor.Handlers
     public interface ISetupSystemHandler
     {
         IPoolManager PoolManager { get; }
-        void Setup(ISetupSystem system);
+        IEnumerable<SubscriptionToken> Setup(ISetupSystem system);
+        SubscriptionToken ProcessEntity(ISetupSystem system, IEntity entity);
     }
 }

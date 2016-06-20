@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using EcsRx.Entities;
 using EcsRx.Extensions;
 using EcsRx.Pools;
@@ -14,21 +15,39 @@ namespace EcsRx.Systems.Executor.Handlers
             PoolManager = poolManager;
         }
 
-        public void Setup(ISetupSystem system)
+        public IEnumerable<SubscriptionToken> Setup(ISetupSystem system)
         {
-            var hasEntityPredicate = system.TargetGroup.TargettedEntities != null;
+            var subscriptions = new List<SubscriptionToken>();
             var groupAccessor = PoolManager.CreateGroupAccessor(system.TargetGroup);
             groupAccessor.Entities.ForEachRun(x =>
             {
-                if (hasEntityPredicate)
-                {
-                    if(system.TargetGroup.TargettedEntities(x))
-                    { system.Setup(x); }
-                    return;
-                }
-
-                system.Setup(x);
+                var possibleSubscription = ProcessEntity(system, x);
+                if(possibleSubscription != null) { subscriptions.Add(possibleSubscription); }
             });
+
+            return subscriptions;
+        }
+
+        public SubscriptionToken ProcessEntity(ISetupSystem system, IEntity entity)
+        {
+            var hasEntityPredicate = system.TargetGroup.TargettedEntities != null;
+            if (!hasEntityPredicate)
+            {
+                system.Setup(entity);
+                return null;
+            }
+
+            if (system.TargetGroup.TargettedEntities(entity))
+            {
+                system.Setup(entity);
+                return null;
+            }
+
+            var subscription = entity.WaitForPredicateMet(system.TargetGroup.TargettedEntities)
+                .Subscribe(system.Setup);
+
+            var subscriptionToken = new SubscriptionToken(entity, subscription);
+            return subscriptionToken;
         }
     }
 }

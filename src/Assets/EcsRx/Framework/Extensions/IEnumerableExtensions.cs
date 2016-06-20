@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.EcsRx.Framework.Attributes;
 using EcsRx.Components;
 using EcsRx.Entities;
 using EcsRx.Groups;
@@ -33,5 +34,21 @@ namespace EcsRx.Extensions
             var componentTypes = components.Select(x => x.GetType());
             return systems.Where(x => componentTypes.All(y => x.TargetGroup.TargettedComponents.Contains(y)));
         }
+
+        public static IEnumerable<T> OrderByPriority<T>(this IEnumerable<T> systems)
+            where T : ISystem
+        {
+            return systems.OrderBy(x =>
+            {
+                var priorityAttributes = x.GetType().GetCustomAttributes(typeof (PriorityAttribute), true);
+                if (priorityAttributes.Length > 0)
+                {
+                    var priorityAttribute = priorityAttributes.FirstOrDefault() as PriorityAttribute;
+                    return priorityAttribute.Priority;
+                }
+
+                return int.MaxValue;
+            });
+        } 
     }
 }

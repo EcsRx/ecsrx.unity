@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -60,12 +58,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -91,8 +83,8 @@
     <Compile Include="Assets\EcsRx.Examples\CustomGameObjectHandling\Components\CustomViewComponent.cs" />
     <Compile Include="Assets\EcsRx.Examples\CustomGameObjectHandling\Components\PlayerControlledComponent.cs" />
     <Compile Include="Assets\EcsRx.Examples\CustomGameObjectHandling\Systems\CameraFollowSystem.cs" />
-    <Compile Include="Assets\EcsRx.Examples\CustomGameObjectHandling\Systems\PlayerControlSystem.cs" />
     <Compile Include="Assets\EcsRx.Examples\CustomGameObjectHandling\Systems\CustomViewSetupSystem.cs" />
+    <Compile Include="Assets\EcsRx.Examples\CustomGameObjectHandling\Systems\PlayerControlSystem.cs" />
     <Compile Include="Assets\EcsRx.Examples\GameObjectBinding\AppContainer.cs" />
     <Compile Include="Assets\EcsRx.Examples\GameObjectBinding\components\CubeComponent.cs" />
     <Compile Include="Assets\EcsRx.Examples\GameObjectBinding\components\SphereComponent.cs" />
@@ -111,6 +103,12 @@
     <Compile Include="Assets\EcsRx.Examples\RandomReactions\Systems\ColorChangingSystem.cs" />
     <Compile Include="Assets\EcsRx.Examples\RandomReactions\Systems\CubeColourChangerSystem.cs" />
     <Compile Include="Assets\EcsRx.Examples\RandomReactions\ViewResolvers\CubeViewResolver.cs" />
+    <Compile Include="Assets\EcsRx.Examples\SceneFirstSetup\AppContainer.cs" />
+    <Compile Include="Assets\EcsRx.Examples\SceneFirstSetup\Components\CubeComponent.cs" />
+    <Compile Include="Assets\EcsRx.Examples\SceneFirstSetup\Components\SphereComponent.cs" />
+    <Compile Include="Assets\EcsRx.Examples\SceneFirstSetup\Components\TestComponent.cs" />
+    <Compile Include="Assets\EcsRx.Examples\SceneFirstSetup\ViewResolvers\CubeViewResolver.cs" />
+    <Compile Include="Assets\EcsRx.Examples\SceneFirstSetup\ViewResolvers\SphereViewResolver.cs" />
     <Compile Include="Assets\EcsRx.Examples\SimpleMovement\AppContainer.cs" />
     <Compile Include="Assets\EcsRx.Examples\SimpleMovement\Components\CameraFollows.cs" />
     <Compile Include="Assets\EcsRx.Examples\SimpleMovement\Components\PlayerControlledComponent.cs" />
@@ -123,12 +121,7 @@
     <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\Components\WithHealthComponent.cs" />
     <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\Groups\PlayerGroup.cs" />
     <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\Systems\PlayerReportingSystem.cs" />
-    <Compile Include="Assets\EcsRx.Examples\SceneFirstSetup\AppContainer.cs" />
-    <Compile Include="Assets\EcsRx.Examples\SceneFirstSetup\Components\CubeComponent.cs" />
-    <Compile Include="Assets\EcsRx.Examples\SceneFirstSetup\Components\SphereComponent.cs" />
-    <Compile Include="Assets\EcsRx.Examples\SceneFirstSetup\Components\TestComponent.cs" />
-    <Compile Include="Assets\EcsRx.Examples\SceneFirstSetup\ViewResolvers\CubeViewResolver.cs" />
-    <Compile Include="Assets\EcsRx.Examples\SceneFirstSetup\ViewResolvers\SphereViewResolver.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Attributes\PriorityAttribute.cs" />
     <Compile Include="Assets\EcsRx\Framework\Blueprints\IBlueprint.cs" />
     <Compile Include="Assets\EcsRx\Framework\Components\IComponent.cs" />
     <Compile Include="Assets\EcsRx\Framework\Entities\Entity.cs" />
@@ -177,13 +170,13 @@
     <Compile Include="Assets\EcsRx\Framework\Systems\IReactToGroupSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ISetupSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ISystem.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Extensions\ComponentExtensions.cs" />
-    <Compile Include="Assets\EcsRx\Unity\JSON.cs" />
     <Compile Include="Assets\EcsRx\Unity\Components\ViewComponent.cs" />
     <Compile Include="Assets\EcsRx\Unity\EcsRxContainer.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Extensions\ComponentExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\AutoBindSystemsInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\AutoRegisterSystemsInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\DefaultEcsRxInstaller.cs" />
+    <Compile Include="Assets\EcsRx\Unity\JSON.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\ActiveSystemsViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityView.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\InjectableMonoBehaviour.cs" />
@@ -435,6 +428,5 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

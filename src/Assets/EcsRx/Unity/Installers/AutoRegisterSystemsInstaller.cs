@@ -28,7 +28,9 @@ namespace EcsRx.Unity.Installers
             var allSystems = Container.ResolveAll<ISystem>();
             var systemExecutor = Container.Resolve<ISystemExecutor>();
 
-            var orderedSystems = allSystems.OrderByDescending(x => x is ViewResolverSystem || x is ISetupSystem);
+            var orderedSystems = allSystems
+                .OrderByDescending(x => x is ViewResolverSystem)
+                .ThenByDescending(x => x is ISetupSystem);
             orderedSystems.ForEachRun(systemExecutor.AddSystem);
         }
     }

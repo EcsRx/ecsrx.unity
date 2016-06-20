@@ -1,8 +1,12 @@
-﻿using EcsRx.Events;
+﻿using EcsRx.Components;
+using EcsRx.Entities;
+using EcsRx.Events;
+using EcsRx.Groups;
 using EcsRx.Pools;
 using EcsRx.Systems;
 using EcsRx.Systems.Executor;
 using EcsRx.Systems.Executor.Handlers;
+using EcsRx.Tests.Components;
 using NSubstitute;
 using NUnit.Framework;
 using UniRx;
@@ -95,6 +99,35 @@ namespace EcsRx.Tests
             systemExecutor.RemoveSystem(fakeSystem);
 
             Assert.That(systemExecutor.Systems, Is.Empty);
+        }
+
+
+        [Test]
+        public void should_effect_correct_setup_systems_once()
+        {
+            var dummyGroup = new Group(typeof(TestComponentOne), typeof(TestComponentTwo));
+            var mockPoolManager = Substitute.For<IPoolManager>();
+            var mockEventSystem = Substitute.For<IEventSystem>();
+            var mockSetupSystemHandler = Substitute.For<ISetupSystemHandler>();
+            var fakeSystem = Substitute.For<ISetupSystem>();
+            fakeSystem.TargetGroup.Returns(dummyGroup);
+
+            var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
+                null, null, mockSetupSystemHandler, null);
+
+            systemExecutor.AddSystem(fakeSystem);
+
+            var entity = new Entity(1, mockEventSystem);
+            entity.AddComponent(new TestComponentOne());
+            systemExecutor.OnEntityComponentAdded(new ComponentAddedEvent(entity, new TestComponentOne()));
+            
+            entity.AddComponent(new TestComponentTwo());
+            systemExecutor.OnEntityComponentAdded(new ComponentAddedEvent(entity, new TestComponentTwo()));
+
+            entity.AddComponent(new TestComponentThree());
+            systemExecutor.OnEntityComponentAdded(new ComponentAddedEvent(entity, new TestComponentThree()));
+
+            mockSetupSystemHandler.Received(1).ProcessEntity(Arg.Is(fakeSystem), Arg.Is(entity));
         }
     }
 }

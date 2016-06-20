@@ -16,6 +16,14 @@ namespace EcsRx.Extensions
                 .Select(x => entity);
         }
 
+        public static IObservable<IEntity> WaitForPredicateMet(this IEntity entity, Predicate<IEntity> predicate)
+        {
+            return Observable.EveryUpdate()
+                .Where(x => predicate(entity))
+                .First()
+                .Select(x => entity);
+        }
+
         public static bool MatchesGroup(this IEntity entity, IGroup group)
         { return entity.HasComponents(group.TargettedComponents.ToArray()); }
 

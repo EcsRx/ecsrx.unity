@@ -44,7 +44,7 @@ namespace EcsRx.Systems.Executor
             _systemSubscriptions = new Dictionary<ISystem, IList<SubscriptionToken>>();
         }
         
-        private void OnEntityComponentRemoved(ComponentRemovedEvent args)
+        public void OnEntityComponentRemoved(ComponentRemovedEvent args)
         {
             var originalComponents = args.Entity.Components.ToList();
             originalComponents.Add(args.Component);
@@ -54,7 +54,7 @@ namespace EcsRx.Systems.Executor
             effectedSystems.ForEachRun(system => _systemSubscriptions[system].Where(subscription => subscription.AssociatedObject == args.Entity));
         }
 
-        private void OnEntityComponentAdded(ComponentAddedEvent args)
+        public void OnEntityComponentAdded(ComponentAddedEvent args)
         {
             var applicableSystems = _systems.GetApplicableSystems(args.Entity).ToArray();
             var effectedSystems = applicableSystems.Where(x => x.TargetGroup.TargettedComponents.Contains(args.Component.GetType()));
@@ -76,10 +76,18 @@ namespace EcsRx.Systems.Executor
 
         private void ApplyEntityToSystems(IEnumerable<ISystem> systems, IEntity entity)
         {
+            
             systems.OfType<ISetupSystem>()
-                .ForEachRun(x => x.Setup(entity));
+                .OrderByPriority()
+                .ForEachRun(x =>
+                {
+                    var possibleSubscription = SetupSystemHandler.ProcessEntity(x, entity);
+                    if (possibleSubscription != null)
+                    { _systemSubscriptions[x].Add(possibleSubscription); }
+                });
 
             systems.OfType<IReactToEntitySystem>()
+                .OrderByPriority()
                 .ForEachRun(x =>
             {
                 var subscription = ReactToEntitySystemHandler.ProcessEntity(x, entity);
@@ -87,6 +95,7 @@ namespace EcsRx.Systems.Executor
             });
             
             systems.Where(x => x.IsReactiveDataSystem())
+                .OrderByPriority()
                 .ForEachRun(x =>
                 {
                     var subscription = ReactToDataSystemHandler.ProcessEntityWithoutType(x, entity);
@@ -122,7 +131,8 @@ namespace EcsRx.Systems.Executor
 
             if (system is ISetupSystem)
             {
-                SetupSystemHandler.Setup(system as ISetupSystem);
+                var subscriptions = SetupSystemHandler.Setup(system as ISetupSystem);
+                _systemSubscriptions.Add(system, new List<SubscriptionToken>(subscriptions));
             }
 
             if (system is IReactToGroupSystem)
