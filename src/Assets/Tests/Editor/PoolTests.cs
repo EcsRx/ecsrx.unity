@@ -15,7 +15,7 @@ namespace EcsRx.Tests
         public void should_create_new_entity()
         {
             var expectedId = 123456;
-            var mockIdentityGenerator = Substitute.For<IIdentifyGenerator>();
+            var mockIdentityGenerator = Substitute.For<IIdentityGenerator>();
             mockIdentityGenerator.GenerateId().Returns(expectedId);
 
             var mockEventSystem = Substitute.For<IEventSystem>();
@@ -31,7 +31,7 @@ namespace EcsRx.Tests
         [Test]
         public void should_raise_event_when_creating_entity()
         {
-            var mockIdentityGenerator = Substitute.For<IIdentifyGenerator>();
+            var mockIdentityGenerator = Substitute.For<IIdentityGenerator>();
             var mockEventSystem = Substitute.For<IEventSystem>();
 
             var hasRaised = false;
@@ -44,7 +44,7 @@ namespace EcsRx.Tests
         [Test]
         public void should_add_created_entity_into_the_pool()
         {
-            var mockIdentityGenerator = Substitute.For<IIdentifyGenerator>();
+            var mockIdentityGenerator = Substitute.For<IIdentityGenerator>();
             var mockEventSystem = Substitute.For<IEventSystem>();
 
             var pool = new Pool("", mockIdentityGenerator, mockEventSystem);
@@ -57,7 +57,7 @@ namespace EcsRx.Tests
         [Test]
         public void should_raise_event_when_removing_entity()
         {
-            var mockIdentityGenerator = Substitute.For<IIdentifyGenerator>();
+            var mockIdentityGenerator = Substitute.For<IIdentityGenerator>();
             var mockEventSystem = Substitute.For<IEventSystem>();
 
             var pool = new Pool("", mockIdentityGenerator, mockEventSystem);
@@ -70,7 +70,7 @@ namespace EcsRx.Tests
         [Test]
         public void should_remove_created_entity_from_the_pool()
         {
-            var mockIdentityGenerator = Substitute.For<IIdentifyGenerator>();
+            var mockIdentityGenerator = Substitute.For<IIdentityGenerator>();
             var mockEventSystem = Substitute.For<IEventSystem>();
 
             var pool = new Pool("", mockIdentityGenerator, mockEventSystem);

@@ -18,9 +18,9 @@ namespace EcsRx.Pools
 
         public IEventSystem EventSystem { get; private set; }
         public IEnumerable<IPool> Pools { get { return _pools.Values; } }
-        public IIdentifyGenerator IdentityGenerator { get; private set; }
+        public IIdentityGenerator IdentityGenerator { get; private set; }
 
-        public PoolManager(IIdentifyGenerator identityGenerator, IEventSystem eventSystem)
+        public PoolManager(IIdentityGenerator identityGenerator, IEventSystem eventSystem)
         {
             IdentityGenerator = identityGenerator;
             EventSystem = eventSystem;

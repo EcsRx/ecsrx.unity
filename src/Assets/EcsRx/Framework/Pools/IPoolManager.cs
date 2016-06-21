@@ -8,7 +8,7 @@ namespace EcsRx.Pools
     public interface IPoolManager
     {
         IEnumerable<IPool> Pools { get; }
-        IIdentifyGenerator IdentityGenerator { get; }
+        IIdentityGenerator IdentityGenerator { get; }
 
         IEnumerable<IEntity> GetEntitiesFor(IGroup group, string poolName = null);
         GroupAccessor CreateGroupAccessor(IGroup group, string poolName = null);

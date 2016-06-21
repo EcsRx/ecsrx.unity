@@ -1,6 +1,6 @@
 ﻿namespace EcsRx.Pools.Identifiers
 {
-    public class SequentialIdentityGenerator : IIdentifyGenerator
+    public class SequentialIdentityGenerator : IIdentityGenerator
     {
         private int _lastIdentifier = 0;
 

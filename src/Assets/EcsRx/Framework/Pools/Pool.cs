@@ -14,10 +14,10 @@ namespace EcsRx.Pools
 
         public string Name { get; private set; }
         public IEnumerable<IEntity> Entities { get { return _entities;} }
-        public IIdentifyGenerator IdentityGenerator { get; private set; }
+        public IIdentityGenerator IdentityGenerator { get; private set; }
         public IEventSystem EventSystem { get; private set; }
 
-        public Pool(string name, IIdentifyGenerator identityGenerator, IEventSystem eventSystem)
+        public Pool(string name, IIdentityGenerator identityGenerator, IEventSystem eventSystem)
         {
             _entities = new List<IEntity>();
             Name = name;

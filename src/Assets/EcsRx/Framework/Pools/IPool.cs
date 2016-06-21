@@ -10,7 +10,7 @@ namespace EcsRx.Pools
         string Name { get; }
 
         IEnumerable<IEntity> Entities { get; }
-        IIdentifyGenerator IdentityGenerator { get; }
+        IIdentityGenerator IdentityGenerator { get; }
 
         IEntity CreateEntity(IBlueprint blueprint = null);
         void RemoveEntity(IEntity entity);

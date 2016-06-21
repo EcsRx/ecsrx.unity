@@ -14,7 +14,7 @@ namespace EcsRx.Unity.Installers
         {
             Container.Bind<IMessageBroker>().To<MessageBroker>().AsSingle();
             Container.Bind<IEventSystem>().To<EventSystem>().AsSingle();
-            Container.Bind<IIdentifyGenerator>().To<SequentialIdentityGenerator>().AsSingle();
+            Container.Bind<IIdentityGenerator>().To<SequentialIdentityGenerator>().AsSingle();
             Container.Bind<IPoolManager>().To<PoolManager>().AsSingle();
 
             Container.Bind<IReactToDataSystemHandler>().To<ReactToDataSystemHandler>();

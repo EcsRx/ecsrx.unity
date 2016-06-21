@@ -1,6 +1,6 @@
 ﻿namespace EcsRx.Pools.Identifiers
 {
-    public interface IIdentifyGenerator
+    public interface IIdentityGenerator
     {
         int GenerateId();
     }
