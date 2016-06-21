@@ -30,7 +30,7 @@ namespace EcsRx.Systems.Executor.Handlers
             var method = GetType().GetMethod("ProcessEntity");
             var genericDataType = system.GetGenericDataType();
             var genericMethod = method.MakeGenericMethod(genericDataType);
-            return (SubscriptionToken)genericMethod.Invoke(this, new[] { system });
+            return (SubscriptionToken)genericMethod.Invoke(this, new object[] { system, entity });
         }
 
         public IEnumerable<SubscriptionToken> Setup<T>(IReactToDataSystem<T> system)
