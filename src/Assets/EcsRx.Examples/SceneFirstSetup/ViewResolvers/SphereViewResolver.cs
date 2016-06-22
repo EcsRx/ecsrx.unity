@@ -5,6 +5,7 @@ using EcsRx.Groups;
 using EcsRx.Pools;
 using EcsRx.Unity.Systems;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.EcsRx.Examples.SceneFirstSetup.ViewResolvers
 {
@@ -17,7 +18,7 @@ namespace Assets.EcsRx.Examples.SceneFirstSetup.ViewResolvers
             get { return base.TargetGroup.WithComponent<SphereComponent>(); }
         }
 
-        public SphereViewResolver(IPoolManager poolManager) : base(poolManager) { }
+        public SphereViewResolver(IPoolManager poolManager, IInstantiator instantiator) : base(poolManager, instantiator) { }
 
         public override GameObject ResolveView(IEntity entity)
         {

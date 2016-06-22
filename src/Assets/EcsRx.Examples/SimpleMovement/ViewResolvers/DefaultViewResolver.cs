@@ -2,12 +2,13 @@
 using EcsRx.Pools;
 using EcsRx.Unity.Systems;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.EcsRx.Examples.SimpleMovement.ViewResolvers
 {
     public class DefaultViewResolver : ViewResolverSystem
     {
-        public DefaultViewResolver(IPoolManager poolManager) : base(poolManager)
+        public DefaultViewResolver(IPoolManager poolManager, IInstantiator instantiator) : base(poolManager, instantiator)
         {}
 
         public override GameObject ResolveView(IEntity entity)

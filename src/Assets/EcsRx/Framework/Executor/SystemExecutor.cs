@@ -127,30 +127,33 @@ namespace EcsRx.Systems.Executor
         public void AddSystem(ISystem system)
         {
             _systems.Add(system);
+            var subscriptionList = new List<SubscriptionToken>();
 
             if (system is ISetupSystem)
             {
                 var subscriptions = SetupSystemHandler.Setup(system as ISetupSystem);
-                _systemSubscriptions.Add(system, new List<SubscriptionToken>(subscriptions));
+                subscriptionList.AddRange(subscriptions);
             }
 
             if (system is IReactToGroupSystem)
             {
                 var subscription = ReactToGroupSystemHandler.Setup(system as IReactToGroupSystem);
-                _systemSubscriptions.Add(system, new List<SubscriptionToken> { subscription });
+                subscriptionList.Add(subscription);
             }
 
             if (system is IReactToEntitySystem)
             {
                 var subscriptions = ReactToEntitySystemHandler.Setup(system as IReactToEntitySystem);
-                _systemSubscriptions.Add(system, new List<SubscriptionToken>(subscriptions));
+                subscriptionList.AddRange(subscriptions);
             }
             
             if (system.IsReactiveDataSystem())
             {
                 var subscriptions = ReactToDataSystemHandler.SetupWithoutType(system);
-                _systemSubscriptions.Add(system, new List<SubscriptionToken>(subscriptions));
+                subscriptionList.AddRange(subscriptions);
             }
+
+            _systemSubscriptions.Add(system, subscriptionList);
         }
 
         public int GetSubscriptionCountForSystem(ISystem system)

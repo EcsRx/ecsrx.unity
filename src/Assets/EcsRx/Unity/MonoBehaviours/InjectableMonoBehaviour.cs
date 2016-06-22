@@ -9,10 +9,23 @@ namespace EcsRx.Unity.MonoBehaviours
         [Inject]
         public IMessageBroker MessageBroker { get; private set; }
 
+        [Inject]
+        private IInstantiator Instantiator { get; set; }
+
         /// <summary>
         /// This is the point in which any injected dependencies will have been resolved for use
         /// </summary>
         [Inject]
         public abstract void DependenciesResolved();
+
+        protected GameObject InstantiateAndInject(GameObject prefab, 
+            Vector3 position = default(Vector3),
+            Quaternion rotation = default(Quaternion))
+        {
+            var createdPrefab = Instantiator.InstantiatePrefab(prefab);
+            createdPrefab.transform.position = position;
+            createdPrefab.transform.rotation = rotation;
+            return createdPrefab;
+        }
     }
 }
