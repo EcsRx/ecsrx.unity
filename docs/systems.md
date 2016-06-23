@@ -57,3 +57,15 @@ IObservable<CollisionEvent> ReactToEntity(IEntity entity)
 So this offers a bit more power as the `Execute` method takes both the entity in the pool and the returned data from the subscription allowing you to work with external data when processing.
 
 This is still a fairly new system type so will possibly have some minor changes as we move forward.
+
+### IManualSystem
+
+This is a niche system for when you want to carry out some logic outside the scope of entities, or want to have 
+more fine grained control over how you deal with the entities matched.
+
+Rather than the `SystemExecutor` doing most of the work for you and managing the subscriptions and entity interactions 
+this just provides you the `GroupAccessor` for the entities targetted and its up to you to control how they are 
+dealt with.
+
+The `StartSystem` method will be triggered when the system has been added to the executor, and the `StopSystem` 
+will be triggered when the system is removed.
