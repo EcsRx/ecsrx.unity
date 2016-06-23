@@ -23,10 +23,12 @@ namespace EcsRx.Systems.Executor
         public IReactToGroupSystemHandler ReactToGroupSystemHandler { get; private set; }
         public ISetupSystemHandler SetupSystemHandler { get; private set; }
         public IReactToDataSystemHandler ReactToDataSystemHandler { get; private set; }
+        public IManualSystemHandler ManualSystemHandler { get; private set; }
 
         public SystemExecutor(IPoolManager poolManager, IEventSystem eventSystem,
             IReactToEntitySystemHandler reactToEntitySystemHandler, IReactToGroupSystemHandler reactToGroupSystemHandler, 
-            ISetupSystemHandler setupSystemHandler, IReactToDataSystemHandler reactToDataSystemHandler)
+            ISetupSystemHandler setupSystemHandler, IReactToDataSystemHandler reactToDataSystemHandler,
+            IManualSystemHandler manualSystemHandler)
         {
             PoolManager = poolManager;
             EventSystem = eventSystem;
@@ -34,6 +36,7 @@ namespace EcsRx.Systems.Executor
             ReactToGroupSystemHandler = reactToGroupSystemHandler;
             SetupSystemHandler = setupSystemHandler;
             ReactToDataSystemHandler = reactToDataSystemHandler;
+            ManualSystemHandler = manualSystemHandler;
 
             EventSystem.Receive<EntityAddedEvent>().Subscribe(OnEntityAddedToPool);
             EventSystem.Receive<EntityRemovedEvent>().Subscribe(OnEntityRemovedFromPool);
@@ -117,6 +120,9 @@ namespace EcsRx.Systems.Executor
         {
             _systems.Remove(system);
 
+            if (system is IManualSystem)
+            { ManualSystemHandler.Stop(system as IManualSystem); }
+
             if (_systemSubscriptions.ContainsKey(system))
             {
                 _systemSubscriptions[system].DisposeAll();
@@ -152,6 +158,9 @@ namespace EcsRx.Systems.Executor
                 var subscriptions = ReactToDataSystemHandler.SetupWithoutType(system);
                 subscriptionList.AddRange(subscriptions);
             }
+
+            if (system is IManualSystem)
+            { ManualSystemHandler.Start(system as IManualSystem); }
 
             _systemSubscriptions.Add(system, subscriptionList);
         }

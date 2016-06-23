@@ -25,7 +25,7 @@ namespace EcsRx.Tests
             var fakeSystem = Substitute.For<ISetupSystem>();
 
             var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
-                null, null, mockSetupSystemHandler, null);
+                null, null, mockSetupSystemHandler, null, null);
 
             systemExecutor.AddSystem(fakeSystem);
 
@@ -42,7 +42,7 @@ namespace EcsRx.Tests
             var fakeSystem = Substitute.For<IReactToDataSystem<int>>();
 
             var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
-                null, null, null, mockReactToDataSystemHandler);
+                null, null, null, mockReactToDataSystemHandler, null);
 
             systemExecutor.AddSystem(fakeSystem);
 
@@ -59,7 +59,7 @@ namespace EcsRx.Tests
             var fakeSystem = Substitute.For<IReactToEntitySystem>();
 
             var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
-                mockReactToEntitySystemHandler, null, null, null);
+                mockReactToEntitySystemHandler, null, null, null, null);
 
             systemExecutor.AddSystem(fakeSystem);
 
@@ -76,7 +76,7 @@ namespace EcsRx.Tests
             var fakeSystem = Substitute.For<IReactToGroupSystem>();
 
             var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
-                null, mockReactToGroupSystemHandler, null, null);
+                null, mockReactToGroupSystemHandler, null, null, null);
 
             systemExecutor.AddSystem(fakeSystem);
 
@@ -93,7 +93,7 @@ namespace EcsRx.Tests
             var fakeSystem = Substitute.For<ISetupSystem>();
 
             var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
-                null, null, mockSetupSystemHandler, null);
+                null, null, mockSetupSystemHandler, null, null);
 
             systemExecutor.AddSystem(fakeSystem);
             systemExecutor.RemoveSystem(fakeSystem);
@@ -113,7 +113,7 @@ namespace EcsRx.Tests
             fakeSystem.TargetGroup.Returns(dummyGroup);
 
             var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
-                null, null, mockSetupSystemHandler, null);
+                null, null, mockSetupSystemHandler, null, null);
 
             systemExecutor.AddSystem(fakeSystem);
 

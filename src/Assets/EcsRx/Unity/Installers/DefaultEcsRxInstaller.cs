@@ -21,6 +21,7 @@ namespace EcsRx.Unity.Installers
             Container.Bind<IReactToEntitySystemHandler>().To<ReactToEntitySystemHandler>();
             Container.Bind<IReactToGroupSystemHandler>().To<ReactToGroupSystemHandler>();
             Container.Bind<ISetupSystemHandler>().To<SetupSystemHandler>();
+            Container.Bind<IManualSystemHandler>().To<ManualSystemHandler>();
 
             Container.Bind<ISystemExecutor>().To<SystemExecutor>().AsSingle();
         }

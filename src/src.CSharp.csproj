@@ -96,6 +96,8 @@
     <Compile Include="Assets\EcsRx.Examples\ManuallyRegisterSystems\Installers\ManualInstaller.cs" />
     <Compile Include="Assets\EcsRx.Examples\ManuallyRegisterSystems\Systems\DefaultViewResolver.cs" />
     <Compile Include="Assets\EcsRx.Examples\ManuallyRegisterSystems\Systems\RandomMovementSystem.cs" />
+    <Compile Include="Assets\EcsRx.Examples\ManualSystems\AppContainer.cs" />
+    <Compile Include="Assets\EcsRx.Examples\ManualSystems\Systems\ConstantOutputSystem.cs" />
     <Compile Include="Assets\EcsRx.Examples\PluginExample\AppContainer.cs" />
     <Compile Include="Assets\EcsRx.Examples\PluginExample\HelloWorldPlugin\HelloWorldPlugin.cs" />
     <Compile Include="Assets\EcsRx.Examples\PluginExample\HelloWorldPlugin\components\SayHelloWorldComponent.cs" />
@@ -136,10 +138,12 @@
     <Compile Include="Assets\EcsRx\Framework\Events\IEventSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Events\PoolAddedEvent.cs" />
     <Compile Include="Assets\EcsRx\Framework\Events\PoolRemovedEvent.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Executor\Handlers\IManualSystemHandler.cs" />
     <Compile Include="Assets\EcsRx\Framework\Executor\Handlers\IReactToDataSystemHandler.cs" />
     <Compile Include="Assets\EcsRx\Framework\Executor\Handlers\IReactToEntitySystemHandler.cs" />
     <Compile Include="Assets\EcsRx\Framework\Executor\Handlers\IReactToGroupSystemHandler.cs" />
     <Compile Include="Assets\EcsRx\Framework\Executor\Handlers\ISetupSystemHandler.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Executor\Handlers\ManualSystemHandler.cs" />
     <Compile Include="Assets\EcsRx\Framework\Executor\Handlers\ReactToDataSystemHandler.cs" />
     <Compile Include="Assets\EcsRx\Framework\Executor\Handlers\ReactToEntitySystemHandler.cs" />
     <Compile Include="Assets\EcsRx\Framework\Executor\Handlers\ReactToGroupSystemHandler.cs" />
@@ -155,6 +159,7 @@
     <Compile Include="Assets\EcsRx\Framework\Extensions\IListExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\ISystemExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\PoolManagerExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\EmptyGroup.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\Group.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\GroupAccessor.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\GroupBuilder.cs" />
@@ -167,6 +172,7 @@
     <Compile Include="Assets\EcsRx\Framework\Pools\Identifiers\SequentialIdentityGenerator.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\Pool.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\PoolManager.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Systems\IManualSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\IReactToDataSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\IReactToEntitySystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\IReactToGroupSystem.cs" />
@@ -431,5 +437,6 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
