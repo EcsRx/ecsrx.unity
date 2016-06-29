@@ -44,7 +44,10 @@ namespace EcsRx.Unity.Systems
         }
 
         public abstract GameObject ResolveView(IEntity entity);
-        
+
+        protected virtual void DestroyView(GameObject view)
+        { Object.Destroy(view); }
+
         public virtual void Setup(IEntity entity)
         {
             var viewComponent = entity.GetComponent<ViewComponent>();
@@ -77,7 +80,7 @@ namespace EcsRx.Unity.Systems
                     if(viewSubscription != null)
                     { viewSubscription.Dispose(); }
 
-                    Object.Destroy(viewObject);
+                    DestroyView(viewObject);
                 });
             
         }
