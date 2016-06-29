@@ -23,5 +23,11 @@ namespace EcsRx.Extensions
             foreach (var pool in poolManager.Pools)
             { pool.RemoveEntitiesContaining(components); }
         }
+
+        public static void RemoveEntity(this IPoolManager poolManager, IEntity entity)
+        {
+            var containingPool = poolManager.GetContainingPoolFor(entity);
+            containingPool.RemoveEntity(entity);
+        }
     }
 }
