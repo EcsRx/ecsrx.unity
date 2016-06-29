@@ -1,4 +1,4 @@
-using EcsRx.Entities;
+using System.Linq;
 using EcsRx.Extensions;
 using EcsRx.Pools;
 using UniRx;
@@ -19,17 +19,23 @@ namespace EcsRx.Systems.Executor.Handlers
             var hasEntityPredicate = system.TargetGroup.TargettedEntities != null;
             var groupAccessor = PoolManager.CreateGroupAccessor(system.TargetGroup);
             var subscription = system.ReactToGroup(groupAccessor)
-                .Subscribe(accessor => accessor.Entities.ForEachRun(entity =>
+                .Subscribe(accessor =>
                 {
-                    if (hasEntityPredicate)
+                    var entities = accessor.Entities.ToArray();
+                    entities.ForEachRun(entity =>
                     {
-                        if(system.TargetGroup.TargettedEntities(entity))
-                        { system.Execute(entity); }
-                        return;
-                    }
+                        if (hasEntityPredicate)
+                        {
+                            if (system.TargetGroup.TargettedEntities(entity))
+                            {
+                                system.Execute(entity);
+                            }
+                            return;
+                        }
 
-                    system.Execute(entity);
-                }));
+                        system.Execute(entity);
+                    });
+                });
 
             return new SubscriptionToken(null, subscription);
         }

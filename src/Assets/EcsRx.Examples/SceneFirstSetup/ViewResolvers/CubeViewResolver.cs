@@ -1,5 +1,6 @@
 ﻿using Assets.EcsRx.Examples.SceneFirstSetup.Components;
 using EcsRx.Entities;
+using EcsRx.Events;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Pools;
@@ -18,7 +19,7 @@ namespace Assets.EcsRx.Examples.SceneFirstSetup.ViewResolvers
             get { return base.TargetGroup.WithComponent<CubeComponent>(); }
         }
 
-        public CubeViewResolver(IPoolManager poolManager, IInstantiator instantiator) : base(poolManager, instantiator) {}
+        public CubeViewResolver(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator) : base(poolManager, eventSystem, instantiator) {}
 
         public override GameObject ResolveView(IEntity entity)
         {

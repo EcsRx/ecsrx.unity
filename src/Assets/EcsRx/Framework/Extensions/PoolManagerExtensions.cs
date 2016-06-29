@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Entities;
 using EcsRx.Pools;
@@ -15,6 +16,12 @@ namespace EcsRx.Extensions
         public static IPool GetContainingPoolFor(this IPoolManager poolManager, IEntity entity)
         {
             return poolManager.Pools.SingleOrDefault(x => x.Entities.Contains(entity));
+        }
+
+        public static void RemoveEntitiesContaining(this IPoolManager poolManager, params Type[] components)
+        {
+            foreach (var pool in poolManager.Pools)
+            { pool.RemoveEntitiesContaining(components); }
         }
     }
 }

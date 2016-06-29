@@ -1,4 +1,5 @@
 ﻿using EcsRx.Entities;
+using EcsRx.Events;
 using EcsRx.Pools;
 using EcsRx.Unity.Systems;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace Assets.EcsRx.Examples.SimpleMovement.ViewResolvers
 {
     public class DefaultViewResolver : ViewResolverSystem
     {
-        public DefaultViewResolver(IPoolManager poolManager, IInstantiator instantiator) : base(poolManager, instantiator)
+        public DefaultViewResolver(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator) : base(poolManager, eventSystem, instantiator)
         {}
 
         public override GameObject ResolveView(IEntity entity)

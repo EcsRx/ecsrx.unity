@@ -157,6 +157,7 @@
     <Compile Include="Assets\EcsRx\Framework\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\IGroupExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\IListExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Extensions\IPoolExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\ISystemExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\PoolManagerExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\EmptyGroup.cs" />

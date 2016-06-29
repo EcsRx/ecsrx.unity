@@ -1,5 +1,6 @@
 ﻿using Assets.EcsRx.Examples.GameObjectBinding.components;
 using EcsRx.Entities;
+using EcsRx.Events;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Pools;
@@ -16,7 +17,7 @@ namespace Assets.EcsRx.Examples.GameObjectBinding
             get { return base.TargetGroup.WithComponent<SphereComponent>(); }
         }
 
-        public SphereViewResolver(IPoolManager poolManager, IInstantiator instantiator) : base(poolManager, instantiator) { }
+        public SphereViewResolver(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator) : base(poolManager, eventSystem, instantiator) { }
 
         public override GameObject ResolveView(IEntity entity)
         {

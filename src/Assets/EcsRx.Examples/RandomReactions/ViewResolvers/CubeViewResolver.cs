@@ -1,4 +1,5 @@
 ﻿using EcsRx.Entities;
+using EcsRx.Events;
 using EcsRx.Pools;
 using EcsRx.Unity.Systems;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace Assets.EcsRx.Examples.RandomReactions.ViewResolvers
 
         private GameObject _coloredCubePrefab;
 
-        public CubeViewResolver(IPoolManager poolManager, IInstantiator instantiator) : base(poolManager, instantiator)
+        public CubeViewResolver(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator) : base(poolManager, eventSystem, instantiator)
         {
             _coloredCubePrefab = (GameObject)Resources.Load("colored-cube");
         }
