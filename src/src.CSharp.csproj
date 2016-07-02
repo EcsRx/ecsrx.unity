@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -92,12 +90,12 @@
     <Compile Include="Assets\EcsRx.Examples\GameObjectBinding\components\SphereComponent.cs" />
     <Compile Include="Assets\EcsRx.Examples\GameObjectBinding\view-resolvers\CubeViewResolver.cs" />
     <Compile Include="Assets\EcsRx.Examples\GameObjectBinding\view-resolvers\SphereViewResolver.cs" />
+    <Compile Include="Assets\EcsRx.Examples\ManualSystems\AppContainer.cs" />
+    <Compile Include="Assets\EcsRx.Examples\ManualSystems\Systems\ConstantOutputSystem.cs" />
     <Compile Include="Assets\EcsRx.Examples\ManuallyRegisterSystems\AppContainer.cs" />
     <Compile Include="Assets\EcsRx.Examples\ManuallyRegisterSystems\Installers\ManualInstaller.cs" />
     <Compile Include="Assets\EcsRx.Examples\ManuallyRegisterSystems\Systems\DefaultViewResolver.cs" />
     <Compile Include="Assets\EcsRx.Examples\ManuallyRegisterSystems\Systems\RandomMovementSystem.cs" />
-    <Compile Include="Assets\EcsRx.Examples\ManualSystems\AppContainer.cs" />
-    <Compile Include="Assets\EcsRx.Examples\ManualSystems\Systems\ConstantOutputSystem.cs" />
     <Compile Include="Assets\EcsRx.Examples\PluginExample\AppContainer.cs" />
     <Compile Include="Assets\EcsRx.Examples\PluginExample\HelloWorldPlugin\HelloWorldPlugin.cs" />
     <Compile Include="Assets\EcsRx.Examples\PluginExample\HelloWorldPlugin\components\SayHelloWorldComponent.cs" />
@@ -157,6 +155,7 @@
     <Compile Include="Assets\EcsRx\Framework\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\IGroupExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\IListExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Extensions\IManualSystemExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\IPoolExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\ISystemExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\PoolManagerExtensions.cs" />
@@ -173,6 +172,7 @@
     <Compile Include="Assets\EcsRx\Framework\Pools\Identifiers\SequentialIdentityGenerator.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\Pool.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\PoolManager.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Systems\Custom\EventReactionSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\IManualSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\IReactToDataSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\IReactToEntitySystem.cs" />
@@ -438,6 +438,5 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

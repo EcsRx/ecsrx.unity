@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Assets.EcsRx.Framework.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Events;
@@ -43,6 +44,12 @@ namespace EcsRx.Pools
         public void RemoveEntity(IEntity entity)
         {
             _entities.Remove(entity);
+
+            foreach (var component in entity.Components)
+            {
+                if(component is IDisposable)
+                { (component as IDisposable).Dispose(); }
+            }
 
             EventSystem.Publish(new EntityRemovedEvent(entity, this));
         }
