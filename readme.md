@@ -4,6 +4,10 @@
 
 EcsRx is a reactive take on the common ECS pattern with a well separated design and support for dependency injection (if you want it).
 
+## New Info!
+
+We have now also got a real-world example to view @ [grofit/ecsrx.roguelike2d](https://github.com/grofit/ecsrx.roguelike2d)
+
 ## Dependencies
 
 - UniRx (All)

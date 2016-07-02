@@ -43,7 +43,7 @@ public IObservable<GroupAccessor> ReactToGroup(GroupAccessor @group)
 
 The main benefit of this interface vs the `IReactToEntitySystem` approach is that this one will only generate a single subscription to trigger all entities in the group to be processed, where the other interface would generate a subscription per entity, so this is a much more performant way of reacting to the same thing for the entire group.
 
-### IReactToDataSystem
+### IReactToDataSystem<T>
 
 So this is the more complicated and lesser used flavour of system. It is basically the same as the `IReactToEntitySystem` however it reacts to data rather than an entity. So for example lets say you wanted to react to a collision event in unity and your system wanted to know about the entity as normal, but also the collision event that occurred. This system is the way you would do that, as its subscription passes back some data rather than an entity, here is an example:
 
@@ -69,3 +69,9 @@ dealt with.
 
 The `StartSystem` method will be triggered when the system has been added to the executor, and the `StopSystem` 
 will be triggered when the system is removed.
+
+#### EventReactionSystem<T>
+
+This is a custom implementation of the IManualSystem which acts as a shorthand way of waiting for an event then
+once it occurs running some logic based purely upon the logic within that event. (However you can override 
+it a bit to provide additional entities outside of the group if needed).
