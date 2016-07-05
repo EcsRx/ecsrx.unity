@@ -4,7 +4,7 @@ using EcsRx.Unity.Components;
 
 namespace Assets.EcsRx.Examples.RandomReactions
 {
-    public class AppContainer : EcsRxContainer
+    public class Application : EcsRxApplication
     {
         private readonly int _cubeCount = 500;
         

@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Assets.EcsRx.Examples.CustomGameObjectHandling
 {
-    public class AppContainer : EcsRxContainer
+    public class Application : EcsRxApplication
     {
         [Inject]
         public CustomViewSetupSystem CustomViewSetupSystem { get; private set; }

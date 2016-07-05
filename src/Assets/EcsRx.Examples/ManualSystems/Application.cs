@@ -2,7 +2,7 @@
 
 namespace Assets.EcsRx.Examples.ManualSystems
 {
-    public class AppContainer : EcsRxContainer
+    public class Application : EcsRxApplication
     {
         protected override void GameStarted() { }
     }

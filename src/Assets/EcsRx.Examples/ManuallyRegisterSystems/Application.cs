@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Assets.EcsRx.Examples.ManuallyRegisterSystems
 {
-    public class AppContainer : EcsRxContainer
+    public class Application : EcsRxApplication
     {
         [Inject]
         public DefaultViewResolver DefaultViewResolver { get; private set; }

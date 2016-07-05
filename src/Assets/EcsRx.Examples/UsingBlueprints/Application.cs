@@ -3,7 +3,7 @@ using EcsRx.Unity;
 
 namespace Assets.EcsRx.Examples.UsingBlueprints
 {
-    public class AppContainer : EcsRxContainer
+    public class Application : EcsRxApplication
     {
         protected override void GameStarted()
         {

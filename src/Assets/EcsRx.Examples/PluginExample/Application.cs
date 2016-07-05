@@ -3,9 +3,9 @@ using EcsRx.Unity;
 
 namespace Assets.EcsRx.Examples.PluginExample
 {
-    public class AppContainer : EcsRxContainer
+    public class Application : EcsRxApplication
     {
-        public AppContainer()
+        public Application()
         {
             RegisterPlugin(new HelloWorldPlugin.HelloWorldPlugin());
         }

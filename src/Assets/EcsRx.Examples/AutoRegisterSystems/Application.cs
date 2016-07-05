@@ -3,7 +3,7 @@ using EcsRx.Unity.Components;
 
 namespace Assets.EcsRx.Examples.AutoRegisterSystems
 {
-    public class AppContainer : EcsRxContainer
+    public class Application : EcsRxApplication
     {
         protected override void GameStarted()
         {

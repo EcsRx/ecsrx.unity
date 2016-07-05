@@ -4,7 +4,7 @@ using EcsRx.Unity.Components;
 
 namespace Assets.EcsRx.Examples.SimpleMovement
 {
-    public class AppContainer : EcsRxContainer
+    public class Application : EcsRxApplication
     {
         protected override void GameStarted()
         {
