@@ -13,7 +13,7 @@ namespace EcsRx.Pools
     {
         public const string DefaultPoolName = "default";
         
-        private IDictionary<GroupAccessorToken, IEnumerable<IEntity>> _groupAccessors;
+        private readonly IDictionary<GroupAccessorToken, IEnumerable<IEntity>> _groupAccessors;
         private IDictionary<string, IPool> _pools;
 
         public IEventSystem EventSystem { get; private set; }
@@ -54,6 +54,9 @@ namespace EcsRx.Pools
         
         public IEnumerable<IEntity> GetEntitiesFor(IGroup group, string poolName = null)
         {
+            if(group is EmptyGroup)
+            { return new IEntity[0]; }
+
             if (poolName != null)
             { return _pools[poolName].Entities.MatchingGroup(group); }
 

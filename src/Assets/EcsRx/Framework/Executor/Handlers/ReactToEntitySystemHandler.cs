@@ -17,8 +17,8 @@ namespace EcsRx.Systems.Executor.Handlers
 
         public IEnumerable<SubscriptionToken> Setup(IReactToEntitySystem system)
         {
-            var entities = PoolManager.GetEntitiesFor(system.TargetGroup);
-            return entities.ForEachRun(x => ProcessEntity(system, x));
+            var accessor = PoolManager.CreateGroupAccessor(system.TargetGroup);
+            return accessor.Entities.ForEachRun(x => ProcessEntity(system, x));
         }
 
         public SubscriptionToken ProcessEntity(IReactToEntitySystem system, IEntity entity)

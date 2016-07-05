@@ -40,7 +40,7 @@ namespace EcsRx.Tests
             var mockEntity = Substitute.For<IEntity>();
 
             var mockPoolManager = Substitute.For<IPoolManager>();
-            mockPoolManager.GetEntitiesFor(dummyGroup).Returns(new List<IEntity> { mockEntity });
+            mockPoolManager.CreateGroupAccessor(dummyGroup).Returns(new GroupAccessor(null, new[] {mockEntity}));
 
             var mockSystem = Substitute.For<IReactToEntitySystem>();
             mockSystem.TargetGroup.Returns(dummyGroup);
