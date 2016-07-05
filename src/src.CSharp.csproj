@@ -136,6 +136,7 @@
     <Compile Include="Assets\EcsRx\Framework\Events\EntityRemovedEvent.cs" />
     <Compile Include="Assets\EcsRx\Framework\Events\EventSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Events\IEventSystem.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Events\OptimisedEventSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Events\PoolAddedEvent.cs" />
     <Compile Include="Assets\EcsRx\Framework\Events\PoolRemovedEvent.cs" />
     <Compile Include="Assets\EcsRx\Framework\Executor\Handlers\IManualSystemHandler.cs" />
