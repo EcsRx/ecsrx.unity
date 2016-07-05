@@ -13,16 +13,13 @@ namespace Assets.EcsRx.Examples.ManuallyRegisterSystems
         [Inject]
         public RandomMovementSystem RandomMovementSystem { get; private set; }
         
-        protected override void SetupSystems()
-        {
-            SystemExecutor.AddSystem(DefaultViewResolver);
-            SystemExecutor.AddSystem(RandomMovementSystem);
-        }
-
-        protected override void SetupEntities()
+        protected override void GameStarted()
         {
             var defaultPool = PoolManager.GetPool();
 
+            SystemExecutor.AddSystem(DefaultViewResolver);
+            SystemExecutor.AddSystem(RandomMovementSystem);
+            
             var entity = defaultPool.CreateEntity();
             entity.AddComponent(new ViewComponent());
         }

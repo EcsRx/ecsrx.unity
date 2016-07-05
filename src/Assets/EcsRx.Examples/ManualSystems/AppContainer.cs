@@ -1,12 +1,9 @@
-﻿using Assets.EcsRx.Examples.SceneFirstSetup.Components;
-using EcsRx.Unity;
-using EcsRx.Unity.Components;
+﻿using EcsRx.Unity;
 
 namespace Assets.EcsRx.Examples.ManualSystems
 {
     public class AppContainer : EcsRxContainer
     {
-        protected override void SetupSystems() { }
-        protected override void SetupEntities() { }
+        protected override void GameStarted() { }
     }
 }

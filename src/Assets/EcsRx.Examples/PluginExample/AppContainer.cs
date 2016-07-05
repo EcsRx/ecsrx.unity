@@ -9,10 +9,8 @@ namespace Assets.EcsRx.Examples.PluginExample
         {
             RegisterPlugin(new HelloWorldPlugin.HelloWorldPlugin());
         }
-
-        protected override void SetupSystems() { }
-
-        protected override void SetupEntities()
+        
+        protected override void GameStarted()
         {
             var defaultPool = PoolManager.GetPool();
             var entity = defaultPool.CreateEntity();

@@ -29,12 +29,10 @@ namespace EcsRx.Unity
         {
             RegisterAllPluginDependencies(container);
             SetupAllPluginSystems(container);
-            SetupSystems();
-            SetupEntities();
+            GameStarted();
         }
 
-        protected abstract void SetupSystems();
-        protected abstract void SetupEntities();
+        protected abstract void GameStarted();
 
         protected virtual void RegisterAllPluginDependencies(DiContainer container)
         { Plugins.ForEachRun(x => x.SetupDependencies(container)); }

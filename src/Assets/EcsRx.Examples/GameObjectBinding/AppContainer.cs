@@ -6,9 +6,7 @@ namespace Assets.EcsRx.Examples.GameObjectBinding
 {
     public class AppContainer : EcsRxContainer
     {
-        protected override void SetupSystems() { }
-
-        protected override void SetupEntities()
+        protected override void GameStarted()
         {
             var defaultPool = PoolManager.GetPool();
 

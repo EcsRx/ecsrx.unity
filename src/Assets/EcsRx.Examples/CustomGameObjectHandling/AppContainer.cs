@@ -16,15 +16,12 @@ namespace Assets.EcsRx.Examples.CustomGameObjectHandling
         [Inject]
         public CameraFollowSystem CameraFollowSystem { get; private set; }
 
-        protected override void SetupSystems()
+        protected override void GameStarted()
         {
             SystemExecutor.AddSystem(CustomViewSetupSystem);
             SystemExecutor.AddSystem(PlayerControlSystem);
             SystemExecutor.AddSystem(CameraFollowSystem);
-        }
 
-        protected override void SetupEntities()
-        {
             var defaultPool = PoolManager.GetPool();
             var viewEntity = defaultPool.CreateEntity();
             viewEntity.AddComponent(new CustomViewComponent());
