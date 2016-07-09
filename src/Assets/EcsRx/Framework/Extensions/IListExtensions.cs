@@ -9,5 +9,11 @@ namespace EcsRx.Extensions
     {
         public static IEnumerable<SubscriptionToken> GetTokensFor(this IList<SubscriptionToken> subscriptionTokens, IEntity entity)
         { return subscriptionTokens.Where(x => x.AssociatedObject == entity); }
+
+        public static void RemoveAll<T>(this IList<T> list, IEnumerable<T> elementsToRemove)
+        {
+            elementsToRemove.ToArray()
+                .ForEachRun(x => list.Remove(x));
+        }
     }
 }

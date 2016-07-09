@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EcsRx.Extensions;
 using UnityEngine;
 using Zenject;
 
@@ -25,14 +26,27 @@ namespace Assets.EcsRx.Unity.ViewPooling
             for (var i = 0; i < allocationCount; i++)
             {
                 var newInstance = _instantiator.InstantiatePrefab(Prefab);
+                newInstance.SetActive(false);
                 var objectContainer = new ViewObjectContainer(newInstance);
                 _pooledObjects.Add(objectContainer);
             }
         }
 
+        public void DeAllocate(int dellocationCount)
+        {
+            _pooledObjects.Where(x => !x.IsInUse)
+                .Take(dellocationCount)
+                .ToArray()
+                .ForEachRun(x =>
+                {
+                    _pooledObjects.Remove(x);
+                    Object.Destroy(x.ViewObject);
+                });
+        }
+
         public GameObject AllocateInstance()
         {
-            var availableViewObject = _pooledObjects.First(x => !x.IsInUse);
+            var availableViewObject = _pooledObjects.FirstOrDefault(x => !x.IsInUse);
             if (availableViewObject == null)
             {
                 PreAllocate(IncrementSize);
@@ -45,7 +59,7 @@ namespace Assets.EcsRx.Unity.ViewPooling
         
         public void ReleaseInstance(GameObject instance)
         {
-            var container = _pooledObjects.First(x => x.ViewObject == instance);
+            var container = _pooledObjects.FirstOrDefault(x => x.ViewObject == instance);
             if(container == null) { return; }
 
             container.IsInUse = false;

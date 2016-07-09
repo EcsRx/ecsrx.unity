@@ -1,4 +1,3 @@
-﻿using Assets.EcsRx.Unity.ViewPooling;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
@@ -6,7 +5,6 @@ using EcsRx.Groups;
 using EcsRx.Pools;
 using EcsRx.Systems;
 using EcsRx.Unity.Components;
-using EcsRx.Unity.MonoBehaviours;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -18,43 +16,26 @@ namespace EcsRx.Unity.Systems
         public IPoolManager PoolManager { get; private set; }
         public IEventSystem EventSystem { get; private set; }
         public IInstantiator Instantiator { get; private set; }
-        public IViewPool ViewPool { get; private set; }
+
+        protected GameObject PrefabTemplate { get; set; }
 
         public virtual IGroup TargetGroup
         {
             get { return new Group(typeof(ViewComponent)); }
         }
-
-        protected abstract GameObject ResolvePrefabTemplate();
-
+        
         protected PooledViewResolverSystem(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator)
         {
             PoolManager = poolManager;
             Instantiator = instantiator;
             EventSystem = eventSystem;
 
-            var prefab = ResolvePrefabTemplate();
-            ViewPool = new ViewPool(instantiator, prefab);
+            PrefabTemplate = ResolvePrefabTemplate();
         }
-
-        protected virtual void RecycleView(GameObject viewToRecycle)
-        {
-            viewToRecycle.transform.parent = null;
-
-            var entityView = viewToRecycle.GetComponent<EntityView>();
-            entityView.Entity = null;
-            entityView.Pool = null;
-            ViewPool.ReleaseInstance(viewToRecycle);
-        }
-
-        protected virtual GameObject AllocateView(IEntity entity, IPool pool)
-        {
-            var viewToAllocate = ViewPool.AllocateInstance();
-            var entityView = viewToAllocate.GetComponent<EntityView>();
-            entityView.Entity = entity;
-            entityView.Pool = pool;
-            return viewToAllocate;
-        }
+        
+        protected abstract GameObject ResolvePrefabTemplate();
+        protected abstract void RecycleView(GameObject viewToRecycle);
+        protected abstract GameObject AllocateView(IEntity entity, IPool pool);
 
         public virtual void Setup(IEntity entity)
         {
@@ -64,7 +45,7 @@ namespace EcsRx.Unity.Systems
             var containingPool = PoolManager.GetContainingPoolFor(entity);
             var viewObject = AllocateView(entity, containingPool);
             viewComponent.View = viewObject;
-            
+
             EventSystem.Receive<EntityRemovedEvent>()
                 .First(x => x.Entity == entity)
                 .Subscribe(x => RecycleView(viewObject));
