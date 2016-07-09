@@ -196,7 +196,11 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\PoolManagerViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\SetupView.cs" />
     <Compile Include="Assets\EcsRx\Unity\Plugins\IEcsRxPlugin.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Systems\PooledViewResolverSystem.cs" />
     <Compile Include="Assets\EcsRx\Unity\Systems\ViewResolverSystem.cs" />
+    <Compile Include="Assets\EcsRx\Unity\ViewPooling\IViewPool.cs" />
+    <Compile Include="Assets\EcsRx\Unity\ViewPooling\ViewObjectContainer.cs" />
+    <Compile Include="Assets\EcsRx\Unity\ViewPooling\ViewPool.cs" />
     <Compile Include="Assets\Tests\PoolManagerTests.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\AssertionComponent.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\AssertionException.cs" />
@@ -441,5 +445,6 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

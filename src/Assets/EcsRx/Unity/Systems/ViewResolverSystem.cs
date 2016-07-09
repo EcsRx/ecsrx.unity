@@ -82,7 +82,6 @@ namespace EcsRx.Unity.Systems
 
                     DestroyView(viewObject);
                 });
-            
         }
     }
 }
