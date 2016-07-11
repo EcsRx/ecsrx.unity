@@ -46,10 +46,13 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\ActiveSystemsViewerInspector.cs" />
-     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EntityBindingInspector.cs" />
      <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EntityViewInspector.cs" />
+     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Extensions\EditorExtensions.cs" />
      <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\PoolManagerViewerInspector.cs" />
+     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\RegisterAsEntityInspector.cs" />
+     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\SetupViewInspector.cs" />
      <Compile Include="Assets\Tests\Editor\Components\TestComponentOne.cs" />
+     <Compile Include="Assets\Tests\Editor\Components\TestComponentThree.cs" />
      <Compile Include="Assets\Tests\Editor\Components\TestComponentTwo.cs" />
      <Compile Include="Assets\Tests\Editor\EntityTests.cs" />
      <Compile Include="Assets\Tests\Editor\ISystemExtensionTests.cs" />
