@@ -1,49 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Assets.EcsRx.Unity.Extensions;
-using EcsRx.Components;
+﻿using Assets.EcsRx.Unity.Extensions;
 using EcsRx.Json;
+using EcsRx.Unity.Components;
 using EcsRx.Unity.Helpers.Extensions;
 using EcsRx.Unity.MonoBehaviours;
 using UniRx;
-using UnityEditor;
-using UnityEngine;
 
 namespace EcsRx.Unity.Helpers
 {
-    [CustomEditor(typeof(EntityView))]
-    public class EntityViewInspector : Editor
-    {
-        private EntityView _entityView;
+    using UnityEngine;
+    using UnityEditor;
+    using System.Collections.Generic;
+    using EcsRx.Components;
+    using System;
+    using System.Linq;
 
-        public bool showComponents;
+    [CustomEditor(typeof(SetupView))]
+    [Serializable]
+    public partial class SetupViewInspector : Editor
+    {
+        private SetupView _setupView;
 
         private readonly IEnumerable<Type> allComponentTypes = AppDomain.CurrentDomain.GetAssemblies()
                                 .SelectMany(s => s.GetTypes())
-                                .Where(p => typeof(IComponent).IsAssignableFrom(p) && p.IsClass);
+                                .Where(p => typeof(IComponent).IsAssignableFrom(p) && p.IsClass && !typeof(ViewComponent).IsAssignableFrom(p));
 
+        private bool showComponents;
 
         private void PoolSection()
         {
             this.UseVerticalBoxLayout(() =>
             {
-                if (GUILayout.Button("Destroy Entity"))
-                {
-                    _entityView.Pool.RemoveEntity(_entityView.Entity);
-                    Destroy(_entityView.gameObject);
-                }
-
-                this.UseVerticalBoxLayout(() =>
-                {
-                    var id = _entityView.Entity.Id.ToString();
-                    this.WithLabelField("Entity Id: ", id);
-                });
-
-                this.UseVerticalBoxLayout(() =>
-                {
-                    this.WithLabelField("Pool: ", _entityView.Pool.Name);
-                });
+                _setupView.PoolName = this.WithTextField("Pool: ", _setupView.PoolName);
             });
         }
 
@@ -52,7 +39,7 @@ namespace EcsRx.Unity.Helpers
             EditorGUILayout.BeginVertical(EditorExtensions.DefaultBoxStyle);
             this.WithHorizontalLayout(() =>
             {
-                this.WithLabel("Components (" + _entityView.Entity.Components.Count() + ")");
+                this.WithLabel("Components (" + _setupView.Components.Count() + ")");
                 if (this.WithIconButton("▸")) { showComponents = false; }
                 if (this.WithIconButton("▾")) { showComponents = true; }
             });
@@ -60,13 +47,14 @@ namespace EcsRx.Unity.Helpers
             var componentsToRemove = new List<int>();
             if (showComponents)
             {
-                for (var i = 0; i < _entityView.Entity.Components.Count(); i++)
+                for (var i = 0; i < _setupView.Components.Count(); i++)
                 {
                     this.UseVerticalBoxLayout(() =>
                     {
-                        var componentType = _entityView.Entity.Components.ElementAt(i).GetType();
-                        var typeName = componentType.Name;
-                        var typeNamespace = componentType.Namespace;
+                        var componentType = _setupView.Components[i];
+                        var namePortions = componentType.Split(',')[0].Split('.');
+                        var typeName = namePortions.Last();
+                        var typeNamespace = string.Join(".", namePortions.Take(namePortions.Length - 1).ToArray());
 
                         this.WithVerticalLayout(() =>
                         {
@@ -93,8 +81,8 @@ namespace EcsRx.Unity.Helpers
 
             for (var i = 0; i < componentsToRemove.Count(); i++)
             {
-                var component = _entityView.Entity.Components.ElementAt(i);
-                _entityView.Entity.RemoveComponent(component);
+                _setupView.Components.RemoveAt(componentsToRemove[i]);
+                _setupView.Properties.RemoveAt(componentsToRemove[i]);
             }
         }
 
@@ -111,9 +99,52 @@ namespace EcsRx.Unity.Helpers
             return null;
         }
 
+		public static Type TryGetConvertedType(string typeName)
+		{
+			var type = Type.GetType(typeName);
+			var namePortions = typeName.Split(',')[0].Split('.');
+			typeName = namePortions.Last();
+
+			foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
+			{
+				Type[] assemblyTypes = a.GetTypes();
+				for (int j = 0; j < assemblyTypes.Length; j++)
+				{
+					if (typeName == assemblyTypes[j].Name)
+					{
+						type = assemblyTypes [j];
+						if (type != null)
+						{
+							return type;
+						}
+					}
+				}
+			}
+			return null;
+		}
+
         private void ShowComponentProperties(int index)
         {
-            var component = _entityView.Entity.Components.ElementAt(index);
+            var type = GetTypeWithAssembly(_setupView.Components[index]);
+			if (type == null)
+			{
+				if (GUILayout.Button ("TYPE NOT FOUND. TRY TO CONVERT TO BEST MATCH?"))
+				{
+					type = TryGetConvertedType (_setupView.Components [index]);
+					if (type == null)
+					{
+						Debug.LogWarning ("UNABLE TO CONVERT " + _setupView.Components [index]);
+						return;
+					}
+				}
+				else
+				{
+					return;
+				}
+			}
+            var component = Activator.CreateInstance(type);
+            var node = JSON.Parse(_setupView.Properties[index]);
+            component.DeserializeComponent(node);
 
             var members = component.GetType().GetMembers();
             foreach (var property in component.GetType().GetProperties())
@@ -223,6 +254,9 @@ namespace EcsRx.Unity.Helpers
                 {
                     property.SetValue(component, _value, null);
                 }
+                _setupView.Components[index] = component.GetType().ToString();
+                var json = component.SerializeComponent();
+                _setupView.Properties[index] = json.ToString();
                 EditorGUILayout.EndHorizontal();
             }
         }
@@ -232,7 +266,7 @@ namespace EcsRx.Unity.Helpers
             this.UseVerticalBoxLayout(() =>
             {
                 var availableTypes = allComponentTypes
-                    .Where(x => !_entityView.Entity.Components.Select(y => y.GetType()).Contains(x))
+                    .Where(x => !_setupView.Components.Contains(x.ToString()))
                     .ToArray();
 
                 var types = availableTypes.Select(x => string.Format("{0} [{1}]", x.Name, x.Namespace)).ToArray();
@@ -240,26 +274,30 @@ namespace EcsRx.Unity.Helpers
                 index = EditorGUILayout.Popup("Add Component", index, types);
                 if (index >= 0)
                 {
-                    var component = (IComponent)Activator.CreateInstance(availableTypes[index]);
-                    _entityView.Entity.AddComponent(component);
+                    var component = availableTypes.ElementAt(index);
+                    var componentName = component.ToString();
+                    _setupView.Components.Add(componentName);
+                    var json = component.SerializeComponent();
+                    _setupView.Properties.Add(json.ToString());
                 }
             });
         }
 
+        private void PersistChanges()
+        {
+            if (GUI.changed)
+            { this.SaveActiveSceneChanges(); }
+        }
+
         public override void OnInspectorGUI()
         {
-            _entityView = (EntityView)target;
-
-            if (_entityView.Entity == null)
-            {
-                EditorGUILayout.LabelField("No Entity Assigned");
-                return;
-            }
-
+            _setupView = (SetupView)target;
+            
             PoolSection();
             EditorGUILayout.Space();
             ComponentSelectionSection();
             ComponentListings();
+            PersistChanges();
         }
     }
 }
