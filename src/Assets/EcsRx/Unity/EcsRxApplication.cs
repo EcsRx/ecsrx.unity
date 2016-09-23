@@ -17,21 +17,18 @@ namespace EcsRx.Unity
         [Inject]
         public IPoolManager PoolManager { get; private set; }
 
-        protected List<IEcsRxPlugin> Plugins { get; private set; }
-
-        protected EcsRxApplication()
-        {
-            Plugins = new List<IEcsRxPlugin>();
-        }
+        protected List<IEcsRxPlugin> Plugins = new List<IEcsRxPlugin>();
 
         [Inject]
         private void Init(DiContainer container)
         {
+            GameStarting();
             RegisterAllPluginDependencies(container);
             SetupAllPluginSystems(container);
             GameStarted();
         }
 
+        protected virtual void GameStarting() { }
         protected abstract void GameStarted();
 
         protected virtual void RegisterAllPluginDependencies(DiContainer container)

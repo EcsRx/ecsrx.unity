@@ -5,7 +5,7 @@ namespace Assets.EcsRx.Examples.PluginExample
 {
     public class Application : EcsRxApplication
     {
-        public Application()
+        protected override void GameStarting()
         {
             RegisterPlugin(new HelloWorldPlugin.HelloWorldPlugin());
         }
