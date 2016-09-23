@@ -16,6 +16,25 @@ We have now also got a real-world example to view @ [grofit/ecsrx.roguelike2d](h
 
 The core framework only depends upon UniRx however the unity bridge part of the framework depends upon zenject, however feel free to create your own unity bridge to consume the core framework if you do not want the dependency.
 
+## Features
+
+### Core
+- Simple ECS interfaces to follow
+- Fully reactive architecture
+- Favours composition over inheritance
+- Adheres to inversion of control
+- Lightweight codebase 
+- Built in support for events (raise your own and react to them)
+- Built in support for pooling (easy to add your own implementation or wrap 3rd party pooling tools)
+- Built in support for plugins (wrap up your own components and systems and share them with others)
+
+### Unity Bridge
+- Simple unity conventions to follow (if you dont like it, easy enough to roll your own)
+- Built in support for editor viewing and editing of components
+- Built in support for dependency injection via Zenject
+- Lots of extension and architectural helpers to help MonoBehaviours interact with the core framework
+- Plays nicely with scene first style setups
+
 ## Installation
 
 You can take the unitypackage installation file from the relevent release, there are 2 files.
