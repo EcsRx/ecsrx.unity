@@ -9,7 +9,7 @@ namespace Assets.EcsRx.Unity.Extensions
 {
     public static class GameObjectExtensions
     {
-        public static void BindEntity(this GameObject gameObject, IEntity entity, IPool withinPool)
+        public static void LinkEntity(this GameObject gameObject, IEntity entity, IPool withinPool)
         {
             if(gameObject.GetComponent<EntityView>())
             { throw new Exception("GameObject already has an EntityView monobehaviour applied"); }
