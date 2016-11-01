@@ -19,7 +19,11 @@ namespace EcsRx.Unity.Installers
         {
             Container.Bind<ISystem>().To(x => x.AllTypes().DerivingFrom<ISystem>().InNamespaces(SystemNamespaces)).AsSingle();
             Container.Bind(x => x.AllTypes().DerivingFrom<ISystem>().InNamespaces(SystemNamespaces)).AsSingle();
+        }
 
+        public override void Start()
+        {
+            base.Start();
             RegisterSystems();
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using EcsRx.Entities;
+﻿using EcsRx.Entities;
 using EcsRx.Pools;
 using UnityEngine;
 
