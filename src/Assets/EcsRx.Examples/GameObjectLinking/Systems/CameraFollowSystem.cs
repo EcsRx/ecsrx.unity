@@ -8,7 +8,12 @@ namespace Assets.EcsRx.Examples.GameObjectLinking.Systems
 {
     public class ChangeScaleOnLinkingSystem : ISetupSystem
     {
-        public IGroup TargetGroup { get { return new Group(typeof(ViewComponent));  } }
+        private readonly IGroup _targetSystem = new Group(x => {
+            var viewComponent = x.GetComponent<ViewComponent>();
+            return viewComponent.View != null;
+        }, typeof(ViewComponent));
+
+        public IGroup TargetGroup { get { return _targetSystem; } }
 
         public void Setup(IEntity entity)
         {

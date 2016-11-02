@@ -6,6 +6,11 @@ namespace Assets.EcsRx.Examples.GameObjectLinking
 {
     public class Application : EcsRxApplication
     {
+        protected override void GameStarting()
+        {
+            RegisterAllBoundSystems();
+        }
+
         protected override void GameStarted()
         {
             var defaultPool = PoolManager.GetPool();

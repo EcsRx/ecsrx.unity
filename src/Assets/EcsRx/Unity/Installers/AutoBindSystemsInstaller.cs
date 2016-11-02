@@ -13,7 +13,6 @@ namespace EcsRx.Unity.Installers
 
         public override void InstallBindings()
         {
-            
             Container.Bind<ISystem>().To(x => x.AllTypes().DerivingFrom<ISystem>().InNamespaces(SystemNamespaces)).AsSingle();
             Container.Bind(x => x.AllTypes().DerivingFrom<ISystem>().InNamespaces(SystemNamespaces)).AsSingle();
         }

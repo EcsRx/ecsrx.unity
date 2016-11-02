@@ -6,6 +6,11 @@ namespace Assets.EcsRx.Examples.SimpleMovement
 {
     public class Application : EcsRxApplication
     {
+        protected override void GameStarting()
+        {
+            RegisterAllBoundSystems();
+        }
+
         protected override void GameStarted()
         {
             var defaultPool = PoolManager.GetPool();

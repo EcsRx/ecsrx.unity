@@ -7,6 +7,7 @@ namespace Assets.EcsRx.Examples.PluginExample
     {
         protected override void GameStarting()
         {
+            RegisterAllBoundSystems();
             RegisterPlugin(new HelloWorldPlugin.HelloWorldPlugin());
         }
         
