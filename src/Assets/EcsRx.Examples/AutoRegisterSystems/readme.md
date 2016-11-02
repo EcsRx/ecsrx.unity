@@ -1,6 +1,8 @@
 # Auto System Registration Example
 
-This example shows you how you can automatically load systems up based upon containing namespaces. This allows you to get your systems within the containing namespaces setup for free without needing to explicitly use them via the `AppContainer`.
+This example shows you how you can automatically load systems up based upon containing namespaces. 
+This allows you to get your systems within the containing namespaces bound for free without needing to 
+explicitly inject them anywhere and manually bind them, so you can just call `RegisterAllBoundSystems` in the application.
 
 It shows the basics of:
 
