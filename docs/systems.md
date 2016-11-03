@@ -75,3 +75,13 @@ will be triggered when the system is removed.
 This is a custom implementation of the IManualSystem which acts as a shorthand way of waiting for an event then
 once it occurs running some logic based purely upon the logic within that event. (However you can override 
 it a bit to provide additional entities outside of the group if needed).
+
+## System Loading Order
+
+So by default (with the default implementation of `ISystemExecutor`) systems will load in the order of:
+
+1. Implementations of `ISetupSystem`
+2. Implementations of `IReactToEntitySystem`
+3. Other Systems
+
+However within those groupings it will load the systems in whatever order Zenject (assuming you are using it) provides them, however there is a way to enforce some level of priority by applying the `[Priority(1)]` attribute, this allows you to specify the priority of how systems should be loaded. The ordering will be from lowest to highest so if you have a priority of 1 it will load before a system with a priority of 10.
