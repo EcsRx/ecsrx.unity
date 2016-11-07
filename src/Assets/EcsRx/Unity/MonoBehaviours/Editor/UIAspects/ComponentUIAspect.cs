@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using Assets.EcsRx.Unity.Extensions;
 using EcsRx.Components;
-using EcsRx.Json;
 using EcsRx.Unity.Helpers.EditorInputs;
 using UnityEditor;
 using UnityEngine;
@@ -33,20 +30,18 @@ namespace EcsRx.Unity.Helpers.UIAspects
             var type = AttemptGetType(componentTypeName);
             return (T)Activator.CreateInstance(type);
         }
-
-        public static void ShowComponentProperties<T>(T component, IList<string> properties, int index)
-            where T: IComponent
+        
+        public static void ShowComponentProperties<T>(T component)
+            where T : IComponent
         {
-            var node = JSON.Parse(properties[index]);
-            component.DeserializeComponent(node);
-
-            foreach (var property in component.GetType().GetProperties())
+            var componentProperties = component.GetType().GetProperties();
+            foreach (var property in componentProperties)
             {
                 EditorGUILayout.BeginHorizontal();
                 var propertyType = property.PropertyType;
                 var propertyValue = property.GetValue(component, null);
 
-                var handler = DefaultEditorInputRegistry.GetHandlerFor(propertyValue);
+                var handler = DefaultEditorInputRegistry.GetHandlerFor(propertyType);
                 if (handler == null)
                 {
                     Debug.LogWarning("This type is not supported: " + propertyType.Name + " - In component: " + component.GetType().Name);
@@ -58,10 +53,10 @@ namespace EcsRx.Unity.Helpers.UIAspects
                 if (updatedValue != null)
                 { property.SetValue(component, updatedValue, null); }
 
-                var json = component.SerializeComponent();
-                properties[index] = json.ToString();
                 EditorGUILayout.EndHorizontal();
             }
-        }
+        } 
+         
+
     }
 }

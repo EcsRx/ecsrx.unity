@@ -86,11 +86,9 @@ namespace EcsRx.Unity.Helpers
                             EditorGUILayout.LabelField(typeNamespace);
                             EditorGUILayout.Space();
                         });
-
-                        ShowComponentProperties(currentIndex);
-                        //var component = _entityView.Entity.Components.ElementAt(currentIndex);
-                        //var properties = component.GetType().GetProperties();
-                        //ComponentUIAspect.ShowComponentProperties(component, properties, currentIndex);
+                        
+                        var component = _entityView.Entity.Components.ElementAt(currentIndex);
+                        ComponentUIAspect.ShowComponentProperties(component);
                     });
                 }
             }
@@ -115,32 +113,6 @@ namespace EcsRx.Unity.Helpers
                     return type;
             }
             return null;
-        }
-
-        private void ShowComponentProperties(int index)
-        {
-            var component = _entityView.Entity.Components.ElementAt(index);
-            
-            foreach (var property in component.GetType().GetProperties())
-            {
-                EditorGUILayout.BeginHorizontal();
-                var propertyType = property.PropertyType;
-                var propertyValue = property.GetValue(component, null);
-
-                var handler = DefaultEditorInputRegistry.GetHandlerFor(propertyValue);
-                if (handler == null)
-                {
-                    Debug.LogWarning("This type is not supported: " + propertyType.Name + " - In component: " + component.GetType().Name);
-                    continue;
-                }
-
-                var updatedValue = handler.CreateUI(property.Name, propertyValue);
-
-                if (updatedValue != null)
-                { property.SetValue(component, updatedValue, null); }
-
-                EditorGUILayout.EndHorizontal();
-            }
         }
 
         private void ComponentSelectionSection()

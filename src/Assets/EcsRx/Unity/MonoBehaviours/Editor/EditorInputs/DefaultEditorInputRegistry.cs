@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ namespace EcsRx.Unity.Helpers.EditorInputs
             });
         }
 
-        public static IEditorInput GetHandlerFor(object value)
-        { return _editorInputRegistry.GetHandlerFor(value); }
+        public static IEditorInput GetHandlerFor(Type type)
+        { return _editorInputRegistry.GetHandlerFor(type); }
     }
 }

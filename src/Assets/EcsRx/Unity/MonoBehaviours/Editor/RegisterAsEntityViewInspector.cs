@@ -4,7 +4,6 @@ using EcsRx.Unity.Components;
 using EcsRx.Unity.Helpers.Extensions;
 using EcsRx.Unity.Helpers.UIAspects;
 using EcsRx.Unity.MonoBehaviours;
-using UniRx;
 
 namespace EcsRx.Unity.Helpers
 {
@@ -77,7 +76,14 @@ namespace EcsRx.Unity.Helpers
 
                         var componentTypeName = _registerAsEntity.Components[currentIndex];
                         var component = ComponentUIAspect.InstantiateDefaultComponent<IComponent>(componentTypeName);
-                        ComponentUIAspect.ShowComponentProperties(component, _registerAsEntity.Properties, currentIndex);
+                        var editorPropertyValue = _registerAsEntity.ComponentEditorState[currentIndex];
+                        var componentJson = JSON.Parse(editorPropertyValue);
+                        component.DeserializeComponent(componentJson);
+
+                        ComponentUIAspect.ShowComponentProperties(component);
+
+                        componentJson = component.SerializeComponent();
+                        _registerAsEntity.ComponentEditorState[currentIndex] = componentJson.ToString();
                     });
                 }
             }
@@ -87,7 +93,7 @@ namespace EcsRx.Unity.Helpers
             for (var i = 0; i < componentsToRemove.Count(); i++)
             {
                 _registerAsEntity.Components.RemoveAt(componentsToRemove[i]);
-                _registerAsEntity.Properties.RemoveAt(componentsToRemove[i]);
+                _registerAsEntity.ComponentEditorState.RemoveAt(componentsToRemove[i]);
             }
         }
         
@@ -109,7 +115,7 @@ namespace EcsRx.Unity.Helpers
                     var componentName = component.ToString();
                     _registerAsEntity.Components.Add(componentName);
                     var json = component.SerializeComponent();
-                    _registerAsEntity.Properties.Add(json.ToString());
+                    _registerAsEntity.ComponentEditorState.Add(json.ToString());
                 }
             });
         }

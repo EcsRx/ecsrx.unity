@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,9 +13,9 @@ namespace EcsRx.Unity.Helpers.EditorInputs
             Handlers = handlers;
         }
 
-        public IEditorInput GetHandlerFor(object value)
+        public IEditorInput GetHandlerFor(Type type)
         {
-            return Handlers.SingleOrDefault(x => x.HandlesType(value.GetType()));
+            return Handlers.SingleOrDefault(x => x.HandlesType(type));
         }
     }
 }
