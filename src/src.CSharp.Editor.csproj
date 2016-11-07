@@ -119,6 +119,7 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\EditorInputRegistry.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\EnumEditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\FloatEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\GameObjectEditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\IntEditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ReactiveBoolEditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ReactiveBoundsEditorInput.cs" />
@@ -139,7 +140,7 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Helpers\TypeHelper.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\PoolManagerViewerInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\RegisterAsEntityViewInspector.cs" />
-    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\UIAspects\ComponentPropertiesDisplay.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\UIAspects\ComponentUIAspect.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\IEditorInput.cs" />
     <Compile Include="Assets\Tests\Editor\Components\TestComponentOne.cs" />
     <Compile Include="Assets\Tests\Editor\Components\TestComponentThree.cs" />

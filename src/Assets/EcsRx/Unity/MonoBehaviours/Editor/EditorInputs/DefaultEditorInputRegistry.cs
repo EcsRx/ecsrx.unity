@@ -29,7 +29,8 @@ namespace EcsRx.Unity.Helpers.EditorInputs
                 new ReactiveVector3EditorInput(),
                 new ReactiveColorEditorInput(),
                 new ReactiveBoundsEditorInput(),
-                new ReactiveRectEditorInput()
+                new ReactiveRectEditorInput(),
+                new GameObjectEditorInput()
             });
         }
 

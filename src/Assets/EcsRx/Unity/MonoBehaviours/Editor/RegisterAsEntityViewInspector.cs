@@ -46,13 +46,15 @@ namespace EcsRx.Unity.Helpers
             });
 
             var componentsToRemove = new List<int>();
+            var componentCount = _registerAsEntity.Components.Count();
             if (showComponents)
             {
-                for (var i = 0; i < _registerAsEntity.Components.Count(); i++)
+                for (var i = 0; i < componentCount; i++)
                 {
+                    var currentIndex = i;
                     this.UseVerticalBoxLayout(() =>
                     {
-                        var componentType = _registerAsEntity.Components[i];
+                        var componentType = _registerAsEntity.Components[currentIndex];
                         var namePortions = componentType.Split(',')[0].Split('.');
                         var typeName = namePortions.Last();
                         var typeNamespace = string.Join(".", namePortions.Take(namePortions.Length - 1).ToArray());
@@ -63,7 +65,7 @@ namespace EcsRx.Unity.Helpers
                             {
                                 if (this.WithIconButton("-"))
                                 {
-                                    componentsToRemove.Add(i);
+                                    componentsToRemove.Add(currentIndex);
                                 }
 
                                 this.WithLabel(typeName);
@@ -73,7 +75,9 @@ namespace EcsRx.Unity.Helpers
                             EditorGUILayout.Space();
                         });
 
-                        ComponentPropertiesDisplay.ShowComponentProperties(_registerAsEntity, i);
+                        var componentTypeName = _registerAsEntity.Components[currentIndex];
+                        var component = ComponentUIAspect.InstantiateDefaultComponent<IComponent>(componentTypeName);
+                        ComponentUIAspect.ShowComponentProperties(component, _registerAsEntity.Properties, currentIndex);
                     });
                 }
             }

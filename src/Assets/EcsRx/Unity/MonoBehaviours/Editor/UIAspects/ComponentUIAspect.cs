@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using Assets.EcsRx.Unity.Extensions;
+using EcsRx.Components;
 using EcsRx.Json;
 using EcsRx.Unity.Helpers.EditorInputs;
-using EcsRx.Unity.MonoBehaviours;
 using UnityEditor;
 using UnityEngine;
 
 namespace EcsRx.Unity.Helpers.UIAspects
 {
-    public class ComponentPropertiesDisplay
+    public class ComponentUIAspect
     {
         public static Type AttemptGetType(string typeName)
         {
@@ -26,13 +27,17 @@ namespace EcsRx.Unity.Helpers.UIAspects
             return null;
         }
 
-        public static void ShowComponentProperties(RegisterAsEntity registerAsEntity, int index)
+        public static T InstantiateDefaultComponent<T>(string componentTypeName)
+            where T : IComponent
         {
-            var value = registerAsEntity.Components[index];
-            var type = AttemptGetType(value);
+            var type = AttemptGetType(componentTypeName);
+            return (T)Activator.CreateInstance(type);
+        }
 
-            var component = Activator.CreateInstance(type);
-            var node = JSON.Parse(registerAsEntity.Properties[index]);
+        public static void ShowComponentProperties<T>(T component, IList<string> properties, int index)
+            where T: IComponent
+        {
+            var node = JSON.Parse(properties[index]);
             component.DeserializeComponent(node);
 
             foreach (var property in component.GetType().GetProperties())
@@ -53,9 +58,8 @@ namespace EcsRx.Unity.Helpers.UIAspects
                 if (updatedValue != null)
                 { property.SetValue(component, updatedValue, null); }
 
-                registerAsEntity.Components[index] = component.GetType().ToString();
                 var json = component.SerializeComponent();
-                registerAsEntity.Properties[index] = json.ToString();
+                properties[index] = json.ToString();
                 EditorGUILayout.EndHorizontal();
             }
         }
