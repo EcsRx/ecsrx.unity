@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.4.2f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -110,11 +112,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\ActiveSystemsViewerInspector.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\BoolEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\BoundsEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ColorEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\DefaultEditorInputRegistry.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\EditorInputRegistry.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\EnumEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\FloatEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\IntEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ReactiveBoolEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ReactiveBoundsEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ReactiveColorEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ReactiveFloatEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ReactiveIntEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ReactiveRectEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ReactiveStringEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ReactiveVector2EditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ReactiveVector3EditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\RectEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\SimpleEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\StringEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\Vector2EditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\Vector3EditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EntityViewInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Extensions\EditorExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Helpers\TypeHelper.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\PoolManagerViewerInspector.cs" />
-    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\RegisterAsEntityInspector.cs" />
-    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\SetupViewInspector.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\RegisterAsEntityViewInspector.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\UIAspects\ComponentPropertiesDisplay.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\IEditorInput.cs" />
     <Compile Include="Assets\Tests\Editor\Components\TestComponentOne.cs" />
     <Compile Include="Assets\Tests\Editor\Components\TestComponentThree.cs" />
     <Compile Include="Assets\Tests\Editor\Components\TestComponentTwo.cs" />
@@ -186,5 +212,6 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

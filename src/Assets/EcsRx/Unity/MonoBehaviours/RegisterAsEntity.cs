@@ -12,7 +12,7 @@ using Zenject;
 
 namespace EcsRx.Unity.MonoBehaviours
 {
-    public class SetupView : MonoBehaviour
+    public class RegisterAsEntity : MonoBehaviour
     {
         [Inject]
         public IPoolManager PoolManager { get; private set; }

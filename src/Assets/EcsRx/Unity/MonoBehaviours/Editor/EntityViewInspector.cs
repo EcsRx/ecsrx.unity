@@ -115,7 +115,7 @@ namespace EcsRx.Unity.Helpers
         {
             var component = _entityView.Entity.Components.ElementAt(index);
 
-            var members = component.GetType().GetMembers();
+            //var members = component.GetType().GetMembers();
             foreach (var property in component.GetType().GetProperties())
             {
                 bool isTypeSupported = true;

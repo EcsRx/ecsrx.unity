@@ -34,9 +34,8 @@ namespace EcsRx.Tests
             var mockIdentityGenerator = Substitute.For<IIdentityGenerator>();
             var mockEventSystem = Substitute.For<IEventSystem>();
 
-            var hasRaised = false;
             var pool = new Pool("", mockIdentityGenerator, mockEventSystem);
-            var entity =pool.CreateEntity();
+            var entity = pool.CreateEntity();
 
             mockEventSystem.Received().Publish(Arg.Is<EntityAddedEvent>(x => x.Entity == entity && x.Pool == pool));
         }
