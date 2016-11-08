@@ -1,5 +1,7 @@
 ﻿using System;
+using Assets.EcsRx.Unity.Extensions;
 using EcsRx.Components;
+using EcsRx.Json;
 using EcsRx.Unity.Helpers.EditorInputs;
 using UnityEditor;
 using UnityEngine;
@@ -22,6 +24,16 @@ namespace EcsRx.Unity.Helpers.UIAspects
                 return null;
             }
             return null;
+        }
+
+        public static IComponent RehydrateEditorComponent(string typeName, string editorStateData)
+        {
+            var component = InstantiateDefaultComponent<IComponent>(typeName);
+            if (string.IsNullOrEmpty(editorStateData)) { return component; }
+
+            var componentJson = JSON.Parse(editorStateData);
+            component.DeserializeComponent(componentJson);
+            return component;
         }
 
         public static T InstantiateDefaultComponent<T>(string componentTypeName)

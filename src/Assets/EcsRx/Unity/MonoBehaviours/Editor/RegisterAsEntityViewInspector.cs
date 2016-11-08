@@ -63,9 +63,7 @@ namespace EcsRx.Unity.Helpers
                             this.WithHorizontalLayout(() =>
                             {
                                 if (this.WithIconButton("-"))
-                                {
-                                    componentsToRemove.Add(currentIndex);
-                                }
+                                { componentsToRemove.Add(currentIndex); }
 
                                 this.WithLabel(typeName);
                             });
@@ -75,15 +73,13 @@ namespace EcsRx.Unity.Helpers
                         });
 
                         var componentTypeName = _registerAsEntity.Components[currentIndex];
-                        var component = ComponentUIAspect.InstantiateDefaultComponent<IComponent>(componentTypeName);
-                        var editorPropertyValue = _registerAsEntity.ComponentEditorState[currentIndex];
-                        var componentJson = JSON.Parse(editorPropertyValue);
-                        component.DeserializeComponent(componentJson);
+                        var editorStateValue = _registerAsEntity.ComponentEditorState[currentIndex];
+                        var component = ComponentUIAspect.RehydrateEditorComponent(componentTypeName, editorStateValue);
 
                         ComponentUIAspect.ShowComponentProperties(component);
 
-                        componentJson = component.SerializeComponent();
-                        _registerAsEntity.ComponentEditorState[currentIndex] = componentJson.ToString();
+                        var serializedData = component.SerializeComponent();
+                        _registerAsEntity.ComponentEditorState[currentIndex] = serializedData.ToString();
                     });
                 }
             }
