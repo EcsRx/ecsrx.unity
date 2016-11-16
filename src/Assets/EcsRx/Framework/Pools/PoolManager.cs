@@ -72,7 +72,9 @@ namespace EcsRx.Pools
                 _groupAccessors.Add(groupAccessorToken, entityMatches);
             }
 
-            return new GroupAccessor(groupAccessorToken, _groupAccessors[groupAccessorToken]);
+            var groupAccessor = new CacheableGroupAccessor(groupAccessorToken, _groupAccessors[groupAccessorToken], EventSystem);
+            groupAccessor.MonitorEntityChanges();
+            return groupAccessor;
         }
     }
 }
