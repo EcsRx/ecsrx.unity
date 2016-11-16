@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Assets.EcsRx.Framework.Blueprints;
+using EcsRx.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Pools.Identifiers;
 

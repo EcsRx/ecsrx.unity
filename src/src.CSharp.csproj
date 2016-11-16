@@ -170,11 +170,13 @@
     <Compile Include="Assets\EcsRx\Framework\Extensions\IPoolExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\ISystemExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\PoolManagerExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\CacheableGroupAccessor.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\EmptyGroup.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\Group.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\GroupAccessor.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\GroupBuilder.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\IGroup.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\IGroupAccessor.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\ITypeGroup.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\GroupAccessorToken.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\IPool.cs" />

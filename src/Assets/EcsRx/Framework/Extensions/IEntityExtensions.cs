@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Assets.EcsRx.Framework.Blueprints;
+using EcsRx.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Groups;
 using UniRx;

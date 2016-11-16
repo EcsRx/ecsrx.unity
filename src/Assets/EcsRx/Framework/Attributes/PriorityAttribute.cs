@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.EcsRx.Framework.Attributes
+namespace EcsRx.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class PriorityAttribute : Attribute

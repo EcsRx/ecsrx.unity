@@ -26,7 +26,7 @@ namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Systems
             cameraFollows.Camera = Camera.main;
         }
 
-        public IObservable<GroupAccessor> ReactToGroup(GroupAccessor @group)
+        public IObservable<IGroupAccessor> ReactToGroup(IGroupAccessor @group)
         {
             return Observable.EveryUpdate().Select(x => @group);
         }

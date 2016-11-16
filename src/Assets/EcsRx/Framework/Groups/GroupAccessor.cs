@@ -4,7 +4,7 @@ using EcsRx.Pools;
 
 namespace EcsRx.Groups
 {
-    public class GroupAccessor
+    public class GroupAccessor : IGroupAccessor
     {
         public GroupAccessorToken AccessorToken { get; private set; }
         public IEnumerable<IEntity> Entities { get; private set; }

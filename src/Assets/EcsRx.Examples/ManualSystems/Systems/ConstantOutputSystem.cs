@@ -14,7 +14,7 @@ namespace Assets.EcsRx.Examples.ManualSystems.Systems
         private IDisposable _updateLoop;
         private float _timesOutputted = 0;
 
-        public void StartSystem(GroupAccessor @group)
+        public void StartSystem(IGroupAccessor @group)
         {
             _updateLoop = Observable.Interval(TimeSpan.FromSeconds(2)).Subscribe(x =>
             {
@@ -22,7 +22,7 @@ namespace Assets.EcsRx.Examples.ManualSystems.Systems
             });
         }
 
-        public void StopSystem(GroupAccessor @group)
+        public void StopSystem(IGroupAccessor @group)
         {
             _updateLoop.Dispose();
             _timesOutputted = 0;

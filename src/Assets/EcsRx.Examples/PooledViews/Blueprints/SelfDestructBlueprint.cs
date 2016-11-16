@@ -1,4 +1,4 @@
-﻿using Assets.EcsRx.Framework.Blueprints;
+﻿using EcsRx.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Unity.Components;
 using UnityEngine;

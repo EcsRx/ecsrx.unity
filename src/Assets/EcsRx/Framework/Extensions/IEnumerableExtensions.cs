@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.EcsRx.Framework.Attributes;
+using EcsRx.Attributes;
 using EcsRx.Components;
 using EcsRx.Entities;
 using EcsRx.Groups;

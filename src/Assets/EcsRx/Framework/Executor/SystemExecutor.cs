@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Entities;
 using EcsRx.Events;
@@ -6,14 +7,14 @@ using EcsRx.Extensions;
 using EcsRx.Pools;
 using EcsRx.Systems.Executor.Handlers;
 using UniRx;
-using UnityEngine;
 
 namespace EcsRx.Systems.Executor
 {
-    public class SystemExecutor : ISystemExecutor
+    public class SystemExecutor : ISystemExecutor, IDisposable
     {
-        private readonly IList<ISystem> _systems; 
-        private readonly Dictionary<ISystem, IList<SubscriptionToken>> _systemSubscriptions; 
+        private readonly IList<ISystem> _systems;
+        private readonly IList<IDisposable> _eventSubscriptions;
+        private readonly Dictionary<ISystem, IList<SubscriptionToken>> _systemSubscriptions;
 
         public IEventSystem EventSystem { get; private set; }
         public IPoolManager PoolManager { get; private set; }
@@ -38,28 +39,33 @@ namespace EcsRx.Systems.Executor
             ReactToDataSystemHandler = reactToDataSystemHandler;
             ManualSystemHandler = manualSystemHandler;
 
-            EventSystem.Receive<EntityAddedEvent>().Subscribe(OnEntityAddedToPool);
-            EventSystem.Receive<EntityRemovedEvent>().Subscribe(OnEntityRemovedFromPool);
-            EventSystem.Receive<ComponentAddedEvent>().Subscribe(OnEntityComponentAdded);
-            EventSystem.Receive<ComponentRemovedEvent>().Subscribe(OnEntityComponentRemoved);
+            var addEntitySubscription = EventSystem.Receive<EntityAddedEvent>().Subscribe(OnEntityAddedToPool);
+            var removeEntitySubscription = EventSystem.Receive<EntityRemovedEvent>().Subscribe(OnEntityRemovedFromPool);
+            var addComponentSubscription = EventSystem.Receive<ComponentAddedEvent>().Subscribe(OnEntityComponentAdded);
+            var removeComponentSubscription = EventSystem.Receive<ComponentRemovedEvent>().Subscribe(OnEntityComponentRemoved);
             
             _systems = new List<ISystem>();
             _systemSubscriptions = new Dictionary<ISystem, IList<SubscriptionToken>>();
+            _eventSubscriptions = new List<IDisposable>
+            {
+                addEntitySubscription, removeEntitySubscription, addComponentSubscription, removeComponentSubscription
+            };
+
         }
-        
+
         public void OnEntityComponentRemoved(ComponentRemovedEvent args)
         {
             var originalComponents = args.Entity.Components.ToList();
             originalComponents.Add(args.Component);
 
-            var applicableSystems = _systems.GetApplicableSystems(originalComponents).ToArray();
+            var applicableSystems = _systems.GetApplicableSystems(originalComponents);
             var effectedSystems = applicableSystems.Where(x => x.TargetGroup.TargettedComponents.Contains(args.Component.GetType()));
             effectedSystems.ForEachRun(system => _systemSubscriptions[system].Where(subscription => subscription.AssociatedObject == args.Entity));
         }
 
         public void OnEntityComponentAdded(ComponentAddedEvent args)
         {
-            var applicableSystems = _systems.GetApplicableSystems(args.Entity).ToArray();
+            var applicableSystems = _systems.GetApplicableSystems(args.Entity);
             var effectedSystems = applicableSystems.Where(x => x.TargetGroup.TargettedComponents.Contains(args.Component.GetType()));
             
             ApplyEntityToSystems(effectedSystems, args.Entity);
@@ -67,13 +73,15 @@ namespace EcsRx.Systems.Executor
 
         public void OnEntityAddedToPool(EntityAddedEvent args)
         {
-            var applicableSystems = _systems.GetApplicableSystems(args.Entity).ToArray();
+            if(!args.Entity.Components.Any()) { return; }
+
+            var applicableSystems = _systems.GetApplicableSystems(args.Entity);
             ApplyEntityToSystems(applicableSystems, args.Entity);
         }
         
         public void OnEntityRemovedFromPool(EntityRemovedEvent args)
         {
-            var applicableSystems = _systems.GetApplicableSystems(args.Entity).ToArray();
+            var applicableSystems = _systems.GetApplicableSystems(args.Entity);
             applicableSystems.ForEachRun(x => RemoveSubscription(x, args.Entity));
         }
 
@@ -91,10 +99,10 @@ namespace EcsRx.Systems.Executor
             systems.OfType<IReactToEntitySystem>()
                 .OrderByPriority()
                 .ForEachRun(x =>
-            {
-                var subscription = ReactToEntitySystemHandler.ProcessEntity(x, entity);
-                _systemSubscriptions[x].Add(subscription);
-            });
+                {
+                    var subscription = ReactToEntitySystemHandler.ProcessEntity(x, entity);
+                    _systemSubscriptions[x].Add(subscription);
+                });
             
             systems.Where(x => x.IsReactiveDataSystem())
                 .OrderByPriority()
@@ -173,5 +181,11 @@ namespace EcsRx.Systems.Executor
 
         public int GetTotalSubscriptions()
         {  return _systemSubscriptions.Values.Sum(x => x.Count); }
+
+        public void Dispose()
+        {
+            _systemSubscriptions.ForEachRun(x => x.Value.DisposeAll());
+            _eventSubscriptions.DisposeAll();
+        }
     }
 }

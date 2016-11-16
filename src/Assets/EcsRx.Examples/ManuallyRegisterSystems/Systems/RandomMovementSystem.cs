@@ -13,7 +13,7 @@ namespace Assets.EcsRx.Examples.ManuallyRegisterSystems.Systems
     {
         public IGroup TargetGroup { get { return new Group(typeof (ViewComponent)); } }
 
-        public IObservable<GroupAccessor> ReactToGroup(GroupAccessor @group)
+        public IObservable<IGroupAccessor> ReactToGroup(IGroupAccessor @group)
         {
             return Observable.Interval(TimeSpan.FromSeconds(1)).Select(x => @group);
         }

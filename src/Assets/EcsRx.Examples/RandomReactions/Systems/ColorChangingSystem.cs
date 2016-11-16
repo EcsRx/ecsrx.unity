@@ -17,7 +17,7 @@ namespace Assets.EcsRx.Examples.RandomReactions.Systems
             get { return new Group(typeof (RandomColorComponent)); }
         }
 
-        public IObservable<GroupAccessor> ReactToGroup(GroupAccessor @group)
+        public IObservable<IGroupAccessor> ReactToGroup(IGroupAccessor @group)
         {
             return Observable.EveryUpdate().Select(x => @group);
         }

@@ -23,7 +23,7 @@ namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Systems
             }
         }
 
-        public IObservable<GroupAccessor> ReactToGroup(GroupAccessor @group)
+        public IObservable<IGroupAccessor> ReactToGroup(IGroupAccessor @group)
         {
             return Observable.EveryUpdate().Select(x => @group);
         }

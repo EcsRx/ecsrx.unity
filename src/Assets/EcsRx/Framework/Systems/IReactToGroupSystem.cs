@@ -6,7 +6,7 @@ namespace EcsRx.Systems
 {
     public interface IReactToGroupSystem : ISystem
     {
-        IObservable<GroupAccessor> ReactToGroup(GroupAccessor group);
+        IObservable<IGroupAccessor> ReactToGroup(IGroupAccessor group);
         void Execute(IEntity entity);
     }
 }

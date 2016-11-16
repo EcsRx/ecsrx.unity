@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.EcsRx.Framework.Blueprints;
+using EcsRx.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Events;
-using EcsRx.Extensions;
 using EcsRx.Pools.Identifiers;
-using UniRx;
 
 namespace EcsRx.Pools
 {

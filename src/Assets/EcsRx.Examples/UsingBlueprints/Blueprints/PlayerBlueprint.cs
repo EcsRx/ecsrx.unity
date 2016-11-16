@@ -1,5 +1,5 @@
 ﻿using Assets.EcsRx.Examples.UsingBlueprints.Components;
-using Assets.EcsRx.Framework.Blueprints;
+using EcsRx.Blueprints;
 using EcsRx.Entities;
 
 namespace Assets.EcsRx.Examples.UsingBlueprints.Blueprints

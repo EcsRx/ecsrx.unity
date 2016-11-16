@@ -4,7 +4,7 @@ namespace EcsRx.Systems
 {
     public interface IManualSystem : ISystem
     {
-        void StartSystem(GroupAccessor group);
-        void StopSystem(GroupAccessor group);
+        void StartSystem(IGroupAccessor group);
+        void StopSystem(IGroupAccessor group);
     }
 }
