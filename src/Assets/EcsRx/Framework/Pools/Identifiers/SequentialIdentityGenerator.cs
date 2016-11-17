@@ -5,6 +5,11 @@
         private int _lastIdentifier = 0;
 
         public int GenerateId()
-        { return ++_lastIdentifier; }
+        {
+            if(_lastIdentifier >= int.MaxValue)
+            {  _lastIdentifier = 0; }
+
+            return ++_lastIdentifier;
+        }
     }
 }

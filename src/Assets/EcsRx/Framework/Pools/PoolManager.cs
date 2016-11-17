@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Entities;
 using EcsRx.Events;
@@ -9,12 +10,12 @@ using UniRx;
 
 namespace EcsRx.Pools
 {
-    public class PoolManager : IPoolManager
+    public class PoolManager : IPoolManager, IDisposable
     {
         public const string DefaultPoolName = "default";
         
-        private readonly IDictionary<GroupAccessorToken, IEnumerable<IEntity>> _groupAccessors;
-        private IDictionary<string, IPool> _pools;
+        private readonly IDictionary<GroupAccessorToken, IGroupAccessor> _groupAccessors;
+        private readonly IDictionary<string, IPool> _pools;
 
         public IEventSystem EventSystem { get; private set; }
         public IEnumerable<IPool> Pools { get { return _pools.Values; } }
@@ -24,7 +25,7 @@ namespace EcsRx.Pools
         {
             IdentityGenerator = identityGenerator;
             EventSystem = eventSystem;
-            _groupAccessors = new Dictionary<GroupAccessorToken, IEnumerable<IEntity>>();
+            _groupAccessors = new Dictionary<GroupAccessorToken, IGroupAccessor>();
             _pools = new Dictionary<string, IPool>();
             CreatePool(DefaultPoolName);
         }
@@ -66,15 +67,25 @@ namespace EcsRx.Pools
         public IGroupAccessor CreateGroupAccessor(IGroup group, string poolName = null)
         {
             var groupAccessorToken = new GroupAccessorToken(group.TargettedComponents.ToArray(), poolName);
-            if (!_groupAccessors.ContainsKey(groupAccessorToken))
-            {
-                var entityMatches = GetEntitiesFor(group, poolName);
-                _groupAccessors.Add(groupAccessorToken, entityMatches);
-            }
+            if (_groupAccessors.ContainsKey(groupAccessorToken)) { return _groupAccessors[groupAccessorToken]; }
 
-            var groupAccessor = new CacheableGroupAccessor(groupAccessorToken, _groupAccessors[groupAccessorToken], EventSystem);
+            var entityMatches = GetEntitiesFor(@group, poolName);
+            var groupAccessor = new CacheableGroupAccessor(groupAccessorToken, entityMatches, EventSystem);
             groupAccessor.MonitorEntityChanges();
-            return groupAccessor;
+            _groupAccessors.Add(groupAccessorToken, groupAccessor);
+
+            return _groupAccessors[groupAccessorToken];
+        }
+
+        public void Dispose()
+        {
+            _groupAccessors.Values.ForEachRun(x =>
+            {
+                if (x is IDisposable)
+                {
+                    (x as IDisposable).Dispose();
+                }
+            });
         }
     }
 }
