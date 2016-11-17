@@ -214,6 +214,11 @@
     <Compile Include="Assets\EcsRx\Unity\ViewPooling\ViewObjectContainer.cs" />
     <Compile Include="Assets\EcsRx\Unity\ViewPooling\ViewPool.cs" />
     <Compile Include="Assets\Tests\PoolManagerTests.cs" />
+    <Compile Include="Assets\Tests\Scenes\GroupedPerformance\Application.cs" />
+    <Compile Include="Assets\Tests\Scenes\GroupedPerformance\Components\RotationComponent.cs" />
+    <Compile Include="Assets\Tests\Scenes\GroupedPerformance\Systems\EntityRotationSystem.cs" />
+    <Compile Include="Assets\Tests\Scenes\GroupedPerformance\Systems\GroupRotationSystem.cs" />
+    <Compile Include="Assets\Tests\Scenes\GroupedPerformance\ViewResolvers\CubeViewResolver.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\AssertionComponent.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\AssertionException.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\Assertions.cs" />
@@ -457,5 +462,6 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
