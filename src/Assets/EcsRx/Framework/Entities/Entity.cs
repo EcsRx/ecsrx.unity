@@ -24,14 +24,15 @@ namespace EcsRx.Entities
             _components = new Dictionary<Type, IComponent>();
         }
 
-        public void AddComponent(IComponent component)
+        public IComponent AddComponent(IComponent component)
         {
             _components.Add(component.GetType(), component);
             EventSystem.Publish(new ComponentAddedEvent(this, component));
+            return component;
         }
 
-        public void AddComponent<T>() where T : class, IComponent, new()
-        { AddComponent(new T()); }
+        public T AddComponent<T>() where T : class, IComponent, new()
+        { return (T)AddComponent(new T()); }
 
         public void RemoveComponent(IComponent component)
         {
