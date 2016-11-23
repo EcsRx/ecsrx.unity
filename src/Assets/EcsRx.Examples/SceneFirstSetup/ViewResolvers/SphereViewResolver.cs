@@ -19,7 +19,8 @@ namespace Assets.EcsRx.Examples.SceneFirstSetup.ViewResolvers
             get { return base.TargetGroup.WithComponent<SphereComponent>(); }
         }
 
-        public SphereViewResolver(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator) : base(poolManager, eventSystem, instantiator) { }
+        public SphereViewResolver(IViewHandler viewHandler) : base(viewHandler)
+        {}
 
         public override GameObject ResolveView(IEntity entity)
         {

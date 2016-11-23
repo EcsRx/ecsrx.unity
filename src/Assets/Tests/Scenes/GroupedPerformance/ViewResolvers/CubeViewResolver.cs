@@ -14,8 +14,8 @@ namespace Assets.Tests.Scenes.GroupedPerformance.ViewResolvers
 
         private Vector3 _nextPosition = Vector3.zero;
         private int _currentOnRow = 0;
-        
-        public CubeViewResolver(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator) : base(poolManager, eventSystem, instantiator)
+
+        public CubeViewResolver(IViewHandler viewHandler) : base(viewHandler)
         {}
 
         public override GameObject ResolveView(IEntity entity)

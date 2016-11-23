@@ -9,8 +9,8 @@ namespace Assets.EcsRx.Examples.ManuallyRegisterSystems.Systems
 {
     public class DefaultViewResolver : ViewResolverSystem
     {
-        public DefaultViewResolver(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator) : base(poolManager, eventSystem, instantiator)
-        { }
+        public DefaultViewResolver(IViewHandler viewHandler) : base(viewHandler)
+        {}
 
         public override GameObject ResolveView(IEntity entity)
         {

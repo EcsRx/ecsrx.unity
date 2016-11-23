@@ -208,7 +208,9 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\SetupView.cs" />
     <Compile Include="Assets\EcsRx\Unity\Plugins\IEcsRxPlugin.cs" />
     <Compile Include="Assets\EcsRx\Unity\Systems\DefaultPooledViewResolverSystem.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Systems\IViewHandler.cs" />
     <Compile Include="Assets\EcsRx\Unity\Systems\PooledViewResolverSystem.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Systems\ViewHandler.cs" />
     <Compile Include="Assets\EcsRx\Unity\Systems\ViewResolverSystem.cs" />
     <Compile Include="Assets\EcsRx\Unity\ViewPooling\IViewPool.cs" />
     <Compile Include="Assets\EcsRx\Unity\ViewPooling\ViewObjectContainer.cs" />

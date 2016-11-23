@@ -17,7 +17,8 @@ namespace Assets.EcsRx.Examples.GameObjectBinding
             get { return base.TargetGroup.WithComponent<CubeComponent>(); }
         }
 
-        public CubeViewResolver(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator) : base(poolManager, eventSystem, instantiator) {}
+        public CubeViewResolver(IViewHandler viewHandler) : base(viewHandler)
+        {}
 
         public override GameObject ResolveView(IEntity entity)
         {

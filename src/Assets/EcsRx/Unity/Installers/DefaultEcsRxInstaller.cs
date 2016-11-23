@@ -3,6 +3,7 @@ using EcsRx.Pools;
 using EcsRx.Pools.Identifiers;
 using EcsRx.Systems.Executor;
 using EcsRx.Systems.Executor.Handlers;
+using EcsRx.Unity.Systems;
 using UniRx;
 using Zenject;
 
@@ -16,6 +17,7 @@ namespace EcsRx.Unity.Installers
             Container.Bind<IEventSystem>().To<EventSystem>().AsSingle();
             Container.Bind<IIdentityGenerator>().To<SequentialIdentityGenerator>().AsSingle();
             Container.Bind<IPoolManager>().To<PoolManager>().AsSingle();
+            Container.Bind<IViewHandler>().To<ViewHandler>().AsSingle();
 
             Container.Bind<IReactToDataSystemHandler>().To<ReactToDataSystemHandler>();
             Container.Bind<IReactToEntitySystemHandler>().To<ReactToEntitySystemHandler>();

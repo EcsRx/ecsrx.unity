@@ -1,9 +1,6 @@
 ﻿using EcsRx.Entities;
-using EcsRx.Events;
-using EcsRx.Pools;
 using EcsRx.Unity.Systems;
 using UnityEngine;
-using Zenject;
 
 namespace Assets.EcsRx.Examples.RandomReactions.ViewResolvers
 {
@@ -15,9 +12,9 @@ namespace Assets.EcsRx.Examples.RandomReactions.ViewResolvers
         private Vector3 _nextPosition = Vector3.zero;
         private int _currentOnRow = 0;
 
-        private GameObject _coloredCubePrefab;
+        private readonly GameObject _coloredCubePrefab;
 
-        public CubeViewResolver(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator) : base(poolManager, eventSystem, instantiator)
+        public CubeViewResolver(IViewHandler viewHandler) : base(viewHandler)
         {
             _coloredCubePrefab = (GameObject)Resources.Load("colored-cube");
         }

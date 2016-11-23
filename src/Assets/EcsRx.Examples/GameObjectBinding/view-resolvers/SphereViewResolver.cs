@@ -17,8 +17,9 @@ namespace Assets.EcsRx.Examples.GameObjectBinding
             get { return base.TargetGroup.WithComponent<SphereComponent>(); }
         }
 
-        public SphereViewResolver(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator) : base(poolManager, eventSystem, instantiator) { }
-
+        public SphereViewResolver(IViewHandler viewHandler) : base(viewHandler)
+        {}
+        
         public override GameObject ResolveView(IEntity entity)
         {
             var view = GameObject.CreatePrimitive(PrimitiveType.Sphere);
