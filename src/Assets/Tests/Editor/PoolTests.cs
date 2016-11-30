@@ -2,6 +2,7 @@
 using EcsRx.Events;
 using EcsRx.Pools;
 using EcsRx.Pools.Identifiers;
+using EcsRx.Tests.Components;
 using NSubstitute;
 using NUnit.Framework;
 using UniRx;
@@ -55,16 +56,24 @@ namespace EcsRx.Tests
         }
 
         [Test]
-        public void should_raise_event_when_removing_entity()
+        public void should_raise_events_and_remove_components_when_removing_entity()
         {
             var mockIdentityGenerator = Substitute.For<IIdentityGenerator>();
             var mockEventSystem = Substitute.For<IEventSystem>();
 
             var pool = new Pool("", mockIdentityGenerator, mockEventSystem);
             var entity = pool.CreateEntity();
+            var testComponentOne = entity.AddComponent<TestComponentOne>();
+            var testComponentTwo = entity.AddComponent<TestComponentTwo>();
+            var testComponentThree = entity.AddComponent<TestComponentThree>();
             pool.RemoveEntity(entity);
 
+            mockEventSystem.Received().Publish(Arg.Is<ComponentRemovedEvent>(x => x.Entity == entity && x.Component == testComponentOne));
+            mockEventSystem.Received().Publish(Arg.Is<ComponentRemovedEvent>(x => x.Entity == entity && x.Component == testComponentTwo));
+            mockEventSystem.Received().Publish(Arg.Is<ComponentRemovedEvent>(x => x.Entity == entity && x.Component == testComponentThree));
             mockEventSystem.Received().Publish(Arg.Is<EntityRemovedEvent>(x => x.Entity == entity && x.Pool == pool));
+
+            Assert.That(entity.Components, Is.Empty);
         }
 
         [Test]
