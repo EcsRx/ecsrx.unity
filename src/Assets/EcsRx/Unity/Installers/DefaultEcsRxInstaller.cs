@@ -18,8 +18,7 @@ namespace EcsRx.Unity.Installers
             Container.Bind<IIdentityGenerator>().To<SequentialIdentityGenerator>().AsSingle();
             Container.Bind<IPoolManager>().To<PoolManager>().AsSingle();
             Container.Bind<IViewHandler>().To<ViewHandler>().AsSingle();
-
-            Container.Bind<IReactToDataSystemHandler>().To<ReactToDataSystemHandler>();
+            
             Container.Bind<IReactToEntitySystemHandler>().To<ReactToEntitySystemHandler>();
             Container.Bind<IReactToGroupSystemHandler>().To<ReactToGroupSystemHandler>();
             Container.Bind<ISetupSystemHandler>().To<SetupSystemHandler>();

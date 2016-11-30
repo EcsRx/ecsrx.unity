@@ -63,19 +63,6 @@ namespace EcsRx.Unity.Helpers
                 EditorGUILayout.Space();
             }
 
-            EditorGUILayout.TextField("Data Systems");
-            EditorGUILayout.Space();
-            foreach (var system in executor.Systems.Where(x => x.IsReactiveDataSystem()))
-            {
-                EditorGUILayout.BeginVertical();
-                EditorGUILayout.LabelField("System: " + system.GetType().Name);
-                if (isNormalExecutorType)
-                { EditorGUILayout.LabelField("Active Subscriptions: " + typedExecutor.GetSubscriptionCountForSystem(system)); }
-                EditorGUILayout.EndVertical();
-                EditorGUILayout.Space();
-                EditorGUILayout.Space();
-            }
-
             EditorGUILayout.TextField("Total Subscriptions Across All Systems: " + typedExecutor.GetTotalSubscriptions());
         }
     }
