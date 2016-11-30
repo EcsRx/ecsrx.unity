@@ -63,14 +63,8 @@ namespace EcsRx.Tests
 
             var pool = new Pool("", mockIdentityGenerator, mockEventSystem);
             var entity = pool.CreateEntity();
-            var testComponentOne = entity.AddComponent<TestComponentOne>();
-            var testComponentTwo = entity.AddComponent<TestComponentTwo>();
-            var testComponentThree = entity.AddComponent<TestComponentThree>();
             pool.RemoveEntity(entity);
-
-            mockEventSystem.Received().Publish(Arg.Is<ComponentRemovedEvent>(x => x.Entity == entity && x.Component == testComponentOne));
-            mockEventSystem.Received().Publish(Arg.Is<ComponentRemovedEvent>(x => x.Entity == entity && x.Component == testComponentTwo));
-            mockEventSystem.Received().Publish(Arg.Is<ComponentRemovedEvent>(x => x.Entity == entity && x.Component == testComponentThree));
+            
             mockEventSystem.Received().Publish(Arg.Is<EntityRemovedEvent>(x => x.Entity == entity && x.Pool == pool));
 
             Assert.That(entity.Components, Is.Empty);

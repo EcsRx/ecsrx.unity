@@ -132,5 +132,24 @@ namespace EcsRx.Tests
 
             entity.RemoveComponent(dummyComponent);
         }
+
+        [Test]
+        public void should_remove_all_components_when_disposing()
+        {
+            var mockEventSystem = Substitute.For<IEventSystem>();
+
+            var entity = new Entity(1, mockEventSystem);
+            var testComponentOne = entity.AddComponent<TestComponentOne>();
+            var testComponentTwo = entity.AddComponent<TestComponentTwo>();
+            var testComponentThree = entity.AddComponent<TestComponentThree>();
+
+            entity.Dispose();
+
+            mockEventSystem.Received().Publish(Arg.Is<ComponentRemovedEvent>(x => x.Entity == entity && x.Component == testComponentOne));
+            mockEventSystem.Received().Publish(Arg.Is<ComponentRemovedEvent>(x => x.Entity == entity && x.Component == testComponentTwo));
+            mockEventSystem.Received().Publish(Arg.Is<ComponentRemovedEvent>(x => x.Entity == entity && x.Component == testComponentThree));
+
+            Assert.That(entity.Components, Is.Empty);
+        }
     }
 }

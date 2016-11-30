@@ -4,7 +4,7 @@ using EcsRx.Components;
 
 namespace EcsRx.Entities
 {
-    public interface IEntity
+    public interface IEntity : IDisposable
     {
         int Id { get; }
         IEnumerable<IComponent> Components { get; }

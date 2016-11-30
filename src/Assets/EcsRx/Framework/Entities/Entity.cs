@@ -72,5 +72,8 @@ namespace EcsRx.Entities
 
         public T GetComponent<T>() where T : class, IComponent
         { return _components[typeof(T)] as T; }
+
+        public void Dispose()
+        { RemoveAllComponents(); }
     }
 }
