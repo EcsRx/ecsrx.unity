@@ -63,11 +63,12 @@ namespace EcsRx.Systems.Executor
                 if (effectedSystem is ITeardownSystem)
                 { (effectedSystem as ITeardownSystem).Teardown(args.Entity); }
 
-                var subscriptions =
-                    _systemSubscriptions[effectedSystem].Where(
-                        subscription => subscription.AssociatedObject == args.Entity);
+                var subscriptionTokens = _systemSubscriptions[effectedSystem]
+                    .Where(x => x.AssociatedObject == args.Entity)
+                    .ToList();
 
-                subscriptions.DisposeAll();
+                _systemSubscriptions[effectedSystem].RemoveAll(subscriptionTokens);
+                subscriptionTokens.DisposeAll();
             }
         }
 
