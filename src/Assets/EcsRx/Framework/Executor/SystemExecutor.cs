@@ -57,7 +57,18 @@ namespace EcsRx.Systems.Executor
 
             var applicableSystems = _systems.GetApplicableSystems(originalComponents);
             var effectedSystems = applicableSystems.Where(x => x.TargetGroup.TargettedComponents.Contains(args.Component.GetType()));
-            effectedSystems.ForEachRun(system => _systemSubscriptions[system].Where(subscription => subscription.AssociatedObject == args.Entity));
+
+            foreach (var effectedSystem in effectedSystems)
+            {
+                if (effectedSystem is ITeardownSystem)
+                { (effectedSystem as ITeardownSystem).Teardown(args.Entity); }
+
+                var subscriptions =
+                    _systemSubscriptions[effectedSystem].Where(
+                        subscription => subscription.AssociatedObject == args.Entity);
+
+                subscriptions.DisposeAll();
+            }
         }
 
         public void OnEntityComponentAdded(ComponentAddedEvent args)

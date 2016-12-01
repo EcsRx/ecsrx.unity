@@ -189,6 +189,7 @@
     <Compile Include="Assets\EcsRx\Framework\Systems\IReactToGroupSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ISetupSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ISystem.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Systems\ITeardownSystem.cs" />
     <Compile Include="Assets\EcsRx\Unity\Components\ViewComponent.cs" />
     <Compile Include="Assets\EcsRx\Unity\EcsRxApplication.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\ComponentExtensions.cs" />
