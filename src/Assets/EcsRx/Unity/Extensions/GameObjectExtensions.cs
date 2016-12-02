@@ -14,8 +14,8 @@ namespace Assets.EcsRx.Unity.Extensions
             if(gameObject.GetComponent<EntityView>())
             { throw new Exception("GameObject already has an EntityView monobehaviour applied"); }
 
-            if (gameObject.GetComponent<SetupView>())
-            { throw new Exception("GameObject already has a SetupView monobehaviour applied"); }
+            if (gameObject.GetComponent<RegisterAsEntity>())
+            { throw new Exception("GameObject already has a RegisterAsEntity monobehaviour applied"); }
 
             if (!entity.HasComponents(typeof(ViewComponent)))
             { entity.AddComponent<ViewComponent>(); }

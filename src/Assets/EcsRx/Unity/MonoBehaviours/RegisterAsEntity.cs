@@ -12,7 +12,7 @@ using Zenject;
 
 namespace EcsRx.Unity.MonoBehaviours
 {
-    public class SetupView : MonoBehaviour
+    public class RegisterAsEntity : MonoBehaviour
     {
         [Inject]
         public IPoolManager PoolManager { get; private set; }
@@ -24,7 +24,7 @@ namespace EcsRx.Unity.MonoBehaviours
         public List<string> Components = new List<string>();
 
         [SerializeField]
-        public List<string> Properties = new List<string>();
+        public List<string> ComponentEditorState = new List<string>();
 
         [Inject]
         public void RegisterEntity()
@@ -64,7 +64,7 @@ namespace EcsRx.Unity.MonoBehaviours
                 if (type == null) { throw new Exception("Cannot resolve type for [" + typeName + "]"); }
 
                 var component = (IComponent)Activator.CreateInstance(type);
-                var componentProperties = JSON.Parse(Properties[i]);
+                var componentProperties = JSON.Parse(ComponentEditorState[i]);
                 component.DeserializeComponent(componentProperties);
 
                 entity.AddComponent(component);
