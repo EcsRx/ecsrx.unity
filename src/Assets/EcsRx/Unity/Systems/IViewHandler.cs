@@ -18,6 +18,6 @@ namespace EcsRx.Unity.Systems
             Quaternion rotation = default(Quaternion));
 
         void DestroyView(GameObject view);
-        void SetupView(IEntity entity, Func<IEntity, GameObject> viewResoler);
+        void SetupView(IEntity entity, Func<IEntity, GameObject> viewResolver);
     }
 }

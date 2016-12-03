@@ -1,4 +1,6 @@
+using EcsRx.Entities;
 using EcsRx.Events;
+using EcsRx.Groups;
 using EcsRx.Pools;
 using EcsRx.Pools.Identifiers;
 using EcsRx.Systems.Executor;
@@ -16,6 +18,11 @@ namespace EcsRx.Unity.Installers
             Container.Bind<IMessageBroker>().To<MessageBroker>().AsSingle();
             Container.Bind<IEventSystem>().To<EventSystem>().AsSingle();
             Container.Bind<IIdentityGenerator>().To<SequentialIdentityGenerator>().AsSingle();
+
+            Container.Bind<IEntityFactory>().To<DefaultEntityFactory>().AsSingle();
+            Container.Bind<IPoolFactory>().To<DefaultPoolFactory>().AsSingle();
+            Container.Bind<IGroupAccessorFactory>().To<DefaultGroupAccessorFactory>().AsSingle();
+
             Container.Bind<IPoolManager>().To<PoolManager>().AsSingle();
             Container.Bind<IViewHandler>().To<ViewHandler>().AsSingle();
             

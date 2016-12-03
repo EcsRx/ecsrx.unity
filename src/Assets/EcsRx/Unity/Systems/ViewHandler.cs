@@ -39,12 +39,12 @@ namespace EcsRx.Unity.Systems
         public virtual void DestroyView(GameObject view)
         { Object.Destroy(view); }
         
-        public virtual void SetupView(IEntity entity, Func<IEntity, GameObject> viewResoler)
+        public virtual void SetupView(IEntity entity, Func<IEntity, GameObject> viewResolver)
         {
             var viewComponent = entity.GetComponent<ViewComponent>();
             if (viewComponent.View != null) { return; }
 
-            var viewObject = viewResoler(entity);
+            var viewObject = viewResolver(entity);
             viewComponent.View = viewObject;
 
             var entityBinding = viewObject.GetComponent<EntityView>();
@@ -64,8 +64,8 @@ namespace EcsRx.Unity.Systems
                     .AddTo(viewObject);
             }
 
-            EventSystem.Receive<EntityRemovedEvent>()
-                .First(x => x.Entity == entity)
+            EventSystem.Receive<ComponentRemovedEvent>()
+                .First(x => x.Component is ViewComponent && x.Entity == entity)
                 .Subscribe(x =>
                 {
                     if (viewSubscription != null)

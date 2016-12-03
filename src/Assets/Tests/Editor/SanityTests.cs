@@ -1,4 +1,6 @@
-﻿using EcsRx.Events;
+﻿using EcsRx.Entities;
+using EcsRx.Events;
+using EcsRx.Groups;
 using EcsRx.Pools;
 using EcsRx.Pools.Identifiers;
 using EcsRx.Systems.Executor;
@@ -17,7 +19,10 @@ namespace EcsRx.Tests
         {
             var messageBroker = new EventSystem(new MessageBroker());
             var identityGenerator = new SequentialIdentityGenerator();
-            var poolManager = new PoolManager(identityGenerator, messageBroker);
+            var entityFactory = new DefaultEntityFactory(identityGenerator, messageBroker);
+            var poolFactory = new DefaultPoolFactory(entityFactory, messageBroker);
+            var groupAccessorFactory = new DefaultGroupAccessorFactory(messageBroker);
+            var poolManager = new PoolManager(messageBroker, poolFactory, groupAccessorFactory);
             var reactsToEntityHandler = new ReactToEntitySystemHandler(poolManager);
             var reactsToGroupHandler = new ReactToGroupSystemHandler(poolManager);
             var manualSystemHandler = new ManualSystemHandler(poolManager);

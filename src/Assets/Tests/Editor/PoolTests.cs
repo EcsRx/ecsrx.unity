@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Pools;
 using EcsRx.Pools.Identifiers;
@@ -16,12 +17,11 @@ namespace EcsRx.Tests
         public void should_create_new_entity()
         {
             var expectedId = 123456;
-            var mockIdentityGenerator = Substitute.For<IIdentityGenerator>();
-            mockIdentityGenerator.GenerateId().Returns(expectedId);
-
+            var mockEntityFactory = Substitute.For<IEntityFactory>();
             var mockEventSystem = Substitute.For<IEventSystem>();
-
-            var pool = new Pool("", mockIdentityGenerator, mockEventSystem);
+            mockEntityFactory.Create(null).Returns(new Entity(expectedId, mockEventSystem));
+       
+            var pool = new Pool("", mockEntityFactory, mockEventSystem);
             var entity = pool.CreateEntity();
 
             Assert.That(entity.Id, Is.EqualTo(expectedId));
@@ -32,10 +32,11 @@ namespace EcsRx.Tests
         [Test]
         public void should_raise_event_when_creating_entity()
         {
-            var mockIdentityGenerator = Substitute.For<IIdentityGenerator>();
             var mockEventSystem = Substitute.For<IEventSystem>();
+            var mockEntityFactory = Substitute.For<IEntityFactory>();
+            mockEntityFactory.Create(null).Returns(new Entity(1, mockEventSystem));
 
-            var pool = new Pool("", mockIdentityGenerator, mockEventSystem);
+            var pool = new Pool("", mockEntityFactory, mockEventSystem);
             var entity = pool.CreateEntity();
 
             mockEventSystem.Received().Publish(Arg.Is<EntityAddedEvent>(x => x.Entity == entity && x.Pool == pool));
@@ -44,10 +45,11 @@ namespace EcsRx.Tests
         [Test]
         public void should_add_created_entity_into_the_pool()
         {
-            var mockIdentityGenerator = Substitute.For<IIdentityGenerator>();
             var mockEventSystem = Substitute.For<IEventSystem>();
+            var mockEntityFactory = Substitute.For<IEntityFactory>();
+            mockEntityFactory.Create(null).Returns(new Entity(1, mockEventSystem));
 
-            var pool = new Pool("", mockIdentityGenerator, mockEventSystem);
+            var pool = new Pool("", mockEntityFactory, mockEventSystem);
             var entity = pool.CreateEntity();
 
             Assert.That(pool.Entities.Count(), Is.EqualTo(1));
@@ -57,10 +59,11 @@ namespace EcsRx.Tests
         [Test]
         public void should_raise_events_and_remove_components_when_removing_entity()
         {
-            var mockIdentityGenerator = Substitute.For<IIdentityGenerator>();
             var mockEventSystem = Substitute.For<IEventSystem>();
+            var mockEntityFactory = Substitute.For<IEntityFactory>();
+            mockEntityFactory.Create(null).Returns(new Entity(1, mockEventSystem));
 
-            var pool = new Pool("", mockIdentityGenerator, mockEventSystem);
+            var pool = new Pool("", mockEntityFactory, mockEventSystem);
             var entity = pool.CreateEntity();
             pool.RemoveEntity(entity);
             
@@ -72,10 +75,11 @@ namespace EcsRx.Tests
         [Test]
         public void should_remove_created_entity_from_the_pool()
         {
-            var mockIdentityGenerator = Substitute.For<IIdentityGenerator>();
             var mockEventSystem = Substitute.For<IEventSystem>();
+            var mockEntityFactory = Substitute.For<IEntityFactory>();
+            mockEntityFactory.Create(null).Returns(new Entity(1, mockEventSystem));
 
-            var pool = new Pool("", mockIdentityGenerator, mockEventSystem);
+            var pool = new Pool("", mockEntityFactory, mockEventSystem);
             var entity = pool.CreateEntity();
             pool.RemoveEntity(entity);
 

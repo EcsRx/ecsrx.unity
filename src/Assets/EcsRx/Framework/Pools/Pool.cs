@@ -12,21 +12,20 @@ namespace EcsRx.Pools
 
         public string Name { get; private set; }
         public IEnumerable<IEntity> Entities { get { return _entities;} }
-        public IIdentityGenerator IdentityGenerator { get; private set; }
         public IEventSystem EventSystem { get; private set; }
+        public IEntityFactory EntityFactory { get; private set; }
 
-        public Pool(string name, IIdentityGenerator identityGenerator, IEventSystem eventSystem)
+        public Pool(string name, IEntityFactory entityFactory, IEventSystem eventSystem)
         {
             _entities = new List<IEntity>();
             Name = name;
-            IdentityGenerator = identityGenerator;
             EventSystem = eventSystem;
+            EntityFactory = entityFactory;
         }
 
         public IEntity CreateEntity(IBlueprint blueprint = null)
         {
-            var newId = IdentityGenerator.GenerateId();
-            var entity = new Entity(newId, EventSystem);
+            var entity = EntityFactory.Create(null);
 
             _entities.Add(entity);
 

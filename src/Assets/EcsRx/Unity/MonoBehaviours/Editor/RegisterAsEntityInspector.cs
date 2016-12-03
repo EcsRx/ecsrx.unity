@@ -16,7 +16,7 @@ namespace EcsRx.Unity.Helpers
 
     [Serializable]
     [CustomEditor(typeof(RegisterAsEntity))]
-    public partial class RegisterAsEntityViewInspector : Editor
+    public partial class RegisterAsEntityInspector : Editor
     {
         private RegisterAsEntity _registerAsEntity;
 
