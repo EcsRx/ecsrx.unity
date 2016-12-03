@@ -73,6 +73,11 @@ namespace EcsRx.Unity.Helpers
                         });
 
                         var componentTypeName = _registerAsEntity.Components[currentIndex];
+
+                        // This error only really occurs if the scene has corrupted or an update has changed where editor state is stored on the underlying MB
+                        if(_registerAsEntity.ComponentEditorState.Count <= currentIndex)
+                        { Debug.LogError("It seems there is missing editor state for [" + componentTypeName + "] this can often be fixed by removing and re-adding the RegisterAsEntity MonoBehavior"); }
+
                         var editorStateValue = _registerAsEntity.ComponentEditorState[currentIndex];
                         var component = ComponentUIAspect.RehydrateEditorComponent(componentTypeName, editorStateValue);
 
