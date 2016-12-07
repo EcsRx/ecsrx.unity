@@ -112,5 +112,32 @@ namespace EcsRx.Tests
 
             mockSetupSystemHandler.Received(1).ProcessEntity(Arg.Is(fakeSystem), Arg.Is(entity));
         }
+
+        [Test]
+        public void should_only_trigger_teardown_system_when_entity_loses_required_component()
+        {
+            var dummyGroup = new Group(typeof(TestComponentOne), typeof(TestComponentTwo));
+            var mockPoolManager = Substitute.For<IPoolManager>();
+            var mockEventSystem = Substitute.For<IEventSystem>();
+            var fakeSystem = Substitute.For<ITeardownSystem>();
+            fakeSystem.TargetGroup.Returns(dummyGroup);
+
+            var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
+                null, null, null, null);
+
+            systemExecutor.AddSystem(fakeSystem);
+
+            var entity = new Entity(1, mockEventSystem);
+            entity.AddComponent(new TestComponentOne());
+            entity.AddComponent(new TestComponentTwo());
+            
+            // Should not trigger
+            systemExecutor.OnEntityComponentRemoved(new ComponentRemovedEvent(entity, new TestComponentThree()));
+
+            // Should trigger
+            systemExecutor.OnEntityComponentRemoved(new ComponentRemovedEvent(entity, new TestComponentTwo()));
+
+            fakeSystem.Received(1).Teardown(Arg.Is(entity));
+        }
     }
 }
