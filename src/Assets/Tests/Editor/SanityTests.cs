@@ -25,10 +25,11 @@ namespace EcsRx.Tests
             var poolManager = new PoolManager(messageBroker, poolFactory, groupAccessorFactory);
             var reactsToEntityHandler = new ReactToEntitySystemHandler(poolManager);
             var reactsToGroupHandler = new ReactToGroupSystemHandler(poolManager);
+            var reactsToDataHandler = new ReactToDataSystemHandler(poolManager);
             var manualSystemHandler = new ManualSystemHandler(poolManager);
             var setupHandler = new SetupSystemHandler(poolManager);
             return new SystemExecutor(poolManager, messageBroker, reactsToEntityHandler, 
-                reactsToGroupHandler, setupHandler, manualSystemHandler);
+                reactsToGroupHandler, setupHandler, reactsToDataHandler, manualSystemHandler);
         }
 
         [Test]

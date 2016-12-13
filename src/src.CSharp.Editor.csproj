@@ -148,6 +148,7 @@
     <Compile Include="Assets\Tests\Editor\Components\TestComponentTwo.cs" />
     <Compile Include="Assets\Tests\Editor\EntityTests.cs" />
     <Compile Include="Assets\Tests\Editor\IEnumerableExtensionsTests.cs" />
+    <Compile Include="Assets\Tests\Editor\ISystemExtensionTests.cs" />
     <Compile Include="Assets\Tests\Editor\PoolTests.cs" />
     <Compile Include="Assets\Tests\Editor\ReactToEntitySystemHandlerTests.cs" />
     <Compile Include="Assets\Tests\Editor\ReactToGroupSystemHandlerTests.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="Assets\Tests\Editor\Systems\HighPrioritySystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\LowerThanDefaultPrioritySystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\LowPrioritySystem.cs" />
+    <Compile Include="Assets\Tests\Editor\Systems\ReactiveDataTestSystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\TestSetupSystem.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\Editor\AssertionComponentEditor.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\Editor\AssertionExplorerWindow.cs" />
