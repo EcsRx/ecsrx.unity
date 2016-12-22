@@ -1,4 +1,4 @@
-﻿using UniRx;
+﻿using EcsRx.Events;
 using UnityEngine;
 using Zenject;
 
@@ -7,7 +7,7 @@ namespace EcsRx.Unity.MonoBehaviours
     public abstract class InjectableMonoBehaviour : MonoBehaviour
     {
         [Inject]
-        public IMessageBroker MessageBroker { get; private set; }
+        public IEventSystem EventSystem { get; private set; }
 
         [Inject]
         private IInstantiator Instantiator { get; set; }
