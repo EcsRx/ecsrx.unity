@@ -9,6 +9,9 @@ EcsRx is a reactive take on the common ECS pattern with a well separated design 
 
 We have now also got a real-world example to view @ [grofit/ecsrx.roguelike2d](https://github.com/grofit/ecsrx.roguelike2d)
 
+There is also a simple example of a plugin to view @ [grofit/ecsrx.buffs](https://github.com/grofit/ecsrx.buffs)
+
+
 ## Dependencies
 
 - UniRx (All)
