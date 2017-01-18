@@ -902,7 +902,12 @@ namespace EcsRx.Json {
         {
             get
             {
-                return this as JSONClass;
+                var classRepresentation =  this as JSONClass;
+                if (classRepresentation == null)
+                {
+                    classRepresentation = new JSONClass();
+                }
+                return classRepresentation;
             }
         }
 #if !PORTABLE && !DLL
@@ -919,6 +924,7 @@ namespace EcsRx.Json {
                 ob.Add("x", new JSONData(euler.x));
                 ob.Add("y", new JSONData(euler.y));
                 ob.Add("z", new JSONData(euler.z));
+                Value = ob.ToString();
             }
         }
 #endif
@@ -926,14 +932,15 @@ namespace EcsRx.Json {
         {
             get
             {
-                var cl = this as JSONClass;
-                return new Vector2(cl["x"].AsFloat, cl["y"].AsFloat);
+                var values = JSON.Parse(this);
+                return new Vector2(values["x"].AsFloat, values["y"].AsFloat);
             }
             set
             {
-                var ob = this.AsObject;
-                ob.Add("x", new JSONData(value.x));
-                ob.Add("y", new JSONData(value.y));
+                var jsonObject = this.AsObject;
+                jsonObject.Add("x", new JSONData(value.x));
+                jsonObject.Add("y", new JSONData(value.y));
+                Value = jsonObject.ToString();
             }
         }
 
@@ -941,17 +948,16 @@ namespace EcsRx.Json {
         {
             get
             {
-                return new Vector3(this["x"].AsFloat, this["y"].AsFloat, this["z"].AsFloat);
+                var values = JSON.Parse(this);
+                return new Vector3(values["x"].AsFloat, values["y"].AsFloat, values["z"].AsFloat);
             }
             set
             {
-                var ob = this.AsObject;
-                ob.Add("x", new JSONData(value.x));
-                ob.Add("y", new JSONData(value.y));
-                ob.Add("z", new JSONData(value.z));
-                //this["x"].AsFloat = value.x;
-                //this["y"].AsFloat = value.x;
-                //this["z"].AsFloat = value.x;
+                var jsonObject = this.AsObject;
+                jsonObject.Add("x", new JSONData(value.x));
+                jsonObject.Add("y", new JSONData(value.y));
+                jsonObject.Add("z", new JSONData(value.z));
+                Value = jsonObject.ToString();
             }
         }
 
@@ -959,16 +965,17 @@ namespace EcsRx.Json {
         {
             get
             {
-                var cl = this as JSONClass;
-                return new Vector4(cl["x"].AsFloat, cl["y"].AsFloat, cl["z"].AsFloat, cl["w"].AsFloat);
+                var values = JSON.Parse(this);
+                return new Vector4(values["x"].AsFloat, values["y"].AsFloat, values["z"].AsFloat, values["w"].AsFloat);
             }
             set
             {
-                var ob = this.AsObject;
-                ob.Add("x", new JSONData(value.x));
-                ob.Add("y", new JSONData(value.y));
-                ob.Add("z", new JSONData(value.z));
-                ob.Add("w", new JSONData(value.w));
+                var jsonObject = this.AsObject;
+                jsonObject.Add("x", new JSONData(value.x));
+                jsonObject.Add("y", new JSONData(value.y));
+                jsonObject.Add("z", new JSONData(value.z));
+                jsonObject.Add("w", new JSONData(value.w));
+                Value = jsonObject.ToString();
             }
         }
 
