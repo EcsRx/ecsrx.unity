@@ -4,7 +4,7 @@ namespace EcsRx.Unity.Helpers.EditorInputs
 {
     public abstract class SimpleEditorInput<T> : IEditorInput
     {
-        public bool HandlesType(Type type)
+        public virtual bool HandlesType(Type type)
         { return type == typeof(T); }
 
         public T GetValue(object value)
