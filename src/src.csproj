@@ -183,6 +183,8 @@
     <Compile Include="Assets\EcsRx\Framework\Groups\IGroup.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\IGroupAccessor.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\IGroupAccessorFactory.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\IHasFilter.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\IHasPredicate.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\ITypeGroup.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\DefaultPoolFactory.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\GroupAccessorToken.cs" />
