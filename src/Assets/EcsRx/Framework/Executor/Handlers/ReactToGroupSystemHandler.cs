@@ -27,7 +27,6 @@ namespace EcsRx.Systems.Executor.Handlers
                     {
                         if (hasEntityPredicate)
                         {
-
                             var groupPredicate = system.TargetGroup as IHasPredicate;
                             if (groupPredicate.CanProcessEntity(entities.ElementAt(i)))
                             {

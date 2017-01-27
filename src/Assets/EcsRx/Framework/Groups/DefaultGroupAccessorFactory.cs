@@ -13,7 +13,9 @@ namespace EcsRx.Groups
 
         public IGroupAccessor Create(GroupAccessorConfiguration arg)
         {
-            return new CacheableGroupAccessor(arg.GroupAccessorToken, arg.InitialEntities, _eventSystem);
+            var groupAccessor = new CacheableGroupAccessor(arg.GroupAccessorToken, arg.InitialEntities, _eventSystem);
+            groupAccessor.MonitorEntityChanges();
+            return groupAccessor;            
         }
     }
 }
