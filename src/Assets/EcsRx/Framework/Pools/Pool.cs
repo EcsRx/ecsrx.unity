@@ -37,6 +37,9 @@ namespace EcsRx.Pools
             return entity;
         }
 
+        public IEnumerable<IEntity> Query(IEntityQuery query)
+        { return query.Execute(_entities); }
+
         public void RemoveEntity(IEntity entity)
         {
             _entities.Remove(entity);
