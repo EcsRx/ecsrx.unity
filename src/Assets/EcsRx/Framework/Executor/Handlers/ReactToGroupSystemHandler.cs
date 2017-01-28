@@ -26,14 +26,14 @@ namespace EcsRx.Systems.Executor.Handlers
                     {
                         if (hasEntityPredicate)
                         {
-                            if (system.TargetGroup.TargettedEntities(entities.ElementAt(i)))
+                            if (system.TargetGroup.TargettedEntities(entities[i]))
                             {
-                                system.Execute(entities.ElementAt(i));
+                                system.Execute(entities[i]);
                             }
                             return;
                         }
 
-                        system.Execute(entities.ElementAt(i));
+                        system.Execute(entities[i]);
                     }
                 });
 
