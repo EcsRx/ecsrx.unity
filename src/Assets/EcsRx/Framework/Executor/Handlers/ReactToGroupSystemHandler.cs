@@ -20,20 +20,20 @@ namespace EcsRx.Systems.Executor.Handlers
             var subscription = system.ReactToGroup(groupAccessor)
                 .Subscribe(accessor =>
                 {
-                    var entities = accessor.Entities;
-                    var entityCount = entities.Count() - 1;
+                    var entities = accessor.Entities.ToList();
+                    var entityCount = entities.Count - 1;
                     for (var i = entityCount; i >= 0; i--)
                     {
                         if (hasEntityPredicate)
                         {
-                            if (system.TargetGroup.TargettedEntities(entities.ElementAt(i)))
+                            if (system.TargetGroup.TargettedEntities(entities[i]))
                             {
-                                system.Execute(entities.ElementAt(i));
+                                system.Execute(entities[i]);
                             }
                             return;
                         }
 
-                        system.Execute(entities.ElementAt(i));
+                        system.Execute(entities[i]);
                     }
                 });
 
