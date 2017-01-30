@@ -9,7 +9,6 @@ namespace EcsRx.Pools
         string Name { get; }
 
         IEnumerable<IEntity> Entities { get; }
-        IEnumerable<IEntity> Query(IPoolQuery query);
 
         IEntity CreateEntity(IBlueprint blueprint = null);
         void RemoveEntity(IEntity entity);
