@@ -3,7 +3,7 @@ using EcsRx.Entities;
 
 namespace EcsRx.Pools
 {
-    public interface IEntityQuery
+    public interface IPoolQuery
     {
         IEnumerable<IEntity> Execute(IEnumerable<IEntity> entityList);
     }
