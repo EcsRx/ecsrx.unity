@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Assets.EcsRx.Framework.Filtration;
 using EcsRx.Entities;
 using EcsRx.Pools;
 

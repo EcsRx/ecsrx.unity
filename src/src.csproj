@@ -189,7 +189,7 @@
     <Compile Include="Assets\EcsRx\Framework\Extensions\ISystemExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\PoolManagerExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Factories\IFactory.cs" />
-    <Compile Include="Assets\EcsRx\Framework\Filtration\GroupAccessorFilter.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\Filtration\GroupAccessorFilter.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\IGroupAccessorQuery.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\CacheableGroupAccessor.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\DefaultGroupAccessorFactory.cs" />
@@ -512,9 +512,7 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\EcsRx\Framework\Groups\Accessors\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

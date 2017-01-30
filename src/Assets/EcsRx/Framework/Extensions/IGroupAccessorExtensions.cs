@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Assets.EcsRx.Framework.Filtration;
 using Assets.EcsRx.Framework.Groups;
 using EcsRx.Entities;
 using EcsRx.Groups;
