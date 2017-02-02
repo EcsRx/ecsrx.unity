@@ -38,8 +38,9 @@ namespace EcsRx.Entities
         {
             if(!_components.ContainsKey(component.GetType())) { return; }
 
-            if(component is IDisposable)
-            { (component as IDisposable).Dispose(); }
+            var disposable = component as IDisposable;
+            if (disposable != null)
+                disposable.Dispose();
 
             _components.Remove(component.GetType());
             EventSystem.Publish(new ComponentRemovedEvent(this, component));
