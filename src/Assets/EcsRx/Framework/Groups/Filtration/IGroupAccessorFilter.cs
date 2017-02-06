@@ -8,18 +8,15 @@ namespace Assets.EcsRx.Framework.Groups.Filtration
     public interface IGroupAccessorFilter
     {
         IGroupAccessor GroupAccessor { get; }
-        IEnumerable<IEntity> Filter();
     }
 
-    public interface IGroupAccessorFilter<T>
+    public interface IGroupAccessorFilter<T> : IGroupAccessorFilter
     {
-        IGroupAccessor GroupAccessor { get; }
         IEnumerable<T> Filter();
     }
 
-    public interface IGroupAccessorFilter<TOutput, TInput>
+    public interface IGroupAccessorFilter<TOutput, TInput> : IGroupAccessorFilter
     {
-        IGroupAccessor GroupAccessor { get; }
         IEnumerable<TOutput> Filter(TInput input);
     }
 }
