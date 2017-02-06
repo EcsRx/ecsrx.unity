@@ -7,7 +7,8 @@ namespace Assets.EcsRx.Framework.Groups.Filtration
 {
     public abstract class CacheableGroupAccessorFilter<T> : IGroupAccessorFilter<T>, IDisposable
     {
-        private readonly IDisposable _triggerSubscription;
+        private IDisposable _triggerSubscription;
+        private bool _needsUpdate = true;
 
         protected IEnumerable<T> FilteredCache { get; set; }
         protected abstract IObservable<Unit> TriggerOnChange();
@@ -18,18 +19,20 @@ namespace Assets.EcsRx.Framework.Groups.Filtration
         protected CacheableGroupAccessorFilter(IGroupAccessor groupAccessor)
         {
             GroupAccessor = groupAccessor;
-            _triggerSubscription = TriggerOnChange().Subscribe(x => UpdateCache());
+            SetupTriggers();
         }
 
-        private void UpdateCache()
-        { FilteredCache = FilterQuery(); }
+        private void SetupTriggers()
+        { _triggerSubscription = TriggerOnChange().Subscribe(x => _needsUpdate = true); }
 
         public IEnumerable<T> Filter()
         {
-            if (FilteredCache != null)
-            { return FilteredCache; }
+            if (_needsUpdate)
+            {
+                FilteredCache = FilterQuery();
+                _needsUpdate = false;
+            }
 
-            UpdateCache();
             return FilteredCache;
         }
 
