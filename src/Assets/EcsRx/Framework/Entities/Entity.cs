@@ -14,10 +14,10 @@ namespace EcsRx.Entities
 
         public IEventSystem EventSystem { get; private set; }
 
-        public int Id { get; private set; }
+        public Guid Id { get; private set; }
         public IEnumerable<IComponent> Components { get { return _components.Values; } }
 
-        public Entity(int id, IEventSystem eventSystem)
+        public Entity(Guid id, IEventSystem eventSystem)
         {
             Id = id;
             EventSystem = eventSystem;

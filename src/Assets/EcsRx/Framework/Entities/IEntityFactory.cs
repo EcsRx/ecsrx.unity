@@ -1,6 +1,7 @@
-﻿using EcsRx.Factories;
+﻿using System;
+using EcsRx.Factories;
 
 namespace EcsRx.Entities
 {
-    public interface IEntityFactory : IFactory<int?, IEntity> {}
+    public interface IEntityFactory : IFactory<Guid?, IEntity> {}
 }

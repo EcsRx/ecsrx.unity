@@ -21,21 +21,21 @@ namespace EcsRx.Systems.Executor.Handlers
             var subscription = system.ReactToGroup(groupAccessor)
                 .Subscribe(accessor =>
                 {
-                    var entities = accessor.Entities;
-                    var entityCount = entities.Count() - 1;
+                    var entities = accessor.Entities.ToList();
+                    var entityCount = entities.Count - 1;
                     for (var i = entityCount; i >= 0; i--)
                     {
                         if (hasEntityPredicate)
                         {
                             var groupPredicate = system.TargetGroup as IHasPredicate;
-                            if (groupPredicate.CanProcessEntity(entities.ElementAt(i)))
+                            if (groupPredicate.CanProcessEntity(entities[i]))
                             {
-                                system.Execute(entities.ElementAt(i));
+                                system.Execute(entities[i]);
                             }
                             return;
                         }
 
-                        system.Execute(entities.ElementAt(i));
+                        system.Execute(entities[i]);
                     }
                 });
 
