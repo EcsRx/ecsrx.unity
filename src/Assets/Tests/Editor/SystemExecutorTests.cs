@@ -1,4 +1,5 @@
-﻿using EcsRx.Components;
+﻿using System;
+using EcsRx.Components;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Groups;
@@ -117,7 +118,7 @@ namespace EcsRx.Tests
 
             systemExecutor.AddSystem(fakeSystem);
 
-            var entity = new Entity(1, mockEventSystem);
+            var entity = new Entity(Guid.NewGuid(), mockEventSystem);
             entity.AddComponent(new TestComponentOne());
             systemExecutor.OnEntityComponentAdded(new ComponentAddedEvent(entity, new TestComponentOne()));
             
@@ -144,7 +145,7 @@ namespace EcsRx.Tests
 
             systemExecutor.AddSystem(fakeSystem);
 
-            var entity = new Entity(1, mockEventSystem);
+            var entity = new Entity(Guid.NewGuid(), mockEventSystem);
             entity.AddComponent(new TestComponentOne());
             entity.AddComponent(new TestComponentTwo());
             

@@ -1,6 +1,5 @@
 ﻿using System;
 using EcsRx.Events;
-using UnityEditor;
 
 namespace EcsRx.Entities
 {
