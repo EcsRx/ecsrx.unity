@@ -7,13 +7,13 @@ namespace Assets.EcsRx.Examples.ManuallyRegisterSystems
 {
     public class Application : EcsRxApplication
     {
-        protected override void GameStarting()
+        protected override void ApplicationStarting()
         {
             RegisterBoundSystem<DefaultViewResolver>();
             RegisterBoundSystem<RandomMovementSystem>();
         }
 
-        protected override void GameStarted()
+        protected override void ApplicationStarted()
         {
             var defaultPool = PoolManager.GetPool();
             

@@ -1,12 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Pools;
-using EcsRx.Pools.Identifiers;
-using EcsRx.Tests.Components;
 using NSubstitute;
 using NUnit.Framework;
-using UniRx;
 
 namespace EcsRx.Tests
 {
@@ -16,7 +14,7 @@ namespace EcsRx.Tests
         [Test]
         public void should_create_new_entity()
         {
-            var expectedId = 123456;
+            var expectedId = Guid.NewGuid();
             var mockEntityFactory = Substitute.For<IEntityFactory>();
             var mockEventSystem = Substitute.For<IEventSystem>();
             mockEntityFactory.Create(null).Returns(new Entity(expectedId, mockEventSystem));
@@ -34,7 +32,7 @@ namespace EcsRx.Tests
         {
             var mockEventSystem = Substitute.For<IEventSystem>();
             var mockEntityFactory = Substitute.For<IEntityFactory>();
-            mockEntityFactory.Create(null).Returns(new Entity(1, mockEventSystem));
+            mockEntityFactory.Create(null).Returns(new Entity(Guid.NewGuid(), mockEventSystem));
 
             var pool = new Pool("", mockEntityFactory, mockEventSystem);
             var entity = pool.CreateEntity();
@@ -47,7 +45,7 @@ namespace EcsRx.Tests
         {
             var mockEventSystem = Substitute.For<IEventSystem>();
             var mockEntityFactory = Substitute.For<IEntityFactory>();
-            mockEntityFactory.Create(null).Returns(new Entity(1, mockEventSystem));
+            mockEntityFactory.Create(null).Returns(new Entity(Guid.NewGuid(), mockEventSystem));
 
             var pool = new Pool("", mockEntityFactory, mockEventSystem);
             var entity = pool.CreateEntity();
@@ -61,7 +59,7 @@ namespace EcsRx.Tests
         {
             var mockEventSystem = Substitute.For<IEventSystem>();
             var mockEntityFactory = Substitute.For<IEntityFactory>();
-            mockEntityFactory.Create(null).Returns(new Entity(1, mockEventSystem));
+            mockEntityFactory.Create(null).Returns(new Entity(Guid.NewGuid(), mockEventSystem));
 
             var pool = new Pool("", mockEntityFactory, mockEventSystem);
             var entity = pool.CreateEntity();
@@ -77,7 +75,7 @@ namespace EcsRx.Tests
         {
             var mockEventSystem = Substitute.For<IEventSystem>();
             var mockEntityFactory = Substitute.For<IEntityFactory>();
-            mockEntityFactory.Create(null).Returns(new Entity(1, mockEventSystem));
+            mockEntityFactory.Create(null).Returns(new Entity(Guid.NewGuid(), mockEventSystem));
 
             var pool = new Pool("", mockEntityFactory, mockEventSystem);
             var entity = pool.CreateEntity();

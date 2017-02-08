@@ -6,12 +6,12 @@ namespace Assets.EcsRx.Examples.SceneFirstSetup
 {
     public class Application : EcsRxApplication
     {
-        protected override void GameStarting()
+        protected override void ApplicationStarting()
         {
             RegisterAllBoundSystems();
         }
 
-        protected override void GameStarted()
+        protected override void ApplicationStarted()
         {
             var defaultPool = PoolManager.GetPool();
 

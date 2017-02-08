@@ -11,8 +11,8 @@ using UnityEditor.SceneManagement;
 namespace UnityTest
 {
     public static partial class Batch
-	{
-		const string k_ResultFilePathParam = "-resultFilePath=";
+    {
+        const string k_ResultFilePathParam = "-resultFilePath=";
         private const string k_TestScenesParam = "-testscenes=";
         private const string k_OtherBuildScenesParam = "-includeBuildScenes=";
         const string k_TargetPlatformParam = "-targetPlatform=";

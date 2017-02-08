@@ -5,13 +5,13 @@ namespace Assets.EcsRx.Examples.PluginExample
 {
     public class Application : EcsRxApplication
     {
-        protected override void GameStarting()
+        protected override void ApplicationStarting()
         {
             RegisterAllBoundSystems();
             RegisterPlugin(new HelloWorldPlugin.HelloWorldPlugin());
         }
         
-        protected override void GameStarted()
+        protected override void ApplicationStarted()
         {
             var defaultPool = PoolManager.GetPool();
             var entity = defaultPool.CreateEntity();

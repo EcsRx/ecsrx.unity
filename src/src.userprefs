@@ -1,8 +1,9 @@
-﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/EcsRx/Unity/MonoBehaviours/Editor/EntityViewInspector.cs">
+﻿<Properties StartupItem="src.Plugins.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\MainThreadDispatcher.cs">
     <Files>
-      <File FileName="Assets/EcsRx/Unity/MonoBehaviours/Editor/EntityViewInspector.cs" Line="119" Column="10" />
+      <File FileName="Assets\EcsRx\Unity\MonoBehaviours\Editor\EntityViewInspector.cs" Line="119" Column="10" />
+      <File FileName="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\MainThreadDispatcher.cs" Line="312" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

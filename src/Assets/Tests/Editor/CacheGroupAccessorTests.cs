@@ -22,9 +22,9 @@ namespace EcsRx.Tests
 
             var dummyEntitySnapshot = new List<IEntity>
             {
-                new Entity(1, mockEventSystem),
-                new Entity(2, mockEventSystem),
-                new Entity(3, mockEventSystem)
+                new Entity(Guid.NewGuid(), mockEventSystem),
+                new Entity(Guid.NewGuid(), mockEventSystem),
+                new Entity(Guid.NewGuid(), mockEventSystem)
             };
 
             var cacheableGroupAccessor = new CacheableGroupAccessor(accessorToken, dummyEntitySnapshot, mockEventSystem);
@@ -42,11 +42,11 @@ namespace EcsRx.Tests
             var accessorToken = new GroupAccessorToken(new[] { typeof(TestComponentOne), typeof(TestComponentTwo) }, "default");
             var mockPool = Substitute.For<IPool>();
             
-            var applicableEntity = new Entity(1, mockEventSystem);
+            var applicableEntity = new Entity(Guid.NewGuid(), mockEventSystem);
             applicableEntity.AddComponent<TestComponentOne>();
             applicableEntity.AddComponent<TestComponentTwo>();
 
-            var unapplicableEntity = new Entity(2, mockEventSystem);
+            var unapplicableEntity = new Entity(Guid.NewGuid(), mockEventSystem);
             unapplicableEntity.AddComponent<TestComponentOne>();
 
             var underlyingEvent = new ReactiveProperty<EntityAddedEvent>(new EntityAddedEvent(applicableEntity, mockPool));
@@ -68,15 +68,15 @@ namespace EcsRx.Tests
             var accessorToken = new GroupAccessorToken(new[] { typeof(TestComponentOne), typeof(TestComponentTwo) }, "default");
             var mockPool = Substitute.For<IPool>();
 
-            var existingEntityOne = new Entity(1, mockEventSystem);
+            var existingEntityOne = new Entity(Guid.NewGuid(), mockEventSystem);
             existingEntityOne.AddComponent<TestComponentOne>();
             existingEntityOne.AddComponent<TestComponentTwo>();
 
-            var existingEntityTwo = new Entity(2, mockEventSystem);
+            var existingEntityTwo = new Entity(Guid.NewGuid(), mockEventSystem);
             existingEntityTwo.AddComponent<TestComponentOne>();
             existingEntityTwo.AddComponent<TestComponentTwo>();
 
-            var unapplicableEntity = new Entity(2, mockEventSystem);
+            var unapplicableEntity = new Entity(Guid.NewGuid(), mockEventSystem);
             unapplicableEntity.AddComponent<TestComponentOne>();
 
             var underlyingEvent = new ReactiveProperty<EntityRemovedEvent>(new EntityRemovedEvent(unapplicableEntity, mockPool));
@@ -97,18 +97,18 @@ namespace EcsRx.Tests
             var mockEventSystem = Substitute.For<IEventSystem>();
             var accessorToken = new GroupAccessorToken(new[] { typeof(TestComponentOne), typeof(TestComponentTwo) }, "default");
 
-            var existingEntityOne = new Entity(1, mockEventSystem);
+            var existingEntityOne = new Entity(Guid.NewGuid(), mockEventSystem);
             var componentToRemove = new TestComponentOne();
             existingEntityOne.AddComponent(componentToRemove);
             existingEntityOne.AddComponent<TestComponentTwo>();
 
-            var existingEntityTwo = new Entity(2, mockEventSystem);
+            var existingEntityTwo = new Entity(Guid.NewGuid(), mockEventSystem);
             var unapplicableComponent = new TestComponentThree();
             existingEntityTwo.AddComponent<TestComponentOne>();
             existingEntityTwo.AddComponent<TestComponentTwo>();
             existingEntityTwo.AddComponent(unapplicableComponent);
 
-            var dummyEventToSeedMock = new ComponentRemovedEvent(new Entity(99, mockEventSystem), new TestComponentOne());
+            var dummyEventToSeedMock = new ComponentRemovedEvent(new Entity(Guid.NewGuid(), mockEventSystem), new TestComponentOne());
             var underlyingEvent = new ReactiveProperty<ComponentRemovedEvent>(dummyEventToSeedMock);
             mockEventSystem.Receive<ComponentRemovedEvent>().Returns(underlyingEvent);
 
@@ -131,15 +131,15 @@ namespace EcsRx.Tests
             var mockEventSystem = Substitute.For<IEventSystem>();
             var accessorToken = new GroupAccessorToken(new[] { typeof(TestComponentOne), typeof(TestComponentTwo) }, "default");
 
-            var existingEntityOne = new Entity(1, mockEventSystem);
+            var existingEntityOne = new Entity(Guid.NewGuid(), mockEventSystem);
             var componentToAdd = new TestComponentOne();
             existingEntityOne.AddComponent<TestComponentTwo>();
 
-            var existingEntityTwo = new Entity(2, mockEventSystem);
+            var existingEntityTwo = new Entity(Guid.NewGuid(), mockEventSystem);
             var unapplicableComponent = new TestComponentThree();
             existingEntityTwo.AddComponent<TestComponentOne>();
 
-            var dummyEventToSeedMock = new ComponentAddedEvent(new Entity(99, mockEventSystem), new TestComponentOne());
+            var dummyEventToSeedMock = new ComponentAddedEvent(new Entity(Guid.NewGuid(), mockEventSystem), new TestComponentOne());
             var underlyingEvent = new ReactiveProperty<ComponentAddedEvent>(dummyEventToSeedMock);
             mockEventSystem.Receive<ComponentAddedEvent>().Returns(underlyingEvent);
 
