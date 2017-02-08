@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.EcsRx.Examples.GroupFilters.Components;
 using Assets.EcsRx.Framework.Groups.Filtration;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using UniRx;
+using UnityEngine;
 
 namespace Assets.EcsRx.Examples.GroupFilters.Filters
 {
@@ -15,23 +17,17 @@ namespace Assets.EcsRx.Examples.GroupFilters.Filters
 
         protected override IEnumerable<HasScoreComponent> FilterQuery()
         {
+            Debug.Log("Updating");
             return GroupAccessor.Entities
                 .Select(x => x.GetComponent<HasScoreComponent>())
-                .OrderBy(x => x.Score.Value)
-                .Take(5);
+                .OrderByDescending(x => x.Score.Value)
+                .Take(5)
+                .ToList();
         }
 
         protected override IObservable<Unit> TriggerOnChange()
         {
-            var scoreList = GroupAccessor.Entities
-                .Select(x => x.GetComponent<HasScoreComponent>().Score)
-                .ToReactiveCollection();
-            
-            var entityAdded = scoreList.ObserveAdd().AsTrigger();
-            var entityRemoved = scoreList.ObserveRemove().AsTrigger();
-            var valuesChanges = scoreList.ToObservable().DistinctUntilChanged().AsTrigger();
-
-            return Observable.Merge(entityAdded, entityRemoved, valuesChanges);
+            return Observable.Interval(TimeSpan.FromSeconds(1)).AsTrigger();
         }
     }
 }

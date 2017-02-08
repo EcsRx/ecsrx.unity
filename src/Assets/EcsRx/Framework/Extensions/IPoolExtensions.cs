@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.EcsRx.Framework.Groups.Filtration;
 using EcsRx.Components;
 using EcsRx.Entities;
+using EcsRx.Groups;
 using EcsRx.Pools;
 
 namespace EcsRx.Extensions
