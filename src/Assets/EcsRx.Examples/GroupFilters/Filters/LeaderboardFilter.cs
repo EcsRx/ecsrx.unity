@@ -17,7 +17,7 @@ namespace Assets.EcsRx.Examples.GroupFilters.Filters
         {
             return GroupAccessor.Entities
                 .Select(x => x.GetComponent<HasScoreComponent>())
-                .OrderBy(x => x.Score.Value)
+                .OrderByDescending(x => x.Score.Value)
                 .Take(5);
         }
     }

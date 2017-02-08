@@ -10,7 +10,7 @@ namespace Assets.Tests.Scenes.GroupedPerformance
     {
         private readonly int _cubeCount = 500;
 
-        protected override void GameStarting()
+        protected override void ApplicationStarting()
         {
             RegisterBoundSystem<CubeViewResolver>();
 
@@ -19,7 +19,7 @@ namespace Assets.Tests.Scenes.GroupedPerformance
             //RegisterBoundSystem<EntityRotationSystem>();
         }
 
-        protected override void GameStarted()
+        protected override void ApplicationStarted()
         {
             var defaultPool = PoolManager.GetPool();
 
