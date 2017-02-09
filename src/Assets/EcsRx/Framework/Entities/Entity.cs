@@ -40,7 +40,7 @@ namespace EcsRx.Entities
 
             var disposable = component as IDisposable;
             if (disposable != null)
-                disposable.Dispose();
+            {  disposable.Dispose(); }
 
             _components.Remove(component.GetType());
             EventSystem.Publish(new ComponentRemovedEvent(this, component));
