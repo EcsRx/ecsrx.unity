@@ -2,7 +2,6 @@
 using EcsRx.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Events;
-using EcsRx.Pools.Identifiers;
 
 namespace EcsRx.Pools
 {

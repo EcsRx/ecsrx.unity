@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using EcsRx.Entities;
 using EcsRx.Extensions;
+using EcsRx.Groups;
 using EcsRx.Pools;
 using UniRx;
 
@@ -30,20 +31,22 @@ namespace EcsRx.Systems.Executor.Handlers
 
         public SubscriptionToken ProcessEntity(ISetupSystem system, IEntity entity)
         {
-            var hasEntityPredicate = system.TargetGroup.TargettedEntities != null;
+            var hasEntityPredicate = system.TargetGroup is IHasPredicate;
+            var groupPredicate = system.TargetGroup as IHasPredicate;
+
             if (!hasEntityPredicate)
             {
                 system.Setup(entity);
                 return null;
             }
 
-            if (system.TargetGroup.TargettedEntities(entity))
+            if (groupPredicate.CanProcessEntity(entity))
             {
                 system.Setup(entity);
                 return null;
             }
 
-            var subscription = entity.WaitForPredicateMet(system.TargetGroup.TargettedEntities)
+            var subscription = entity.WaitForPredicateMet(groupPredicate.CanProcessEntity)
                 .Subscribe(system.Setup);
 
             var subscriptionToken = new SubscriptionToken(entity, subscription);

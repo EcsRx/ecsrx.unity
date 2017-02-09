@@ -72,8 +72,12 @@ namespace EcsRx.Pools
             if (_groupAccessors.ContainsKey(groupAccessorToken)) { return _groupAccessors[groupAccessorToken]; }
 
             var entityMatches = GetEntitiesFor(@group, poolName);
-            var groupAccessor = new CacheableGroupAccessor(groupAccessorToken, entityMatches, EventSystem);
-            groupAccessor.MonitorEntityChanges();
+            var groupAccessor = GroupAccessorFactory.Create(new GroupAccessorConfiguration
+            {
+                GroupAccessorToken = groupAccessorToken,
+                InitialEntities = entityMatches
+            });
+            
             _groupAccessors.Add(groupAccessorToken, groupAccessor);
 
             return _groupAccessors[groupAccessorToken];

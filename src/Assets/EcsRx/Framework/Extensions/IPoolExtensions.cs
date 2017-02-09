@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Assets.EcsRx.Framework.Groups.Filtration;
 using EcsRx.Components;
+using EcsRx.Entities;
+using EcsRx.Groups;
 using EcsRx.Pools;
 
 namespace EcsRx.Extensions
@@ -28,5 +32,8 @@ namespace EcsRx.Extensions
             foreach(var entity in allEntities)
             { pool.RemoveEntity(entity); }
         }
+
+        public static IEnumerable<IEntity> Query(this IPool pool, IPoolQuery query)
+        { return query.Execute(pool.Entities); }
     }
 }

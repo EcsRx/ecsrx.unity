@@ -6,7 +6,7 @@ namespace EcsRx.Entities
 {
     public interface IEntity : IDisposable
     {
-        int Id { get; }
+        Guid Id { get; }
         IEnumerable<IComponent> Components { get; }
 
         IComponent AddComponent(IComponent component);

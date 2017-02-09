@@ -1,23 +1,21 @@
-﻿using EcsRx.Events;
-using EcsRx.Pools.Identifiers;
+﻿using System;
+using EcsRx.Events;
 
 namespace EcsRx.Entities
 {
     public class DefaultEntityFactory : IEntityFactory
     {
         private readonly IEventSystem _eventSystem;
-        private readonly IIdentityGenerator _identityGenerator;
 
-        public DefaultEntityFactory(IIdentityGenerator identityGenerator, IEventSystem eventSystem)
+        public DefaultEntityFactory(IEventSystem eventSystem)
         {
             _eventSystem = eventSystem;
-            _identityGenerator = identityGenerator;
         }
 
-        public IEntity Create(int? id = null)
+        public IEntity Create(Guid? id = null)
         {
             if (!id.HasValue)
-            { id = _identityGenerator.GenerateId(); }
+            { id = Guid.NewGuid(); }
 
             return new Entity(id.Value, _eventSystem);
         }

@@ -8,12 +8,12 @@ namespace Assets.EcsRx.Examples.RandomReactions
     {
         private readonly int _cubeCount = 500;
 
-        protected override void GameStarting()
+        protected override void ApplicationStarting()
         {
             RegisterAllBoundSystems();
         }
 
-        protected override void GameStarted()
+        protected override void ApplicationStarted()
         {
             var defaultPool = PoolManager.GetPool();
 
