@@ -56,11 +56,8 @@ namespace EcsRx.Entities
 
         public void RemoveAllComponents(Func<IComponent, bool> func)
         {
-            foreach (var component in Components)
-            {
-                if (func(component))
-                { RemoveComponent(component);}
-            }
+            var components = Components.Where(func).ToArray();
+            components.ForEachRun(RemoveComponent);
         }
 
         public void RemoveAllComponents()
