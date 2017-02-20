@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Entities;
 using EcsRx.Pools;
+using UnityEngine.VR.WSA.WebCam;
 
 namespace EcsRx.Extensions
 {
@@ -29,5 +30,17 @@ namespace EcsRx.Extensions
             var containingPool = poolManager.GetContainingPoolFor(entity);
             containingPool.RemoveEntity(entity);
         }
+
+        public static void RemoveEntities(this IPoolManager poolManager, Func<IEntity, bool> predicate)
+        {
+            var matchingEntities = poolManager.Pools.SelectMany(x => x.Entities).Where(predicate).ToArray();
+            RemoveEntities(poolManager, matchingEntities);
+        }
+
+        public static void RemoveEntities(this IPoolManager poolManager, params IEntity[] entities)
+        { entities.ForEachRun(x => RemoveEntity(poolManager, x)); }
+
+        public static void RemoveEntities(this IPoolManager poolManager, IEnumerable<IEntity> entities)
+        { entities.ForEachRun(x => RemoveEntity(poolManager, x)); }
     }
 }

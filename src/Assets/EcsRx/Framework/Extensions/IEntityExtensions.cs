@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Blueprints;
+using EcsRx.Components;
 using EcsRx.Entities;
 using EcsRx.Groups;
 using UniRx;
@@ -31,5 +33,29 @@ namespace EcsRx.Extensions
             blueprint.Apply(entity);
             return entity;
         }
+
+        public static IEntity ApplyBlueprints(this IEntity entity, params IBlueprint[] blueprints)
+        {
+            blueprints.ForEachRun(x => x.Apply(entity));
+            return entity;
+        }
+
+        public static IEntity ApplyBlueprints(this IEntity entity, IEnumerable<IBlueprint> blueprints)
+        {
+            blueprints.ForEachRun(x => x.Apply(entity));
+            return entity;
+        }
+
+        public static void RemoveComponents(this IEntity entity, Func<IComponent, bool> predicate)
+        {
+            var matchingComponents = entity.Components.Where(predicate).ToArray();
+            matchingComponents.ForEachRun(entity.RemoveComponent);
+        }
+
+        public static void RemoveComponents(this IEntity entity, params IComponent[] components)
+        { components.ForEachRun(entity.RemoveComponent); }
+
+        public static void RemoveComponents(this IEntity entity, IEnumerable<IComponent> components)
+        { components.ForEachRun(entity.RemoveComponent); }
     }
 }
