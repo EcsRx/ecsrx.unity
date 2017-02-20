@@ -9,6 +9,7 @@ using EcsRx.Systems.Executor;
 using EcsRx.Systems.Executor.Handlers;
 using EcsRx.Tests.Components;
 using NSubstitute;
+using NSubstitute.Core.Arguments;
 using NUnit.Framework;
 using UniRx;
 
@@ -102,6 +103,203 @@ namespace EcsRx.Tests
             Assert.That(systemExecutor.Systems, Is.Empty);
         }
 
+        [Test]
+        public void should_remove_reactive_system_subscriptions_when_removing_system()
+        {
+            var dummyGroup = new Group(typeof(TestComponentOne));
+            var mockPoolManager = Substitute.For<IPoolManager>();
+            var mockEventSystem = Substitute.For<IEventSystem>();
+            var mockReactToEntity = Substitute.For<IReactToEntitySystemHandler>();
+            var fakeSystem = Substitute.For<IReactToEntitySystem>();
+            fakeSystem.TargetGroup.Returns(dummyGroup);
+
+            var entity = new Entity(Guid.NewGuid(), mockEventSystem);
+            entity.AddComponent(new TestComponentOne());
+
+            var fakeDisposable = Substitute.For<IDisposable>();
+            mockReactToEntity.ProcessEntity(fakeSystem, entity).Returns(new SubscriptionToken(entity, fakeDisposable));
+
+            var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
+                mockReactToEntity, null, null, null, null);
+
+            systemExecutor.AddSystem(fakeSystem);
+            systemExecutor.OnEntityAddedToPool(new EntityAddedEvent(entity, null));
+
+            Assert.That(systemExecutor.GetSubscriptionCountForSystem(fakeSystem), Is.EqualTo(1));
+            Assert.That(systemExecutor.GetTotalSubscriptions(), Is.EqualTo(1));
+
+            systemExecutor.RemoveSystem(fakeSystem);
+
+            Assert.That(systemExecutor.GetSubscriptionCountForSystem(fakeSystem), Is.EqualTo(0));
+            Assert.That(systemExecutor.GetTotalSubscriptions(), Is.EqualTo(0));
+
+            Assert.That(systemExecutor.Systems, Is.Empty);
+            fakeDisposable.Received().Dispose();
+        }
+
+        [Test]
+        public void should_remove_reactive_system_subscriptions_and_dispose_when_removing_corresponding_entity()
+        {
+            var dummyGroup = new Group(typeof(TestComponentOne));
+            var mockPoolManager = Substitute.For<IPoolManager>();
+            var mockEventSystem = Substitute.For<IEventSystem>();
+            var mockReactToEntity = Substitute.For<IReactToEntitySystemHandler>();
+            var fakeSystem = Substitute.For<IReactToEntitySystem>();
+            fakeSystem.TargetGroup.Returns(dummyGroup);
+
+            var entity = new Entity(Guid.NewGuid(), mockEventSystem);
+            entity.AddComponent(new TestComponentOne());
+
+            var fakeDisposable = Substitute.For<IDisposable>();
+            mockReactToEntity.ProcessEntity(fakeSystem, entity).Returns(new SubscriptionToken(entity, fakeDisposable));
+
+            var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
+                mockReactToEntity, null, null, null, null);
+
+            systemExecutor.AddSystem(fakeSystem);
+            systemExecutor.OnEntityAddedToPool(new EntityAddedEvent(entity, null));
+
+            Assert.That(systemExecutor.GetSubscriptionCountForSystem(fakeSystem), Is.EqualTo(1));
+            Assert.That(systemExecutor.GetTotalSubscriptions(), Is.EqualTo(1));
+
+            systemExecutor.OnEntityRemovedFromPool(new EntityRemovedEvent(entity, null));
+
+            Assert.That(systemExecutor.GetSubscriptionCountForSystem(fakeSystem), Is.EqualTo(0));
+            Assert.That(systemExecutor.GetTotalSubscriptions(), Is.EqualTo(0));
+            fakeDisposable.Received().Dispose();
+        }
+
+        [Test]
+        public void should_remove_reactive_data_system_subscriptions_when_removing_system()
+        {
+            var dummyGroup = new Group(typeof(TestComponentOne));
+            var mockPoolManager = Substitute.For<IPoolManager>();
+            var mockEventSystem = Substitute.For<IEventSystem>();
+            var mockReactToDataHandler = Substitute.For<IReactToDataSystemHandler>();
+            var fakeSystem = Substitute.For<IReactToDataSystem<bool>>();
+            fakeSystem.TargetGroup.Returns(dummyGroup);
+
+            var entity = new Entity(Guid.NewGuid(), mockEventSystem);
+            entity.AddComponent(new TestComponentOne());
+
+            var fakeDisposable = Substitute.For<IDisposable>();
+            mockReactToDataHandler.ProcessEntityWithoutType(fakeSystem, entity).Returns(new SubscriptionToken(entity, fakeDisposable));
+
+            var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
+                null, null, null, mockReactToDataHandler, null);
+
+            systemExecutor.AddSystem(fakeSystem);
+            systemExecutor.OnEntityAddedToPool(new EntityAddedEvent(entity, null));
+
+            Assert.That(systemExecutor.GetSubscriptionCountForSystem(fakeSystem), Is.EqualTo(1));
+            Assert.That(systemExecutor.GetTotalSubscriptions(), Is.EqualTo(1));
+
+            systemExecutor.RemoveSystem(fakeSystem);
+
+            Assert.That(systemExecutor.GetSubscriptionCountForSystem(fakeSystem), Is.EqualTo(0));
+            Assert.That(systemExecutor.GetTotalSubscriptions(), Is.EqualTo(0));
+
+            Assert.That(systemExecutor.Systems, Is.Empty);
+            fakeDisposable.Received().Dispose();
+        }
+
+        [Test]
+        public void should_remove_reactive_data_system_subscriptions_and_dispose_when_removing_corresponding_entity()
+        {
+            var dummyGroup = new Group(typeof(TestComponentOne));
+            var mockPoolManager = Substitute.For<IPoolManager>();
+            var mockEventSystem = Substitute.For<IEventSystem>();
+            var mockReactToDataHandler = Substitute.For<IReactToDataSystemHandler>();
+            var fakeSystem = Substitute.For<IReactToDataSystem<bool>>();
+            fakeSystem.TargetGroup.Returns(dummyGroup);
+
+            var entity = new Entity(Guid.NewGuid(), mockEventSystem);
+            entity.AddComponent(new TestComponentOne());
+
+            var fakeDisposable = Substitute.For<IDisposable>();
+            mockReactToDataHandler.ProcessEntityWithoutType(fakeSystem, entity).Returns(new SubscriptionToken(entity, fakeDisposable));
+
+            var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
+                null, null, null, mockReactToDataHandler, null);
+
+            systemExecutor.AddSystem(fakeSystem);
+            systemExecutor.OnEntityAddedToPool(new EntityAddedEvent(entity, null));
+
+            Assert.That(systemExecutor.GetSubscriptionCountForSystem(fakeSystem), Is.EqualTo(1));
+            Assert.That(systemExecutor.GetTotalSubscriptions(), Is.EqualTo(1));
+
+            systemExecutor.OnEntityRemovedFromPool(new EntityRemovedEvent(entity, null));
+
+            Assert.That(systemExecutor.GetSubscriptionCountForSystem(fakeSystem), Is.EqualTo(0));
+            Assert.That(systemExecutor.GetTotalSubscriptions(), Is.EqualTo(0));
+            fakeDisposable.Received().Dispose();
+        }
+
+        [Test]
+        public void should_remove_setup_system_subscriptions_when_removing_system()
+        {
+            var dummyGroup = new Group(typeof(TestComponentOne));
+            var mockPoolManager = Substitute.For<IPoolManager>();
+            var mockEventSystem = Substitute.For<IEventSystem>();
+            var mockSetupSystemHandler = Substitute.For<ISetupSystemHandler>();
+            var fakeSystem = Substitute.For<ISetupSystem>();
+            fakeSystem.TargetGroup.Returns(dummyGroup);
+
+            var entity = new Entity(Guid.NewGuid(), mockEventSystem);
+            entity.AddComponent(new TestComponentOne());
+
+            var fakeDisposable = Substitute.For<IDisposable>();
+            mockSetupSystemHandler.ProcessEntity(fakeSystem, entity).Returns(new SubscriptionToken(entity, fakeDisposable));
+
+            var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
+                null, null, mockSetupSystemHandler, null, null);
+
+            systemExecutor.AddSystem(fakeSystem);
+            systemExecutor.OnEntityAddedToPool(new EntityAddedEvent(entity, null));
+
+            Assert.That(systemExecutor.GetSubscriptionCountForSystem(fakeSystem), Is.EqualTo(1));
+            Assert.That(systemExecutor.GetTotalSubscriptions(), Is.EqualTo(1));
+
+            systemExecutor.RemoveSystem(fakeSystem);
+
+            Assert.That(systemExecutor.GetSubscriptionCountForSystem(fakeSystem), Is.EqualTo(0));
+            Assert.That(systemExecutor.GetTotalSubscriptions(), Is.EqualTo(0));
+
+            Assert.That(systemExecutor.Systems, Is.Empty);
+            fakeDisposable.Received().Dispose();
+        }
+
+        [Test]
+        public void should_remove_setup_system_subscriptions_and_dispose_when_removing_corresponding_entity()
+        {
+            var dummyGroup = new Group(typeof(TestComponentOne));
+            var mockPoolManager = Substitute.For<IPoolManager>();
+            var mockEventSystem = Substitute.For<IEventSystem>();
+            var mockSetupSystemHandler = Substitute.For<ISetupSystemHandler>();
+            var fakeSystem = Substitute.For<ISetupSystem>();
+            fakeSystem.TargetGroup.Returns(dummyGroup);
+
+            var entity = new Entity(Guid.NewGuid(), mockEventSystem);
+            entity.AddComponent(new TestComponentOne());
+
+            var fakeDisposable = Substitute.For<IDisposable>();
+            mockSetupSystemHandler.ProcessEntity(fakeSystem, entity).Returns(new SubscriptionToken(entity, fakeDisposable));
+
+            var systemExecutor = new SystemExecutor(mockPoolManager, mockEventSystem,
+                null, null, mockSetupSystemHandler, null, null);
+
+            systemExecutor.AddSystem(fakeSystem);
+            systemExecutor.OnEntityAddedToPool(new EntityAddedEvent(entity, null));
+
+            Assert.That(systemExecutor.GetSubscriptionCountForSystem(fakeSystem), Is.EqualTo(1));
+            Assert.That(systemExecutor.GetTotalSubscriptions(), Is.EqualTo(1));
+
+            systemExecutor.OnEntityRemovedFromPool(new EntityRemovedEvent(entity, null));
+
+            Assert.That(systemExecutor.GetSubscriptionCountForSystem(fakeSystem), Is.EqualTo(0));
+            Assert.That(systemExecutor.GetTotalSubscriptions(), Is.EqualTo(0));
+            fakeDisposable.Received().Dispose();
+        }
 
         [Test]
         public void should_effect_correct_setup_systems_once()

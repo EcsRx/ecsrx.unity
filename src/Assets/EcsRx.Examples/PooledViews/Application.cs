@@ -1,6 +1,4 @@
-﻿using Assets.EcsRx.Examples.SceneFirstSetup.Components;
-using EcsRx.Unity;
-using EcsRx.Unity.Components;
+﻿using EcsRx.Unity;
 
 namespace Assets.EcsRx.Examples.PooledViews
 {

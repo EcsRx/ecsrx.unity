@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using EcsRx.Entities;
 using EcsRx.Extensions;
 using EcsRx.Groups;
@@ -37,7 +38,7 @@ namespace EcsRx.Systems.Executor.Handlers
         public IEnumerable<SubscriptionToken> Setup<T>(IReactToDataSystem<T> system)
         {
             var groupAccessor = PoolManager.CreateGroupAccessor(system.TargetGroup);
-            return groupAccessor.Entities.ForEachRun(x => ProcessEntity(system, x));
+            return groupAccessor.Entities.Select(x => ProcessEntity(system, x));
         }
 
         public SubscriptionToken ProcessEntity<T>(IReactToDataSystem<T> system, IEntity entity)

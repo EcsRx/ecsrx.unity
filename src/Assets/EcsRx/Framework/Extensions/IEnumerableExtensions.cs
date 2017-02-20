@@ -13,12 +13,19 @@ namespace EcsRx.Extensions
     {
         public static void ForEachRun<T>(this IEnumerable<T> enumerable, Action<T> method)
         {
-            foreach (var element in enumerable)
-            { method(element); }
+            foreach (var item in enumerable)
+            {
+                method(item);
+            }
         }
 
-        public static IEnumerable<Tout> ForEachRun<Tin, Tout>(this IEnumerable<Tin> enumerable, Func<Tin, Tout> method)
-        { return enumerable.Select(method); }
+        public static void ForEachRun<Tin, Tout>(this IEnumerable<Tin> enumerable, Func<Tin, Tout> method)
+        {
+            foreach (var item in enumerable)
+            {
+                method(item);
+            }
+        }
 
         public static IEnumerable<IEntity> MatchingGroup(this IEnumerable<IEntity> entities, IGroup group)
         {
