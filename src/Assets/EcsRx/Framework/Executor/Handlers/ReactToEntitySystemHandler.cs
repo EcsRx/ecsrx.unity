@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using EcsRx.Entities;
 using EcsRx.Extensions;
 using EcsRx.Groups;
@@ -19,7 +20,7 @@ namespace EcsRx.Systems.Executor.Handlers
         public IEnumerable<SubscriptionToken> Setup(IReactToEntitySystem system)
         {
             var accessor = PoolManager.CreateGroupAccessor(system.TargetGroup);
-            return accessor.Entities.ForEachRun(x => ProcessEntity(system, x));
+            return accessor.Entities.Select(x => ProcessEntity(system, x));
         }
 
         public SubscriptionToken ProcessEntity(IReactToEntitySystem system, IEntity entity)

@@ -70,7 +70,7 @@ namespace EcsRx.Systems.Executor
                     .Where(x => x.AssociatedObject == args.Entity)
                     .ToList();
 
-                _systemSubscriptions[effectedSystem].RemoveAll(subscriptionTokens);
+                _systemSubscriptions[effectedSystem].RemoveAllFrom(subscriptionTokens);
                 subscriptionTokens.DisposeAll();
             }
         }
@@ -131,8 +131,8 @@ namespace EcsRx.Systems.Executor
             var subscriptionTokens = subscriptionList.GetTokensFor(entity).ToArray();
 
             if (!subscriptionTokens.Any()) { return; }
-
-            subscriptionTokens.ForEachRun(x => subscriptionList.Remove(x));
+            
+            subscriptionList.RemoveAllFrom(subscriptionTokens);
             subscriptionTokens.DisposeAll();
         }
 
@@ -145,7 +145,9 @@ namespace EcsRx.Systems.Executor
 
             if (_systemSubscriptions.ContainsKey(system))
             {
-                _systemSubscriptions[system].DisposeAll();
+                if(_systemSubscriptions[system].Count > 0)
+                { _systemSubscriptions[system].DisposeAll(); }
+
                 _systemSubscriptions.Remove(system);
             }
         }
