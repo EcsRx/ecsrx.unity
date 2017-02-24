@@ -148,17 +148,9 @@
     <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\Components\WithHealthComponent.cs" />
     <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\Groups\PlayerGroup.cs" />
     <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\Systems\PlayerReportingSystem.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Attributes\PersistDataAttribute.cs" />
     <Compile Include="Assets\EcsRx\Framework\Attributes\PriorityAttribute.cs" />
     <Compile Include="Assets\EcsRx\Framework\Blueprints\IBlueprint.cs" />
     <Compile Include="Assets\EcsRx\Framework\Components\IComponent.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Data\ApplicationData.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Data\EntityData.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Extractors\IDataExtractor.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Helpers\ComponentTypeHelper.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Persisters\IDataPersister.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Transformers\ITransformer.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Transformers\JsonTransformer.cs" />
     <Compile Include="Assets\EcsRx\Framework\Entities\DefaultEntityFactory.cs" />
     <Compile Include="Assets\EcsRx\Framework\Entities\Entity.cs" />
     <Compile Include="Assets\EcsRx\Framework\Entities\IEntity.cs" />
@@ -212,7 +204,6 @@
     <Compile Include="Assets\EcsRx\Framework\Groups\IGroupAccessorQuery.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\IHasPredicate.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\ITypeGroup.cs" />
-    <Compile Include="Assets\EcsRx\Framework\Json\JsonExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\DefaultPoolFactory.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\GroupAccessorToken.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\IPool.cs" />
@@ -229,6 +220,29 @@
     <Compile Include="Assets\EcsRx\Framework\Systems\ISetupSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ISystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ITeardownSystem.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Attributes\PersistAttribute.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Attributes\PersistDataAttribute.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Data\ApplicationData.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Data\EntityData.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\BasicTypeConverter.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\ColourTypeConverter.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\QuaternionTypeConverter.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\RectTypeConverter.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\Vector2TypeConverter.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\Vector3TypeConverter.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extractors\DataConverterRegistry.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extractors\DataExtractor.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\IDataConverter.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extractors\IDataExtractor.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Json\JSON.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Json\JsonExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Persisters\IDataPersister.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Transformers\ITransformer.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Transformers\JsonTransformer.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Types\ComponentDescriptor.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Types\ComponentTypeRegistry.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Types\PropertyDataDescriptor.cs" />
     <Compile Include="Assets\EcsRx\Unity\Components\ViewComponent.cs" />
     <Compile Include="Assets\EcsRx\Unity\EcsRxApplication.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\ComponentExtensions.cs" />
@@ -237,7 +251,6 @@
     <Compile Include="Assets\EcsRx\Unity\Extensions\ViewComponentExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\AutoBindSystemsInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\DefaultEcsRxInstaller.cs" />
-    <Compile Include="Assets\EcsRx\Framework\Json\JSON.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\ActiveSystemsViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityView.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\InjectableMonoBehaviour.cs" />
@@ -520,7 +533,6 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using EcsRx.Entities;
+using EcsRx.Persistence.Data;
 
-namespace EcsRx.Persistence.Processors
+namespace EcsRx.Persistence.Extractors
 {
     public interface IDataExtractor
     {
-        bool MatchesType(Type givenType);
-        KeyValuePair<string, object> ProcessData<T>(T data);
+        EntityData Extract(IEntity entity);
     }
 }
