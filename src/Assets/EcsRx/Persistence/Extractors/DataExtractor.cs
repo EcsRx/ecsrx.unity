@@ -9,12 +9,12 @@ namespace EcsRx.Persistence.Extractors
 {
     public class DataExtractor : IDataExtractor
     {
-        public ComponentTypeRegistry ComponentTypeRegistry { get; private set; }
+        public IComponentDescriptorRegistry ComponentDescriptorRegistry { get; private set; }
         public DataConverterRegistry DataConvertorRegistry { get; private set; }
 
-        public DataExtractor(ComponentTypeRegistry componentTypeRegistry, DataConverterRegistry dataConverterRegistry)
+        public DataExtractor(IComponentDescriptorRegistry componentDescriptorRegistry, DataConverterRegistry dataConverterRegistry)
         {
-            ComponentTypeRegistry = componentTypeRegistry;
+            ComponentDescriptorRegistry = componentDescriptorRegistry;
             DataConvertorRegistry = dataConverterRegistry;
         }
 
@@ -24,10 +24,10 @@ namespace EcsRx.Persistence.Extractors
             foreach (var component in entity.Components)
             {
                 var componentType = component.GetType();
-                if (!ComponentTypeRegistry.AllComponentDescriptors.ContainsKey(componentType))
+                if (!ComponentDescriptorRegistry.AllComponentDescriptors.ContainsKey(componentType))
                 { continue; }
 
-                var descriptor = ComponentTypeRegistry.AllComponentDescriptors[componentType];
+                var descriptor = ComponentDescriptorRegistry.AllComponentDescriptors[componentType];
                 foreach (var property in descriptor.DataProperties)
                 {
                     var handler = DataConvertorRegistry.GetHandlerFor(property.Value.DataType);

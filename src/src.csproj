@@ -241,7 +241,10 @@
     <Compile Include="Assets\EcsRx\Persistence\Transformers\ITransformer.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Transformers\JsonTransformer.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Types\ComponentDescriptor.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Types\ComponentDescriptorRegistry.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Types\ComponentTypeRegistry.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Types\IComponentDescriptorRegistry.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Types\IComponentTypeRegistry.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Types\PropertyDataDescriptor.cs" />
     <Compile Include="Assets\EcsRx\Unity\Components\ViewComponent.cs" />
     <Compile Include="Assets\EcsRx\Unity\EcsRxApplication.cs" />

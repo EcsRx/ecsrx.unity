@@ -14,10 +14,12 @@ namespace EcsRx.Persistence.Transformers
         public readonly string EntityIdKey = "entityId";
         public readonly string DataKey = "data";
 
-        public ComponentTypeRegistry ComponentTypeRegistry { get; private set; }
+        public IComponentDescriptorRegistry ComponentDescriptorRegistry { get; private set; }
+        public IComponentTypeRegistry ComponentTypeRegistry { get; private set; }
 
-        public JsonTransformer(ComponentTypeRegistry componentTypeRegistry)
+        public JsonTransformer(IComponentTypeRegistry componentTypeRegistry, IComponentDescriptorRegistry componentDescriptorRegistry)
         {
+            ComponentDescriptorRegistry = componentDescriptorRegistry;
             ComponentTypeRegistry = componentTypeRegistry;
         }
 
@@ -106,7 +108,7 @@ namespace EcsRx.Persistence.Transformers
                 sanitisedPropertyName = splitProperties[0];
             }
 
-            var descriptor = ComponentTypeRegistry.AllComponentDescriptors[componentType];
+            var descriptor = ComponentDescriptorRegistry.AllComponentDescriptors[componentType];
             if(descriptor == null) { throw new Exception("Could not find data descriptor for component [" + componentType.Name + "]"); }
 
             var property = descriptor.DataProperties[sanitisedPropertyName];
