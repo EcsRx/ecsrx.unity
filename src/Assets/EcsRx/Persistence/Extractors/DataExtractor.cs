@@ -24,10 +24,10 @@ namespace EcsRx.Persistence.Extractors
             foreach (var component in entity.Components)
             {
                 var componentType = component.GetType();
-                if (!ComponentDescriptorRegistry.AllComponentDescriptors.ContainsKey(componentType))
+                if (!ComponentDescriptorRegistry.ContainsType(componentType))
                 { continue; }
 
-                var descriptor = ComponentDescriptorRegistry.AllComponentDescriptors[componentType];
+                var descriptor = ComponentDescriptorRegistry.GetDescriptorByType(componentType);
                 foreach (var property in descriptor.DataProperties)
                 {
                     var handler = DataConvertorRegistry.GetHandlerFor(property.Value.DataType);

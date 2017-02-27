@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using EcsRx.Components;
 using EcsRx.Persistence.Attributes;
 using EcsRx.Persistence.Extensions;
 
@@ -49,13 +48,19 @@ namespace EcsRx.Persistence.Types
             {
                 var localProperty = property;
                 var propertyDescriptor = new PropertyDataDescriptor { DataType = property.PropertyType };
-                propertyDescriptor.GetValue = (IComponent caller) => localProperty.GetValue(caller, null);
-                propertyDescriptor.SetValue = (IComponent caller, object value) => localProperty.SetValue(caller, value, null);
-                descriptor.DataProperties.Add(property.Name, propertyDescriptor);
+                propertyDescriptor.GetValue = caller => localProperty.GetValue(caller, null);
+                propertyDescriptor.SetValue = (caller, value) => localProperty.SetValue(caller, value, null);
+                descriptor.DataProperties.Add(property.Name.ToLower(), propertyDescriptor);
             }
 
             return descriptor;
         }
+
+        public bool ContainsType(Type componentType)
+        { return AllComponentDescriptors.ContainsKey(componentType); }
+
+        public ComponentDataDescriptor GetDescriptorByType(Type componentType)
+        { return AllComponentDescriptors[componentType]; }
 
         public ComponentDataDescriptor GetDescriptorFromName(string name)
         {

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace EcsRx.Persistence.Types
 {
     public interface IComponentDescriptorRegistry
     {
-        IDictionary<Type, ComponentDataDescriptor> AllComponentDescriptors { get; }
+        bool ContainsType(Type componentType);
+        ComponentDataDescriptor GetDescriptorByType(Type componentType);
         ComponentDataDescriptor GetDescriptorFromName(string name);
     }
 }

@@ -80,8 +80,11 @@ namespace EcsRx.Persistence.Transformers
                 var keySections = dataJson.Key.Split('.');
                 var componentType = FindComponentType(keySections[0]);
                 var propertyType = FindPropertyDescriptor(componentType, keySections[1]);
+                var isArray = dataJson.Value.AsArray.Count > 0;
 
-                Console.WriteLine("Property: {0}", propertyType.DataType);
+                Console.WriteLine("Property: {0} - {1}:{2}", propertyType.DataType, dataJson.Key, dataJson.Value);
+                Console.WriteLine("IsArray: {0}", isArray);
+
 //                var propertySection = dataJson.Key.Replace(componentName + ".", "");
 //                entityData.Data.Add(dataJson.Key, dataJson.Value.Value);
             }
@@ -108,13 +111,13 @@ namespace EcsRx.Persistence.Transformers
                 sanitisedPropertyName = splitProperties[0];
             }
 
-            var descriptor = ComponentDescriptorRegistry.AllComponentDescriptors[componentType];
+            var descriptor = ComponentDescriptorRegistry.GetDescriptorByType(componentType);
             if(descriptor == null) { throw new Exception("Could not find data descriptor for component [" + componentType.Name + "]"); }
 
-            var property = descriptor.DataProperties[sanitisedPropertyName];
-            if(property == null) {  throw new Exception("Could not find data property [" + sanitisedPropertyName + "] on component [" + componentType.Name + "]");}
+            var hasProperty = descriptor.DataProperties.ContainsKey(sanitisedPropertyName);
+            if(!hasProperty) {  throw new Exception("Could not find data property [" + sanitisedPropertyName + "] on component [" + componentType.Name + "]");}
 
-            return property;
+            return descriptor.DataProperties[sanitisedPropertyName];
         }
     }
 }

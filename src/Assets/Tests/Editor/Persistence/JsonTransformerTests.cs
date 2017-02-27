@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Assets.Tests.Editor.Helpers;
 using EcsRx.Json;
 using EcsRx.Persistence.Data;
 using EcsRx.Persistence.Transformers;
 using EcsRx.Persistence.Types;
+using EcsRx.Tests.Components;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -12,6 +14,8 @@ namespace Assets.Tests.Editor.Persistence
     [TestFixture]
     public class JsonTransformerTests
     {
+        private ComponentDescriptorHelper DescriptorHelper = new ComponentDescriptorHelper();
+
         [Test]
         public void should_correctly_serialize_entity_data()
         {
@@ -41,7 +45,7 @@ namespace Assets.Tests.Editor.Persistence
             Assert.That(jsonEntity[transformer.EntityIdKey].Value, Is.EqualTo(entityData.EntityId.ToString()));
 
             var jsonData = jsonEntity[transformer.DataKey];
-            Assert.That(jsonData.Count, Is.EqualTo(5));
+            Assert.That(jsonData.Count, Is.EqualTo(6));
 
             Assert.That(jsonData["npc.name"].Value, Is.EqualTo("Bob"));
             Assert.That(jsonData["stats.health"].Value, Is.EqualTo("20"));
@@ -80,16 +84,28 @@ namespace Assets.Tests.Editor.Persistence
         [Test]
         public void should_correctly_deserialize_entity_data()
         {
-            var entityString = "{ \"entityId\":\"67c12ef1-5d0b-4eee-9432-838efb0c958b\", \"data\": { \"npc.name\":\"Bob\", \"stats.health\":20,	\"moveable.position\":[\"1.5\", \"2.1\", \"3.3\"] }}";
+            var entityString = "{ \"entityId\":\"67c12ef1-5d0b-4eee-9432-838efb0c958b\", \"data\": { \"npc.name\":\"Bob\", \"stats.health\":20, \"stats.magic\":10,	\"moveable.position\":[\"1.5\", \"2.1\", \"3.3\"] }}";
             var jsonEntity = JSON.Parse(entityString);
             Console.WriteLine(jsonEntity.ToString());
 
             var dummyComponentTypeRegistry = Substitute.For<IComponentTypeRegistry>();
+            dummyComponentTypeRegistry.GetComponentFromName("npc").Returns(typeof(NpcComponent));
+            dummyComponentTypeRegistry.GetComponentFromName("stats").Returns(typeof(StatsComponent));
+            dummyComponentTypeRegistry.GetComponentFromName("moveable").Returns(typeof(MoveableComponent));
+
             var dummyComponentDescriptorRegistry = Substitute.For<IComponentDescriptorRegistry>();
+            var npcComponentDescriptor = DescriptorHelper.GetDescriptorForComponent(typeof(NpcComponent));
+            dummyComponentDescriptorRegistry.GetDescriptorByType(typeof(NpcComponent)).Returns(npcComponentDescriptor);
+            var statsComponentDescriptor = DescriptorHelper.GetDescriptorForComponent(typeof(StatsComponent));
+            dummyComponentDescriptorRegistry.GetDescriptorByType(typeof(StatsComponent)).Returns(statsComponentDescriptor);
+            var moveableComponentDescriptor = DescriptorHelper.GetDescriptorForComponent(typeof(MoveableComponent));
+            dummyComponentDescriptorRegistry.GetDescriptorByType(typeof(MoveableComponent)).Returns(moveableComponentDescriptor);
+
             var transformer = new JsonTransformer(dummyComponentTypeRegistry, dummyComponentDescriptorRegistry);
             var entityData = transformer.TransformEntity(jsonEntity);
 
-            Console.WriteLine(entityData.ToString());
+            Assert.That(entityData.EntityId, Is.EqualTo(new Guid("67c12ef1-5d0b-4eee-9432-838efb0c958b")));
+            Assert.That(entityData.Data.Keys.Count, Is.EqualTo(3));
         }
     }
 }

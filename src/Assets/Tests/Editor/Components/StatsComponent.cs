@@ -6,6 +6,9 @@ namespace EcsRx.Tests.Components
     public class StatsComponent
     {
         [PersistData]
-        public float Health { get; set; }   
+        public float Health { get; set; }
+
+        [PersistData]
+        public float Magic { get; set; }
     }
 }
