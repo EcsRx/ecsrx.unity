@@ -11,11 +11,13 @@ We have now also got a real-world example to view @ [grofit/ecsrx.roguelike2d](h
 
 There is also a simple example of a plugin to view @ [grofit/ecsrx.buffs](https://github.com/grofit/ecsrx.buffs)
 
+There is now a supplementary databinding framework for unirx @ [grofit/bindingsrx](https://github.com/grofit/bindingsrx)
+
 
 ## Dependencies
 
-- UniRx (All)
-- Zenject (Unity Bridge)
+- [UniRx](https://github.com/neuecc/UniRx) (All)
+- [Zenject](https://github.com/modesttree/Zenject) (Unity Bridge)
 
 The core framework only depends upon UniRx however the unity bridge part of the framework depends upon zenject, however feel free to create your own unity bridge to consume the core framework if you do not want the dependency.
 
