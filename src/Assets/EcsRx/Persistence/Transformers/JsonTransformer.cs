@@ -70,6 +70,23 @@ namespace EcsRx.Persistence.Transformers
             return new JSONData(value.ToString());
         }
 
+        public object ProcessValue(JSONNode jsonData)
+        {/*
+            var isArray = jsonData.AsArray.Count > 0;
+
+            if (isArray)
+            {
+                var jsonArray = dataJson.Value.AsArray;
+                var arrayData = jsonArray.Childs.Select(x => x.Value).ToArray();
+                var newEntry = new KeyValuePair<string, object>(keySections[1], arrayData);
+            }
+            else
+            {
+                propertyType.DataType
+                }*/
+            return null;
+        }
+
         public EntityData TransformEntity(JSONNode entityJson)
         {
             var entityData = new EntityData();
@@ -85,6 +102,19 @@ namespace EcsRx.Persistence.Transformers
                 Console.WriteLine("Property: {0} - {1}:{2}", propertyType.DataType, dataJson.Key, dataJson.Value);
                 Console.WriteLine("IsArray: {0}", isArray);
 
+                if (isArray)
+                {
+                    var jsonArray = dataJson.Value.AsArray;
+                    var arrayData = jsonArray.Childs.Select(x => x.Value).ToArray();
+                    var newEntry = new KeyValuePair<string, object>(keySections[1], arrayData);
+                }
+                else
+                {
+                    //propertyType.DataType
+                }
+
+
+                //entityData.Data.Add(newEntry);
 //                var propertySection = dataJson.Key.Replace(componentName + ".", "");
 //                entityData.Data.Add(dataJson.Key, dataJson.Value.Value);
             }
