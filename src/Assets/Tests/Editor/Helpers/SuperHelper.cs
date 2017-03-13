@@ -26,13 +26,19 @@ namespace Assets.Tests.Editor.Helpers
 
     public class CollectionPropertyMapping : Mapping
     {
-        public Func<object, int> GetCount { get; set; }
         public Func<object, Array> GetValue { get; set; }
-        public Func<object, int, object> GetIndex { get; set; }
-        public Action<object, int, object> SetIndex { get; set; }
         public List<Mapping> InternalMappings { get; private set; }
 
         public CollectionPropertyMapping()
+        { InternalMappings = new List<Mapping>(); }
+    }
+
+    public class NestedMapping : Mapping
+    {
+        public Func<object, object> GetValue { get; set; }
+        public List<Mapping> InternalMappings { get; private set; }
+
+        public NestedMapping()
         { InternalMappings = new List<Mapping>(); }
     }
 
@@ -60,16 +66,10 @@ namespace Assets.Tests.Editor.Helpers
             return typeMappings;
         }
 
-        public List<Mapping> GetPropertyMappingsFor(Type type, string scope, Func<object, object> parentGetter = null)
+        public List<Mapping> GetPropertyMappingsFor(Type type, string scope)
         {
             var propertyMappings = new List<Mapping>();
             var properties = type.GetProperties().Where(x => x.HasAttribute<PersistDataAttribute>());
-
-            var getCorrectScope = new Func<object, object>((x) =>
-            {
-                if (parentGetter == null) { return x; }
-                return parentGetter(x);
-            });
 
             foreach (var propertyInfo in properties)
             {
@@ -81,8 +81,8 @@ namespace Assets.Tests.Editor.Helpers
                         LocalName = propertyInfo.Name,
                         ScopedName = newScope,
                         Type = propertyInfo.PropertyType,
-                        GetValue = x => propertyInfo.GetValue(getCorrectScope(x), null),
-                        SetValue = (x, v) => propertyInfo.SetValue(getCorrectScope(x), v, null)
+                        GetValue = x => propertyInfo.GetValue(x, null),
+                        SetValue = (x, v) => propertyInfo.SetValue(x, v, null)
                     };
 
                     propertyMappings.Add(propertyDescriptor);
@@ -98,20 +98,26 @@ namespace Assets.Tests.Editor.Helpers
                         LocalName = propertyInfo.Name,
                         ScopedName = newScope + "[]",
                         Type = arrayType.GetElementType(),
-                        GetCount = (x) => (propertyInfo.GetValue(getCorrectScope(x), null) as Array).Length,
-                        GetValue = (x) => propertyInfo.GetValue(getCorrectScope(x), null) as Array,
-                        GetIndex = (x, i) => (propertyInfo.GetValue(getCorrectScope(x), null) as Array).GetValue(i),
-                        SetIndex = (x, i, v) => (propertyInfo.GetValue(getCorrectScope(x), null) as Array).SetValue(v, i)
+                        GetValue = (x) => propertyInfo.GetValue(x, null) as Array
                     };
                     propertyMappings.Add(collectionMapping);
 
-                    var arrayMappingTypes = GetPropertyMappingsFor(arrayType, newScope, (x) => propertyInfo.GetValue(getCorrectScope(x), null));
+                    var arrayMappingTypes = GetPropertyMappingsFor(arrayType, newScope);
                     collectionMapping.InternalMappings.AddRange(arrayMappingTypes);
                     continue;
                 }
 
-                var mappingTypes = GetPropertyMappingsFor(propertyInfo.PropertyType, newScope, (x) => propertyInfo.GetValue(getCorrectScope(x), null));
-                propertyMappings.AddRange(mappingTypes);
+                var nestedMapping = new NestedMapping
+                {
+                    LocalName = propertyInfo.Name,
+                    ScopedName = newScope,
+                    Type = propertyInfo.PropertyType,
+                    GetValue = x => propertyInfo.GetValue(x, null)
+                };
+                propertyMappings.Add(nestedMapping);
+
+                var mappingTypes = GetPropertyMappingsFor(propertyInfo.PropertyType, newScope);
+                nestedMapping.InternalMappings.AddRange(mappingTypes);
             }
 
             return propertyMappings;
@@ -128,19 +134,9 @@ namespace Assets.Tests.Editor.Helpers
         public static string SerializeData<T>(this TypePropertyMappings typePropertyMappings, T data)
         {
             var output = new StringBuilder();
-            foreach (var mapping in typePropertyMappings.Mappings)
-            {
-                if (mapping is PropertyMapping)
-                {
-                    var propertyOutput = SerializeProperty((mapping as PropertyMapping), data);
-                    output.AppendLine(propertyOutput);
-                }
-                else
-                {
-                    var collectionOutput = SerializeCollection((mapping as CollectionPropertyMapping), data);
-                    output.AppendLine(collectionOutput);
-                }
-            }
+
+            var result = Blah(typePropertyMappings.Mappings, data);
+            output.AppendLine(result);
             return output.ToString();
         }
 
@@ -150,27 +146,52 @@ namespace Assets.Tests.Editor.Helpers
             return string.Format("{0} : {1}, \n", propertyMapping.ScopedName, output);
         }
 
+        private static string SerializeNestedObject<T>(this NestedMapping nestedMapping, T data)
+        {
+            var output = new StringBuilder();
+            var currentData = nestedMapping.GetValue(data);
+            var result = Blah(nestedMapping.InternalMappings, currentData);
+            output.AppendLine(result);
+            return output.ToString();
+        }
+
+        private static string Blah<T>(IEnumerable<Mapping> mappings, T data)
+        {
+            var output = new StringBuilder();
+
+            foreach (var mapping in mappings)
+            {
+                if (mapping is PropertyMapping)
+                {
+                    var result = SerializeProperty((mapping as PropertyMapping), data);
+                    output.AppendLine(result);
+                }
+                else if (mapping is NestedMapping)
+                {
+                    var result = SerializeNestedObject((mapping as NestedMapping), data);
+                    output.AppendLine(result);
+                }
+                else
+                {
+                    var result = SerializeCollection((mapping as CollectionPropertyMapping), data);
+                    output.AppendLine(result);
+                }
+            }
+
+            return output.ToString();
+        }
+
         private static string SerializeCollection<T>(this CollectionPropertyMapping collectionMapping, T data)
         {
             var output = new StringBuilder();
             var arrayValue = collectionMapping.GetValue(data);
-            foreach (var mapping in collectionMapping.InternalMappings)
-            {
-                for (var i = 0; i < arrayValue.Length; i++)
-                {
-                    var currentData = arrayValue.GetValue(i);
+            output.AppendFormat("{0} : {1}, \n", collectionMapping.ScopedName, arrayValue.Length);
 
-                    if (mapping is PropertyMapping)
-                    {
-                        var propertyOutput = SerializeProperty((mapping as PropertyMapping), currentData);
-                        output.AppendLine(propertyOutput);
-                    }
-                    else
-                    {
-                        var collectionOutput = SerializeCollection((mapping as CollectionPropertyMapping), currentData);
-                        output.AppendLine(collectionOutput);
-                    }
-                }
+            for (var i = 0; i < arrayValue.Length; i++)
+            {
+                var currentData = arrayValue.GetValue(i);
+                var result = Blah(collectionMapping.InternalMappings, currentData);
+                output.AppendLine(result);
             }
 
             return output.ToString();
