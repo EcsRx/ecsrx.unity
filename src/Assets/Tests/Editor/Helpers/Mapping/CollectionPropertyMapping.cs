@@ -5,6 +5,7 @@ namespace Tests.Editor.Helpers.Mapping
 {
     public class CollectionPropertyMapping : Mapping
     {
+        public Type ArrayType { get; set; }
         public Func<object, Array> GetValue { get; set; }
         public List<Mapping> InternalMappings { get; private set; }
 

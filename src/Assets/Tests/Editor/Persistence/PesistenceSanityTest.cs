@@ -40,6 +40,45 @@ namespace Assets.Tests.Editor.Persistence
             return a;
         }
 
+        private string GenerateDummyJsonData()
+        {
+            return @"{
+               ""TestValue"":""Wow"",
+               ""NestedValue"":{
+                  ""StringValue"":""Hello"",
+                  ""IntValue"":10,
+                  ""NestedArray"":[
+                     {
+                        ""FloatValue"":""2.43""
+                     }
+                  ]
+               },
+               ""NestedArray"":[
+                  {
+                     ""StringValue"":""There"",
+                     ""IntValue"":20,
+                     ""NestedArray"":[
+                        {
+                           ""FloatValue"":""3.5""
+                        }
+                     ]
+                  },
+                  {
+                     ""StringValue"":""Sir"",
+                     ""IntValue"":30,
+                     ""NestedArray"":[
+                        {
+                           ""FloatValue"":""4.1""
+                        },
+                        {
+                           ""FloatValue"":""5.2""
+                        }
+                     ]
+                  }
+               ]
+            }";
+        }
+
         [Test]
         public void should_serialize_with_debug_serializer()
         {
@@ -60,6 +99,17 @@ namespace Assets.Tests.Editor.Persistence
             var serializer = new JsonSerializer();
             var output = serializer.SerializeData(typeStuff, a);
             Console.WriteLine(output.ToString());
+            return;
+        }
+
+        [Test]
+        public void should_correctly_deserialize_from_json()
+        {
+            var a = GenerateDummyJsonData();
+            var typeStuff = superHelper.GetTypeMappingsFor(typeof(A));
+            var deserializer = new JsonDeserializer();
+
+            var output = deserializer.DeserializeData<A>(typeStuff, a);
             return;
         }
     }

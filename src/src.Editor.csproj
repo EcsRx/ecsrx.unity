@@ -168,6 +168,7 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\UIAspects\ComponentUIAspect.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\CollectionPropertyMapping.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\DebugSerializer.cs" />
+    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\JsonDeserializer.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\JsonSerializer.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\Mapping.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\NestedMapping.cs" />

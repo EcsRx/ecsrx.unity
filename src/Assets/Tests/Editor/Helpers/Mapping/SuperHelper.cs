@@ -50,7 +50,8 @@ namespace Tests.Editor.Helpers.Mapping
                     {
                         LocalName = propertyInfo.Name,
                         ScopedName = newScope + "[]",
-                        Type = arrayType.GetElementType(),
+                        ArrayType = arrayType,
+                        Type = propertyInfo.PropertyType,
                         GetValue = (x) => propertyInfo.GetValue(x, null) as Array
                     };
                     propertyMappings.Add(collectionMapping);
@@ -65,7 +66,8 @@ namespace Tests.Editor.Helpers.Mapping
                     LocalName = propertyInfo.Name,
                     ScopedName = newScope,
                     Type = propertyInfo.PropertyType,
-                    GetValue = x => propertyInfo.GetValue(x, null)
+                    GetValue = x => propertyInfo.GetValue(x, null),
+                    SetValue = (x,v) => propertyInfo.SetValue(x,v, null)
                 };
                 propertyMappings.Add(nestedMapping);
 

@@ -14,7 +14,6 @@ namespace Tests.Editor.Helpers.Mapping
             if (type == typeof(int)) node = new JSONData((int)value);
             else if (type == typeof(Vector2)) node = new JSONClass() { AsVector2 = (Vector2)value };
             else if (type == typeof(Vector3)) node = new JSONClass() { AsVector3 = (Vector3)value };
-            else if (type == typeof(string)) node = new JSONData((string)value);
             else if (type == typeof(bool)) node = new JSONData((bool)value);
             else if (type == typeof(float)) node = new JSONData((float)value);
             else if (type == typeof(double)) node = new JSONData((double)value);
