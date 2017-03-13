@@ -166,6 +166,8 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\PoolManagerViewerInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\RegisterAsEntityInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\UIAspects\ComponentUIAspect.cs" />
+    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\BinaryDeserializer.cs" />
+    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\BinarySerializer.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\CollectionPropertyMapping.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\DebugSerializer.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\JsonDeserializer.cs" />

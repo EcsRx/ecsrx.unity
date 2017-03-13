@@ -36,13 +36,13 @@ namespace Tests.Editor.Helpers.Mapping
         private void DeserializeNestedObject<T>(NestedMapping nestedMapping, JSONNode data, T instance)
         { Deserialize(nestedMapping.InternalMappings, data, instance); }
 
-        private void DeserializeCollection<T>(CollectionPropertyMapping collectionMapping, JSONNode data, T instance)
+        private void DeserializeCollection<T>(CollectionPropertyMapping collectionMapping, JSONArray data, T[] instance)
         {
-            var jsonArray = data.AsArray;
-            for(var i=0;i<data.AsArray.Count;i++)
+            for(var i=0;i<data.Count;i++)
             {
-                var elementInstance = Activator.CreateInstance(collectionMapping.ArrayType);
-                Deserialize(collectionMapping.InternalMappings, jsonArray, elementInstance);
+                var elementInstance = (T)Activator.CreateInstance(collectionMapping.ArrayType);
+                Deserialize(collectionMapping.InternalMappings, data[i], elementInstance);
+                instance[i] = elementInstance;
             }
         }
 
@@ -62,18 +62,16 @@ namespace Tests.Editor.Helpers.Mapping
                     var childInstance = Activator.CreateInstance(nestedMapping.Type);
                     DeserializeNestedObject(nestedMapping, jsonData, childInstance);
                     nestedMapping.SetValue(instance, childInstance);
-
-                    // Add to instance
-                }/*
+                }
                 else
                 {
                     var collectionMapping = (mapping as CollectionPropertyMapping);
-                    var jsonData = jsonNode[mapping.LocalName];
-                    var arrayCount = jsonData.AsArray.Count;
-                    var arrayInstance = Activator.CreateInstance(collectionMapping.Type, arrayCount);
-                    DeserializeCollection((mapping as CollectionPropertyMapping), jsonData, arrayInstance);
-                    // Add to instance
-                }*/
+                    var jsonData = jsonNode[mapping.LocalName].AsArray;
+                    var arrayCount = jsonData.Count;
+                    var arrayInstance = (object[])Activator.CreateInstance(collectionMapping.Type, arrayCount);
+                    DeserializeCollection(collectionMapping, jsonData, arrayInstance);
+                    collectionMapping.SetValue(instance, arrayInstance);
+                }
             }
         }
     }

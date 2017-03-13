@@ -52,7 +52,8 @@ namespace Tests.Editor.Helpers.Mapping
                         ScopedName = newScope + "[]",
                         ArrayType = arrayType,
                         Type = propertyInfo.PropertyType,
-                        GetValue = (x) => propertyInfo.GetValue(x, null) as Array
+                        GetValue = (x) => propertyInfo.GetValue(x, null) as Array,
+                        SetValue = (x, v) => propertyInfo.SetValue(x, v, null)
                     };
                     propertyMappings.Add(collectionMapping);
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 using Assets.Tests.Editor.Helpers;
 using NUnit.Framework;
 using Tests.Editor.Helpers.Mapping;
@@ -14,7 +16,7 @@ namespace Assets.Tests.Editor.Persistence
         private A GenerateDummyData()
         {
             var a = new A();
-            a.TestValue = "Wow";
+            a.TestValue = "WOW";
             a.NestedValue = new B();
             a.NestedValue.IntValue = 10;
             a.NestedValue.StringValue = "Hello";
@@ -40,43 +42,28 @@ namespace Assets.Tests.Editor.Persistence
             return a;
         }
 
-        private string GenerateDummyJsonData()
+        private void AssertionOnDummyData(A result)
         {
-            return @"{
-               ""TestValue"":""Wow"",
-               ""NestedValue"":{
-                  ""StringValue"":""Hello"",
-                  ""IntValue"":10,
-                  ""NestedArray"":[
-                     {
-                        ""FloatValue"":""2.43""
-                     }
-                  ]
-               },
-               ""NestedArray"":[
-                  {
-                     ""StringValue"":""There"",
-                     ""IntValue"":20,
-                     ""NestedArray"":[
-                        {
-                           ""FloatValue"":""3.5""
-                        }
-                     ]
-                  },
-                  {
-                     ""StringValue"":""Sir"",
-                     ""IntValue"":30,
-                     ""NestedArray"":[
-                        {
-                           ""FloatValue"":""4.1""
-                        },
-                        {
-                           ""FloatValue"":""5.2""
-                        }
-                     ]
-                  }
-               ]
-            }";
+            Assert.That(result.TestValue, Is.EqualTo("WOW"));
+            Assert.That(result.NestedValue, Is.Not.Null);
+            Assert.That(result.NestedValue.IntValue, Is.EqualTo(10));
+            Assert.That(result.NestedValue.StringValue, Is.EqualTo("Hello"));
+            Assert.That(result.NestedValue.NestedArray, Is.Not.Null);
+            Assert.That(result.NestedValue.NestedArray.Length, Is.EqualTo(1));
+            Assert.That(result.NestedValue.NestedArray[0].FloatValue, Is.EqualTo(2.43f));
+            Assert.That(result.NestedArray, Is.Not.Null);
+            Assert.That(result.NestedArray.Length, Is.EqualTo(2));
+            Assert.That(result.NestedArray[0].IntValue, Is.EqualTo(20));
+            Assert.That(result.NestedArray[0].StringValue, Is.EqualTo("There"));
+            Assert.That(result.NestedArray[0].NestedArray, Is.Not.Null);
+            Assert.That(result.NestedArray[0].NestedArray.Length, Is.EqualTo(1));
+            Assert.That(result.NestedArray[0].NestedArray[0].FloatValue, Is.EqualTo(3.5f));
+            Assert.That(result.NestedArray[1].IntValue, Is.EqualTo(30));
+            Assert.That(result.NestedArray[1].StringValue, Is.EqualTo("Sir"));
+            Assert.That(result.NestedArray[1].NestedArray, Is.Not.Null);
+            Assert.That(result.NestedArray[1].NestedArray.Length, Is.EqualTo(2));
+            Assert.That(result.NestedArray[1].NestedArray[0].FloatValue, Is.EqualTo(4.1f));
+            Assert.That(result.NestedArray[1].NestedArray[1].FloatValue, Is.EqualTo(5.2f));
         }
 
         [Test]
@@ -91,26 +78,35 @@ namespace Assets.Tests.Editor.Persistence
         }
 
         [Test]
-        public void should_correctly_serialize_to_json()
+        public void should_correctly_serialize_with_json()
         {
             var a = GenerateDummyData();
-
             var typeStuff = superHelper.GetTypeMappingsFor(typeof(A));
+
             var serializer = new JsonSerializer();
-            var output = serializer.SerializeData(typeStuff, a);
-            Console.WriteLine(output.ToString());
-            return;
-        }
+            var jsonOutput = serializer.SerializeData(typeStuff, a);
 
-        [Test]
-        public void should_correctly_deserialize_from_json()
-        {
-            var a = GenerateDummyJsonData();
-            var typeStuff = superHelper.GetTypeMappingsFor(typeof(A));
             var deserializer = new JsonDeserializer();
+            var result = deserializer.DeserializeData<A>(typeStuff, jsonOutput.ToString());
 
-            var output = deserializer.DeserializeData<A>(typeStuff, a);
-            return;
+            Console.WriteLine(jsonOutput.ToString());
+            AssertionOnDummyData(result);
+        }
+        
+        [Test]
+        public void should_correctly_serialize_with_binary()
+        {
+            var a = GenerateDummyData();
+            var typeStuff = superHelper.GetTypeMappingsFor(typeof(A));
+
+            var serializer = new BinarySerializer();
+            var binaryOutput = serializer.SerializeData(typeStuff, a);
+
+            var deserializer = new BinaryDeserializer();
+            var result = deserializer.DeserializeData<A>(typeStuff, binaryOutput);
+
+            Console.WriteLine(BitConverter.ToString(binaryOutput));
+            AssertionOnDummyData(result);
         }
     }
 }
