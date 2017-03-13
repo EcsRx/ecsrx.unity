@@ -166,6 +166,8 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\PoolManagerViewerInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\RegisterAsEntityInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\UIAspects\ComponentUIAspect.cs" />
+    <Compile Include="Assets\Tests\Editor\Helpers\SuperHelper.cs" />
+    <Compile Include="Assets\Tests\Editor\Models\Persistence\A.cs" />
     <Compile Include="Assets\Tests\Editor\Components\MoveableComponent.cs" />
     <Compile Include="Assets\Tests\Editor\Components\NpcComponent.cs" />
     <Compile Include="Assets\Tests\Editor\Components\StatsComponent.cs" />
@@ -183,7 +185,10 @@
     <Compile Include="Assets\Tests\Editor\Framework\SetupSystemHandlerTests.cs" />
     <Compile Include="Assets\Tests\Editor\Framework\SystemExecutorTests.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\ComponentDescriptorHelper.cs" />
+    <Compile Include="Assets\Tests\Editor\Models\Persistence\B.cs" />
+    <Compile Include="Assets\Tests\Editor\Models\Persistence\C.cs" />
     <Compile Include="Assets\Tests\Editor\Persistence\JsonTransformerTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Persistence\PesistenceSanityTest.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\DefaultPrioritySystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\HighPrioritySystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\HigherThanDefaultPrioritySystem.cs" />
