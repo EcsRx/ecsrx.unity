@@ -51,13 +51,13 @@ namespace Tests.Editor.Helpers.Mapping
             return reader.ReadString();
         }
 
-        public T DeserializeData<T>(TypePropertyMappings typePropertyMappings, byte[] data) where T : new()
+        public T DeserializeData<T>(TypeMapping typeMapping, byte[] data) where T : new()
         {
             using(var memoryStream = new MemoryStream(data))
             using (var reader = new BinaryReader(memoryStream))
             {
                 var instance = new T();
-                Deserialize(typePropertyMappings.Mappings, instance, reader);
+                Deserialize(typeMapping.InternalMappings, instance, reader);
                 return instance;
             }
         }

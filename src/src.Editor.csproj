@@ -170,13 +170,14 @@
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\BinarySerializer.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\CollectionPropertyMapping.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\DebugSerializer.cs" />
+    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\IListExtensions.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\JsonDeserializer.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\JsonSerializer.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\Mapping.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\NestedMapping.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\PropertyMapping.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\TypeMapper.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\TypePropertyMappings.cs" />
+    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\TypeMapping.cs" />
     <Compile Include="Assets\Tests\Editor\Models\Persistence\A.cs" />
     <Compile Include="Assets\Tests\Editor\Components\MoveableComponent.cs" />
     <Compile Include="Assets\Tests\Editor\Components\NpcComponent.cs" />

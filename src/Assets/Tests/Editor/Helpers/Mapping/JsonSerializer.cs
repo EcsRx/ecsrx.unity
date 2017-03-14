@@ -25,8 +25,8 @@ namespace Tests.Editor.Helpers.Mapping
             return node;
         }
 
-        public JSONNode SerializeData<T>(TypePropertyMappings typePropertyMappings, T data)
-        { return Serialize(typePropertyMappings.Mappings, data); }
+        public JSONNode SerializeData<T>(TypeMapping typeMapping, T data)
+        { return Serialize(typeMapping.InternalMappings, data); }
 
         private JSONNode SerializeProperty<T>(PropertyMapping propertyMapping, T data)
         {

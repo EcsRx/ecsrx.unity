@@ -20,11 +20,11 @@ namespace Tests.Editor.Helpers.Mapping
             return value.Value;
         }
 
-        public T DeserializeData<T>(TypePropertyMappings typePropertyMappings, string data) where T : new()
+        public T DeserializeData<T>(TypeMapping typeMapping, string data) where T : new()
         {
             var instance = new T();
             var jsonData = JSON.Parse(data);
-            Deserialize(typePropertyMappings.Mappings, jsonData, instance);
+            Deserialize(typeMapping.InternalMappings, jsonData, instance);
             return instance;
         }
 

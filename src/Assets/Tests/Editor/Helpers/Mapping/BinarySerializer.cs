@@ -54,12 +54,12 @@ namespace Tests.Editor.Helpers.Mapping
             }
         }
 
-        public byte[] SerializeData<T>(TypePropertyMappings typePropertyMappings, T data)
+        public byte[] SerializeData<T>(TypeMapping typeMapping, T data)
         {
             using (var memoryStream = new MemoryStream())
             using (var binaryWriter = new BinaryWriter(memoryStream))
             {
-                Serialize(typePropertyMappings.Mappings, data, binaryWriter);
+                Serialize(typeMapping.InternalMappings, data, binaryWriter);
                 binaryWriter.Flush();
                 memoryStream.Seek(0, SeekOrigin.Begin);
 

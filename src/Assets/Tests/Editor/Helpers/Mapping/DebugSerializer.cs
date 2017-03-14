@@ -5,11 +5,11 @@ namespace Tests.Editor.Helpers.Mapping
 {
     public static class DebugSerializer
     {
-        public static string SerializeData<T>(this TypePropertyMappings typePropertyMappings, T data)
+        public static string SerializeData<T>(this TypeMapping typeMapping, T data)
         {
             var output = new StringBuilder();
 
-            var result = Serialize(typePropertyMappings.Mappings, data);
+            var result = Serialize(typeMapping.InternalMappings, data);
             output.AppendLine(result);
             return output.ToString();
         }

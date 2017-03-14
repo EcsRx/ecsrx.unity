@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using EcsRx.Persistence.Attributes;
 using EcsRx.Persistence.Extensions;
 
@@ -9,20 +10,74 @@ namespace Tests.Editor.Helpers.Mapping
 {
     public class TypeMapper
     {
-        public TypePropertyMappings GetTypeMappingsFor(Type type)
+        public TypeMapping GetTypeMappingsFor(Type type)
         {
-            var typeMappings = new TypePropertyMappings();
-            typeMappings.Name = type.FullName;
+            var typeMapping = new TypeMapping
+            {
+                Name = type.FullName,
+                Type = type
+            };
 
             var mappings = GetPropertyMappingsFor(type, type.Name);
-            typeMappings.Mappings.AddRange(mappings);
+            typeMapping.InternalMappings.AddRange(mappings);
 
-            return typeMappings;
+            return typeMapping;
         }
 
-        private bool IsGenericList(Type type)
+        public bool IsGenericList(Type type)
         {
             return (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(IList<>)));
+        }
+
+        public CollectionPropertyMapping CreateCollectionMappingFor(PropertyInfo propertyInfo, string scope)
+        {
+            var propertyType = propertyInfo.PropertyType;
+            var isArray = propertyType.IsArray;
+            var collectionType = isArray ? propertyType.GetElementType() : propertyType.GetGenericArguments()[0];
+
+            var collectionMapping = new CollectionPropertyMapping
+            {
+                LocalName = propertyInfo.Name,
+                ScopedName = scope,
+                CollectionType = collectionType,
+                Type = propertyInfo.PropertyType,
+                GetValue = (x) => propertyInfo.GetValue(x, null) as IList,
+                SetValue = (x, v) => propertyInfo.SetValue(x, v, null),
+                IsArray = isArray
+            };
+
+            var arrayMappingTypes = GetPropertyMappingsFor(collectionType, scope);
+            collectionMapping.InternalMappings.AddRange(arrayMappingTypes);
+
+            return collectionMapping;
+        }
+
+        public PropertyMapping CreatePropertyMappingFor(PropertyInfo propertyInfo, string scope)
+        {
+            return new PropertyMapping
+            {
+                LocalName = propertyInfo.Name,
+                ScopedName = scope,
+                Type = propertyInfo.PropertyType,
+                GetValue = x => propertyInfo.GetValue(x, null),
+                SetValue = (x, v) => propertyInfo.SetValue(x, v, null)
+            };
+        }
+
+        public NestedMapping CreateNestedMappingFor(PropertyInfo propertyInfo, string scope)
+        {
+            var nestedMapping = new NestedMapping
+            {
+                LocalName = propertyInfo.Name,
+                ScopedName = scope,
+                Type = propertyInfo.PropertyType,
+                GetValue = x => propertyInfo.GetValue(x, null),
+                SetValue = (x, v) => propertyInfo.SetValue(x, v, null)
+            };
+
+            var mappingTypes = GetPropertyMappingsFor(propertyInfo.PropertyType, scope);
+            nestedMapping.InternalMappings.AddRange(mappingTypes);
+            return nestedMapping;
         }
 
         public List<Mapping> GetPropertyMappingsFor(Type type, string scope)
@@ -32,75 +87,24 @@ namespace Tests.Editor.Helpers.Mapping
 
             foreach (var propertyInfo in properties)
             {
-                var newScope = scope + "." + propertyInfo.Name;
+                var currentScope = scope + "." + propertyInfo.Name;
+
                 if (isPrimitiveType(propertyInfo.PropertyType))
                 {
-                    var propertyDescriptor = new PropertyMapping
-                    {
-                        LocalName = propertyInfo.Name,
-                        ScopedName = newScope,
-                        Type = propertyInfo.PropertyType,
-                        GetValue = x => propertyInfo.GetValue(x, null),
-                        SetValue = (x, v) => propertyInfo.SetValue(x, v, null)
-                    };
-
+                    var propertyDescriptor = CreatePropertyMappingFor(propertyInfo, currentScope);
                     propertyMappings.Add(propertyDescriptor);
                     continue;
                 }
 
-                if (propertyInfo.PropertyType.IsArray)
+                if (propertyInfo.PropertyType.IsArray || IsGenericList(propertyInfo.PropertyType))
                 {
-                    var arrayType = propertyInfo.PropertyType.GetElementType();
-
-                    var collectionMapping = new CollectionPropertyMapping
-                    {
-                        LocalName = propertyInfo.Name,
-                        ScopedName = newScope,
-                        CollectionType = arrayType,
-                        Type = propertyInfo.PropertyType,
-                        GetValue = (x) => propertyInfo.GetValue(x, null) as Array,
-                        SetValue = (x, v) => propertyInfo.SetValue(x, v, null),
-                        IsArray = true
-                    };
+                    var collectionMapping = CreateCollectionMappingFor(propertyInfo, currentScope);
                     propertyMappings.Add(collectionMapping);
-
-                    var arrayMappingTypes = GetPropertyMappingsFor(arrayType, newScope);
-                    collectionMapping.InternalMappings.AddRange(arrayMappingTypes);
                     continue;
                 }
 
-                if (IsGenericList(propertyInfo.PropertyType))
-                {
-                    var listType = propertyInfo.PropertyType.GetGenericArguments()[0];
-
-                    var collectionMapping = new CollectionPropertyMapping
-                    {
-                        LocalName = propertyInfo.Name,
-                        ScopedName = newScope,
-                        CollectionType = listType,
-                        Type = propertyInfo.PropertyType,
-                        GetValue = (x) => propertyInfo.GetValue(x, null) as IList,
-                        SetValue = (x, v) => propertyInfo.SetValue(x, v, null)
-                    };
-                    propertyMappings.Add(collectionMapping);
-
-                    var collectionMappingTypes = GetPropertyMappingsFor(listType, newScope);
-                    collectionMapping.InternalMappings.AddRange(collectionMappingTypes);
-                    continue;
-                }
-
-                var nestedMapping = new NestedMapping
-                {
-                    LocalName = propertyInfo.Name,
-                    ScopedName = newScope,
-                    Type = propertyInfo.PropertyType,
-                    GetValue = x => propertyInfo.GetValue(x, null),
-                    SetValue = (x,v) => propertyInfo.SetValue(x,v, null)
-                };
+                var nestedMapping = CreateNestedMappingFor(propertyInfo, currentScope);
                 propertyMappings.Add(nestedMapping);
-
-                var mappingTypes = GetPropertyMappingsFor(propertyInfo.PropertyType, newScope);
-                nestedMapping.InternalMappings.AddRange(mappingTypes);
             }
 
             return propertyMappings;
@@ -108,7 +112,7 @@ namespace Tests.Editor.Helpers.Mapping
 
         private bool isPrimitiveType(Type type)
         {
-            return type.IsPrimitive || type == typeof(string) || type == typeof(DateTime);
+            return type.IsPrimitive || type == typeof(string) || type == typeof(DateTime) || type == typeof(Guid);
         }
     }
 }
