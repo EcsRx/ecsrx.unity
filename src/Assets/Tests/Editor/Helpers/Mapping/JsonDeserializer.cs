@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using EcsRx.Json;
 using UnityEngine;
@@ -36,13 +37,28 @@ namespace Tests.Editor.Helpers.Mapping
         private void DeserializeNestedObject<T>(NestedMapping nestedMapping, JSONNode data, T instance)
         { Deserialize(nestedMapping.InternalMappings, data, instance); }
 
-        private void DeserializeCollection<T>(CollectionPropertyMapping collectionMapping, JSONArray data, T[] instance)
+        private void DeserializeCollection(CollectionPropertyMapping collectionMapping, JSONArray data, IList instance)
         {
             for(var i=0;i<data.Count;i++)
             {
-                var elementInstance = (T)Activator.CreateInstance(collectionMapping.ArrayType);
-                Deserialize(collectionMapping.InternalMappings, data[i], elementInstance);
-                instance[i] = elementInstance;
+                if (collectionMapping.InternalMappings.Count > 0)
+                {
+                    var elementInstance = Activator.CreateInstance(collectionMapping.CollectionType);
+                    Deserialize(collectionMapping.InternalMappings, data[i], elementInstance);
+
+                    if (instance.IsFixedSize)
+                    { instance[i] = elementInstance; }
+                    else
+                    { instance.Insert(i, elementInstance); }
+                }
+                else
+                {
+                    var value = DeserializePrimitive(data[i], collectionMapping.CollectionType);
+                    if (instance.IsFixedSize)
+                    { instance[i] = value; }
+                    else
+                    { instance.Insert(i, value); }
+                }
             }
         }
 
@@ -68,9 +84,21 @@ namespace Tests.Editor.Helpers.Mapping
                     var collectionMapping = (mapping as CollectionPropertyMapping);
                     var jsonData = jsonNode[mapping.LocalName].AsArray;
                     var arrayCount = jsonData.Count;
-                    var arrayInstance = (object[])Activator.CreateInstance(collectionMapping.Type, arrayCount);
-                    DeserializeCollection(collectionMapping, jsonData, arrayInstance);
-                    collectionMapping.SetValue(instance, arrayInstance);
+
+                    if (collectionMapping.IsArray)
+                    {
+                        var arrayInstance = (IList) Activator.CreateInstance(collectionMapping.Type, arrayCount);
+                        DeserializeCollection(collectionMapping, jsonData, arrayInstance);
+                        collectionMapping.SetValue(instance, arrayInstance);
+                    }
+                    else
+                    {
+                        var listType = typeof(List<>);
+                        var constructedListType = listType.MakeGenericType(collectionMapping.CollectionType);
+                        var listInstance = (IList)Activator.CreateInstance(constructedListType);
+                        DeserializeCollection(collectionMapping, jsonData, listInstance);
+                        collectionMapping.SetValue(instance, listInstance);
+                    }
                 }
             }
         }

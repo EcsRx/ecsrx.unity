@@ -175,7 +175,7 @@
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\Mapping.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\NestedMapping.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\PropertyMapping.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\SuperHelper.cs" />
+    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\TypeMapper.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\Mapping\TypePropertyMappings.cs" />
     <Compile Include="Assets\Tests\Editor\Models\Persistence\A.cs" />
     <Compile Include="Assets\Tests\Editor\Components\MoveableComponent.cs" />

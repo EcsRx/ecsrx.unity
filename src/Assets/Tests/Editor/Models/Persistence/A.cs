@@ -1,4 +1,5 @@
-﻿using EcsRx.Persistence.Attributes;
+﻿using System.Collections.Generic;
+using EcsRx.Persistence.Attributes;
 
 namespace Assets.Tests.Editor
 {
@@ -13,5 +14,13 @@ namespace Assets.Tests.Editor
 
         [PersistData]
         public B[] NestedArray { get; set; }
+        
+        [PersistData]
+        public IList<string> Stuff { get; set; }
+
+        public A()
+        {
+            Stuff = new List<string>();
+        }
     }
 }

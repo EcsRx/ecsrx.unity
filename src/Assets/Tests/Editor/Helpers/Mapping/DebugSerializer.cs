@@ -9,7 +9,7 @@ namespace Tests.Editor.Helpers.Mapping
         {
             var output = new StringBuilder();
 
-            var result = Blah(typePropertyMappings.Mappings, data);
+            var result = Serialize(typePropertyMappings.Mappings, data);
             output.AppendLine(result);
             return output.ToString();
         }
@@ -17,19 +17,19 @@ namespace Tests.Editor.Helpers.Mapping
         private static string SerializeProperty<T>(this PropertyMapping propertyMapping, T data)
         {
             var output = propertyMapping.GetValue(data);
-            return string.Format("{0} : {1}, \n", propertyMapping.ScopedName, output);
+            return string.Format("{0} : {1}", propertyMapping.ScopedName, output);
         }
 
         private static string SerializeNestedObject<T>(this NestedMapping nestedMapping, T data)
         {
             var output = new StringBuilder();
             var currentData = nestedMapping.GetValue(data);
-            var result = Blah(nestedMapping.InternalMappings, currentData);
-            output.AppendLine(result);
+            var result = Serialize(nestedMapping.InternalMappings, currentData);
+            output.Append(result);
             return output.ToString();
         }
 
-        private static string Blah<T>(IEnumerable<Mapping> mappings, T data)
+        private static string Serialize<T>(IEnumerable<Mapping> mappings, T data)
         {
             var output = new StringBuilder();
 
@@ -43,12 +43,12 @@ namespace Tests.Editor.Helpers.Mapping
                 else if (mapping is NestedMapping)
                 {
                     var result = SerializeNestedObject((mapping as NestedMapping), data);
-                    output.AppendLine(result);
+                    output.Append(result);
                 }
                 else
                 {
                     var result = SerializeCollection((mapping as CollectionPropertyMapping), data);
-                    output.AppendLine(result);
+                    output.Append(result);
                 }
             }
 
@@ -58,14 +58,21 @@ namespace Tests.Editor.Helpers.Mapping
         private static string SerializeCollection<T>(this CollectionPropertyMapping collectionMapping, T data)
         {
             var output = new StringBuilder();
-            var arrayValue = collectionMapping.GetValue(data);
-            output.AppendFormat("{0} : {1}, \n", collectionMapping.ScopedName, arrayValue.Length);
+            var collectionValue = collectionMapping.GetValue(data);
+            output.AppendFormat("{0} : {1} \n", collectionMapping.ScopedName, collectionValue.Count);
 
-            for (var i = 0; i < arrayValue.Length; i++)
+            for (var i = 0; i < collectionValue.Count; i++)
             {
-                var currentData = arrayValue.GetValue(i);
-                var result = Blah(collectionMapping.InternalMappings, currentData);
-                output.AppendLine(result);
+                var currentData = collectionValue[i];
+                if (collectionMapping.InternalMappings.Count > 0)
+                {
+                    var result = Serialize(collectionMapping.InternalMappings, currentData);
+                    output.Append(result);
+                }
+                else
+                {
+                    output.AppendFormat("{0} : {1} \n", collectionMapping.ScopedName + ".value", currentData);
+                }
             }
 
             return output.ToString();

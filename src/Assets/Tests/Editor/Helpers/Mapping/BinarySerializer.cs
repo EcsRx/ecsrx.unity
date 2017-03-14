@@ -14,6 +14,7 @@ namespace Tests.Editor.Helpers.Mapping
             if (type == typeof(byte)) { writer.Write((byte)value); }
             else if (type == typeof(short)) { writer.Write((short)value); }
             else if(type == typeof(int)) { writer.Write((int)value); }
+            else if(type == typeof(long)) { writer.Write((long)value); }
             else if(type == typeof(bool)) { writer.Write((bool)value); }
             else if(type == typeof(float)) { writer.Write((float)value); }
             else if(type == typeof(double)) { writer.Write((double)value); }
@@ -80,12 +81,16 @@ namespace Tests.Editor.Helpers.Mapping
         
         private void SerializeCollection<T>(CollectionPropertyMapping collectionMapping, T data, BinaryWriter writer)
         {
-            var arrayValue = collectionMapping.GetValue(data);
-            writer.Write(arrayValue.Length);
-            for (var i = 0; i < arrayValue.Length; i++)
+            var collectionValue = collectionMapping.GetValue(data);
+            writer.Write(collectionValue.Count);
+            for (var i = 0; i < collectionValue.Count; i++)
             {
-                var currentData = arrayValue.GetValue(i);
-                Serialize(collectionMapping.InternalMappings, currentData, writer);
+                var currentData = collectionValue[i];
+
+                if (collectionMapping.InternalMappings.Count > 0)
+                { Serialize(collectionMapping.InternalMappings, currentData, writer); }
+                else
+                { SerializePrimitive(currentData, collectionMapping.CollectionType, writer); }
             }
         }
 

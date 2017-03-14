@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using EcsRx.Json;
@@ -70,13 +71,28 @@ namespace Tests.Editor.Helpers.Mapping
         private void DeserializeNestedObject<T>(NestedMapping nestedMapping, T instance, BinaryReader reader)
         { Deserialize(nestedMapping.InternalMappings, instance, reader); }
 
-        private void DeserializeCollection<T>(CollectionPropertyMapping collectionMapping, T[] instance, int arrayCount, BinaryReader reader)
+        private void DeserializeCollection(CollectionPropertyMapping collectionMapping, IList collectionInstance, int arrayCount, BinaryReader reader)
         {
             for (var i = 0; i < arrayCount; i++)
             {
-                var elementInstance = (T)Activator.CreateInstance(collectionMapping.ArrayType);
-                Deserialize(collectionMapping.InternalMappings, elementInstance, reader);
-                instance[i] = elementInstance;
+                if (collectionMapping.InternalMappings.Count > 0)
+                {
+                    var elementInstance = Activator.CreateInstance(collectionMapping.CollectionType);
+                    Deserialize(collectionMapping.InternalMappings, elementInstance, reader);
+
+                    if (collectionInstance.IsFixedSize)
+                    { collectionInstance[i] = elementInstance; }
+                    else
+                    { collectionInstance.Insert(i, elementInstance); }
+                }
+                else
+                {
+                    var value = DeserializePrimitive(collectionMapping.CollectionType, reader);
+                    if (collectionInstance.IsFixedSize)
+                    { collectionInstance[i] = value; }
+                    else
+                    { collectionInstance.Insert(i, value); }
+                }
             }
         }
 
@@ -97,9 +113,21 @@ namespace Tests.Editor.Helpers.Mapping
                 {
                     var collectionMapping = (mapping as CollectionPropertyMapping);
                     var arrayCount = reader.ReadInt32();
-                    var arrayInstance = (object[])Activator.CreateInstance(collectionMapping.Type, arrayCount);
-                    DeserializeCollection(collectionMapping, arrayInstance, arrayCount, reader);
-                    collectionMapping.SetValue(instance, arrayInstance);
+
+                    if (collectionMapping.IsArray)
+                    {
+                        var arrayInstance = (IList) Activator.CreateInstance(collectionMapping.Type, arrayCount);
+                        DeserializeCollection(collectionMapping, arrayInstance, arrayCount, reader);
+                        collectionMapping.SetValue(instance, arrayInstance);
+                    }
+                    else
+                    {
+                        var listType = typeof(List<>);
+                        var constructedListType = listType.MakeGenericType(collectionMapping.CollectionType);
+                        var listInstance = (IList)Activator.CreateInstance(constructedListType);
+                        DeserializeCollection(collectionMapping, listInstance, arrayCount, reader);
+                        collectionMapping.SetValue(instance, listInstance);
+                    }
                 }
             }
         }

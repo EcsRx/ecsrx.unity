@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Persistence.Attributes;
@@ -6,7 +7,7 @@ using EcsRx.Persistence.Extensions;
 
 namespace Tests.Editor.Helpers.Mapping
 {
-    public class SuperHelper
+    public class TypeMapper
     {
         public TypePropertyMappings GetTypeMappingsFor(Type type)
         {
@@ -17,6 +18,11 @@ namespace Tests.Editor.Helpers.Mapping
             typeMappings.Mappings.AddRange(mappings);
 
             return typeMappings;
+        }
+
+        private bool IsGenericList(Type type)
+        {
+            return (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(IList<>)));
         }
 
         public List<Mapping> GetPropertyMappingsFor(Type type, string scope)
@@ -49,16 +55,37 @@ namespace Tests.Editor.Helpers.Mapping
                     var collectionMapping = new CollectionPropertyMapping
                     {
                         LocalName = propertyInfo.Name,
-                        ScopedName = newScope + "[]",
-                        ArrayType = arrayType,
+                        ScopedName = newScope,
+                        CollectionType = arrayType,
                         Type = propertyInfo.PropertyType,
                         GetValue = (x) => propertyInfo.GetValue(x, null) as Array,
-                        SetValue = (x, v) => propertyInfo.SetValue(x, v, null)
+                        SetValue = (x, v) => propertyInfo.SetValue(x, v, null),
+                        IsArray = true
                     };
                     propertyMappings.Add(collectionMapping);
 
                     var arrayMappingTypes = GetPropertyMappingsFor(arrayType, newScope);
                     collectionMapping.InternalMappings.AddRange(arrayMappingTypes);
+                    continue;
+                }
+
+                if (IsGenericList(propertyInfo.PropertyType))
+                {
+                    var listType = propertyInfo.PropertyType.GetGenericArguments()[0];
+
+                    var collectionMapping = new CollectionPropertyMapping
+                    {
+                        LocalName = propertyInfo.Name,
+                        ScopedName = newScope,
+                        CollectionType = listType,
+                        Type = propertyInfo.PropertyType,
+                        GetValue = (x) => propertyInfo.GetValue(x, null) as IList,
+                        SetValue = (x, v) => propertyInfo.SetValue(x, v, null)
+                    };
+                    propertyMappings.Add(collectionMapping);
+
+                    var collectionMappingTypes = GetPropertyMappingsFor(listType, newScope);
+                    collectionMapping.InternalMappings.AddRange(collectionMappingTypes);
                     continue;
                 }
 

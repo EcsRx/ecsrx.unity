@@ -11,12 +11,14 @@ namespace Assets.Tests.Editor.Persistence
     public class PesistenceSanityTest
     {
         private ComponentDescriptorHelper helper = new ComponentDescriptorHelper();
-        private SuperHelper superHelper = new SuperHelper();
+        private TypeMapper _typeMapper = new TypeMapper();
 
         private A GenerateDummyData()
         {
             var a = new A();
             a.TestValue = "WOW";
+            a.Stuff.Add("woop");
+            a.Stuff.Add("poow");
             a.NestedValue = new B();
             a.NestedValue.IntValue = 10;
             a.NestedValue.StringValue = "Hello";
@@ -70,7 +72,7 @@ namespace Assets.Tests.Editor.Persistence
         public void should_serialize_with_debug_serializer()
         {
             var a = GenerateDummyData();
-            var typeStuff = superHelper.GetTypeMappingsFor(typeof(A));
+            var typeStuff = _typeMapper.GetTypeMappingsFor(typeof(A));
 
             var output = typeStuff.SerializeData(a);
             Console.WriteLine(output);
@@ -81,15 +83,15 @@ namespace Assets.Tests.Editor.Persistence
         public void should_correctly_serialize_with_json()
         {
             var a = GenerateDummyData();
-            var typeStuff = superHelper.GetTypeMappingsFor(typeof(A));
+            var typeStuff = _typeMapper.GetTypeMappingsFor(typeof(A));
 
             var serializer = new JsonSerializer();
             var jsonOutput = serializer.SerializeData(typeStuff, a);
+            Console.WriteLine(jsonOutput.ToString());
 
             var deserializer = new JsonDeserializer();
             var result = deserializer.DeserializeData<A>(typeStuff, jsonOutput.ToString());
 
-            Console.WriteLine(jsonOutput.ToString());
             AssertionOnDummyData(result);
         }
         
@@ -97,15 +99,15 @@ namespace Assets.Tests.Editor.Persistence
         public void should_correctly_serialize_with_binary()
         {
             var a = GenerateDummyData();
-            var typeStuff = superHelper.GetTypeMappingsFor(typeof(A));
+            var typeStuff = _typeMapper.GetTypeMappingsFor(typeof(A));
 
             var serializer = new BinarySerializer();
             var binaryOutput = serializer.SerializeData(typeStuff, a);
+            Console.WriteLine(BitConverter.ToString(binaryOutput));
 
             var deserializer = new BinaryDeserializer();
             var result = deserializer.DeserializeData<A>(typeStuff, binaryOutput);
 
-            Console.WriteLine(BitConverter.ToString(binaryOutput));
             AssertionOnDummyData(result);
         }
     }
