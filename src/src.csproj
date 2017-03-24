@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.1f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -226,13 +224,13 @@
     <Compile Include="Assets\EcsRx\Persistence\Extensions\ReflectionExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\BasicTypeConverter.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\ColourTypeConverter.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\IDataConverter.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\QuaternionTypeConverter.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\RectTypeConverter.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\Vector2TypeConverter.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\Vector3TypeConverter.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extractors\DataConverterRegistry.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extractors\DataExtractor.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\IDataConverter.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extractors\IDataExtractor.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Persisters\IDataPersister.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Types\ComponentDescriptor.cs" />
@@ -603,104 +601,6 @@
     <None Include="Assets\UnityTestTools\changelog.txt" />
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Persistity\Attributes.meta" />
-    <Content Include="Assets\Persistity\Attributes\PersistAttribute.cs.meta" />
-    <Content Include="Assets\Persistity\Attributes\PersistDataAttribute.cs.meta" />
-    <Content Include="Assets\Persistity\Encryption.meta" />
-    <Content Include="Assets\Persistity\Encryption\AesEncryptor.cs.meta" />
-    <Content Include="Assets\Persistity\Encryption\IEncryptor.cs.meta" />
-    <Content Include="Assets\Persistity\Endpoints.meta" />
-    <Content Include="Assets\Persistity\Endpoints\Files.meta" />
-    <Content Include="Assets\Persistity\Endpoints\Files\ReadFileEndpoint.cs.meta" />
-    <Content Include="Assets\Persistity\Endpoints\Files\WriteFileEndpoint.cs.meta" />
-    <Content Include="Assets\Persistity\Endpoints\IReceiveDataEndpoint.cs.meta" />
-    <Content Include="Assets\Persistity\Endpoints\ISendDataEndpoint.cs.meta" />
-    <Content Include="Assets\Persistity\Endpoints\Unity.meta" />
-    <Content Include="Assets\Persistity\Endpoints\Unity\ReadPlayerPrefsEndpoint.cs.meta" />
-    <Content Include="Assets\Persistity\Endpoints\Unity\WritePlayerPrefsEndpoint.cs.meta" />
-    <Content Include="Assets\Persistity\Exceptions.meta" />
-    <Content Include="Assets\Persistity\Exceptions\NoKnownTypeException.cs.meta" />
-    <Content Include="Assets\Persistity\Exceptions\TypeNotPersistable.cs.meta" />
-    <Content Include="Assets\Persistity\Extensions.meta" />
-    <Content Include="Assets\Persistity\Extensions\IListExtensions.cs.meta" />
-    <Content Include="Assets\Persistity\Extensions\ReflectionExtensions.cs.meta" />
-    <Content Include="Assets\Persistity\Extensions\TypeExtensions.cs.meta" />
-    <Content Include="Assets\Persistity\Json.meta" />
-    <Content Include="Assets\Persistity\Json\JSON.cs.meta" />
-    <Content Include="Assets\Persistity\Mappings.meta" />
-    <Content Include="Assets\Persistity\Mappings\CollectionMapping.cs.meta" />
-    <Content Include="Assets\Persistity\Mappings\DictionaryMapping.cs.meta" />
-    <Content Include="Assets\Persistity\Mappings\Mappers.meta" />
-    <Content Include="Assets\Persistity\Mappings\Mappers\DefaultTypeMapper.cs.meta" />
-    <Content Include="Assets\Persistity\Mappings\Mappers\EverythingTypeMapper.cs.meta" />
-    <Content Include="Assets\Persistity\Mappings\Mappers\ITypeMapper.cs.meta" />
-    <Content Include="Assets\Persistity\Mappings\Mappers\MappingConfiguration.cs.meta" />
-    <Content Include="Assets\Persistity\Mappings\Mappers\TypeMapper.cs.meta" />
-    <Content Include="Assets\Persistity\Mappings\Mapping.cs.meta" />
-    <Content Include="Assets\Persistity\Mappings\NestedMapping.cs.meta" />
-    <Content Include="Assets\Persistity\Mappings\PropertyMapping.cs.meta" />
-    <Content Include="Assets\Persistity\Mappings\TypeMapper.cs.meta" />
-    <Content Include="Assets\Persistity\Mappings\TypeMapping.cs.meta" />
-    <Content Include="Assets\Persistity\Pipelines.meta" />
-    <Content Include="Assets\Persistity\Pipelines\Builders.meta" />
-    <Content Include="Assets\Persistity\Pipelines\Builders\PipelineBuilder.cs.meta" />
-    <Content Include="Assets\Persistity\Pipelines\Builders\ReceivePipelineBuilder.cs.meta" />
-    <Content Include="Assets\Persistity\Pipelines\Builders\SendPipelineBuilder.cs.meta" />
-    <Content Include="Assets\Persistity\Pipelines\IReceiveDataPipeline.cs.meta" />
-    <Content Include="Assets\Persistity\Pipelines\ISendDataPipeline.cs.meta" />
-    <Content Include="Assets\Persistity\Pipelines\ReceiveDataPipeline.cs.meta" />
-    <Content Include="Assets\Persistity\Pipelines\SendDataPipeline.cs.meta" />
-    <Content Include="Assets\Persistity\Processors.meta" />
-    <Content Include="Assets\Persistity\Processors\Encoding.meta" />
-    <Content Include="Assets\Persistity\Processors\Encoding\UrlDecodeProcessor.cs.meta" />
-    <Content Include="Assets\Persistity\Processors\Encoding\UrlEncodeProcessor.cs.meta" />
-    <Content Include="Assets\Persistity\Processors\Encryption.meta" />
-    <Content Include="Assets\Persistity\Processors\Encryption\DecryptDataProcessor.cs.meta" />
-    <Content Include="Assets\Persistity\Processors\Encryption\EncryptDataProcessor.cs.meta" />
-    <Content Include="Assets\Persistity\Processors\IProcessor.cs.meta" />
-    <Content Include="Assets\Persistity\Registries.meta" />
-    <Content Include="Assets\Persistity\Registries\IMappingRegistry.cs.meta" />
-    <Content Include="Assets\Persistity\Registries\MappingRegistry.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization.meta" />
-    <Content Include="Assets\Persistity\Serialization\Binary.meta" />
-    <Content Include="Assets\Persistity\Serialization\Binary\BinaryConfiguration.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Binary\BinaryDeserializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Binary\BinarySerializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Binary\IBinaryDeserializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Binary\IBinarySerializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Debug.meta" />
-    <Content Include="Assets\Persistity\Serialization\Debug\DebugSerializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Exceptions.meta" />
-    <Content Include="Assets\Persistity\Serialization\Exceptions\NoKnownTypeException.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\IDeserializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\ISerializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\ITypeHandler.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Json.meta" />
-    <Content Include="Assets\Persistity\Serialization\Json\IJsonDeserializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Json\IJsonSerializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Json\JsonConfiguration.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Json\JsonDeserializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Json\JsonSerializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\SerializationConfiguration.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Xml.meta" />
-    <Content Include="Assets\Persistity\Serialization\Xml\IXmlDeserializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Xml\IXmlSerializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Xml\JsonConfiguration.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Xml\XmlDeserializer.cs.meta" />
-    <Content Include="Assets\Persistity\Serialization\Xml\XmlSerializer.cs.meta" />
-    <Content Include="Assets\Persistity\Transformers.meta" />
-    <Content Include="Assets\Persistity\Transformers\Binary.meta" />
-    <Content Include="Assets\Persistity\Transformers\Binary\BinaryTransformer.cs.meta" />
-    <Content Include="Assets\Persistity\Transformers\Binary\IBinaryTransformer.cs.meta" />
-    <Content Include="Assets\Persistity\Transformers\ITransformer.cs.meta" />
-    <Content Include="Assets\Persistity\Transformers\Json.meta" />
-    <Content Include="Assets\Persistity\Transformers\Json\IJsonTransformer.cs.meta" />
-    <Content Include="Assets\Persistity\Transformers\Json\JsonTransformer.cs.meta" />
-    <Content Include="Assets\Persistity\Transformers\Xml.meta" />
-    <Content Include="Assets\Persistity\Transformers\Xml\IXmlTransformer.cs.meta" />
-    <Content Include="Assets\Persistity\Transformers\Xml\XmlTransformer.cs.meta" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
