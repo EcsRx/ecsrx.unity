@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace EcsRx.Unity.MonoBehaviours.Models
@@ -8,13 +7,9 @@ namespace EcsRx.Unity.MonoBehaviours.Models
     public class ComponentCache
     {
         [SerializeField]
-        private List<string> _activeComponents;
+        public string ComponentTypeReference;
 
         [SerializeField]
-        private List<string> _componentState;
-
-
-
-
+        public byte[] ComponentState;
     }
 }

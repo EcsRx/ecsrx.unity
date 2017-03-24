@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace EcsRx.Unity.Helpers
+namespace EcsRx.Unity.MonoBehaviours.Helpers
 {
     public class TypeHelper
     {

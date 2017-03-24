@@ -13,12 +13,10 @@ namespace Persistity.Serialization.Binary
         public static readonly char[] NullDataSig = {(char) 141, (char) 141};
         public static readonly char[] NullObjectSig = {(char) 141, (char)229, (char)141};
 
-        public IEnumerable<ITypeHandler<BinaryWriter, BinaryReader>> TypeHandlers { get; set; }
+        public BinaryConfiguration Configuration { get; private set; }
 
-        public BinarySerializer(IEnumerable<ITypeHandler<BinaryWriter, BinaryReader>> typeHandlers = null)
-        {
-            TypeHandlers = typeHandlers ?? new List<ITypeHandler<BinaryWriter, BinaryReader>>();
-        }
+        public BinarySerializer(BinaryConfiguration configuration = null)
+        { Configuration = configuration ?? BinaryConfiguration.Default; }
 
         public void WriteNullData(BinaryWriter writer)
         { writer.Write(NullDataSig); }
@@ -36,6 +34,7 @@ namespace Persistity.Serialization.Binary
             else if(type == typeof(float)) { writer.Write((float)value); }
             else if(type == typeof(double)) { writer.Write((double)value); }
             else if(type == typeof(decimal)) { writer.Write((decimal)value); }
+            else if(type.IsEnum) { writer.Write((int)value); }
             else if (type == typeof(Vector2))
             {
                 var vector = (Vector2) value;
@@ -70,7 +69,7 @@ namespace Persistity.Serialization.Binary
             else if (type == typeof(string)) { writer.Write(value.ToString()); }
             else
             {
-                var matchingHandler = TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
+                var matchingHandler = Configuration.TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
                 if(matchingHandler == null) { throw new NoKnownTypeException(type); }
                 matchingHandler.HandleTypeIn(writer, value);
             }

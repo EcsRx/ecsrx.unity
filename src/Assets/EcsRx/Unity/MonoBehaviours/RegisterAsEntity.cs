@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.EcsRx.Unity.Extensions;
-using EcsRx.Components;
 using EcsRx.Entities;
 using EcsRx.Pools;
 using EcsRx.Unity.Components;
-using Persistity.Json;
+using EcsRx.Unity.MonoBehaviours.Helpers;
+using EcsRx.Unity.MonoBehaviours.Models;
 using UnityEngine;
 using Zenject;
 
@@ -21,10 +19,7 @@ namespace EcsRx.Unity.MonoBehaviours
         public string PoolName;
 
         [SerializeField]
-        public List<string> Components = new List<string>();
-
-        [SerializeField]
-        public List<string> ComponentEditorState = new List<string>();
+        public List<ComponentCache> ComponentCache = new List<ComponentCache>();
 
         [Inject]
         public void RegisterEntity()
@@ -57,16 +52,9 @@ namespace EcsRx.Unity.MonoBehaviours
 
         private void SetupEntityComponents(IEntity entity)
         {
-            for (var i = 0; i < Components.Count(); i++)
+            for (var i = 0; i < ComponentCache.Count; i++)
             {
-                var typeName = Components[i];
-                var type = Type.GetType(typeName);
-                if (type == null) { throw new Exception("Cannot resolve type for [" + typeName + "]"); }
-
-                var component = (IComponent)Activator.CreateInstance(type);
-                var componentProperties = JSON.Parse(ComponentEditorState[i]);
-                component.DeserializeComponent(componentProperties);
-
+                var component = EntityTransformer.DeserializeComponent(ComponentCache[i]);
                 entity.AddComponent(component);
             }
         }

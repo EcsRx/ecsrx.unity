@@ -12,9 +12,8 @@ namespace Persistity.Mappings.Mappers
     /// </summary>
     public class EverythingTypeMapper : TypeMapper
     {
-        public EverythingTypeMapper(IEnumerable<Type> knownPrimitives = null) : base(knownPrimitives)
-        {
-        }
+        public EverythingTypeMapper(MappingConfiguration configuration = null) : base(configuration)
+        {}
 
         public override IEnumerable<PropertyInfo> GetPropertiesFor(Type type)
         {

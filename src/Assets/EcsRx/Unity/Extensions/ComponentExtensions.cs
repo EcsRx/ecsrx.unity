@@ -6,17 +6,17 @@ namespace Assets.EcsRx.Unity.Extensions
 { 
 	public static class ComponentExtensions
 	{
-	    public static JSONObject SerializeComponent(this object component)
+	    public static JSONObject _SerializeComponent(this object component)
 		{
 			var node = new JSONObject();
 			foreach (var property in component.GetType().GetProperties())
 			{
 				if (property.CanRead && property.CanWrite)
 				{
-				    /*
+                    /*
                     if (property.PropertyType == typeof(int) || property.PropertyType.IsEnum)
 					{
-						node.Add(property.Name, new JSONData((int)property.GetValue(component, null)));
+						node.Add(property.Name, new JSONNumber((int)property.GetValue(component, null)));
 						continue;
 					}
 					if (property.PropertyType == typeof(IntReactiveProperty))
@@ -97,7 +97,7 @@ namespace Assets.EcsRx.Unity.Extensions
 			return node;
 		}
 
-		public static void DeserializeComponent(this object component, JSONNode node)
+		public static void _DeserializeComponent(this object component, JSONNode node)
 		{
 			foreach (var property in component.GetType().GetProperties())
 			{

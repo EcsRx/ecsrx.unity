@@ -11,14 +11,10 @@ namespace Persistity.Serialization.Json
 {
     public class JsonDeserializer : IJsonDeserializer
     {
-        public Encoding Encoder = Encoding.Default;
+        public JsonConfiguration Configuration { get; private set; }
 
-        public IEnumerable<ITypeHandler<JSONNode, JSONNode>> TypeHandlers { get; set; }
-
-        public JsonDeserializer(IEnumerable<ITypeHandler<JSONNode, JSONNode>> typeHandlers = null)
-        {
-            TypeHandlers = typeHandlers ?? new List<ITypeHandler<JSONNode, JSONNode>>();
-        }
+        public JsonDeserializer(JsonConfiguration configuration = null)
+        { Configuration = configuration ?? JsonConfiguration.Default; }
 
         private bool IsNullNode(JSONNode node)
         { return node == null; }
@@ -33,7 +29,9 @@ namespace Persistity.Serialization.Json
             if (type == typeof(bool)) { return value.AsBool; }
             if (type == typeof(float)) { return value.AsFloat; }
             if (type == typeof(double)) { return value.AsDouble; }
+            if (type.IsEnum) { return Enum.Parse(type, value.Value); }
             if (type == typeof(DateTime)) { return DateTime.FromBinary(long.Parse(value.Value)); }
+            if (type.IsEnum) { return Enum.Parse(type, value.Value); }
             if (type == typeof(Vector2))
             { return new Vector2(value["x"].AsFloat, value["y"].AsFloat); }
             if (type == typeof(Vector3))
@@ -43,7 +41,7 @@ namespace Persistity.Serialization.Json
             if (type == typeof(Quaternion))
             { return new Quaternion(value["x"].AsFloat, value["y"].AsFloat, value["z"].AsFloat, value["w"].AsFloat); }
 
-            var matchingHandler = TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
+            var matchingHandler = Configuration.TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
             if (matchingHandler != null)
             { return matchingHandler.HandleTypeOut(value); }
 
@@ -52,7 +50,7 @@ namespace Persistity.Serialization.Json
 
         public T DeserializeData<T>(TypeMapping typeMapping, byte[] data) where T : new()
         {
-            var jsonString = Encoder.GetString(data);
+            var jsonString = Configuration.Encoder.GetString(data);
             var instance = new T();
             var jsonData = JSON.Parse(jsonString);
             Deserialize(typeMapping.InternalMappings, instance, jsonData);
@@ -61,7 +59,7 @@ namespace Persistity.Serialization.Json
 
         public object DeserializeData(TypeMapping typeMapping, byte[] data)
         {
-            var jsonString = Encoder.GetString(data);
+            var jsonString = Configuration.Encoder.GetString(data);
             var instance = Activator.CreateInstance(typeMapping.Type);
             var jsonData = JSON.Parse(jsonString);
             Deserialize(typeMapping.InternalMappings, instance, jsonData);

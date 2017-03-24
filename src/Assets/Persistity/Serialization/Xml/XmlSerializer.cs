@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using Persistity.Exceptions;
 using Persistity.Extensions;
@@ -12,14 +11,10 @@ namespace Persistity.Serialization.Xml
 {
     public class XmlSerializer : IXmlSerializer
     {
-        public Encoding Encoder = Encoding.Default;
+        public XmlConfiguration Configuration { get; private set; }
 
-        public IEnumerable<ITypeHandler<XElement, XElement>> TypeHandlers { get; set; }
-
-        public XmlSerializer(IEnumerable<ITypeHandler<XElement, XElement>> typeHandlers = null)
-        {
-            TypeHandlers = typeHandlers ?? new List<ITypeHandler<XElement, XElement>>();
-        }
+        public XmlSerializer(XmlConfiguration configuration = null)
+        { Configuration = configuration ?? XmlConfiguration.Default; }
 
         private readonly Type[] CatchmentTypes =
         {
@@ -73,13 +68,13 @@ namespace Persistity.Serialization.Xml
                 return;
             }
 
-            if (type.IsTypeOf(CatchmentTypes))
+            if (type.IsTypeOf(CatchmentTypes) || type.IsEnum)
             {
                 element.Value = value.ToString();
                 return;
             }
 
-            var matchingHandler = TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
+            var matchingHandler = Configuration.TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
             if(matchingHandler == null) { throw new NoKnownTypeException(type); }
             matchingHandler.HandleTypeIn(element, value);
         }
@@ -92,7 +87,7 @@ namespace Persistity.Serialization.Xml
             var element = new XElement("Container");
             Serialize(typeMapping.InternalMappings, data, element);
             var xmlString = element.ToString();
-            return Encoder.GetBytes(xmlString);
+            return Configuration.Encoder.GetBytes(xmlString);
         }
 
         private void SerializeProperty<T>(PropertyMapping propertyMapping, T data, XElement element)

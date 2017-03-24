@@ -161,10 +161,8 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\StringEditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\Vector2EditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\Vector3EditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EntityTransformer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EntityViewInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Extensions\EditorExtensions.cs" />
-    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Helpers\TypeHelper.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\PoolManagerViewerInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\RegisterAsEntityInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\UIAspects\ComponentUIAspect.cs" />

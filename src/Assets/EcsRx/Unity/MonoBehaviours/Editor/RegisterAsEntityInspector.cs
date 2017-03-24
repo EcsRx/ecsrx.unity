@@ -1,27 +1,24 @@
 ﻿using Assets.EcsRx.Unity.Extensions;
-using EcsRx.Unity.Components;
 using EcsRx.Unity.Helpers.Extensions;
 using EcsRx.Unity.Helpers.UIAspects;
 using EcsRx.Unity.MonoBehaviours;
+using UnityEngine;
+using UnityEditor;
+using System.Collections.Generic;
+using System;
+using System.Linq;
+using EcsRx.Components;
+using EcsRx.Unity.Components;
+using EcsRx.Unity.MonoBehaviours.Helpers;
+using EcsRx.Unity.MonoBehaviours.Models;
 
 namespace EcsRx.Unity.Helpers
 {
-    using UnityEngine;
-    using UnityEditor;
-    using System.Collections.Generic;
-    using EcsRx.Components;
-    using System;
-    using System.Linq;
-
     [Serializable]
     [CustomEditor(typeof(RegisterAsEntity))]
     public partial class RegisterAsEntityInspector : Editor
     {
         private RegisterAsEntity _registerAsEntity;
-
-        private readonly IEnumerable<Type> allComponentTypes = AppDomain.CurrentDomain.GetAssemblies()
-                                .SelectMany(s => s.GetTypes())
-                                .Where(p => typeof(IComponent).IsAssignableFrom(p) && p.IsClass && !typeof(ViewComponent).IsAssignableFrom(p));
 
         private bool showComponents;
 
@@ -38,22 +35,30 @@ namespace EcsRx.Unity.Helpers
             EditorGUILayout.BeginVertical(EditorExtensions.DefaultBoxStyle);
             this.WithHorizontalLayout(() =>
             {
-                this.WithLabel("Components (" + _registerAsEntity.Components.Count() + ")");
+                this.WithLabel("Components (" + _registerAsEntity.ComponentCache.Count + ")");
                 if (this.WithIconButton("▸")) { showComponents = false; }
                 if (this.WithIconButton("▾")) { showComponents = true; }
             });
 
             var componentsToRemove = new List<int>();
-            var componentCount = _registerAsEntity.Components.Count();
+            var componentCount = _registerAsEntity.ComponentCache.Count;
             if (showComponents)
             {
                 for (var i = 0; i < componentCount; i++)
                 {
                     var currentIndex = i;
+                    var cachedComponent = _registerAsEntity.ComponentCache[currentIndex];
+
+                    // This error only really occurs if the scene has corrupted or an update has changed where editor state is stored on the underlying MB
+                    if (_registerAsEntity.ComponentCache.Count <= currentIndex)
+                    {
+                        Debug.LogError("It seems there is missing editor state for [" + cachedComponent + "] this can often be fixed by removing and re-adding the RegisterAsEntity MonoBehavior");
+                        break;
+                    }
+
                     this.UseVerticalBoxLayout(() =>
                     {
-                        var componentType = _registerAsEntity.Components[currentIndex];
-                        var namePortions = componentType.Split(',')[0].Split('.');
+                        var namePortions = cachedComponent.ComponentTypeReference.Split(',')[0].Split('.');
                         var typeName = namePortions.Last();
                         var typeNamespace = string.Join(".", namePortions.Take(namePortions.Length - 1).ToArray());
 
@@ -71,30 +76,19 @@ namespace EcsRx.Unity.Helpers
                             EditorGUILayout.Space();
                         });
 
-                        var componentTypeName = _registerAsEntity.Components[currentIndex];
-
-                        // This error only really occurs if the scene has corrupted or an update has changed where editor state is stored on the underlying MB
-                        if(_registerAsEntity.ComponentEditorState.Count <= currentIndex)
-                        { Debug.LogError("It seems there is missing editor state for [" + componentTypeName + "] this can often be fixed by removing and re-adding the RegisterAsEntity MonoBehavior"); }
-
-                        var editorStateValue = _registerAsEntity.ComponentEditorState[currentIndex];
-                        var component = ComponentUIAspect.RehydrateEditorComponent(componentTypeName, editorStateValue);
-
+                        var component = EntityTransformer.DeserializeComponent(cachedComponent);
                         ComponentUIAspect.ShowComponentProperties(component);
 
-                        var serializedData = component.SerializeComponent();
-                        _registerAsEntity.ComponentEditorState[currentIndex] = serializedData.ToString();
+                        var componentState = EntityTransformer.SerializeComponent(component);
+                        cachedComponent.ComponentState = componentState;
                     });
                 }
             }
 
             EditorGUILayout.EndVertical();
 
-            for (var i = 0; i < componentsToRemove.Count(); i++)
-            {
-                _registerAsEntity.Components.RemoveAt(componentsToRemove[i]);
-                _registerAsEntity.ComponentEditorState.RemoveAt(componentsToRemove[i]);
-            }
+            for (var i = 0; i < componentsToRemove.Count; i++)
+            { _registerAsEntity.ComponentCache.RemoveAt(componentsToRemove[i]); }
         }
         
 
@@ -102,21 +96,27 @@ namespace EcsRx.Unity.Helpers
         {
             this.UseVerticalBoxLayout(() =>
             {
-                var availableTypes = allComponentTypes
-                    .Where(x => !_registerAsEntity.Components.Contains(x.ToString()))
+                var availableTypes = ComponentLookup.AllComponents
+                    .Where(x => !typeof(ViewComponent).IsAssignableFrom(x))
+                    .Where(x => !_registerAsEntity.ComponentCache.Select(y => y.ComponentTypeReference).Contains(x.ToString()))
                     .ToArray();
 
                 var types = availableTypes.Select(x => string.Format("{0} [{1}]", x.Name, x.Namespace)).ToArray();
                 var index = -1;
                 index = EditorGUILayout.Popup("Add Component", index, types);
-                if (index >= 0)
+
+                if (index < 0) { return; }
+
+                var componentType = availableTypes.ElementAt(index);
+                var component = (IComponent)Activator.CreateInstance(componentType);
+                var componentState = EntityTransformer.SerializeComponent(component);
+                var componentName = component.ToString();
+                var componentCache = new ComponentCache
                 {
-                    var component = availableTypes.ElementAt(index);
-                    var componentName = component.ToString();
-                    _registerAsEntity.Components.Add(componentName);
-                    var json = component.SerializeComponent();
-                    _registerAsEntity.ComponentEditorState.Add(json.ToString());
-                }
+                    ComponentTypeReference = componentName,
+                    ComponentState = componentState
+                };
+                _registerAsEntity.ComponentCache.Add(componentCache);
             });
         }
 

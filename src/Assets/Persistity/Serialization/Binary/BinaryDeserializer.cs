@@ -10,12 +10,10 @@ namespace Persistity.Serialization.Binary
 {
     public class BinaryDeserializer : IBinaryDeserializer
     {
-        public IEnumerable<ITypeHandler<BinaryWriter, BinaryReader>> TypeHandlers { get; set; }
+        public BinaryConfiguration Configuration { get; private set; }
 
-        public BinaryDeserializer(IEnumerable<ITypeHandler<BinaryWriter, BinaryReader>> typeHandlers = null)
-        {
-            TypeHandlers = typeHandlers ?? new List<ITypeHandler<BinaryWriter, BinaryReader>>();
-        }
+        public BinaryDeserializer(BinaryConfiguration configuration = null)
+        { Configuration = configuration ?? BinaryConfiguration.Default; }
 
         public bool IsDataNull(BinaryReader reader)
         {
@@ -59,6 +57,11 @@ namespace Persistity.Serialization.Binary
             if (type == typeof(float)) { return reader.ReadSingle(); }
             if (type == typeof(double)) { return reader.ReadDouble(); }
             if (type == typeof(decimal)) { return reader.ReadDecimal(); }
+            if (type.IsEnum)
+            {
+                var value = reader.ReadInt32();
+                return Enum.ToObject(type, value);
+            }
             if (type == typeof(Vector2))
             {
                 var x = reader.ReadSingle();
@@ -98,7 +101,7 @@ namespace Persistity.Serialization.Binary
                 return DateTime.FromBinary(binaryTime);
             }
 
-            var matchingHandler = TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
+            var matchingHandler = Configuration.TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
             if (matchingHandler != null)
             { return matchingHandler.HandleTypeOut(reader); }
 

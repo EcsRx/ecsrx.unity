@@ -1,8 +1,5 @@
-﻿using System;
-using Assets.EcsRx.Unity.Extensions;
-using EcsRx.Components;
+﻿using EcsRx.Components;
 using EcsRx.Unity.Helpers.EditorInputs;
-using Persistity.Json;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,40 +7,7 @@ namespace EcsRx.Unity.Helpers.UIAspects
 {
     public class ComponentUIAspect
     {
-        public static Type AttemptGetType(string typeName)
-        {
-            var type = TypeHelper.GetTypeWithAssembly(typeName);
-            if(type != null) { return type; }
-
-            if (GUILayout.Button("TYPE NOT FOUND. TRY TO CONVERT TO BEST MATCH?"))
-            {
-                type = TypeHelper.TryGetConvertedType(typeName);
-                if(type != null) { return type; }
-
-                Debug.LogWarning("UNABLE TO CONVERT " + typeName);
-                return null;
-            }
-            return null;
-        }
-
-        public static IComponent RehydrateEditorComponent(string typeName, string editorStateData)
-        {
-            var component = InstantiateDefaultComponent<IComponent>(typeName);
-            if (string.IsNullOrEmpty(editorStateData)) { return component; }
-
-            var componentJson = JSON.Parse(editorStateData);
-            component.DeserializeComponent(componentJson);
-            return component;
-        }
-
-        public static T InstantiateDefaultComponent<T>(string componentTypeName)
-            where T : IComponent
-        {
-            var type = AttemptGetType(componentTypeName);
-            return (T)Activator.CreateInstance(type);
-        }
-        
-        public static void ShowComponentProperties<T>(T component)
+         public static void ShowComponentProperties<T>(T component)
             where T : IComponent
         {
             var componentProperties = component.GetType().GetProperties();
@@ -67,8 +31,6 @@ namespace EcsRx.Unity.Helpers.UIAspects
 
                 EditorGUILayout.EndHorizontal();
             }
-        } 
-         
-
+        }
     }
 }

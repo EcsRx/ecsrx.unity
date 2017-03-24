@@ -251,6 +251,8 @@
     <Compile Include="Assets\EcsRx\Unity\Installers\DefaultEcsRxInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\ActiveSystemsViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityView.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Helpers\EntityTransformer.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Helpers\TypeHelper.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\InjectableMonoBehaviour.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Models\ComponentCache.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\PoolManagerViewer.cs" />
@@ -285,6 +287,7 @@
     <Compile Include="Assets\Persistity\Mappings\Mappers\DefaultTypeMapper.cs" />
     <Compile Include="Assets\Persistity\Mappings\Mappers\EverythingTypeMapper.cs" />
     <Compile Include="Assets\Persistity\Mappings\Mappers\ITypeMapper.cs" />
+    <Compile Include="Assets\Persistity\Mappings\Mappers\MappingConfiguration.cs" />
     <Compile Include="Assets\Persistity\Mappings\Mappers\TypeMapper.cs" />
     <Compile Include="Assets\Persistity\Mappings\Mapping.cs" />
     <Compile Include="Assets\Persistity\Mappings\NestedMapping.cs" />
@@ -305,6 +308,7 @@
     <Compile Include="Assets\Persistity\Processors\IProcessor.cs" />
     <Compile Include="Assets\Persistity\Registries\IMappingRegistry.cs" />
     <Compile Include="Assets\Persistity\Registries\MappingRegistry.cs" />
+    <Compile Include="Assets\Persistity\Serialization\Binary\BinaryConfiguration.cs" />
     <Compile Include="Assets\Persistity\Serialization\Binary\BinaryDeserializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Binary\BinarySerializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Binary\IBinaryDeserializer.cs" />
@@ -316,10 +320,13 @@
     <Compile Include="Assets\Persistity\Serialization\ITypeHandler.cs" />
     <Compile Include="Assets\Persistity\Serialization\Json\IJsonDeserializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Json\IJsonSerializer.cs" />
+    <Compile Include="Assets\Persistity\Serialization\Json\JsonConfiguration.cs" />
     <Compile Include="Assets\Persistity\Serialization\Json\JsonDeserializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Json\JsonSerializer.cs" />
+    <Compile Include="Assets\Persistity\Serialization\SerializationConfiguration.cs" />
     <Compile Include="Assets\Persistity\Serialization\Xml\IXmlDeserializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Xml\IXmlSerializer.cs" />
+    <Compile Include="Assets\Persistity\Serialization\Xml\JsonConfiguration.cs" />
     <Compile Include="Assets\Persistity\Serialization\Xml\XmlDeserializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Xml\XmlSerializer.cs" />
     <Compile Include="Assets\Persistity\Transformers\Binary\BinaryTransformer.cs" />
@@ -629,6 +636,7 @@
     <Content Include="Assets\Persistity\Mappings\Mappers\DefaultTypeMapper.cs.meta" />
     <Content Include="Assets\Persistity\Mappings\Mappers\EverythingTypeMapper.cs.meta" />
     <Content Include="Assets\Persistity\Mappings\Mappers\ITypeMapper.cs.meta" />
+    <Content Include="Assets\Persistity\Mappings\Mappers\MappingConfiguration.cs.meta" />
     <Content Include="Assets\Persistity\Mappings\Mappers\TypeMapper.cs.meta" />
     <Content Include="Assets\Persistity\Mappings\Mapping.cs.meta" />
     <Content Include="Assets\Persistity\Mappings\NestedMapping.cs.meta" />
@@ -657,6 +665,7 @@
     <Content Include="Assets\Persistity\Registries\MappingRegistry.cs.meta" />
     <Content Include="Assets\Persistity\Serialization.meta" />
     <Content Include="Assets\Persistity\Serialization\Binary.meta" />
+    <Content Include="Assets\Persistity\Serialization\Binary\BinaryConfiguration.cs.meta" />
     <Content Include="Assets\Persistity\Serialization\Binary\BinaryDeserializer.cs.meta" />
     <Content Include="Assets\Persistity\Serialization\Binary\BinarySerializer.cs.meta" />
     <Content Include="Assets\Persistity\Serialization\Binary\IBinaryDeserializer.cs.meta" />
@@ -671,11 +680,14 @@
     <Content Include="Assets\Persistity\Serialization\Json.meta" />
     <Content Include="Assets\Persistity\Serialization\Json\IJsonDeserializer.cs.meta" />
     <Content Include="Assets\Persistity\Serialization\Json\IJsonSerializer.cs.meta" />
+    <Content Include="Assets\Persistity\Serialization\Json\JsonConfiguration.cs.meta" />
     <Content Include="Assets\Persistity\Serialization\Json\JsonDeserializer.cs.meta" />
     <Content Include="Assets\Persistity\Serialization\Json\JsonSerializer.cs.meta" />
+    <Content Include="Assets\Persistity\Serialization\SerializationConfiguration.cs.meta" />
     <Content Include="Assets\Persistity\Serialization\Xml.meta" />
     <Content Include="Assets\Persistity\Serialization\Xml\IXmlDeserializer.cs.meta" />
     <Content Include="Assets\Persistity\Serialization\Xml\IXmlSerializer.cs.meta" />
+    <Content Include="Assets\Persistity\Serialization\Xml\JsonConfiguration.cs.meta" />
     <Content Include="Assets\Persistity\Serialization\Xml\XmlDeserializer.cs.meta" />
     <Content Include="Assets\Persistity\Serialization\Xml\XmlSerializer.cs.meta" />
     <Content Include="Assets\Persistity\Transformers.meta" />

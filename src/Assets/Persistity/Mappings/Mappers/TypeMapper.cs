@@ -10,11 +10,11 @@ namespace Persistity.Mappings.Mappers
 {
     public abstract class TypeMapper : ITypeMapper
     {
-        private readonly IEnumerable<Type> _knownPrimitives;
+        public MappingConfiguration Configuration { get; private set; }
 
-        protected TypeMapper(IEnumerable<Type> knownPrimitives = null)
+        protected TypeMapper(MappingConfiguration configuration = null)
         {
-            _knownPrimitives = knownPrimitives ?? new List<Type>();
+            Configuration = configuration ?? MappingConfiguration.Default;
         }
 
         public bool IsGenericList(Type type)
@@ -32,9 +32,10 @@ namespace Persistity.Mappings.Mappers
                    type == typeof(Vector3) ||
                    type == typeof(Vector4) ||
                    type == typeof(Quaternion) ||
-                   type == typeof(Guid);
+                   type == typeof(Guid) ||
+                   type.IsEnum;
 
-            return isDefaultPrimitive || _knownPrimitives.Any(x => type == x);
+            return isDefaultPrimitive || Configuration.KnownPrimitives.Any(x => type == x);
         }
 
         public virtual TypeMapping GetTypeMappingsFor(Type type)
@@ -54,6 +55,13 @@ namespace Persistity.Mappings.Mappers
         public virtual List<Mapping> GetMappingsFor(Type type, string scope)
         {
             var properties = GetPropertiesFor(type);
+
+            if (Configuration.IgnoredTypes.Any())
+            {
+                properties = properties.Where(
+                    x => !Configuration.IgnoredTypes.Any(y => x.PropertyType.IsAssignableFrom(y)));
+            }
+
             return properties.Select(propertyInfo => GetMappingFor(propertyInfo, scope)).ToList();
         }
 

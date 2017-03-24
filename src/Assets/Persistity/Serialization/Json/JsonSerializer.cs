@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Persistity.Exceptions;
 using Persistity.Json;
 using Persistity.Mappings;
@@ -11,13 +10,10 @@ namespace Persistity.Serialization.Json
 {
     public class JsonSerializer : IJsonSerializer
     {
-        public Encoding Encoder = Encoding.Default;
-        public IEnumerable<ITypeHandler<JSONNode, JSONNode>> TypeHandlers { get; set; }
+        public JsonConfiguration Configuration { get; private set; }
 
-        public JsonSerializer(IEnumerable<ITypeHandler<JSONNode, JSONNode>> typeHandlers = null)
-        {
-            TypeHandlers = typeHandlers ?? new List<ITypeHandler<JSONNode, JSONNode>>();
-        }
+        public JsonSerializer(JsonConfiguration configuration = null)
+        { Configuration = configuration ?? JsonConfiguration.Default; }
 
         private JSONNull GetNullNode()
         { return new JSONNull(); }
@@ -25,6 +21,7 @@ namespace Persistity.Serialization.Json
         private JSONNode SerializePrimitive(object value, Type type)
         {
             JSONNode node = null;
+
             if (type == typeof(byte)) { node = new JSONNumber((byte)value); }
             else if (type == typeof(short)) { node = new JSONNumber((short)value); }
             else if (type == typeof(int)) { node = new JSONNumber((int)value); }
@@ -71,11 +68,11 @@ namespace Persistity.Serialization.Json
                 var typedValue = (DateTime) value;
                 node = new JSONString(typedValue.ToBinary().ToString());
             }
-            else if (type == typeof(string))
+            else if (type == typeof(string) || type.IsEnum)
             { node = new JSONString(value.ToString()); }
             else
             {
-                var matchingHandler = TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
+                var matchingHandler = Configuration.TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
                 if(matchingHandler == null) { throw new NoKnownTypeException(type); }
                 matchingHandler.HandleTypeIn(node, value);
             }
@@ -90,7 +87,7 @@ namespace Persistity.Serialization.Json
         {
             var jsonNode = Serialize(typeMapping.InternalMappings, data);
             var jsonString = jsonNode.ToString();
-            return Encoder.GetBytes(jsonString);
+            return Configuration.Encoder.GetBytes(jsonString);
         }
 
         private JSONNode SerializeProperty<T>(PropertyMapping propertyMapping, T data)

@@ -20,8 +20,8 @@ namespace EcsRx.Unity.Helpers
         private static bool IsComponent(Type type)
         {
             return typeof(IComponent).IsAssignableFrom(type) &&
-                   type.IsClass &&
-                   !typeof(ViewComponent).IsAssignableFrom(type);
+                   type.IsClass;
+
         }
     }
 }

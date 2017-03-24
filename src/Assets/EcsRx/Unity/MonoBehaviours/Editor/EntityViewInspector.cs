@@ -17,11 +17,6 @@ namespace EcsRx.Unity.Helpers
 
         public bool showComponents;
 
-        private readonly IEnumerable<Type> allComponentTypes = AppDomain.CurrentDomain.GetAssemblies()
-                                .SelectMany(s => s.GetTypes())
-                                .Where(p => typeof(IComponent).IsAssignableFrom(p) && p.IsClass);
-
-
         private void PoolSection()
         {
             this.UseVerticalBoxLayout(() =>
@@ -91,7 +86,7 @@ namespace EcsRx.Unity.Helpers
 
             EditorGUILayout.EndVertical();
 
-            for (var i = 0; i < componentsToRemove.Count(); i++)
+            for (var i = 0; i < componentsToRemove.Count; i++)
             {
                 var component = _entityView.Entity.Components.ElementAt(i);
                 _entityView.Entity.RemoveComponent(component);
@@ -115,7 +110,7 @@ namespace EcsRx.Unity.Helpers
         {
             this.UseVerticalBoxLayout(() =>
             {
-                var availableTypes = allComponentTypes
+                var availableTypes = ComponentLookup.AllComponents
                     .Where(x => !_entityView.Entity.Components.Select(y => y.GetType()).Contains(x))
                     .ToArray();
 
