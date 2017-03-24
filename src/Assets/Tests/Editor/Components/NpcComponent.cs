@@ -1,4 +1,4 @@
-﻿using EcsRx.Persistence.Attributes;
+﻿using Persistity.Attributes;
 
 namespace EcsRx.Tests.Components
 {

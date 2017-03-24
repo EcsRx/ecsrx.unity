@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using EcsRx.Persistence.Attributes;
 using EcsRx.Persistence.Extensions;
+using Persistity.Attributes;
 
 namespace EcsRx.Persistence.Types
 {

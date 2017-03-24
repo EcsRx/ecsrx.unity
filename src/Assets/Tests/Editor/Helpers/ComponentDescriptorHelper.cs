@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using EcsRx.Components;
-using EcsRx.Persistence.Attributes;
 using EcsRx.Persistence.Extensions;
 using EcsRx.Persistence.Types;
+using Persistity.Attributes;
 
 namespace Assets.Tests.Editor.Helpers
 {

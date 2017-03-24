@@ -1,8 +1,8 @@
 ﻿using System;
 using Assets.EcsRx.Unity.Extensions;
 using EcsRx.Components;
-using EcsRx.Json;
 using EcsRx.Unity.Helpers.EditorInputs;
+using Persistity.Json;
 using UnityEditor;
 using UnityEngine;
 

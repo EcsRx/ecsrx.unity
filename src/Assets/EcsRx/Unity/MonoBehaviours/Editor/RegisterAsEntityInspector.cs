@@ -1,5 +1,4 @@
 ﻿using Assets.EcsRx.Unity.Extensions;
-using EcsRx.Json;
 using EcsRx.Unity.Components;
 using EcsRx.Unity.Helpers.Extensions;
 using EcsRx.Unity.Helpers.UIAspects;

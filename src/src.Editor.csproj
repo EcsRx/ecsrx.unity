@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\ActiveSystemsViewerInspector.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\ComponentLookup.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\BoolEditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\BoundsEditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ColorEditorInput.cs" />
@@ -160,25 +161,13 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\StringEditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\Vector2EditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\Vector3EditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EntityTransformer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EntityViewInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Extensions\EditorExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Helpers\TypeHelper.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\PoolManagerViewerInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\RegisterAsEntityInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\UIAspects\ComponentUIAspect.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\BinaryDeserializer.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\BinarySerializer.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\CollectionPropertyMapping.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\DebugSerializer.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\IListExtensions.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\JsonDeserializer.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\JsonSerializer.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\Mapping.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\NestedMapping.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\PropertyMapping.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\TypeMapper.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\Mapping\TypeMapping.cs" />
-    <Compile Include="Assets\Tests\Editor\Models\Persistence\A.cs" />
     <Compile Include="Assets\Tests\Editor\Components\MoveableComponent.cs" />
     <Compile Include="Assets\Tests\Editor\Components\NpcComponent.cs" />
     <Compile Include="Assets\Tests\Editor\Components\StatsComponent.cs" />
@@ -196,10 +185,6 @@
     <Compile Include="Assets\Tests\Editor\Framework\SetupSystemHandlerTests.cs" />
     <Compile Include="Assets\Tests\Editor\Framework\SystemExecutorTests.cs" />
     <Compile Include="Assets\Tests\Editor\Helpers\ComponentDescriptorHelper.cs" />
-    <Compile Include="Assets\Tests\Editor\Models\Persistence\B.cs" />
-    <Compile Include="Assets\Tests\Editor\Models\Persistence\C.cs" />
-    <Compile Include="Assets\Tests\Editor\Persistence\JsonTransformerTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Persistence\PesistenceSanityTest.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\DefaultPrioritySystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\HighPrioritySystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\HigherThanDefaultPrioritySystem.cs" />
@@ -280,7 +265,9 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Assets\Tests\Editor\Helpers\Mapping" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

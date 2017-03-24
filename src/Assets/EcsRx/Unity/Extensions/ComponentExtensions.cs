@@ -1,19 +1,19 @@
 using System.Reflection;
-using EcsRx.Json;
-using UnityEngine;
-using UniRx;
+
+using Persistity.Json;
 
 namespace Assets.EcsRx.Unity.Extensions
 { 
 	public static class ComponentExtensions
 	{
-		public static JSONClass SerializeComponent(this object component)
+	    public static JSONObject SerializeComponent(this object component)
 		{
-			var node = new JSONClass();
+			var node = new JSONObject();
 			foreach (var property in component.GetType().GetProperties())
 			{
 				if (property.CanRead && property.CanWrite)
 				{
+				    /*
                     if (property.PropertyType == typeof(int) || property.PropertyType.IsEnum)
 					{
 						node.Add(property.Name, new JSONData((int)property.GetValue(component, null)));
@@ -91,7 +91,7 @@ namespace Assets.EcsRx.Unity.Extensions
 							reactiveProperty = new Vector3ReactiveProperty ();						
 						node.Add(property.Name, new JSONData((Vector3)reactiveProperty.Value));
 						continue;
-					}
+					}*/
 				}
 			}
 			return node;
@@ -107,6 +107,7 @@ namespace Assets.EcsRx.Unity.Extensions
 
 		private static void ApplyValue(object component, JSONNode node, PropertyInfo property)
 		{
+		    /*
 			if (property.CanRead && property.CanWrite)
 			{
 				var propertyData = node[property.Name];
@@ -178,7 +179,7 @@ namespace Assets.EcsRx.Unity.Extensions
 					property.SetValue(component, reactiveProperty, null);
 					return;
 				}
-			}
+			}*/
 		}
 	}
 }

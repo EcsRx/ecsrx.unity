@@ -3,6 +3,7 @@
 bin
 obj
 Temp
+/src/.idea
 /src/Library
 /src/Assets/Plugins/Editor/Atom.cs
 /src/src.userprefs

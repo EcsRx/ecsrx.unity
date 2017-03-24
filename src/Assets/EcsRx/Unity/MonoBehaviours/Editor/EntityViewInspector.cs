@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.EcsRx.Unity.Extensions;
 using EcsRx.Components;
-using EcsRx.Json;
-using EcsRx.Unity.Helpers.EditorInputs;
 using EcsRx.Unity.Helpers.Extensions;
 using EcsRx.Unity.Helpers.UIAspects;
 using EcsRx.Unity.MonoBehaviours;
-using UniRx;
 using UnityEditor;
 using UnityEngine;
 
