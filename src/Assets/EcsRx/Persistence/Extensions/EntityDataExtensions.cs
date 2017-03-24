@@ -4,6 +4,7 @@ namespace EcsRx.Persistence.Extensions
 {
     public static class EntityDataExtensions
     {
+        /*
         public static T GetData<T>(this EntityData entityData, string key)
         { return (T) entityData.Data[key]; }
 
@@ -13,6 +14,6 @@ namespace EcsRx.Persistence.Extensions
             { entityData.Data[key] = value; }
             else
             { entityData.Data.Add(key, value); }
-        }
+        }*/
     }
 }

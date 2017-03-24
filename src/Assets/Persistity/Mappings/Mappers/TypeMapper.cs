@@ -66,7 +66,10 @@ namespace Persistity.Mappings.Mappers
         }
 
         public virtual IEnumerable<PropertyInfo> GetPropertiesFor(Type type)
-        { return type.GetProperties().Where(x => x.CanRead && x.CanWrite); }
+        {
+            return type.GetProperties()
+                .Where(x => x.CanRead && x.CanWrite);
+        }
 
         public virtual Mapping GetMappingFor(PropertyInfo propertyInfo, string scope)
         {

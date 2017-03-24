@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -219,6 +221,7 @@
     <Compile Include="Assets\EcsRx\Framework\Systems\ISystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ITeardownSystem.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Data\ApplicationData.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Data\ComponentData.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Data\EntityData.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\EntityDataExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\ReflectionExtensions.cs" />
@@ -230,8 +233,8 @@
     <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\Vector2TypeConverter.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extractors\Converters\Vector3TypeConverter.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extractors\DataConverterRegistry.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Extractors\DataExtractor.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Extractors\IDataExtractor.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extractors\EntityConvertor.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extractors\IEntityConvertor.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Persisters\IDataPersister.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Types\ComponentDescriptor.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Types\ComponentDescriptorRegistry.cs" />
@@ -241,18 +244,20 @@
     <Compile Include="Assets\EcsRx\Persistence\Types\PropertyDataDescriptor.cs" />
     <Compile Include="Assets\EcsRx\Unity\Components\ViewComponent.cs" />
     <Compile Include="Assets\EcsRx\Unity\EcsRxApplication.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Extensions\ComponentExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\GameObjectExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\IEntityExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\ViewComponentExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\AutoBindSystemsInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\DefaultEcsRxInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\ActiveSystemsViewer.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\DataBoundEntity.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityBinding.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityView.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Helpers\EntityTransformer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Helpers\TypeHelper.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\InjectableMonoBehaviour.cs" />
-    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Models\ComponentCache.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Models\EntityImportWrapper.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Models\EntitySceneCache.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\PoolManagerViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\RegisterAsEntity.cs" />
     <Compile Include="Assets\EcsRx\Unity\Plugins\IEcsRxPlugin.cs" />

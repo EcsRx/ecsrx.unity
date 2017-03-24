@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using EcsRx.Components;
+using EcsRx.Persistence.Data;
 using EcsRx.Unity.Components;
 using EcsRx.Unity.MonoBehaviours.Helpers;
-using EcsRx.Unity.MonoBehaviours.Models;
 
 namespace EcsRx.Unity.Helpers
 {
@@ -35,22 +35,22 @@ namespace EcsRx.Unity.Helpers
             EditorGUILayout.BeginVertical(EditorExtensions.DefaultBoxStyle);
             this.WithHorizontalLayout(() =>
             {
-                this.WithLabel("Components (" + _registerAsEntity.ComponentCache.Count + ")");
+                this.WithLabel("Components (" + _registerAsEntity.ComponentData.Count + ")");
                 if (this.WithIconButton("▸")) { showComponents = false; }
                 if (this.WithIconButton("▾")) { showComponents = true; }
             });
 
             var componentsToRemove = new List<int>();
-            var componentCount = _registerAsEntity.ComponentCache.Count;
+            var componentCount = _registerAsEntity.ComponentData.Count;
             if (showComponents)
             {
                 for (var i = 0; i < componentCount; i++)
                 {
                     var currentIndex = i;
-                    var cachedComponent = _registerAsEntity.ComponentCache[currentIndex];
+                    var cachedComponent = _registerAsEntity.ComponentData[currentIndex];
 
                     // This error only really occurs if the scene has corrupted or an update has changed where editor state is stored on the underlying MB
-                    if (_registerAsEntity.ComponentCache.Count <= currentIndex)
+                    if (_registerAsEntity.ComponentData.Count <= currentIndex)
                     {
                         Debug.LogError("It seems there is missing editor state for [" + cachedComponent + "] this can often be fixed by removing and re-adding the RegisterAsEntity MonoBehavior");
                         break;
@@ -88,7 +88,7 @@ namespace EcsRx.Unity.Helpers
             EditorGUILayout.EndVertical();
 
             for (var i = 0; i < componentsToRemove.Count; i++)
-            { _registerAsEntity.ComponentCache.RemoveAt(componentsToRemove[i]); }
+            { _registerAsEntity.ComponentData.RemoveAt(componentsToRemove[i]); }
         }
         
 
@@ -98,7 +98,7 @@ namespace EcsRx.Unity.Helpers
             {
                 var availableTypes = ComponentLookup.AllComponents
                     .Where(x => !typeof(ViewComponent).IsAssignableFrom(x))
-                    .Where(x => !_registerAsEntity.ComponentCache.Select(y => y.ComponentTypeReference).Contains(x.ToString()))
+                    .Where(x => !_registerAsEntity.ComponentData.Select(y => y.ComponentTypeReference).Contains(x.ToString()))
                     .ToArray();
 
                 var types = availableTypes.Select(x => string.Format("{0} [{1}]", x.Name, x.Namespace)).ToArray();
@@ -111,12 +111,12 @@ namespace EcsRx.Unity.Helpers
                 var component = (IComponent)Activator.CreateInstance(componentType);
                 var componentState = EntityTransformer.SerializeComponent(component);
                 var componentName = component.ToString();
-                var componentCache = new ComponentCache
+                var componentCache = new ComponentData
                 {
                     ComponentTypeReference = componentName,
                     ComponentState = componentState
                 };
-                _registerAsEntity.ComponentCache.Add(componentCache);
+                _registerAsEntity.ComponentData.Add(componentCache);
             });
         }
 

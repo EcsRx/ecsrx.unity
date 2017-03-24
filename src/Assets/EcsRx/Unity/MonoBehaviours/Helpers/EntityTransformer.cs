@@ -1,6 +1,6 @@
 ﻿using System;
 using EcsRx.Components;
-using EcsRx.Unity.MonoBehaviours.Models;
+using EcsRx.Persistence.Data;
 using Persistity.Mappings.Mappers;
 using Persistity.Registries;
 using Persistity.Serialization.Json;
@@ -37,12 +37,12 @@ namespace EcsRx.Unity.MonoBehaviours.Helpers
             return (IComponent)_transformer.Transform(componentType, data);
         }
 
-        public static IComponent DeserializeComponent(ComponentCache componentCache)
+        public static IComponent DeserializeComponent(ComponentData componentData)
         {
-            var componentType = TypeHelper.GetTypeWithAssembly(componentCache.ComponentTypeReference);
-            if (componentType == null) { throw new Exception("Cannot resolve type for [" + componentCache.ComponentTypeReference + "]"); }
+            var componentType = TypeHelper.GetTypeWithAssembly(componentData.ComponentTypeReference);
+            if (componentType == null) { throw new Exception("Cannot resolve type for [" + componentData.ComponentTypeReference + "]"); }
 
-            return (IComponent)_transformer.Transform(componentType, componentCache.ComponentState);
+            return (IComponent)_transformer.Transform(componentType, componentData.ComponentState);
         }
     }
 }

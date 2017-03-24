@@ -14,12 +14,5 @@ namespace Persistity.Mappings.Mappers
     {
         public EverythingTypeMapper(MappingConfiguration configuration = null) : base(configuration)
         {}
-
-        public override IEnumerable<PropertyInfo> GetPropertiesFor(Type type)
-        {
-            return base.GetPropertiesFor(type)
-                .Where(x => x.GetSetMethod().IsPublic &&
-                            x.GetGetMethod().IsPublic);
-        }
     }
 }

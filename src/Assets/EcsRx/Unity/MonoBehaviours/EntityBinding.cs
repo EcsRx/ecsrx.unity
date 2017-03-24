@@ -5,12 +5,13 @@ using EcsRx.Persistence.Data;
 using EcsRx.Pools;
 using EcsRx.Unity.Components;
 using EcsRx.Unity.MonoBehaviours.Helpers;
+using EcsRx.Unity.MonoBehaviours.Models;
 using UnityEngine;
 using Zenject;
 
 namespace EcsRx.Unity.MonoBehaviours
 {
-    public class RegisterAsEntity : MonoBehaviour
+    public class EntityBinding : MonoBehaviour
     {
         [Inject]
         public IPoolManager PoolManager { get; private set; }
@@ -19,7 +20,7 @@ namespace EcsRx.Unity.MonoBehaviours
         public string PoolName;
 
         [SerializeField]
-        public List<ComponentData> ComponentData = new List<ComponentData>();
+        public List<ComponentData> ComponentCache = new List<ComponentData>();
 
         [Inject]
         public void RegisterEntity()
@@ -44,13 +45,13 @@ namespace EcsRx.Unity.MonoBehaviours
 
         private void SetupEntityComponents(IEntity entity)
         {
-            for (var i = 0; i < ComponentData.Count; i++)
+            for (var i = 0; i < ComponentCache.Count; i++)
             {
-                var component = EntityTransformer.DeserializeComponent(ComponentData[i]);
+                var component = EntityTransformer.DeserializeComponent(ComponentCache[i]);
                 entity.AddComponent(component);
             }
         }
-        
+
         public IPool GetPool()
         {
             if (string.IsNullOrEmpty(PoolName))
