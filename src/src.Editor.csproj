@@ -184,7 +184,6 @@
     <Compile Include="Assets\Tests\Editor\Framework\SanityTests.cs" />
     <Compile Include="Assets\Tests\Editor\Framework\SetupSystemHandlerTests.cs" />
     <Compile Include="Assets\Tests\Editor\Framework\SystemExecutorTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Helpers\ComponentDescriptorHelper.cs" />
     <Compile Include="Assets\Tests\Editor\Persistence\SanityTests.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\DefaultPrioritySystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\HighPrioritySystem.cs" />
@@ -265,6 +264,9 @@
     <None Include="Assets\UnityTestTools\changelog.txt" />
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Tests\Editor\Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

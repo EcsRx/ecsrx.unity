@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using Assets.EcsRx.Examples.UsingBlueprints.Blueprints;
 using Assets.EcsRx.Examples.UsingBlueprints.Components;
 using EcsRx.Entities;
@@ -10,7 +9,6 @@ using EcsRx.Persistence.Data;
 using EcsRx.Persistence.Extractors;
 using NSubstitute;
 using NUnit.Framework;
-using Persistity.Endpoints.Files;
 using Persistity.Endpoints.InMemory;
 using Persistity.Mappings.Mappers;
 using Persistity.Pipelines.Builders;
@@ -75,7 +73,6 @@ namespace Tests.Editor.Persistence
             Console.WriteLine(outputData.AsString);
 
             var deserializedEntityData = _deserializer.Deserialize<EntityData>(outputData);
-            Console.WriteLine(deserializedEntityData.ToString());
 
             var reconstructedEntity = (Entity)_entityTransformer.TransformFrom(deserializedEntityData);
             CompareEntities(reconstructedEntity, expectedEntity);
