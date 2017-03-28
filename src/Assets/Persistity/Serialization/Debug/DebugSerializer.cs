@@ -1,22 +1,28 @@
 using System.Collections.Generic;
 using System.Text;
 using Persistity.Mappings;
+using Persistity.Registries;
 
 namespace Persistity.Serialization.Debug
 {
     public class DebugSerializer : ISerializer
     {
-        public byte[] SerializeData<T>(TypeMapping typeMapping, T data) where T : new()
-        { return SerializeData(typeMapping, (object)data); }
+        public IMappingRegistry MappingRegistry { get; private set; }
 
-        public byte[] SerializeData(TypeMapping typeMapping, object data)
+        public DebugSerializer(IMappingRegistry mappingRegistry)
+        {
+            MappingRegistry = mappingRegistry;
+        }
+
+        public DataObject Serialize(object data)
         {
             var output = new StringBuilder();
+            var typeMapping = MappingRegistry.GetMappingFor(data.GetType());
 
             var result = Serialize(typeMapping.InternalMappings, data);
             output.AppendLine(result);
             var outputString = output.ToString();
-            return Encoding.UTF8.GetBytes(outputString);
+            return new DataObject(outputString);
         }
 
         private string SerializeProperty<T>(PropertyMapping propertyMapping, T data)

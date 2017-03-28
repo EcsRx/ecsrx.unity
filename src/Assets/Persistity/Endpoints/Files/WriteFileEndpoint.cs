@@ -1,21 +1,22 @@
 ﻿using System;
 using System.IO;
+using Persistity.Serialization;
 
 namespace Persistity.Endpoints.Files
 {
-    public class WriteFile : ISendDataEndpoint
+    public class WriteFileEndpoint : ISendDataEndpoint
     {
         public string FilePath { get; set; }
 
-        public WriteFile(string filePath)
+        public WriteFileEndpoint(string filePath)
         {
             FilePath = filePath;
         }
 
-        public void Execute(byte[] data, Action<object> onSuccess, Action<Exception> onError)
+        public void Execute(DataObject data, Action<object> onSuccess, Action<Exception> onError)
         {
             try
-            { File.WriteAllBytes(FilePath, data); }
+            { File.WriteAllBytes(FilePath, data.AsBytes); }
             catch (Exception ex)
             {
                 onError(ex);

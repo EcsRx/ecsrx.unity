@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Persistity.Exceptions;
 using Persistity.Mappings;
+using Persistity.Registries;
 using UnityEngine;
 
 namespace Persistity.Serialization.Binary
@@ -13,10 +14,14 @@ namespace Persistity.Serialization.Binary
         public static readonly char[] NullDataSig = {(char) 141, (char) 141};
         public static readonly char[] NullObjectSig = {(char) 141, (char)229, (char)141};
 
+        public IMappingRegistry MappingRegistry { get; private set; }
         public BinaryConfiguration Configuration { get; private set; }
 
-        public BinarySerializer(BinaryConfiguration configuration = null)
-        { Configuration = configuration ?? BinaryConfiguration.Default; }
+        public BinarySerializer(IMappingRegistry mappingRegistry, BinaryConfiguration configuration = null)
+        {
+            MappingRegistry = mappingRegistry;
+            Configuration = configuration ?? BinaryConfiguration.Default;
+        }
 
         public void WriteNullData(BinaryWriter writer)
         { writer.Write(NullDataSig); }
@@ -75,19 +80,18 @@ namespace Persistity.Serialization.Binary
             }
         }
 
-        public byte[] SerializeData<T>(TypeMapping typeMapping, T data) where T : new()
-        { return SerializeData(typeMapping, (object) data); }
-
-        public byte[] SerializeData(TypeMapping typeMapping, object data)
+        public DataObject Serialize(object data)
         {
+            var typeMapping = MappingRegistry.GetMappingFor(data.GetType());
             using (var memoryStream = new MemoryStream())
             using (var binaryWriter = new BinaryWriter(memoryStream))
             {
+                binaryWriter.Write(typeMapping.Type.AssemblyQualifiedName);
                 Serialize(typeMapping.InternalMappings, data, binaryWriter);
                 binaryWriter.Flush();
                 memoryStream.Seek(0, SeekOrigin.Begin);
 
-                return memoryStream.ToArray();
+                return new DataObject(memoryStream.ToArray());
             }
         }
 

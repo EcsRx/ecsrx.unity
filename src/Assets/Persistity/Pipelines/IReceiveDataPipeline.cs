@@ -4,6 +4,6 @@ namespace Persistity.Pipelines
 {
     public interface IReceiveDataPipeline
     {
-        void Execute<TOut>(Action<TOut> onSuccess, Action<Exception> onError) where TOut : new();
+        void Execute<T>(Action<T> onSuccess, Action<Exception> onError);
     }
 }

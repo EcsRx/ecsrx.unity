@@ -10,10 +10,12 @@ using EcsRx.Persistence.Data;
 using EcsRx.Persistence.Extractors;
 using NSubstitute;
 using NUnit.Framework;
+using Persistity.Endpoints.Files;
+using Persistity.Endpoints.InMemory;
 using Persistity.Mappings.Mappers;
+using Persistity.Pipelines.Builders;
 using Persistity.Registries;
 using Persistity.Serialization.Json;
-using Persistity.Transformers.Json;
 using UnityEngine;
 
 namespace Tests.Editor.Persistence
@@ -21,45 +23,91 @@ namespace Tests.Editor.Persistence
     [TestFixture]
     public class SanityTests
     {
-        [Test]
-        public void should_correctly_transform_entity()
+        private JsonSerializer _serializer;
+        private JsonDeserializer _deserializer;
+        private EntityDataTransformer _entityTransformer;
+        private IEventSystem _eventSystem;
+
+        [SetUp]
+        public void Setup()
         {
-            var ignoredTypes = new[] {typeof(GameObject), typeof(MonoBehaviour), typeof(IEventSystem)};
+            var ignoredTypes = new[] { typeof(GameObject), typeof(MonoBehaviour), typeof(IEventSystem) };
             var mapperConfiguration = new MappingConfiguration
             {
                 IgnoredTypes = ignoredTypes,
                 KnownPrimitives = new Type[0],
             };
             var mapper = new EverythingTypeMapper(mapperConfiguration);
-            var _mappingRegistry = new MappingRegistry(mapper);
-            var transformer = new JsonTransformer(new JsonSerializer(), new JsonDeserializer(), _mappingRegistry);
+            var mappingRegistry = new MappingRegistry(mapper);
+            _serializer = new JsonSerializer(mappingRegistry);
+            _deserializer = new JsonDeserializer(mappingRegistry);
+            _eventSystem = Substitute.For<IEventSystem>();
+            _entityTransformer = new EntityDataTransformer(_serializer, _deserializer, _eventSystem);
+        }
 
-            var mockEventSystem = Substitute.For<IEventSystem>();
-            var entityConvertor = new EntityConvertor(transformer, mockEventSystem);
-            
-            var entity = new Entity(Guid.NewGuid(), mockEventSystem);
-            entity.ApplyBlueprint(new PlayerBlueprint("bob"));
+        private void HandleError(Exception error)
+        { Assert.Fail(error.Message); }
 
-            var entityData = entityConvertor.ConvertToData(entity);
+        private void CompareEntities(IEntity actualEntity, IEntity expectedEntity)
+        {
+            Assert.That(actualEntity.Id, Is.EqualTo(expectedEntity.Id));
+            Assert.That(actualEntity.Components.Count(), Is.EqualTo(expectedEntity.Components.Count()));
 
-            var outputData = transformer.Transform(entityData.GetType(), entityData);
-            Console.WriteLine(Encoding.Default.GetString(outputData));
-
-            var deserializedEntityData = (EntityData)transformer.Transform(typeof(EntityData), outputData);
-            Console.WriteLine(deserializedEntityData.ToString());
-
-            var reconstructedEntity = entityConvertor.ConvertFromData(deserializedEntityData);
-            Assert.That(reconstructedEntity.Id, Is.EqualTo(entity.Id));
-            Assert.That(reconstructedEntity.Components.Count(), Is.EqualTo(entity.Components.Count()));
-
-            var reconstructedHasName = reconstructedEntity.GetComponent<HasName>();
-            var originalHasName = entity.GetComponent<HasName>();
+            var reconstructedHasName = actualEntity.GetComponent<HasName>();
+            var originalHasName = expectedEntity.GetComponent<HasName>();
             Assert.That(reconstructedHasName.Name, Is.EqualTo(originalHasName.Name));
 
-            var reconstructedWithHealth = reconstructedEntity.GetComponent<WithHealthComponent>();
-            var originalWithHealth = entity.GetComponent<WithHealthComponent>();
+            var reconstructedWithHealth = actualEntity.GetComponent<WithHealthComponent>();
+            var originalWithHealth = expectedEntity.GetComponent<WithHealthComponent>();
             Assert.That(reconstructedWithHealth.CurrentHealth, Is.EqualTo(originalWithHealth.CurrentHealth));
             Assert.That(reconstructedWithHealth.MaxHealth, Is.EqualTo(originalWithHealth.MaxHealth));
+        }
+
+        [Test]
+        public void should_correctly_transform_entity()
+        {
+            var expectedEntity = new Entity(Guid.NewGuid(), _eventSystem);
+            expectedEntity.ApplyBlueprint(new PlayerBlueprint("bob"));
+
+            var entityData = _entityTransformer.TransformTo(expectedEntity);
+
+            var outputData = _serializer.Serialize(entityData);
+            Console.WriteLine(outputData.AsString);
+
+            var deserializedEntityData = _deserializer.Deserialize<EntityData>(outputData);
+            Console.WriteLine(deserializedEntityData.ToString());
+
+            var reconstructedEntity = (Entity)_entityTransformer.TransformFrom(deserializedEntityData);
+            CompareEntities(reconstructedEntity, expectedEntity);
+        }
+
+        [Test]
+        public void should_correctly_consume_entity_through_pipeline()
+        {
+            var inMemoryEndpoint = new InMemoryEndpoint();
+
+            var saveEntityPipeline = new PipelineBuilder()
+                .SerializeWith(_serializer)
+                .TransformWith(_entityTransformer)
+                .SendTo(inMemoryEndpoint)
+                .Build();
+
+            var loadEntityPipeline = new PipelineBuilder()
+                .RecieveFrom(inMemoryEndpoint)
+                .DeserializeWith(_deserializer)
+                .TransformWith(_entityTransformer)
+                .Build();
+            
+            var expectedEntity = new Entity(Guid.NewGuid(), _eventSystem);
+            expectedEntity.ApplyBlueprint(new PlayerBlueprint("bob"));
+
+            saveEntityPipeline.Execute(expectedEntity, x =>
+            {
+                loadEntityPipeline.Execute<IEntity>(actualEntity =>
+                {
+                    CompareEntities(actualEntity, expectedEntity);
+                }, HandleError);
+            }, HandleError);
         }
     }
 }

@@ -3,31 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using Persistity.Endpoints;
 using Persistity.Processors;
+using Persistity.Serialization;
 using Persistity.Transformers;
 
 namespace Persistity.Pipelines
 {
     public class ReceiveDataPipeline : IReceiveDataPipeline
     {
-        public ITransformer Transformer { get; private set; }
+        public IDeserializer Deserializer { get; private set; }
+        public IEnumerable<ITransformer> Transformers { get; private set; }
         public IEnumerable<IProcessor> Processors { get; private set; }
         public IReceiveDataEndpoint ReceiveFromEndpoint { get; private set; }
 
-        public ReceiveDataPipeline(ITransformer transformer, IReceiveDataEndpoint receiveFromEndpoint, IEnumerable<IProcessor> processors = null)
+        public ReceiveDataPipeline(IDeserializer deserializer, IReceiveDataEndpoint receiveFromEndpoint, IEnumerable<IProcessor> processors = null, IEnumerable<ITransformer> transformers = null)
         {
-            Transformer = transformer;
+            Deserializer = deserializer;
             Processors = processors;
+            Transformers = transformers;
             ReceiveFromEndpoint = receiveFromEndpoint;
         }
 
-        public ReceiveDataPipeline(ITransformer transformer, IReceiveDataEndpoint receiveFromEndpoint, params IProcessor[] processors)
-        {
-            Transformer = transformer;
-            Processors = processors;
-            ReceiveFromEndpoint = receiveFromEndpoint;
-        }
+        public ReceiveDataPipeline(IDeserializer deserializer, IReceiveDataEndpoint receiveFromEndpoint, params IProcessor[] processors) : this(deserializer, receiveFromEndpoint, processors, null)
+        {}
 
-        public void Execute<T>(Action<T> onSuccess, Action<Exception> onError) where T : new()
+        public void Execute<T>(Action<T> onSuccess, Action<Exception> onError)
         {
             ReceiveFromEndpoint.Execute(x =>
             {
@@ -38,8 +37,14 @@ namespace Persistity.Pipelines
                     { output = processor.Process(output); }
                 }
 
-                var model = Transformer.Transform<T>(output);
-                onSuccess(model);
+                object model = Deserializer.Deserialize(output);
+                if (Transformers != null)
+                {
+                    foreach (var convertor in Transformers)
+                    { model = convertor.TransformFrom(model); }
+                }
+
+                onSuccess((T)model);
             }, onError);
         }
     }

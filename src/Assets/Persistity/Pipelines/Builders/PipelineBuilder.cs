@@ -1,12 +1,12 @@
 ﻿using Persistity.Endpoints;
-using Persistity.Transformers;
+using Persistity.Serialization;
 
 namespace Persistity.Pipelines.Builders
 {
     public class PipelineBuilder
     {
-        public SendPipelineBuilder TransformWith(ITransformer transformer)
-        { return new SendPipelineBuilder(transformer); }
+        public SendPipelineBuilder SerializeWith(ISerializer serializer)
+        { return new SendPipelineBuilder(serializer); }
 
         public ReceivePipelineBuilder RecieveFrom(IReceiveDataEndpoint recieveDataEndpoint)
         { return new ReceivePipelineBuilder(recieveDataEndpoint); }

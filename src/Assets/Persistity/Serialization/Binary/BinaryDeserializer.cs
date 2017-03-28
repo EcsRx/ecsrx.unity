@@ -4,16 +4,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Persistity.Mappings;
+using Persistity.Registries;
 using UnityEngine;
 
 namespace Persistity.Serialization.Binary
 {
     public class BinaryDeserializer : IBinaryDeserializer
     {
+        public IMappingRegistry MappingRegistry { get; private set; }
         public BinaryConfiguration Configuration { get; private set; }
 
-        public BinaryDeserializer(BinaryConfiguration configuration = null)
-        { Configuration = configuration ?? BinaryConfiguration.Default; }
+        public BinaryDeserializer(IMappingRegistry mappingRegistry, BinaryConfiguration configuration = null)
+        {
+            MappingRegistry = mappingRegistry;
+            Configuration = configuration ?? BinaryConfiguration.Default;
+        }
 
         public bool IsDataNull(BinaryReader reader)
         {
@@ -108,23 +113,18 @@ namespace Persistity.Serialization.Binary
             return reader.ReadString();
         }
 
-        public T DeserializeData<T>(TypeMapping typeMapping, byte[] data) where T : new()
-        {
-            using(var memoryStream = new MemoryStream(data))
-            using (var reader = new BinaryReader(memoryStream))
-            {
-                var instance = new T();
-                Deserialize(typeMapping.InternalMappings, instance, reader);
-                return instance;
-            }
-        }
+        public T Deserialize<T>(DataObject data) where T : new()
+        { return (T)Deserialize(data); }
 
-        public object DeserializeData(TypeMapping typeMapping, byte[] data)
+        public object Deserialize(DataObject data)
         {
-            using(var memoryStream = new MemoryStream(data))
+            using (var memoryStream = new MemoryStream(data.AsBytes))
             using (var reader = new BinaryReader(memoryStream))
             {
-                var instance = Activator.CreateInstance(typeMapping.Type);
+                var typeName = reader.ReadString();
+                var type = Type.GetType(typeName);
+                var typeMapping = MappingRegistry.GetMappingFor(type);
+                var instance = Activator.CreateInstance(type);
                 Deserialize(typeMapping.InternalMappings, instance, reader);
                 return instance;
             }

@@ -3,33 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using Persistity.Endpoints;
 using Persistity.Processors;
+using Persistity.Serialization;
 using Persistity.Transformers;
 
 namespace Persistity.Pipelines
 {
     public class SendDataPipeline : ISendDataPipeline
     {
-        public ITransformer Transformer { get; private set; }
+        public ISerializer Serializer { get; private set; }
+        public IEnumerable<ITransformer> Transformers { get; private set; }
         public IEnumerable<IProcessor> Processors { get; private set; }
         public ISendDataEndpoint SendToEndpoint { get; private set; }
 
-        public SendDataPipeline(ITransformer transformer, ISendDataEndpoint sendToEndpoint, IEnumerable<IProcessor> processors = null)
+        public SendDataPipeline(ISerializer serializer, ISendDataEndpoint sendToEndpoint, IEnumerable<IProcessor> processors = null, IEnumerable<ITransformer> transformers = null)
         {
-            Transformer = transformer;
+            Serializer = serializer;
             Processors = processors;
+            Transformers = transformers;
             SendToEndpoint = sendToEndpoint;
         }
 
-        public SendDataPipeline(ITransformer transformer, ISendDataEndpoint sendToEndpoint, params IProcessor[] processors)
+        public void Execute<T>(T data, Action<object> onSuccess, Action<Exception> onError)
         {
-            Transformer = transformer;
-            Processors = processors;
-            SendToEndpoint = sendToEndpoint;
-        }
+            object obj = data;
 
-        public void Execute<T>(T data, Action<object> onSuccess, Action<Exception> onError) where T : new()
-        {
-            var output = Transformer.Transform(data);
+            if (Transformers != null)
+            {
+                foreach(var convertor in Transformers)
+                { obj = convertor.TransformTo(obj); }
+            }
+
+            var output = Serializer.Serialize(obj);
 
             if (Processors != null && Processors.Any())
             {

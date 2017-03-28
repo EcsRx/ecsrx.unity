@@ -58,7 +58,7 @@ namespace EcsRx.Unity.Helpers
 
                     this.UseVerticalBoxLayout(() =>
                     {
-                        var namePortions = cachedComponent.ComponentTypeReference.Split(',')[0].Split('.');
+                        var namePortions = cachedComponent.ComponentName.Split(',')[0].Split('.');
                         var typeName = namePortions.Last();
                         var typeNamespace = string.Join(".", namePortions.Take(namePortions.Length - 1).ToArray());
 
@@ -76,11 +76,11 @@ namespace EcsRx.Unity.Helpers
                             EditorGUILayout.Space();
                         });
 
-                        var component = EntityTransformer.DeserializeComponent(cachedComponent);
+                        var component = EntitySerializer.DeserializeComponent(cachedComponent);
                         ComponentUIAspect.ShowComponentProperties(component);
 
-                        var componentState = EntityTransformer.SerializeComponent(component);
-                        cachedComponent.ComponentState = componentState;
+                        var componentState = EntitySerializer.SerializeComponent(component);
+                        cachedComponent.ComponentState = componentState.AsString;
                     });
                 }
             }
@@ -98,7 +98,7 @@ namespace EcsRx.Unity.Helpers
             {
                 var availableTypes = ComponentLookup.AllComponents
                     .Where(x => !typeof(ViewComponent).IsAssignableFrom(x))
-                    .Where(x => !_registerAsEntity.ComponentData.Select(y => y.ComponentTypeReference).Contains(x.ToString()))
+                    .Where(x => !_registerAsEntity.ComponentData.Select(y => y.ComponentName).Contains(x.FullName))
                     .ToArray();
 
                 var types = availableTypes.Select(x => string.Format("{0} [{1}]", x.Name, x.Namespace)).ToArray();
@@ -109,12 +109,11 @@ namespace EcsRx.Unity.Helpers
 
                 var componentType = availableTypes.ElementAt(index);
                 var component = (IComponent)Activator.CreateInstance(componentType);
-                var componentState = EntityTransformer.SerializeComponent(component);
-                var componentName = component.ToString();
+                var componentState = EntitySerializer.SerializeComponent(component);
                 var componentCache = new ComponentData
                 {
-                    ComponentTypeReference = componentName,
-                    ComponentState = componentState
+                    ComponentName = componentType.FullName,
+                    ComponentState = componentState.AsString
                 };
                 _registerAsEntity.ComponentData.Add(componentCache);
             });

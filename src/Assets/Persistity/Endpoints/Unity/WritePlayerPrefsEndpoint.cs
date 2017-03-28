@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Text;
+using Persistity.Serialization;
 using UnityEngine;
 
 namespace Persistity.Endpoints.Unity
@@ -13,12 +13,10 @@ namespace Persistity.Endpoints.Unity
             KeyName = keyName;
         }
 
-        public void Execute(byte[] data, Action<object> onSuccess, Action<Exception> onError)
+        public void Execute(DataObject data, Action<object> onSuccess, Action<Exception> onError)
         {
-            var stringData = Encoding.Default.GetString(data);
-
             try
-            { PlayerPrefs.SetString(KeyName, stringData); }
+            { PlayerPrefs.SetString(KeyName, data.AsString); }
             catch (Exception ex)
             {
                 onError(ex);

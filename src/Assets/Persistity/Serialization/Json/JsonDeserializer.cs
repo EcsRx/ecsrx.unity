@@ -2,19 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Persistity.Json;
 using Persistity.Mappings;
+using Persistity.Registries;
 using UnityEngine;
 
 namespace Persistity.Serialization.Json
 {
     public class JsonDeserializer : IJsonDeserializer
     {
+        public IMappingRegistry MappingRegistry { get; private set; }
         public JsonConfiguration Configuration { get; private set; }
 
-        public JsonDeserializer(JsonConfiguration configuration = null)
-        { Configuration = configuration ?? JsonConfiguration.Default; }
+        public JsonDeserializer(IMappingRegistry mappingRegistry, JsonConfiguration configuration = null)
+        {
+            MappingRegistry = mappingRegistry;
+            Configuration = configuration ?? JsonConfiguration.Default;
+        }
 
         private bool IsNullNode(JSONNode node)
         { return node == null; }
@@ -48,20 +52,17 @@ namespace Persistity.Serialization.Json
             return value.Value;
         }
 
-        public T DeserializeData<T>(TypeMapping typeMapping, byte[] data) where T : new()
-        {
-            var jsonString = Configuration.Encoder.GetString(data);
-            var instance = new T();
-            var jsonData = JSON.Parse(jsonString);
-            Deserialize(typeMapping.InternalMappings, instance, jsonData);
-            return instance;
-        }
+        public T Deserialize<T>(DataObject data) where T : new()
+        { return (T)Deserialize(data); }
 
-        public object DeserializeData(TypeMapping typeMapping, byte[] data)
+        public object Deserialize(DataObject data)
         {
-            var jsonString = Configuration.Encoder.GetString(data);
-            var instance = Activator.CreateInstance(typeMapping.Type);
-            var jsonData = JSON.Parse(jsonString);
+            var jsonData = JSON.Parse(data.AsString);
+            var typeName = jsonData["Type"].Value;
+            var type = Type.GetType(typeName);
+            var typeMapping = MappingRegistry.GetMappingFor(type);
+            var instance = Activator.CreateInstance(type);
+            
             Deserialize(typeMapping.InternalMappings, instance, jsonData);
             return instance;
         }

@@ -2,21 +2,24 @@
 using Persistity.Endpoints;
 using Persistity.Extensions;
 using Persistity.Processors;
+using Persistity.Serialization;
 using Persistity.Transformers;
 
 namespace Persistity.Pipelines.Builders
 {
     public class SendPipelineBuilder
     {
-        private ITransformer _transformStep;
+        private readonly ISerializer _serializer;
+        private readonly IList<IProcessor> _processors;
+        private readonly IList<ITransformer> _transformers;
         private ISendDataEndpoint _sendDataEndpointStep;
-        private IList<IProcessor> _processors;
 
-        public SendPipelineBuilder(ITransformer transformStep)
+        public SendPipelineBuilder(ISerializer serializer)
         {
-            _transformStep = transformStep;
+            _serializer = serializer;
             _processors = new List<IProcessor>();
-        }
+            _transformers = new List<ITransformer>();
+    }
 
         public SendPipelineBuilder ProcessWith(IProcessor processor)
         {
@@ -30,6 +33,18 @@ namespace Persistity.Pipelines.Builders
             return this;
         }
 
+        public SendPipelineBuilder TransformWith(ITransformer transformer)
+        {
+            _transformers.Add(transformer);
+            return this;
+        }
+
+        public SendPipelineBuilder TransformWith(params ITransformer[] transformers)
+        {
+            _transformers.AddRange(transformers);
+            return this;
+        }
+
         public SendPipelineBuilder SendTo(ISendDataEndpoint sendDataEndpoint)
         {
             _sendDataEndpointStep = sendDataEndpoint;
@@ -38,7 +53,7 @@ namespace Persistity.Pipelines.Builders
 
         public ISendDataPipeline Build()
         {
-            return new SendDataPipeline(_transformStep, _sendDataEndpointStep, _processors);
+            return new SendDataPipeline(_serializer, _sendDataEndpointStep, _processors, _transformers);
         }
     }
 }

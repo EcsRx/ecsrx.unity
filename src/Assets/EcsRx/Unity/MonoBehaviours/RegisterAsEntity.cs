@@ -46,7 +46,7 @@ namespace EcsRx.Unity.MonoBehaviours
         {
             for (var i = 0; i < ComponentData.Count; i++)
             {
-                var component = EntityTransformer.DeserializeComponent(ComponentData[i]);
+                var component = EntitySerializer.DeserializeComponent(ComponentData[i]);
                 entity.AddComponent(component);
             }
         }

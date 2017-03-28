@@ -1,10 +1,8 @@
-using Persistity.Mappings;
-
 namespace Persistity.Serialization
 {
     public interface IDeserializer
     {
-        TOutput DeserializeData<TOutput>(TypeMapping typeMapping, byte[] data) where TOutput : new();
-        object DeserializeData(TypeMapping typeMapping, byte[] data);
+        object Deserialize(DataObject data);
+        T Deserialize<T>(DataObject data) where T : new();
     }
 }

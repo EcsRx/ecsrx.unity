@@ -1,4 +1,5 @@
 ﻿using Persistity.Encryption;
+using Persistity.Serialization;
 
 namespace Persistity.Processors.Encryption
 {
@@ -9,7 +10,10 @@ namespace Persistity.Processors.Encryption
         public DecryptDataProcessor(IEncryptor encryptor)
         { Encryptor = encryptor; }
 
-        public byte[] Process(byte[] data)
-        { return Encryptor.Decrypt(data); }
+        public DataObject Process(DataObject data)
+        {
+            var decryptedData = Encryptor.Decrypt(data.AsBytes);
+            return new DataObject(decryptedData);
+        }
     }
 }

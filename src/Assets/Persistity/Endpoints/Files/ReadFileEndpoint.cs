@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Persistity.Serialization;
 
 namespace Persistity.Endpoints.Files
 {
@@ -12,12 +13,13 @@ namespace Persistity.Endpoints.Files
             FilePath = filePath;
         }
 
-        public void Execute(Action<byte[]> onSuccess, Action<Exception> onError)
+        public void Execute(Action<DataObject> onSuccess, Action<Exception> onError)
         {
-            byte[] data;
+            DataObject data;
             try
             {
-                data = File.ReadAllBytes(FilePath);
+                var byteData = File.ReadAllBytes(FilePath);
+                data = new DataObject(byteData);
             }
             catch (Exception ex)
             {

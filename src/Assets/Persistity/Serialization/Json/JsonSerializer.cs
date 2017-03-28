@@ -4,16 +4,21 @@ using System.Linq;
 using Persistity.Exceptions;
 using Persistity.Json;
 using Persistity.Mappings;
+using Persistity.Registries;
 using UnityEngine;
 
 namespace Persistity.Serialization.Json
 {
     public class JsonSerializer : IJsonSerializer
     {
+        public IMappingRegistry MappingRegistry { get; private set; }
         public JsonConfiguration Configuration { get; private set; }
 
-        public JsonSerializer(JsonConfiguration configuration = null)
-        { Configuration = configuration ?? JsonConfiguration.Default; }
+        public JsonSerializer(IMappingRegistry mappingRegistry, JsonConfiguration configuration = null)
+        {
+            MappingRegistry = mappingRegistry;
+            Configuration = configuration ?? JsonConfiguration.Default;
+        }
 
         private JSONNull GetNullNode()
         { return new JSONNull(); }
@@ -80,14 +85,16 @@ namespace Persistity.Serialization.Json
             return node;
         }
 
-        public byte[] SerializeData<T>(TypeMapping typeMapping, T data) where T : new()
-        { return SerializeData(typeMapping, (object) data); }
-
-        public byte[] SerializeData(TypeMapping typeMapping, object data)
+        public DataObject Serialize(object data)
         {
+            var dataType = data.GetType();
+            var typeMapping = MappingRegistry.GetMappingFor(dataType);
+
             var jsonNode = Serialize(typeMapping.InternalMappings, data);
+            jsonNode.Add("Type", typeMapping.Type.AssemblyQualifiedName);
+
             var jsonString = jsonNode.ToString();
-            return Configuration.Encoder.GetBytes(jsonString);
+            return new DataObject(jsonString);
         }
 
         private JSONNode SerializeProperty<T>(PropertyMapping propertyMapping, T data)

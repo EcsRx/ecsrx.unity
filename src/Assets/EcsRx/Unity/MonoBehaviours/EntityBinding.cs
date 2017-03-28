@@ -5,7 +5,6 @@ using EcsRx.Persistence.Data;
 using EcsRx.Pools;
 using EcsRx.Unity.Components;
 using EcsRx.Unity.MonoBehaviours.Helpers;
-using EcsRx.Unity.MonoBehaviours.Models;
 using UnityEngine;
 using Zenject;
 
@@ -47,7 +46,7 @@ namespace EcsRx.Unity.MonoBehaviours
         {
             for (var i = 0; i < ComponentCache.Count; i++)
             {
-                var component = EntityTransformer.DeserializeComponent(ComponentCache[i]);
+                var component = EntitySerializer.DeserializeComponent(ComponentCache[i]);
                 entity.AddComponent(component);
             }
         }

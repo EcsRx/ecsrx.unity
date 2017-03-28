@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using UnityEngine;
 
 namespace EcsRx.Persistence.Data
@@ -8,26 +7,26 @@ namespace EcsRx.Persistence.Data
     public class ComponentData
     {
         [SerializeField]
-        private string _componentTypeReference;
+        private string _componentState;
 
         [SerializeField]
-        private byte[] _componentState;
+        private string _componentName;
 
-        public string ComponentTypeReference
-        {
-            get { return _componentTypeReference; }
-            set { _componentTypeReference = value; }
-        }
-
-        public byte[] ComponentState
+        public string ComponentState
         {
             get { return _componentState; }
             set { _componentState = value; }
         }
 
+        public string ComponentName
+        {
+            get { return _componentName; }
+            set { _componentName = value; }
+        }
+
         public override string ToString()
         {
-            return string.Format("{0}: {1}", _componentTypeReference, Encoding.Default.GetString(_componentState));
+            return string.Format("{0}:{1}", ComponentName, _componentState);
         }
     }
 }

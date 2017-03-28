@@ -2,19 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using Persistity.Mappings;
+using Persistity.Registries;
 using UnityEngine;
 
 namespace Persistity.Serialization.Xml
 {
     public class XmlDeserializer : IXmlDeserializer
     {
+        public IMappingRegistry MappingRegistry { get; private set; }
         public XmlConfiguration Configuration { get; private set; }
 
-        public XmlDeserializer(XmlConfiguration configuration = null)
-        { Configuration = configuration ?? XmlConfiguration.Default; }
+        public XmlDeserializer(IMappingRegistry mappingRegistry, XmlConfiguration configuration = null)
+        {
+            MappingRegistry = mappingRegistry;
+            Configuration = configuration ?? XmlConfiguration.Default;
+        }
 
         private bool IsElementNull(XElement element)
         { return element.Attribute("IsNull") != null; }
@@ -76,21 +80,17 @@ namespace Persistity.Serialization.Xml
             return element.Value;
         }
 
-        public T DeserializeData<T>(TypeMapping typeMapping, byte[] data) where T : new()
-        {
-            var xmlString = Configuration.Encoder.GetString(data);
-            var xDoc = XDocument.Parse(xmlString);
-            var containerElement = xDoc.Element("Container");
-            var instance = new T();
-            Deserialize(typeMapping.InternalMappings, instance, containerElement);
-            return instance;
-        }
+        public T Deserialize<T>(DataObject data) where T: new()
+        { return (T) Deserialize(data); }
 
-        public object DeserializeData(TypeMapping typeMapping, byte[] data)
+        public object Deserialize(DataObject data)
         {
-            var xmlString = Configuration.Encoder.GetString(data);
-            var xDoc = XDocument.Parse(xmlString);
+            var xDoc = XDocument.Parse(data.AsString);
             var containerElement = xDoc.Element("Container");
+            var typeName = containerElement.Element("Type").Value;
+            var type = Type.GetType(typeName);
+            var typeMapping = MappingRegistry.GetMappingFor(type);
+
             var instance = Activator.CreateInstance(typeMapping.Type);
             Deserialize(typeMapping.InternalMappings, instance, containerElement);
             return instance;

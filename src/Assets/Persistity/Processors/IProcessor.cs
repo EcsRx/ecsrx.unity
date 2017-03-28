@@ -1,7 +1,9 @@
-﻿namespace Persistity.Processors
+﻿using Persistity.Serialization;
+
+namespace Persistity.Processors
 {
     public interface IProcessor
     {
-        byte[] Process(byte[] data);
+        DataObject Process(DataObject data);
     }
 }

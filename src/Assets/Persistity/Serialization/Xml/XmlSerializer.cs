@@ -5,16 +5,21 @@ using System.Xml.Linq;
 using Persistity.Exceptions;
 using Persistity.Extensions;
 using Persistity.Mappings;
+using Persistity.Registries;
 using UnityEngine;
 
 namespace Persistity.Serialization.Xml
 {
     public class XmlSerializer : IXmlSerializer
     {
+        public IMappingRegistry MappingRegistry { get; private set; }
         public XmlConfiguration Configuration { get; private set; }
 
-        public XmlSerializer(XmlConfiguration configuration = null)
-        { Configuration = configuration ?? XmlConfiguration.Default; }
+        public XmlSerializer(IMappingRegistry mappingRegistry, XmlConfiguration configuration = null)
+        {
+            MappingRegistry = mappingRegistry;
+            Configuration = configuration ?? XmlConfiguration.Default;
+        }
 
         private readonly Type[] CatchmentTypes =
         {
@@ -79,15 +84,18 @@ namespace Persistity.Serialization.Xml
             matchingHandler.HandleTypeIn(element, value);
         }
 
-        public byte[] SerializeData<T>(TypeMapping typeMapping, T data) where T : new()
-        { return SerializeData(typeMapping, (object) data); }
-
-        public byte[] SerializeData(TypeMapping typeMapping, object data)
+        public DataObject Serialize(object data)
         {
             var element = new XElement("Container");
+            var dataType = data.GetType();
+            var typeMapping = MappingRegistry.GetMappingFor(dataType);
             Serialize(typeMapping.InternalMappings, data, element);
+
+            var typeElement = new XElement("Type", dataType.AssemblyQualifiedName);
+            element.Add(typeElement);
+            
             var xmlString = element.ToString();
-            return Configuration.Encoder.GetBytes(xmlString);
+            return new DataObject(xmlString);
         }
 
         private void SerializeProperty<T>(PropertyMapping propertyMapping, T data, XElement element)
