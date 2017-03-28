@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Entities;
 using EcsRx.Persistence.Data;
 using EcsRx.Pools;
 using EcsRx.Unity.Components;
 using EcsRx.Unity.MonoBehaviours.Helpers;
+using UnityEditor;
 using UnityEngine;
 using Zenject;
 
@@ -17,6 +19,9 @@ namespace EcsRx.Unity.MonoBehaviours
 
         [SerializeField]
         public string PoolName;
+
+        [SerializeField]
+        private Guid _entityId;
 
         [SerializeField]
         public List<ComponentData> ComponentData = new List<ComponentData>();

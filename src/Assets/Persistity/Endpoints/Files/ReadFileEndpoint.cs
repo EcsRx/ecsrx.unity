@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Persistity.Serialization;
 
 namespace Persistity.Endpoints.Files
 {

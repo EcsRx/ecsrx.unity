@@ -184,7 +184,8 @@
     <Compile Include="Assets\Tests\Editor\Framework\SanityTests.cs" />
     <Compile Include="Assets\Tests\Editor\Framework\SetupSystemHandlerTests.cs" />
     <Compile Include="Assets\Tests\Editor\Framework\SystemExecutorTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Persistence\SanityTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Persistence\ApplicationDataSanityTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Persistence\EntitySanityTests.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\DefaultPrioritySystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\HighPrioritySystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\HigherThanDefaultPrioritySystem.cs" />
@@ -265,9 +266,7 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Tests\Editor\Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

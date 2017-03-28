@@ -4,11 +4,10 @@ using EcsRx.Events;
 using EcsRx.Persistence.Data;
 using Persistity;
 using Persistity.Serialization;
-using Persistity.Transformers;
 
-namespace EcsRx.Persistence.Extractors
+namespace EcsRx.Persistence.Transformers
 {
-    public class EntityDataTransformer : ITransformer
+    public class EntityDataTransformer : IEntityDataTransformer
     {
         public ISerializer Serializer { get; private set; }
         public IDeserializer Deserializer { get; private set; }

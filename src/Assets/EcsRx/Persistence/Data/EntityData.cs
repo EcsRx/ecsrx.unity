@@ -1,17 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace EcsRx.Persistence.Data
 {
+    [Serializable]
     public class EntityData
     {
-        public Guid EntityId { get; set; }
-        public IList<ComponentData> ComponentData { get; set; }
+        [SerializeField]
+        private Guid _entityId;
+
+        [SerializeField]
+        private IList<ComponentData> _componentData;
+     
+        public Guid EntityId
+        {
+            get { return _entityId; }
+            set { _entityId = value; }
+        }
+
+        public IList<ComponentData> ComponentData
+        {
+            get { return _componentData; }
+            set { _componentData = value; }
+        }
 
         public EntityData()
         {
-            ComponentData = new List<ComponentData>();
+            _componentData = new List<ComponentData>();
         }
 
         public override string ToString()

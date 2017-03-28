@@ -220,12 +220,23 @@
     <Compile Include="Assets\EcsRx\Framework\Systems\ISetupSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ISystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ITeardownSystem.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Data\ApplicationData.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationDatabaseBehaviour.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Data\ApplicationDatabase.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Data\ComponentData.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Data\EntityData.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Data\StateData.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Endpoints\ApplicationDatabaseFileEndpoint.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Endpoints\ApplicationDatabaseEndpoint.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Endpoints\IApplicationConfigFileEndpoint.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\EntityDataExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Pipelines\ISaveToScenePipeline.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Pipelines\LoadApplicationToFilePipeline.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Processors\MakeComponentStateJsonProcessor.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Processors\MakeComponentStateStringProcessor.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Processors\RemoveEscapeCharacterProcessor.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Transformers\EntityDataTransformer.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Transformers\IEntityDataTransformer.cs" />
     <Compile Include="Assets\EcsRx\Unity\Components\ViewComponent.cs" />
     <Compile Include="Assets\EcsRx\Unity\EcsRxApplication.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\GameObjectExtensions.cs" />
@@ -588,9 +599,7 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\EcsRx\Persistence\Types\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

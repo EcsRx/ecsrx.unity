@@ -6,7 +6,7 @@ using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
 using EcsRx.Persistence.Data;
-using EcsRx.Persistence.Extractors;
+using EcsRx.Persistence.Transformers;
 using NSubstitute;
 using NUnit.Framework;
 using Persistity.Endpoints.InMemory;
@@ -19,7 +19,7 @@ using UnityEngine;
 namespace Tests.Editor.Persistence
 {
     [TestFixture]
-    public class SanityTests
+    public class EntitySanityTests
     {
         private JsonSerializer _serializer;
         private JsonDeserializer _deserializer;
@@ -62,7 +62,7 @@ namespace Tests.Editor.Persistence
         }
 
         [Test]
-        public void should_correctly_transform_entity()
+        public void should_correctly_serialize_and_transform_entity()
         {
             var expectedEntity = new Entity(Guid.NewGuid(), _eventSystem);
             expectedEntity.ApplyBlueprint(new PlayerBlueprint("bob"));
@@ -101,6 +101,35 @@ namespace Tests.Editor.Persistence
             saveEntityPipeline.Execute(expectedEntity, x =>
             {
                 loadEntityPipeline.Execute<IEntity>(actualEntity =>
+                {
+                    CompareEntities(actualEntity, expectedEntity);
+                }, HandleError);
+            }, HandleError);
+        }
+
+        [Test]
+        public void should_correctly_consume_application_data_through_pipeline()
+        {
+            var inMemoryEndpoint = new InMemoryEndpoint();
+
+            var saveApplicationDataPipeline = new PipelineBuilder()
+                .SerializeWith(_serializer)
+                .TransformWith(_entityTransformer)
+                .SendTo(inMemoryEndpoint)
+                .Build();
+
+            var loadApplicationDataPipeline = new PipelineBuilder()
+                .RecieveFrom(inMemoryEndpoint)
+                .DeserializeWith(_deserializer)
+                .TransformWith(_entityTransformer)
+                .Build();
+
+            var expectedEntity = new Entity(Guid.NewGuid(), _eventSystem);
+            expectedEntity.ApplyBlueprint(new PlayerBlueprint("bob"));
+
+            saveApplicationDataPipeline.Execute(expectedEntity, x =>
+            {
+                loadApplicationDataPipeline.Execute<IEntity>(actualEntity =>
                 {
                     CompareEntities(actualEntity, expectedEntity);
                 }, HandleError);
