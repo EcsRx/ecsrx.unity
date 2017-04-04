@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 
 namespace Persistity.Serialization.Binary
 {
-    public class BinaryConfiguration : SerializationConfiguration
+    public class BinaryConfiguration : SerializationConfiguration<BinaryWriter,BinaryReader>
     {
-        public IEnumerable<ITypeHandler<BinaryWriter, BinaryReader>> TypeHandlers { get; set; }
-
         public static BinaryConfiguration Default
         {
             get

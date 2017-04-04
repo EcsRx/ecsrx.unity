@@ -7,12 +7,12 @@ namespace EcsRx.Persistence.Data
     public class ComponentData
     {
         [SerializeField]
-        private string _componentState;
+        private StateData _componentState;
 
         [SerializeField]
         private string _componentName;
 
-        public string ComponentState
+        public StateData ComponentState
         {
             get { return _componentState; }
             set { _componentState = value; }
@@ -26,7 +26,7 @@ namespace EcsRx.Persistence.Data
 
         public override string ToString()
         {
-            return string.Format("{0}:{1}", ComponentName, _componentState);
+            return string.Format("{0}:{1}", ComponentName, _componentState.State);
         }
     }
 }

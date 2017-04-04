@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.1f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -74,6 +72,9 @@
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets\UnityPackages\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -220,14 +221,15 @@
     <Compile Include="Assets\EcsRx\Framework\Systems\ISetupSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ISystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ITeardownSystem.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationDatabaseBehaviour.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Data\ApplicationDatabase.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Data\ComponentData.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Data\EntityData.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Data\StateData.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Endpoints\ApplicationDatabaseFileEndpoint.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationDatabaseBehaviour.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Endpoints\ApplicationDatabaseEndpoint.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Endpoints\ApplicationDatabaseFileEndpoint.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Endpoints\IApplicationConfigFileEndpoint.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Extensions\BinaryIOExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\EntityDataExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\ReflectionExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Pipelines\ISaveToScenePipeline.cs" />
@@ -237,6 +239,8 @@
     <Compile Include="Assets\EcsRx\Persistence\Processors\RemoveEscapeCharacterProcessor.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Transformers\EntityDataTransformer.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Transformers\IEntityDataTransformer.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\TypeHandlers\BinaryStateDataHandler.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\TypeHandlers\JsonStateDataHandler.cs" />
     <Compile Include="Assets\EcsRx\Unity\Components\ViewComponent.cs" />
     <Compile Include="Assets\EcsRx\Unity\EcsRxApplication.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\GameObjectExtensions.cs" />
@@ -264,6 +268,7 @@
     <Compile Include="Assets\EcsRx\Unity\ViewPooling\IViewPool.cs" />
     <Compile Include="Assets\EcsRx\Unity\ViewPooling\ViewObjectContainer.cs" />
     <Compile Include="Assets\EcsRx\Unity\ViewPooling\ViewPool.cs" />
+    <Compile Include="Assets\Persistity\Attributes\DynamicTypeAttribute.cs" />
     <Compile Include="Assets\Persistity\Attributes\PersistAttribute.cs" />
     <Compile Include="Assets\Persistity\Attributes\PersistDataAttribute.cs" />
     <Compile Include="Assets\Persistity\DataObject.cs" />
@@ -282,7 +287,6 @@
     <Compile Include="Assets\Persistity\Extensions\IListExtensions.cs" />
     <Compile Include="Assets\Persistity\Extensions\ReflectionExtensions.cs" />
     <Compile Include="Assets\Persistity\Extensions\TypeExtensions.cs" />
-    <Compile Include="Assets\Persistity\Json\JSON.cs" />
     <Compile Include="Assets\Persistity\Mappings\CollectionMapping.cs" />
     <Compile Include="Assets\Persistity\Mappings\DictionaryMapping.cs" />
     <Compile Include="Assets\Persistity\Mappings\Mappers\DefaultTypeMapper.cs" />
@@ -293,8 +297,12 @@
     <Compile Include="Assets\Persistity\Mappings\Mapping.cs" />
     <Compile Include="Assets\Persistity\Mappings\NestedMapping.cs" />
     <Compile Include="Assets\Persistity\Mappings\PropertyMapping.cs" />
-    <Compile Include="Assets\Persistity\Mappings\TypeMapper.cs" />
     <Compile Include="Assets\Persistity\Mappings\TypeMapping.cs" />
+    <Compile Include="Assets\Persistity\Mappings\Types\ITypeAnalyzer.cs" />
+    <Compile Include="Assets\Persistity\Mappings\Types\ITypeCreator.cs" />
+    <Compile Include="Assets\Persistity\Mappings\Types\MappingConfiguration.cs" />
+    <Compile Include="Assets\Persistity\Mappings\Types\TypeAnalyzer.cs" />
+    <Compile Include="Assets\Persistity\Mappings\Types\TypeCreator.cs" />
     <Compile Include="Assets\Persistity\Pipelines\Builders\PipelineBuilder.cs" />
     <Compile Include="Assets\Persistity\Pipelines\Builders\ReceivePipelineBuilder.cs" />
     <Compile Include="Assets\Persistity\Pipelines\Builders\SendPipelineBuilder.cs" />
@@ -315,7 +323,8 @@
     <Compile Include="Assets\Persistity\Serialization\Binary\IBinaryDeserializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Binary\IBinarySerializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Debug\DebugSerializer.cs" />
-    <Compile Include="Assets\Persistity\Serialization\Exceptions\NoKnownTypeException.cs" />
+    <Compile Include="Assets\Persistity\Serialization\GenericDeserializer.cs" />
+    <Compile Include="Assets\Persistity\Serialization\GenericSerializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\IDeserializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\ISerializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\ITypeHandler.cs" />
@@ -337,6 +346,7 @@
     <Compile Include="Assets\Tests\Scenes\GroupedPerformance\Systems\EntityRotationSystem.cs" />
     <Compile Include="Assets\Tests\Scenes\GroupedPerformance\Systems\GroupRotationSystem.cs" />
     <Compile Include="Assets\Tests\Scenes\GroupedPerformance\ViewResolvers\CubeViewResolver.cs" />
+    <Compile Include="Assets\UnityPackages\JsonNetSample\JsonNetSample.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\AssertionComponent.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\AssertionException.cs" />
     <Compile Include="Assets\UnityTestTools\Assertions\Assertions.cs" />
@@ -599,7 +609,6 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

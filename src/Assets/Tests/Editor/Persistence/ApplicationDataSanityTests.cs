@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Assets.EcsRx.Examples.GroupFilters.Blueprints;
 using Assets.EcsRx.Examples.PooledViews.Blueprints;
 using EcsRx.Entities;
@@ -7,10 +8,13 @@ using EcsRx.Extensions;
 using EcsRx.Persistence.Data;
 using EcsRx.Persistence.Processors;
 using EcsRx.Persistence.Transformers;
+using EcsRx.Persistence.TypeHandlers;
 using NSubstitute;
 using NUnit.Framework;
+using Persistity.Json;
 using Persistity.Mappings.Mappers;
 using Persistity.Registries;
+using Persistity.Serialization;
 using Persistity.Serialization.Json;
 using UnityEngine;
 
@@ -31,12 +35,17 @@ namespace Tests.Editor.Persistence
             var mapperConfiguration = new MappingConfiguration
             {
                 IgnoredTypes = ignoredTypes,
-                KnownPrimitives = new Type[0],
+                KnownPrimitives = new[]{ typeof(StateData) },
             };
             var mapper = new EverythingTypeMapper(mapperConfiguration);
             var mappingRegistry = new MappingRegistry(mapper);
-            _serializer = new JsonSerializer(mappingRegistry);
-            _deserializer = new JsonDeserializer(mappingRegistry);
+
+            var jsonConfig = new JsonConfiguration
+            {
+                TypeHandlers = new List<ITypeHandler<JSONNode, JSONNode>> {new JsonStateDataHandler()}
+            };
+            _serializer = new JsonSerializer(mappingRegistry, jsonConfig);
+            _deserializer = new JsonDeserializer(mappingRegistry, jsonConfig);
             _eventSystem = Substitute.For<IEventSystem>();
             _entityTransformer = new EntityDataTransformer(_serializer, _deserializer, _eventSystem);
         }
@@ -64,10 +73,13 @@ namespace Tests.Editor.Persistence
             applicationDatabase.EntityData.Add(entity1Data);
             applicationDatabase.EntityData.Add(entity2Data);
             applicationDatabase.EntityData.Add(entity3Data);
-
+            
             var output = _serializer.Serialize(applicationDatabase);
-            var processedOutput = new RemoveEscapeCharacterProcessor().Process(output);
-            Console.WriteLine(processedOutput.AsString);
+
+            var reconstructedDatabase = _deserializer.Deserialize<ApplicationDatabase>(output);
+
+            Console.WriteLine(output.AsString);
+            Console.WriteLine(reconstructedDatabase);
         }
     }
 }

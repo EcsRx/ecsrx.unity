@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using Persistity.Mappings.Types;
 
 namespace Persistity.Mappings.Mappers
 {
@@ -12,7 +9,7 @@ namespace Persistity.Mappings.Mappers
     /// </summary>
     public class EverythingTypeMapper : TypeMapper
     {
-        public EverythingTypeMapper(MappingConfiguration configuration = null) : base(configuration)
+        public EverythingTypeMapper(ITypeAnalyzer typeAnalyzer, MappingConfiguration configuration = null) : base(typeAnalyzer, configuration)
         {}
     }
 }

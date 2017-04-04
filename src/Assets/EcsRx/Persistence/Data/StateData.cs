@@ -8,6 +8,7 @@ namespace EcsRx.Persistence.Data
     {
         [SerializeField]
         private string _state;
+        // Probably need to make this a DataObject
 
         public StateData()
         {}

@@ -5,12 +5,13 @@ using System.Reflection;
 using Persistity.Attributes;
 using Persistity.Exceptions;
 using Persistity.Extensions;
+using Persistity.Mappings.Types;
 
 namespace Persistity.Mappings.Mappers
 {
     public class DefaultTypeMapper : TypeMapper
     {
-        public DefaultTypeMapper(MappingConfiguration configuration = null) : base(configuration)
+        public DefaultTypeMapper(ITypeAnalyzer typeAnalyzer, MappingConfiguration configuration = null) : base(typeAnalyzer, configuration)
         {}
 
         public override IEnumerable<PropertyInfo> GetPropertiesFor(Type type)

@@ -1,19 +1,16 @@
-﻿using System.Collections.Generic;
-using Persistity.Json;
+﻿using Newtonsoft.Json.Linq;
 
 namespace Persistity.Serialization.Json
 {
-    public class JsonConfiguration : SerializationConfiguration
+    public class JsonConfiguration : SerializationConfiguration<JToken, JToken>
     {
-        public IEnumerable<ITypeHandler<JSONNode, JSONNode>> TypeHandlers { get; set; }
-
         public static JsonConfiguration Default
         {
             get
             {
                 return new JsonConfiguration
                 {
-                    TypeHandlers = new ITypeHandler<JSONNode, JSONNode>[0]
+                    TypeHandlers = new ITypeHandler<JToken, JToken>[0]
                 };
             }
         }

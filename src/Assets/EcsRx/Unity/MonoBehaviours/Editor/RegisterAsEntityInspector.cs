@@ -80,7 +80,7 @@ namespace EcsRx.Unity.Helpers
                         ComponentUIAspect.ShowComponentProperties(component);
 
                         var componentState = EntitySerializer.SerializeComponent(component);
-                        cachedComponent.ComponentState = componentState.AsString;
+                        cachedComponent.ComponentState = new StateData(componentState.AsString);
                     });
                 }
             }
@@ -113,7 +113,7 @@ namespace EcsRx.Unity.Helpers
                 var componentCache = new ComponentData
                 {
                     ComponentName = componentType.FullName,
-                    ComponentState = componentState.AsString
+                    ComponentState = new StateData(componentState.AsString)
                 };
                 _registerAsEntity.ComponentData.Add(componentCache);
             });

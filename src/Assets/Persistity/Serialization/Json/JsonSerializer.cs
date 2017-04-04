@@ -1,209 +1,164 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Persistity.Exceptions;
-using Persistity.Json;
+using Newtonsoft.Json.Linq;
+using Persistity.Extensions;
 using Persistity.Mappings;
 using Persistity.Registries;
 using UnityEngine;
 
 namespace Persistity.Serialization.Json
 {
-    public class JsonSerializer : IJsonSerializer
+   public class JsonSerializer : GenericSerializer<JToken, JToken>, IJsonSerializer
     {
-        public IMappingRegistry MappingRegistry { get; private set; }
-        public JsonConfiguration Configuration { get; private set; }
+        public const string TypeField = "Type";
+        public const string DataField = "Data";
+        public const string KeyField = "Key";
+        public const string ValueField = "Value";
 
-        public JsonSerializer(IMappingRegistry mappingRegistry, JsonConfiguration configuration = null)
+        public JsonSerializer(IMappingRegistry mappingRegistry, JsonConfiguration configuration = null) : base(mappingRegistry)
         {
-            MappingRegistry = mappingRegistry;
             Configuration = configuration ?? JsonConfiguration.Default;
         }
 
-        private JSONNull GetNullNode()
-        { return new JSONNull(); }
-
-        private JSONNode SerializePrimitive(object value, Type type)
+        private readonly Type[] CatchmentTypes =
         {
-            JSONNode node = null;
+            typeof(string), typeof(bool), typeof(byte), typeof(short), typeof(int),
+            typeof(long), typeof(Guid), typeof(float), typeof(double), typeof(decimal)
+        };
 
-            if (type == typeof(byte)) { node = new JSONNumber((byte)value); }
-            else if (type == typeof(short)) { node = new JSONNumber((short)value); }
-            else if (type == typeof(int)) { node = new JSONNumber((int)value); }
-            else if (type == typeof(long)) { node = new JSONString(value.ToString()); }
-            else if (type == typeof(Guid)) { node = new JSONString(value.ToString()); }
-            else if (type == typeof(bool)) { node = new JSONBool((bool)value); }
-            else if (type == typeof(float)) { node = new JSONNumber((float)value); }
-            else if (type == typeof(double)) { node = new JSONNumber((double)value); }
-            else if (type == typeof(Vector2))
-            {
-                var typedValue = (Vector2)value;
-                node = new JSONObject();
-                node.Add("x", new JSONNumber(typedValue.x));
-                node.Add("y", new JSONNumber(typedValue.y));
-            }
-            else if (type == typeof(Vector3))
-            {
-                var typedValue = (Vector3)value;
-                node = new JSONObject();
-                node.Add("x", new JSONNumber(typedValue.x));
-                node.Add("y", new JSONNumber(typedValue.y));
-                node.Add("z", new JSONNumber(typedValue.z));
-            }
-            else if (type == typeof(Vector4))
-            {
-                var typedValue = (Vector4)value;
-                node = new JSONObject();
-                node.Add("x", new JSONNumber(typedValue.x));
-                node.Add("y", new JSONNumber(typedValue.y));
-                node.Add("z", new JSONNumber(typedValue.z));
-                node.Add("w", new JSONNumber(typedValue.w));
-            }
-            else if (type == typeof(Quaternion))
-            {
-                var typedValue = (Quaternion) value;
-                node = new JSONObject();
-                node.Add("x", new JSONNumber(typedValue.x));
-                node.Add("y", new JSONNumber(typedValue.y));
-                node.Add("z", new JSONNumber(typedValue.z));
-                node.Add("w", new JSONNumber(typedValue.w));
-            }
-            else if (type == typeof(DateTime))
-            {
-                var typedValue = (DateTime) value;
-                node = new JSONString(typedValue.ToBinary().ToString());
-            }
-            else if (type == typeof(string) || type.IsEnum)
-            { node = new JSONString(value.ToString()); }
-            else
-            {
-                var matchingHandler = Configuration.TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
-                if(matchingHandler == null) { throw new NoKnownTypeException(type); }
-                matchingHandler.HandleTypeIn(node, value);
-            }
+        protected override void HandleNullData(JToken state)
+        { state.Replace(JValue.CreateNull()); }
 
-            return node;
+        protected override void HandleNullObject(JToken state)
+        { HandleNullData(state); }
+
+        protected override void AddCountToState(JToken state, int count)
+        { }
+
+        protected override JToken GetDynamicTypeState(JToken state, Type type)
+        {
+            state[TypeField] = type.GetPersistableName();
+            return state[DataField] = new JObject();
         }
 
-        public DataObject Serialize(object data)
+        protected override void SerializeDefaultPrimitive(object value, Type type, JToken element)
         {
+            if (type == typeof(Vector2))
+            {
+                var typedObject = (Vector2)value;
+                element["x"] = typedObject.x;
+                element["y"] = typedObject.y;
+                return;
+            }
+            if (type == typeof(Vector3))
+            {
+                var typedObject = (Vector3)value;
+                element["x"] = typedObject.x;
+                element["y"] = typedObject.y;
+                element["z"] = typedObject.z;
+                return;
+            }
+            if (type == typeof(Vector4))
+            {
+                var typedObject = (Vector4)value;
+                element["x"] = typedObject.x;
+                element["y"] = typedObject.y;
+                element["z"] = typedObject.z;
+                element["w"] = typedObject.w;
+                return;
+            }
+            if (type == typeof(Quaternion))
+            {
+                var typedObject = (Quaternion)value;
+                element["x"] = typedObject.x;
+                element["y"] = typedObject.y;
+                element["z"] = typedObject.z;
+                element["w"] = typedObject.w;
+                return;
+            }
+            if (type == typeof(DateTime))
+            {
+                var typedValue = (DateTime)value;
+                var stringValue = typedValue.ToBinary().ToString();
+                element.Replace(new JValue(stringValue));
+                return;
+            }
+
+            if (type.IsTypeOf(CatchmentTypes) || type.IsEnum)
+            {
+                element.Replace(new JValue(value));
+                return;
+            }
+        }
+
+        public override DataObject Serialize(object data)
+        {
+            var node = new JObject();
             var dataType = data.GetType();
             var typeMapping = MappingRegistry.GetMappingFor(dataType);
+            Serialize(typeMapping.InternalMappings, data, node);
 
-            var jsonNode = Serialize(typeMapping.InternalMappings, data);
-            jsonNode.Add("Type", typeMapping.Type.AssemblyQualifiedName);
-
-            var jsonString = jsonNode.ToString();
-            return new DataObject(jsonString);
+            var typeElement = new JProperty("Type", dataType.GetPersistableName());
+            node.Add(typeElement);
+            
+            var xmlString = node.ToString();
+            return new DataObject(xmlString);
         }
 
-        private JSONNode SerializeProperty<T>(PropertyMapping propertyMapping, T data)
+        protected override void Serialize<T>(IEnumerable<Mapping> mappings, T data, JToken state)
         {
-            if (data == null) { return GetNullNode(); }
-            var underlyingValue = propertyMapping.GetValue(data);
-            if (underlyingValue == null) { return GetNullNode(); }
-
-            return SerializePrimitive(underlyingValue, propertyMapping.Type);
-        }
-
-        private JSONNode SerializeNestedObject<T>(NestedMapping nestedMapping, T data)
-        {
-            if (data == null) { return GetNullNode(); }
-            var currentData = nestedMapping.GetValue(data);
-            if (currentData == null) { return GetNullNode(); }
-
-            return Serialize(nestedMapping.InternalMappings, currentData);
-        }
-        
-        private JSONNode SerializeCollection<T>(CollectionMapping collectionMapping, T data)
-        {
-            if (data == null) { return GetNullNode(); }
-            var collectionValue = collectionMapping.GetValue(data);
-            if (collectionValue == null) { return GetNullNode(); }
-
-            var jsonArray = new JSONArray();
-
-            for (var i = 0; i < collectionValue.Count; i++)
-            {
-                var currentData = collectionValue[i];
-                if (currentData == null)
-                { jsonArray.Add(GetNullNode()); }
-                else if (collectionMapping.InternalMappings.Count > 0)
-                {
-                    var result = Serialize(collectionMapping.InternalMappings, currentData);
-                    jsonArray.Add(result);
-                }
-                else
-                {
-                    var result = SerializePrimitive(currentData, collectionMapping.CollectionType);
-                    jsonArray.Add(result);
-                }
-            }
-
-            return jsonArray;
-        }
-
-        private JSONNode SerializeDictionary<T>(DictionaryMapping dictionaryMapping, T data)
-        {
-            if(data == null) { return new JSONArray(); }
-
-            var jsonArray = new JSONArray();
-            var dictionaryValue = dictionaryMapping.GetValue(data);
-            if (dictionaryValue == null) { return GetNullNode(); }
-
-            foreach (var currentKey in dictionaryValue.Keys)
-            {
-                JSONNode jsonKey, jsonValue;
-                if (dictionaryMapping.KeyMappings.Count > 0)
-                { jsonKey = Serialize(dictionaryMapping.KeyMappings, currentKey); }
-                else
-                { jsonKey = SerializePrimitive(currentKey, dictionaryMapping.KeyType); }
-
-                var currentValue = dictionaryValue[currentKey];
-                if(currentValue == null)
-                { jsonValue = GetNullNode(); }
-                else if (dictionaryMapping.ValueMappings.Count > 0)
-                { jsonValue = Serialize(dictionaryMapping.ValueMappings, currentValue); }
-                else
-                { jsonValue = SerializePrimitive(currentValue, dictionaryMapping.ValueType); }
-
-                var jsonKeyValue = new JSONObject();
-                jsonKeyValue.Add("key", jsonKey);
-                jsonKeyValue.Add("value", jsonValue);
-                jsonArray.Add(jsonKeyValue);
-            }
-
-            return jsonArray;
-        }
-
-        private JSONNode Serialize<T>(IEnumerable<Mapping> mappings, T data)
-        {
-            var jsonNode = new JSONObject();
-
             foreach (var mapping in mappings)
             {
-                if (mapping is PropertyMapping)
-                {
-                    var result = SerializeProperty((mapping as PropertyMapping), data);
-                    jsonNode.Add(mapping.LocalName, result);
-                }
-                else if (mapping is NestedMapping)
-                {
-                    var result = SerializeNestedObject((mapping as NestedMapping), data);
-                    jsonNode.Add(mapping.LocalName, result);
-                }
-                else if (mapping is DictionaryMapping)
-                {
-                    var result = SerializeDictionary((mapping as DictionaryMapping), data);
-                    jsonNode.Add(mapping.LocalName, result);
-                }
-                else
-                {
-                    var result = SerializeCollection((mapping as CollectionMapping), data);
-                    jsonNode.Add(mapping.LocalName, result);
-                }
+                var newElement = new JObject();
+                state[mapping.LocalName] = newElement;
+
+                DelegateMappingType(mapping, data, newElement);
             }
-            return jsonNode;
+        }
+
+        protected override void SerializeCollection<T>(CollectionMapping collectionMapping, T data, JToken state)
+        {
+            var objectValue = AttemptGetValue(collectionMapping, data, state);
+            if (objectValue == null) { return; }
+            var collectionValue = (objectValue as IList);
+
+            var jsonArray = new JArray();
+            state.Replace(jsonArray);
+            for (var i = 0; i < collectionValue.Count; i++)
+            {
+                var element = collectionValue[i];
+                var jsonObject = new JObject();
+                jsonArray.Add(jsonObject);
+                SerializeCollectionElement(collectionMapping, element, jsonObject);
+            }
+        }
+        
+        protected override void SerializeDictionary<T>(DictionaryMapping dictionaryMapping, T data, JToken state)
+        {
+            var objectValue = AttemptGetValue(dictionaryMapping, data, state);
+            if (objectValue == null) { return; }
+            var dictionaryValue = (objectValue as IDictionary);
+
+            var jsonArray = new JArray();
+            state.Replace(jsonArray);
+            foreach (var key in dictionaryValue.Keys)
+            {
+                var jsonObject = new JObject();
+                jsonArray.Add(jsonObject);
+                SerializeDictionaryKeyValuePair(dictionaryMapping, dictionaryValue, key, jsonObject);
+            }
+        }
+        
+        protected override void SerializeDictionaryKeyValuePair(DictionaryMapping dictionaryMapping, IDictionary dictionary, object key, JToken state)
+        {
+            var keyElement = new JObject();
+            var valueElement = new JObject();
+            state[KeyField] = keyElement;
+            state[ValueField] = valueElement;
+
+            SerializeDictionaryKey(dictionaryMapping, key, keyElement);
+            SerializeDictionaryValue(dictionaryMapping, dictionary[key], valueElement);
         }
     }
 }

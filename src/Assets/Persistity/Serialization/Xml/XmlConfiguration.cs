@@ -3,10 +3,8 @@ using System.Xml.Linq;
 
 namespace Persistity.Serialization.Xml
 {
-    public class XmlConfiguration : SerializationConfiguration
+    public class XmlConfiguration : SerializationConfiguration<XElement, XElement>
     {
-        public IEnumerable<ITypeHandler<XElement, XElement>> TypeHandlers { get; set; }
-
         public static XmlConfiguration Default
         {
             get

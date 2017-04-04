@@ -7,7 +7,8 @@ namespace Persistity.Mappings
     {
         public Func<object, object> GetValue { get; set; }
         public Action<object, object> SetValue { get; set; }
-        public List<Mapping> InternalMappings { get; private set; }
+        public IList<Mapping> InternalMappings { get; private set; }
+        public bool IsDynamicType { get; set; }
 
         public NestedMapping()
         { InternalMappings = new List<Mapping>(); }

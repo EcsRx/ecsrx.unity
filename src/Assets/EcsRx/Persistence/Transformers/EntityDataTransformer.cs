@@ -30,7 +30,7 @@ namespace EcsRx.Persistence.Transformers
                 var componentType = component.GetType();
 
                 var serializedData = Serializer.Serialize(component);
-                componentData.ComponentState = serializedData.AsString;
+                componentData.ComponentState = new StateData(serializedData.AsString);
                 componentData.ComponentName = componentType.FullName;
                 entityData.ComponentData.Add(componentData);
             }
@@ -43,7 +43,7 @@ namespace EcsRx.Persistence.Transformers
             var entity = new Entity(entityData.EntityId, EventSystem);
             foreach (var componentData in entityData.ComponentData)
             {
-                var dataObject = new DataObject(componentData.ComponentState);
+                var dataObject = new DataObject(componentData.ComponentState.State);
                 var component = (IComponent)Deserializer.Deserialize(dataObject);
                 entity.AddComponent(component);
             }

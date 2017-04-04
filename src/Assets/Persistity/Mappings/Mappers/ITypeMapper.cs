@@ -1,9 +1,11 @@
 using System;
+using Persistity.Mappings.Types;
 
 namespace Persistity.Mappings.Mappers
 {
     public interface ITypeMapper
     {
-        TypeMapping GetTypeMappingsFor(Type type);
+        ITypeAnalyzer TypeAnalyzer { get; }
+        TypeMapping GetTypeMappingsFor(Type type);       
     }
 }

@@ -4,26 +4,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Persistity.Mappings;
+using Persistity.Mappings.Types;
 using Persistity.Registries;
 using UnityEngine;
 
 namespace Persistity.Serialization.Xml
 {
-    public class XmlDeserializer : IXmlDeserializer
+    public class XmlDeserializer : GenericDeserializer<XElement, XElement>, IXmlDeserializer
     {
-        public IMappingRegistry MappingRegistry { get; private set; }
-        public XmlConfiguration Configuration { get; private set; }
-
-        public XmlDeserializer(IMappingRegistry mappingRegistry, XmlConfiguration configuration = null)
+        public XmlDeserializer(IMappingRegistry mappingRegistry, ITypeCreator typeCreator, XmlConfiguration configuration = null) : base(mappingRegistry, typeCreator)
         {
-            MappingRegistry = mappingRegistry;
             Configuration = configuration ?? XmlConfiguration.Default;
         }
 
-        private bool IsElementNull(XElement element)
-        { return element.Attribute("IsNull") != null; }
+        protected override bool IsDataNull(XElement state)
+        { return state.Attribute("IsNull") != null; }
 
-        private object DeserializePrimitive(Type type, XElement element)
+        protected override bool IsObjectNull(XElement state)
+        { return IsDataNull(state); }
+
+        protected override int GetCountFromState(XElement state)
+        { return int.Parse(state.Attribute("Count").Value); }
+
+        protected override object DeserializeDefaultPrimitive(Type type, XElement element)
         {
             if (type == typeof(byte)) { return byte.Parse(element.Value); }
             if (type == typeof(short)) { return short.Parse(element.Value); }
@@ -73,22 +76,18 @@ namespace Persistity.Serialization.Xml
                 return DateTime.FromBinary(binaryTime);
             }
 
-            var matchingHandler = Configuration.TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
-            if (matchingHandler != null)
-            { return matchingHandler.HandleTypeOut(element); }
-
             return element.Value;
         }
 
-        public T Deserialize<T>(DataObject data) where T: new()
+        public override T Deserialize<T>(DataObject data)
         { return (T) Deserialize(data); }
 
-        public object Deserialize(DataObject data)
+        public override object Deserialize(DataObject data)
         {
             var xDoc = XDocument.Parse(data.AsString);
             var containerElement = xDoc.Element("Container");
             var typeName = containerElement.Element("Type").Value;
-            var type = Type.GetType(typeName);
+            var type = TypeCreator.LoadType(typeName);
             var typeMapping = MappingRegistry.GetMappingFor(type);
 
             var instance = Activator.CreateInstance(typeMapping.Type);
@@ -96,148 +95,71 @@ namespace Persistity.Serialization.Xml
             return instance;
         }
 
-        private void DeserializeProperty<T>(PropertyMapping propertyMapping, T instance, XElement element)
+        protected override void DeserializeCollection<T>(CollectionMapping mapping, T instance, XElement state)
         {
-            if (IsElementNull(element))
-            { propertyMapping.SetValue(instance, null); }
-            else
+            if (IsObjectNull(state))
             {
-                var underlyingValue = DeserializePrimitive(propertyMapping.Type, element);
-                propertyMapping.SetValue(instance, underlyingValue);
+                mapping.SetValue(instance, null);
+                return;
+            }
+
+            var count = GetCountFromState(state);
+            var collectionInstance = CreateCollectionFromMapping(mapping, count);
+            mapping.SetValue(instance, collectionInstance);
+
+            for (var i = 0; i < count; i++)
+            {
+                var collectionElement = state.Elements("CollectionElement").ElementAt(i);
+                var elementInstance = DeserializeCollectionElement(mapping, collectionElement);
+
+                if (collectionInstance.IsFixedSize)
+                { collectionInstance[i] = elementInstance; }
+                else
+                { collectionInstance.Insert(i, elementInstance); }
             }
         }
 
-        private void DeserializeNestedObject<T>(NestedMapping nestedMapping, T instance, XElement element)
-        { Deserialize(nestedMapping.InternalMappings, instance, element); }
-
-        private void DeserializeCollection(CollectionMapping collectionMapping, IList collectionInstance, int arrayCount, XElement element)
+        protected override void DeserializeDictionary<T>(DictionaryMapping mapping, T instance, XElement state)
         {
-            for (var i = 0; i < arrayCount; i++)
+            if (IsObjectNull(state))
             {
-                var collectionElement = element.Elements("CollectionElement").ElementAt(i);
-                if (IsElementNull(collectionElement))
-                {
-                    if (collectionInstance.IsFixedSize)
-                    { collectionInstance[i] = null; }
-                    else
-                    { collectionInstance.Insert(i, null); }
-                }
-                else if (collectionMapping.InternalMappings.Count > 0)
-                {
-                    var elementInstance = Activator.CreateInstance(collectionMapping.CollectionType);
-                    Deserialize(collectionMapping.InternalMappings, elementInstance, collectionElement);
+                mapping.SetValue(instance, null);
+                return;
+            }
 
-                    if (collectionInstance.IsFixedSize)
-                    { collectionInstance[i] = elementInstance; }
-                    else
-                    { collectionInstance.Insert(i, elementInstance); }
-                }
-                else
-                {
-                    var value = DeserializePrimitive(collectionMapping.CollectionType, collectionElement);
-                    if (collectionInstance.IsFixedSize)
-                    { collectionInstance[i] = value; }
-                    else
-                    { collectionInstance.Insert(i, value); }
-                }
+            var count = GetCountFromState(state);
+            var dictionary = TypeCreator.CreateDictionary(mapping.KeyType, mapping.ValueType);
+            mapping.SetValue(instance, dictionary);
+
+            for (var i = 0; i < count; i++)
+            {
+                var keyValuePairElement = state.Elements("KeyValuePair").ElementAt(i);
+                DeserializeDictionaryKeyValuePair(mapping, dictionary, keyValuePairElement);
             }
         }
 
-        private void DeserializeDictionary(DictionaryMapping dictionaryMapping, IDictionary dictionaryInstance, int dictionaryCount, XElement element)
+        protected override void DeserializeDictionaryKeyValuePair(DictionaryMapping mapping, IDictionary dictionary, XElement state)
         {
-            for (var i = 0; i < dictionaryCount; i++)
-            {
-                object keyInstance, valueInstance;
-                var keyValuePairElement = element.Elements("KeyValuePair").ElementAt(i);
-                var keyElement = keyValuePairElement.Element("Key");
-                var valueElement = keyValuePairElement.Element("Value");
-
-                if (dictionaryMapping.KeyMappings.Count > 0)
-                {
-                    keyInstance = Activator.CreateInstance(dictionaryMapping.KeyType);
-                    Deserialize(dictionaryMapping.KeyMappings, keyInstance, keyElement);
-                }
-                else
-                { keyInstance = DeserializePrimitive(dictionaryMapping.KeyType, keyElement); }
-
-                if (IsElementNull(valueElement))
-                { valueInstance = null; }
-                else if (dictionaryMapping.ValueMappings.Count > 0)
-                {
-                    valueInstance = Activator.CreateInstance(dictionaryMapping.ValueType);
-                    Deserialize(dictionaryMapping.ValueMappings, valueInstance, valueElement);
-                }
-                else
-                { valueInstance = DeserializePrimitive(dictionaryMapping.ValueType, valueElement); }
-
-                dictionaryInstance.Add(keyInstance, valueInstance);
-            }
+            var keyElement = state.Element("Key");
+            var keyInstance = DeserializeDictionaryKey(mapping, keyElement);
+            var valueElement = state.Element("Value");
+            var valueInstance = DeserializeDictionaryValue(mapping, valueElement);
+            dictionary.Add(keyInstance, valueInstance);
         }
 
-        private void Deserialize<T>(IEnumerable<Mapping> mappings, T instance, XElement element)
+        protected override void Deserialize<T>(IEnumerable<Mapping> mappings, T instance, XElement state)
         {
             foreach (var mapping in mappings)
             {
-                var currentElement = element.Element(mapping.LocalName);
-
-                if (mapping is PropertyMapping)
-                { DeserializeProperty((mapping as PropertyMapping), instance, currentElement); }
-                else if (mapping is NestedMapping)
-                {
-                    var nestedMapping = (mapping as NestedMapping);
-                    if (IsElementNull(currentElement))
-                    {
-                        nestedMapping.SetValue(instance, null);
-                        continue;
-                    }
-
-                    var childInstance = Activator.CreateInstance(nestedMapping.Type);
-                    DeserializeNestedObject(nestedMapping, childInstance, currentElement);
-                    nestedMapping.SetValue(instance, childInstance);
-                }
-                else if (mapping is DictionaryMapping)
-                {
-                    var dictionaryMapping = (mapping as DictionaryMapping);
-                    if (IsElementNull(currentElement))
-                    {
-                        dictionaryMapping.SetValue(instance, null);
-                        continue;
-                    }
-
-                    var dictionarytype = typeof(Dictionary<,>);
-                    var dictionaryCount = int.Parse(currentElement.Attribute("Count").Value);
-                    var constructedDictionaryType = dictionarytype.MakeGenericType(dictionaryMapping.KeyType, dictionaryMapping.ValueType);
-                    var dictionary = (IDictionary)Activator.CreateInstance(constructedDictionaryType);
-                    DeserializeDictionary(dictionaryMapping, dictionary, dictionaryCount, currentElement);
-                    dictionaryMapping.SetValue(instance, dictionary);
-                }
-                else
-                {
-                    var collectionMapping = (mapping as CollectionMapping);
-                    if (IsElementNull(currentElement))
-                    {
-                        collectionMapping.SetValue(instance, null);
-                        continue;
-                    }
-
-                    var arrayCount = int.Parse(currentElement.Attribute("Count").Value);
-
-                    if (collectionMapping.IsArray)
-                    {
-                        var arrayInstance = (IList) Activator.CreateInstance(collectionMapping.Type, arrayCount);
-                        DeserializeCollection(collectionMapping, arrayInstance, arrayCount, currentElement);
-                        collectionMapping.SetValue(instance, arrayInstance);
-                    }
-                    else
-                    {
-                        var listType = typeof(List<>);
-                        var constructedListType = listType.MakeGenericType(collectionMapping.CollectionType);
-                        var listInstance = (IList)Activator.CreateInstance(constructedListType);
-                        DeserializeCollection(collectionMapping, listInstance, arrayCount, currentElement);
-                        collectionMapping.SetValue(instance, listInstance);
-                    }
-                }
+                var childElement = state.Element(mapping.LocalName);
+                DelegateMappingType(mapping, instance, childElement);
             }
         }
+
+        protected override string GetDynamicTypeNameFromState(XElement state)
+        { return state.Attribute(XmlSerializer.TypeAttributeName).Value; }
+
+        protected override XElement GetDynamicTypeDataFromState(XElement state)
+        { return state; }
     }
 }
