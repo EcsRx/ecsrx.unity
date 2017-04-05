@@ -4,7 +4,6 @@ using System.Linq;
 using EcsRx.Components;
 using EcsRx.Events;
 using EcsRx.Extensions;
-using UniRx;
 
 namespace EcsRx.Entities
 {

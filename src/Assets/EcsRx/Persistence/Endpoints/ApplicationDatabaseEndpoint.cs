@@ -7,11 +7,11 @@ namespace EcsRx.Persistence.Endpoints
 {
     public class ApplicationDatabaseEndpoint : ISendDataEndpoint, IReceiveDataEndpoint
     {
-        public ApplicationDatabaseBehaviour ApplicationDatabaseBehaviour { get; private set; }
+        public ApplicationDatabase ApplicationDatabase { get; private set; }
 
-        public ApplicationDatabaseEndpoint(ApplicationDatabaseBehaviour applicationDatabaseBehaviour)
+        public ApplicationDatabaseEndpoint(ApplicationDatabase applicationDatabase)
         {
-            ApplicationDatabaseBehaviour = applicationDatabaseBehaviour;
+            ApplicationDatabase = applicationDatabase;
         }
 
         public void Execute(DataObject data, Action<object> onSuccess, Action<Exception> onError)

@@ -241,6 +241,7 @@
     <Compile Include="Assets\EcsRx\Persistence\Pipelines\Entities\SaveEntityToScenePipeline.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Pipelines\ISaveToScenePipeline.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Pipelines\LoadApplicationToFilePipeline.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Repositories\ApplicationRepository.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Transformers\EntityDataTransformer.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Transformers\IEntityDataTransformer.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Transformers\IPoolDataTransformer.cs" />
@@ -608,6 +609,10 @@
     <None Include="Assets\UnityTestTools\changelog.txt" />
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\EcsRx\Persistence\Pipelines\Application\" />
+    <Folder Include="Assets\EcsRx\Unity\MonoBehaviours\Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
