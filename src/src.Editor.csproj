@@ -136,6 +136,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorContext.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\ActiveSystemsViewerInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\ComponentLookup.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\DataFormatType.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Assets\Tests\Editor\Framework\SetupSystemHandlerTests.cs" />
     <Compile Include="Assets\Tests\Editor\Framework\SystemExecutorTests.cs" />
     <Compile Include="Assets\Tests\Editor\Persistence\ApplicationDataSanityTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Persistence\EntityPersistenceTests.cs" />
     <Compile Include="Assets\Tests\Editor\Persistence\EntitySanityTests.cs" />
     <Compile Include="Assets\Tests\Editor\Persistence\PerformanceTests.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\DefaultPrioritySystem.cs" />

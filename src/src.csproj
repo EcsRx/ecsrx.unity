@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -164,6 +166,7 @@
     <Compile Include="Assets\EcsRx\Framework\Events\IEventSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Events\PoolAddedEvent.cs" />
     <Compile Include="Assets\EcsRx\Framework\Events\PoolRemovedEvent.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Exceptions\InvalidEntityException.cs" />
     <Compile Include="Assets\EcsRx\Framework\Executor\Handlers\IManualSystemHandler.cs" />
     <Compile Include="Assets\EcsRx\Framework\Executor\Handlers\IReactToDataSystemHandler.cs" />
     <Compile Include="Assets\EcsRx\Framework\Executor\Handlers\IReactToEntitySystemHandler.cs" />
@@ -221,10 +224,10 @@
     <Compile Include="Assets\EcsRx\Framework\Systems\ISetupSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ISystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ITeardownSystem.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Data\ApplicationDatabase.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Data\ComponentData.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationDatabase.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationEntityLink.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Data\EntityData.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Data\StateData.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Data\PoolData.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationDatabaseBehaviour.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Endpoints\ApplicationDatabaseEndpoint.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Endpoints\ApplicationDatabaseFileEndpoint.cs" />
@@ -232,15 +235,16 @@
     <Compile Include="Assets\EcsRx\Persistence\Extensions\BinaryIOExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\EntityDataExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Installers\DefaultPersistanceInstaller.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Pipelines\Entities\ILoadEntityDataPipeline.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Pipelines\Entities\ISaveEntityDataPipeline.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Pipelines\Entities\SaveEntityToScenePipeline.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Pipelines\ISaveToScenePipeline.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Pipelines\LoadApplicationToFilePipeline.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Processors\MakeComponentStateJsonProcessor.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Processors\MakeComponentStateStringProcessor.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Processors\RemoveEscapeCharacterProcessor.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Transformers\EntityDataTransformer.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Transformers\IEntityDataTransformer.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\TypeHandlers\BinaryStateDataHandler.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\TypeHandlers\JsonStateDataHandler.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Transformers\IPoolDataTransformer.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Transformers\PoolDataTransformer.cs" />
     <Compile Include="Assets\EcsRx\Unity\Components\ViewComponent.cs" />
     <Compile Include="Assets\EcsRx\Unity\EcsRxApplication.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\GameObjectExtensions.cs" />
@@ -249,14 +253,10 @@
     <Compile Include="Assets\EcsRx\Unity\Installers\AutoBindSystemsInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\DefaultEcsRxInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\ActiveSystemsViewer.cs" />
-    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\DataBoundEntity.cs" />
-    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityBinding.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityView.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Helpers\EntitySerializer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Helpers\TypeHelper.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\InjectableMonoBehaviour.cs" />
-    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Models\EntityImportWrapper.cs" />
-    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Models\EntitySceneCache.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\PoolManagerViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\RegisterAsEntity.cs" />
     <Compile Include="Assets\EcsRx\Unity\Plugins\IEcsRxPlugin.cs" />

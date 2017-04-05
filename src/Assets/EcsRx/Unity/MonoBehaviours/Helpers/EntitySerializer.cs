@@ -1,5 +1,6 @@
 ﻿using EcsRx.Components;
 using EcsRx.Persistence.Data;
+using EcsRx.Persistence.Transformers;
 using Persistity;
 using Persistity.Mappings.Mappers;
 using Persistity.Mappings.Types;
@@ -10,33 +11,27 @@ using UnityEngine;
 
 namespace EcsRx.Unity.MonoBehaviours.Helpers
 {
-    public static class EntitySerializer
+    public class EntitySelfSerializer
     {
-        private static readonly ISerializer _serializer;
-        private static readonly IDeserializer _deserializer;
+        private ISerializer _serializer;
+        private IDeserializer _deserializer;
+        private IEntityDataTransformer _transformer;
 
-        static EntitySerializer()
+        public EntitySelfSerializer(ISerializer serializer, IDeserializer deserializer, IEntityDataTransformer transformer)
         {
-            var ignoredTypes = new[] {typeof(GameObject), typeof(MonoBehaviour)};
-            var typeAnalyzerConfiguration = new TypeAnalyzerConfiguration
-            {
-                IgnoredTypes = ignoredTypes
-            };
-            var typeAnalyzer = new TypeAnalyzer(typeAnalyzerConfiguration);
-            var typeCreator = new TypeCreator();
-            var mapper = new EverythingTypeMapper(typeAnalyzer);
-            var _mappingRegistry = new MappingRegistry(mapper);
-            _serializer = new JsonSerializer(_mappingRegistry);
-            _deserializer = new JsonDeserializer(_mappingRegistry, typeCreator);
+            _serializer = serializer;
+            _deserializer = deserializer;
+            _transformer = transformer;
         }
 
-        public static DataObject SerializeComponent(IComponent component)
-        { return _serializer.Serialize(component); }
+        public DataObject Serialize()
+        {
+            return new DataObject();
+        }
 
-        public static IComponent DeserializeComponent(DataObject data)
-        { return (IComponent)_deserializer.Deserialize(data); }
-
-        public static IComponent DeserializeComponent(ComponentData componentData)
-        { return (IComponent)_deserializer.Deserialize(new DataObject(componentData.ComponentState.State)); }
+        public EntityData Deserialize()
+        {
+            return null;
+        }
     }
 }

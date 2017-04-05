@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EcsRx.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Events;
+using EcsRx.Framework.Exceptions;
 
 namespace EcsRx.Pools
 {
@@ -43,6 +45,15 @@ namespace EcsRx.Pools
             entity.Dispose();
 
             EventSystem.Publish(new EntityRemovedEvent(entity, this));
+        }
+
+        public void AddEntity(IEntity entity)
+        {
+            if(entity.Id == Guid.Empty)
+            { throw new InvalidEntityException("Entity provided does not have an assigned Id"); }
+
+            _entities.Add(entity);
+            EventSystem.Publish(new EntityAddedEvent(entity, this));
         }
     }
 }

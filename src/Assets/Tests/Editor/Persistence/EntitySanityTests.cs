@@ -11,6 +11,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Persistity.Endpoints.InMemory;
 using Persistity.Mappings.Mappers;
+using Persistity.Mappings.Types;
 using Persistity.Pipelines.Builders;
 using Persistity.Registries;
 using Persistity.Serialization.Json;
@@ -30,17 +31,18 @@ namespace Tests.Editor.Persistence
         public void Setup()
         {
             var ignoredTypes = new[] { typeof(GameObject), typeof(MonoBehaviour), typeof(IEventSystem) };
-            var mapperConfiguration = new MappingConfiguration
+            var analyzerConfiguration = new TypeAnalyzerConfiguration()
             {
                 IgnoredTypes = ignoredTypes,
-                KnownPrimitives = new Type[0],
+                TreatAsPrimitives = new Type[0]
             };
-            var mapper = new EverythingTypeMapper(mapperConfiguration);
+            var typeAnalyzer = new TypeAnalyzer(analyzerConfiguration);
+            var mapper = new EverythingTypeMapper(typeAnalyzer);
             var mappingRegistry = new MappingRegistry(mapper);
             _serializer = new JsonSerializer(mappingRegistry);
-            _deserializer = new JsonDeserializer(mappingRegistry);
+            _deserializer = new JsonDeserializer(mappingRegistry, new TypeCreator());
             _eventSystem = Substitute.For<IEventSystem>();
-            _entityTransformer = new EntityDataTransformer(_serializer, _deserializer, _eventSystem);
+            _entityTransformer = new EntityDataTransformer(_eventSystem);
         }
 
         private void HandleError(Exception error)

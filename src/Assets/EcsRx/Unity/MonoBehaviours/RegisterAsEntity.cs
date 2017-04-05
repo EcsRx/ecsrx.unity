@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Entities;
 using EcsRx.Persistence.Data;
+using EcsRx.Persistence.Transformers;
 using EcsRx.Pools;
 using EcsRx.Unity.Components;
-using EcsRx.Unity.MonoBehaviours.Helpers;
-using UnityEditor;
+using Persistity;
+using Persistity.Serialization.Json;
 using UnityEngine;
 using Zenject;
 
@@ -17,14 +17,25 @@ namespace EcsRx.Unity.MonoBehaviours
         [Inject]
         public IPoolManager PoolManager { get; private set; }
 
+        [Inject]
+        public IJsonSerializer JsonSerializer;
+
+        [Inject]
+        public IJsonDeserializer JsonDeserializer;
+
+        [Inject]
+        public IEntityDataTransformer Transformer;
+        
         [SerializeField]
         public string PoolName;
 
         [SerializeField]
-        private Guid _entityId;
+        public Guid EntityId;
 
         [SerializeField]
-        public List<ComponentData> ComponentData = new List<ComponentData>();
+        private byte[] EntityState;
+
+        public EntityData EntityData = new EntityData { EntityId = Guid.NewGuid() };
 
         [Inject]
         public void RegisterEntity()
@@ -32,12 +43,27 @@ namespace EcsRx.Unity.MonoBehaviours
             if (!gameObject.activeInHierarchy || !gameObject.activeSelf) { return; }
 
             var poolToUse = GetPool();
-            var createdEntity = poolToUse.CreateEntity();
-            createdEntity.AddComponent(new ViewComponent { View = gameObject });
-            SetupEntityBinding(createdEntity, poolToUse);
-            SetupEntityComponents(createdEntity);
+            var entity = (IEntity)Transformer.TransformFrom(EntityData);
 
+            poolToUse.AddEntity(entity);
+
+            if (!entity.HasComponent<ViewComponent>())
+            { entity.AddComponent(new ViewComponent { View = gameObject }); }
+
+            SetupEntityBinding(entity, poolToUse);
             Destroy(this);
+        }
+
+        public void SerializeState()
+        {
+            var data = JsonSerializer.Serialize(EntityData);
+            EntityState = data.AsBytes;
+        }
+
+        public void DeserializeState()
+        {
+            var data = new DataObject(EntityState);
+            EntityData = JsonDeserializer.Deserialize<EntityData>(data);
         }
 
         private void SetupEntityBinding(IEntity entity, IPool pool)
@@ -45,15 +71,6 @@ namespace EcsRx.Unity.MonoBehaviours
             var entityBinding = gameObject.AddComponent<EntityView>();
             entityBinding.Entity = entity;
             entityBinding.Pool = pool;
-        }
-
-        private void SetupEntityComponents(IEntity entity)
-        {
-            for (var i = 0; i < ComponentData.Count; i++)
-            {
-                var component = EntitySerializer.DeserializeComponent(ComponentData[i]);
-                entity.AddComponent(component);
-            }
         }
         
         public IPool GetPool()

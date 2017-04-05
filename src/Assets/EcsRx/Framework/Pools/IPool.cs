@@ -11,6 +11,7 @@ namespace EcsRx.Pools
         IEnumerable<IEntity> Entities { get; }
 
         IEntity CreateEntity(IBlueprint blueprint = null);
+        void AddEntity(IEntity entity);
         void RemoveEntity(IEntity entity);
     }
 }

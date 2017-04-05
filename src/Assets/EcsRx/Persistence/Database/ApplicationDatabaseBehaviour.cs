@@ -1,5 +1,4 @@
 ﻿using System;
-using EcsRx.Persistence.Data;
 using UnityEngine;
 
 namespace EcsRx.Persistence.Database
@@ -8,7 +7,7 @@ namespace EcsRx.Persistence.Database
     public class ApplicationDatabaseBehaviour : MonoBehaviour
     {
         [SerializeField]
-        private ApplicationDatabase _applicationDatabase = new Data.ApplicationDatabase();
+        private ApplicationDatabase _applicationDatabase = new ApplicationDatabase();
 
         public ApplicationDatabase ApplicationData
         {

@@ -6,11 +6,8 @@ using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
 using EcsRx.Persistence.Data;
-using EcsRx.Persistence.Transformers;
-using EcsRx.Persistence.TypeHandlers;
 using NSubstitute;
 using NUnit.Framework;
-using Persistity.Json;
 using Persistity.Mappings.Mappers;
 using Persistity.Registries;
 using Persistity.Serialization;
@@ -18,6 +15,7 @@ using Persistity.Serialization.Binary;
 using Persistity.Serialization.Json;
 using UnityEngine;
 
+/*
 namespace Tests.Editor.Persistence
 {
     [TestFixture]
@@ -121,3 +119,4 @@ namespace Tests.Editor.Persistence
         }
     }
 }
+*/
