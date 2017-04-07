@@ -46,8 +46,8 @@ namespace Tests.Editor.Persistence
             {
                 TypeHandlers = new List<ITypeHandler<JSONNode, JSONNode>> { new JsonStateDataHandler() }
             };
-            var serializer = new JsonSerializer(_mappingRegistry, jsonConfig);
-            var deserializer = new JsonDeserializer(_mappingRegistry, jsonConfig);
+            var serializer = new Serializer(_mappingRegistry, jsonConfig);
+            var deserializer = new Deserializer(_mappingRegistry, jsonConfig);
             
             var entityTransformer = new EntityDataTransformer(serializer, deserializer, _eventSystem);
 

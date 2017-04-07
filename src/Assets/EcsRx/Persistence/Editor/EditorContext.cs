@@ -1,5 +1,4 @@
-﻿using EcsRx.Persistence.Installers;
-using EcsRx.Unity.Installers;
+﻿using EcsRx.Unity.Installers;
 using Zenject;
 
 namespace EcsRx.Persistence.Editor
@@ -11,8 +10,7 @@ namespace EcsRx.Persistence.Editor
         static EditorContext()
         {
             _container = new DiContainer();
-            _container.Install(new DefaultEcsRxInstaller());
-            _container.Install(new DefaultPersistanceInstaller());
+            _container.Install<EcsRxInstaller>();
         }
 
         public static DiContainer Container

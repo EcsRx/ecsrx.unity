@@ -89,7 +89,7 @@ namespace Persistity.Serialization
 
             var matchingHandler = Configuration.TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
             if(matchingHandler == null) { throw new NoKnownTypeException(type); }
-            matchingHandler.HandleTypeSerialization(state, value);
+            matchingHandler.HandleTypeSerialization(state, value, type);
         }
 
         protected virtual void SerializeProperty<T>(PropertyMapping propertyMapping, T data, TSerializeState state)

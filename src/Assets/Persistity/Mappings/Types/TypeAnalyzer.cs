@@ -38,6 +38,29 @@ namespace Persistity.Mappings.Types
         public bool IsIgnoredType(Type type)
         { return !Configuration.IgnoredTypes.Any(type.IsAssignableFrom); }
 
+        public bool IsTypeMatch(Type actualType, Type expectedType)
+        {
+            if (actualType == expectedType || actualType.IsAssignableFrom(expectedType))
+            { return true; }
+
+            if (actualType.IsGenericType)
+            {
+                var genericType = actualType.GetGenericTypeDefinition();
+                if (genericType == expectedType)
+                { return true; }
+
+                var genericInterfaces = genericType.GetInterfaces();
+                if (genericInterfaces.Any(x => x.Name == expectedType.Name))
+                { return true; }
+            }
+
+            var interfaces = actualType.GetInterfaces();
+            if (interfaces.Any(x => x == expectedType))
+            { return true; }
+            
+            return false;
+        }
+
         public bool IsDefaultPrimitiveType(Type type)
         {
             return type.IsPrimitive ||
@@ -57,9 +80,11 @@ namespace Persistity.Mappings.Types
             if(nullableType == null) { return false; }
             return IsDefaultPrimitiveType(nullableType);
         }
-        
+
         public bool ShouldTreatAsPrimitiveType(Type type)
-        { return Configuration.TreatAsPrimitives.Any(x => type == x); }
+        {
+            return Configuration.TreatAsPrimitives.Any(x => IsTypeMatch(type, x));
+        }
 
         public bool IsPrimitiveType(Type type)
         {

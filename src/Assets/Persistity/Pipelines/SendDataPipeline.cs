@@ -23,25 +23,32 @@ namespace Persistity.Pipelines
             SendToEndpoint = sendToEndpoint;
         }
 
-        public void Execute<T>(T data, Action<object> onSuccess, Action<Exception> onError)
+        public virtual void Execute<T>(T data, object state, Action<object> onSuccess, Action<Exception> onError)
         {
-            object obj = data;
+            var transformedData = RunTransformers(data);
+            var output = Serializer.Serialize(transformedData);
+            var processedData = RunProcessors(output);
+            SendToEndpoint.Execute(processedData, onSuccess, onError);
+        }
 
+        protected virtual object RunTransformers(object data)
+        {
             if (Transformers != null)
             {
-                foreach(var convertor in Transformers)
-                { obj = convertor.TransformTo(obj); }
+                foreach (var convertor in Transformers)
+                { data = convertor.TransformTo(data); }
             }
+            return data;
+        }
 
-            var output = Serializer.Serialize(obj);
-
+        protected virtual DataObject RunProcessors(DataObject data)
+        {
             if (Processors != null && Processors.Any())
             {
                 foreach (var processor in Processors)
-                { output = processor.Process(output); }
+                { data = processor.Process(data); }
             }
-
-            SendToEndpoint.Execute(output, onSuccess, onError);
+            return data;
         }
     }
 }

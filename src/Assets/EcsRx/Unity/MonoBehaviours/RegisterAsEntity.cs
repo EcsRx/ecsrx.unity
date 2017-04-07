@@ -6,7 +6,7 @@ using EcsRx.Persistence.Transformers;
 using EcsRx.Pools;
 using EcsRx.Unity.Components;
 using Persistity;
-using Persistity.Serialization.Json;
+using Persistity.Serialization.Binary;
 using UnityEngine;
 using Zenject;
 
@@ -18,10 +18,10 @@ namespace EcsRx.Unity.MonoBehaviours
         public IPoolManager PoolManager { get; private set; }
 
         [Inject]
-        public IJsonSerializer JsonSerializer;
+        public IBinarySerializer Serializer;
 
         [Inject]
-        public IJsonDeserializer JsonDeserializer;
+        public IBinaryDeserializer Deserializer;
 
         [Inject]
         public IEntityDataTransformer Transformer;
@@ -33,9 +33,10 @@ namespace EcsRx.Unity.MonoBehaviours
         public Guid EntityId;
 
         [SerializeField]
-        private byte[] EntityState;
+        private byte[] EntityState = null;
 
-        public EntityData EntityData = new EntityData { EntityId = Guid.NewGuid() };
+        public bool HasDeserialized = false;
+        public EntityData EntityData = new EntityData();
 
         [Inject]
         public void RegisterEntity()
@@ -56,14 +57,22 @@ namespace EcsRx.Unity.MonoBehaviours
 
         public void SerializeState()
         {
-            var data = JsonSerializer.Serialize(EntityData);
+            Debug.Log("Serializing");
+            if (Serializer == null) { return; }
+            EntityData.EntityId = EntityId;
+            var data = Serializer.Serialize(EntityData);
             EntityState = data.AsBytes;
         }
 
         public void DeserializeState()
         {
+            Debug.Log("Deserializing");
+            if(Deserializer == null) { Debug.Log("No Deserializer"); return; }
+            HasDeserialized = true;
+            if (EntityState == null || EntityState.Length == 0) { return; }
             var data = new DataObject(EntityState);
-            EntityData = JsonDeserializer.Deserialize<EntityData>(data);
+            EntityData = Deserializer.Deserialize<EntityData>(data);
+            EntityId = EntityData.EntityId;
         }
 
         private void SetupEntityBinding(IEntity entity, IPool pool)

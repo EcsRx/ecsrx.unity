@@ -24,9 +24,9 @@ namespace EcsRx.Persistence.Repositories
             Deserializer = deserializer;
             Transformer = transformer;
         }
-
+        /*
         public bool HasEntity(Guid entityId)
-        { return ApplicationDatabase.EntityData.Any(x => x.EntityId == entityId); }
+        { return ApplicationDatabase.Pools.Any(x => x.EntityId == entityId); }
 
         public IEntity Retrieve(Guid entityId)
         {
@@ -69,5 +69,6 @@ namespace EcsRx.Persistence.Repositories
             var entityLink = new ApplicationEntityLink { EntityId = entity.Id, EntityData = entityStateData.AsBytes };
             ApplicationDatabase.EntityData.Add(entityLink);
         }
+        */
     }
 }

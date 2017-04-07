@@ -1,50 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Assets.EcsRx.Examples.GroupFilters.Blueprints;
 using Assets.EcsRx.Examples.PooledViews.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
 using EcsRx.Persistence.Data;
+using EcsRx.Persistence.Database;
+using EcsRx.Persistence.Transformers;
+using EcsRx.Persistence.TypeHandlers.Reactive;
+using EcsRx.Pools;
+using Newtonsoft.Json.Linq;
 using NSubstitute;
 using NUnit.Framework;
 using Persistity.Mappings.Mappers;
+using Persistity.Mappings.Types;
 using Persistity.Registries;
 using Persistity.Serialization;
+using Persistity.Serialization.Binary;
 using Persistity.Serialization.Json;
+using UniRx;
 using UnityEngine;
 
-/*
+
 namespace Tests.Editor.Persistence
 {
     [TestFixture]
     public class ApplicationDataSanityTests
     {
-        private IJsonSerializer _serializer;
-        private IJsonDeserializer _deserializer;
+        private ISerializer _serializer;
+        private IDeserializer _deserializer;
         private IEntityDataTransformer _entityTransformer;
+        private IPoolDataTransformer _poolTransformer;
         private IEventSystem _eventSystem;
+        private IEntityFactory _entityFactory;
 
         [SetUp]
         public void Setup()
         {
-            var ignoredTypes = new[] { typeof(GameObject), typeof(MonoBehaviour), typeof(IEventSystem) };
-            var mapperConfiguration = new MappingConfiguration
+            var ignoredTypes = new[] { typeof(GameObject), typeof(MonoBehaviour) };
+            var mapperConfiguration = new TypeAnalyzerConfiguration
             {
                 IgnoredTypes = ignoredTypes,
-                KnownPrimitives = new[]{ typeof(StateData) },
+                TreatAsPrimitives = new[] { typeof(ReactiveProperty<>) }
             };
-            var mapper = new EverythingTypeMapper(mapperConfiguration);
+            var typeAnalyzer = new TypeAnalyzer(mapperConfiguration);
+            var mapper = new EverythingTypeMapper(typeAnalyzer);
             var mappingRegistry = new MappingRegistry(mapper);
 
-            var jsonConfig = new JsonConfiguration
-            {
-                TypeHandlers = new List<ITypeHandler<JSONNode, JSONNode>> {new JsonStateDataHandler()}
-            };
-            _serializer = new JsonSerializer(mappingRegistry, jsonConfig);
-            _deserializer = new JsonDeserializer(mappingRegistry, jsonConfig);
             _eventSystem = Substitute.For<IEventSystem>();
-            _entityTransformer = new EntityDataTransformer(_serializer, _deserializer, _eventSystem);
+            _entityFactory = Substitute.For<IEntityFactory>();
+
+            _entityTransformer = new EntityDataTransformer(_eventSystem);
+            _poolTransformer = new PoolDataTransformer(_entityTransformer, _eventSystem, _entityFactory);
+
+            var jsonConfiguration = new JsonConfiguration
+            {
+                TypeHandlers = new ITypeHandler<JToken, JToken>[]
+                {
+                    new ReactiveJsonTypeHandler()
+                }
+            };
+            _serializer = new JsonSerializer(mappingRegistry, jsonConfiguration);
+            _deserializer = new JsonDeserializer(mappingRegistry, new TypeCreator(), jsonConfiguration);
+                /*
+            var configuration = new BinaryConfiguration
+            {
+                TypeHandlers = new ITypeHandler<BinaryWriter, BinaryReader>[]
+                {
+                    new ReactiveBinaryTypeHandler()
+                }
+            };
+            _serializer = new BinarySerializer(mappingRegistry, configuration);
+            _deserializer = new BinaryDeserializer(mappingRegistry, new TypeCreator(), configuration);*/
+
         }
 
         private void HandleError(Exception error)
@@ -55,6 +85,8 @@ namespace Tests.Editor.Persistence
         {
             var applicationDatabase = new ApplicationDatabase();
 
+            var pool = new Pool("dummy", _entityFactory, _eventSystem);
+            
             var entity1 = new Entity(Guid.NewGuid(), _eventSystem);
             entity1.ApplyBlueprint(new PlayerBlueprint("Tom", 0));
 
@@ -64,12 +96,12 @@ namespace Tests.Editor.Persistence
             var entity3 = new Entity(Guid.NewGuid(), _eventSystem);
             entity3.ApplyBlueprint(new PlayerBlueprint("Bob", 10));
 
-            var entity1Data = (EntityData)_entityTransformer.TransformTo(entity1);
-            var entity2Data = (EntityData)_entityTransformer.TransformTo(entity2);
-            var entity3Data = (EntityData)_entityTransformer.TransformTo(entity3);
-            applicationDatabase.EntityData.Add(entity1Data);
-            applicationDatabase.EntityData.Add(entity2Data);
-            applicationDatabase.EntityData.Add(entity3Data);
+            pool.AddEntity(entity1);
+            pool.AddEntity(entity2);
+            pool.AddEntity(entity3);
+
+            var poolData = (PoolData)_poolTransformer.TransformTo(pool);
+            applicationDatabase.Pools.Add(poolData);
             
             var output = _serializer.Serialize(applicationDatabase);
 
@@ -80,4 +112,3 @@ namespace Tests.Editor.Persistence
         }
     }
 }
-*/

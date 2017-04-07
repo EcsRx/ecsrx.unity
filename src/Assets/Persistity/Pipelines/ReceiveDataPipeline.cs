@@ -26,26 +26,36 @@ namespace Persistity.Pipelines
         public ReceiveDataPipeline(IDeserializer deserializer, IReceiveDataEndpoint receiveFromEndpoint, params IProcessor[] processors) : this(deserializer, receiveFromEndpoint, processors, null)
         {}
 
-        public void Execute<T>(Action<T> onSuccess, Action<Exception> onError)
+        public virtual void Execute<T>(object state, Action<T> onSuccess, Action<Exception> onError)
         {
             ReceiveFromEndpoint.Execute(x =>
             {
-                var output = x;
-                if (Processors != null && Processors.Any())
-                {
-                    foreach (var processor in Processors)
-                    { output = processor.Process(output); }
-                }
+                var output = RunProcessors(x);
+                var model = Deserializer.Deserialize(output);
+                var transformedModel = RunTransformers(model);
 
-                object model = Deserializer.Deserialize(output);
-                if (Transformers != null)
-                {
-                    foreach (var convertor in Transformers)
-                    { model = convertor.TransformFrom(model); }
-                }
-
-                onSuccess((T)model);
+                onSuccess((T)transformedModel);
             }, onError);
+        }
+
+        protected object RunTransformers(object data)
+        {
+            if (Transformers != null)
+            {
+                foreach (var convertor in Transformers)
+                { data = convertor.TransformFrom(data); }
+            }
+            return data;
+        }
+
+        protected DataObject RunProcessors(DataObject data)
+        {
+            if (Processors != null && Processors.Any())
+            {
+                foreach (var processor in Processors)
+                { data = processor.Process(data); }
+            }
+            return data;
         }
     }
 }

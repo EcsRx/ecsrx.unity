@@ -100,9 +100,9 @@ namespace Tests.Editor.Persistence
             var expectedEntity = new Entity(Guid.NewGuid(), _eventSystem);
             expectedEntity.ApplyBlueprint(new PlayerBlueprint("bob"));
 
-            saveEntityPipeline.Execute(expectedEntity, x =>
+            saveEntityPipeline.Execute(expectedEntity, null, x =>
             {
-                loadEntityPipeline.Execute<IEntity>(actualEntity =>
+                loadEntityPipeline.Execute<IEntity>(null, actualEntity =>
                 {
                     CompareEntities(actualEntity, expectedEntity);
                 }, HandleError);
@@ -129,9 +129,9 @@ namespace Tests.Editor.Persistence
             var expectedEntity = new Entity(Guid.NewGuid(), _eventSystem);
             expectedEntity.ApplyBlueprint(new PlayerBlueprint("bob"));
 
-            saveApplicationDataPipeline.Execute(expectedEntity, x =>
+            saveApplicationDataPipeline.Execute(expectedEntity, null, x =>
             {
-                loadApplicationDataPipeline.Execute<IEntity>(actualEntity =>
+                loadApplicationDataPipeline.Execute<IEntity>(null, actualEntity =>
                 {
                     CompareEntities(actualEntity, expectedEntity);
                 }, HandleError);

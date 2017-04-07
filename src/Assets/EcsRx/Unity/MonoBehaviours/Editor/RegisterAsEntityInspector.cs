@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using EcsRx.Components;
+using EcsRx.Persistence.Editor;
 using EcsRx.Unity.Components;
+using Persistity.Serialization.Binary;
 
 namespace EcsRx.Unity.Helpers
 {
@@ -116,10 +118,28 @@ namespace EcsRx.Unity.Helpers
             }
         }
 
-        public override void OnInspectorGUI()
+        private void OnEnable()
         {
             _registerAsEntity = (RegisterAsEntity)target;
+            InjectIntoTarget();
             _registerAsEntity.DeserializeState();
+        }
+
+        private void InjectIntoTarget()
+        {
+            var serializer = EditorContext.Container.Resolve<IBinarySerializer>();
+            var deserializer = EditorContext.Container.Resolve<IBinaryDeserializer>();
+            _registerAsEntity.Serializer = serializer;
+            _registerAsEntity.Deserializer = deserializer;
+        }
+
+        public override void OnInspectorGUI()
+        {
+            if (!_registerAsEntity.HasDeserialized)
+            {
+                _registerAsEntity.DeserializeState();
+                return;
+            }
 
             PoolSection();
             EditorGUILayout.Space();

@@ -224,18 +224,17 @@
     <Compile Include="Assets\EcsRx\Framework\Systems\ISetupSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ISystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ITeardownSystem.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationDatabase.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationEntityLink.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Data\EntityData.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Data\PoolData.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationDatabase.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationDatabaseBehaviour.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationEntityLink.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Endpoints\ApplicationDatabaseEndpoint.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Endpoints\ApplicationDatabaseFileEndpoint.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Endpoints\IApplicationConfigFileEndpoint.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\BinaryIOExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\EntityDataExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\ReflectionExtensions.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Installers\DefaultPersistanceInstaller.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Pipelines\Entities\ILoadEntityDataPipeline.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Pipelines\Entities\ISaveEntityDataPipeline.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Pipelines\Entities\SaveEntityToScenePipeline.cs" />
@@ -246,6 +245,9 @@
     <Compile Include="Assets\EcsRx\Persistence\Transformers\IEntityDataTransformer.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Transformers\IPoolDataTransformer.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Transformers\PoolDataTransformer.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\TypeHandlers\Reactive\ReactiveBinaryTypeHandler.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\TypeHandlers\Reactive\ReactiveJsonTypeHandler.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\TypeHandlers\Reactive\ReactiveXmlTypeHandler.cs" />
     <Compile Include="Assets\EcsRx\Unity\Components\ViewComponent.cs" />
     <Compile Include="Assets\EcsRx\Unity\EcsRxApplication.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\GameObjectExtensions.cs" />
@@ -253,6 +255,7 @@
     <Compile Include="Assets\EcsRx\Unity\Extensions\ViewComponentExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\AutoBindSystemsInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\DefaultEcsRxInstaller.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Installers\EcsRxInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\ActiveSystemsViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityView.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Helpers\EntitySerializer.cs" />
@@ -320,6 +323,8 @@
     <Compile Include="Assets\Persistity\Registries\MappingRegistry.cs" />
     <Compile Include="Assets\Persistity\Serialization\Binary\BinaryConfiguration.cs" />
     <Compile Include="Assets\Persistity\Serialization\Binary\BinaryDeserializer.cs" />
+    <Compile Include="Assets\Persistity\Serialization\Binary\BinaryPrimitiveDeserializer.cs" />
+    <Compile Include="Assets\Persistity\Serialization\Binary\BinaryPrimitiveSerializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Binary\BinarySerializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Binary\IBinaryDeserializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Binary\IBinarySerializer.cs" />
@@ -333,12 +338,16 @@
     <Compile Include="Assets\Persistity\Serialization\Json\IJsonSerializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Json\JsonConfiguration.cs" />
     <Compile Include="Assets\Persistity\Serialization\Json\JsonDeserializer.cs" />
+    <Compile Include="Assets\Persistity\Serialization\Json\JsonPrimitiveDeserializer.cs" />
+    <Compile Include="Assets\Persistity\Serialization\Json\JsonPrimitiveSerializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Json\JsonSerializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\SerializationConfiguration.cs" />
     <Compile Include="Assets\Persistity\Serialization\Xml\IXmlDeserializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Xml\IXmlSerializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Xml\XmlConfiguration.cs" />
     <Compile Include="Assets\Persistity\Serialization\Xml\XmlDeserializer.cs" />
+    <Compile Include="Assets\Persistity\Serialization\Xml\XmlPrimitiveDeserializer.cs" />
+    <Compile Include="Assets\Persistity\Serialization\Xml\XmlPrimitiveSerializer.cs" />
     <Compile Include="Assets\Persistity\Serialization\Xml\XmlSerializer.cs" />
     <Compile Include="Assets\Persistity\Transformers\ITransformer.cs" />
     <Compile Include="Assets\Tests\PoolManagerTests.cs" />
@@ -609,10 +618,6 @@
     <None Include="Assets\UnityTestTools\changelog.txt" />
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\EcsRx\Persistence\Pipelines\Application\" />
-    <Folder Include="Assets\EcsRx\Unity\MonoBehaviours\Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

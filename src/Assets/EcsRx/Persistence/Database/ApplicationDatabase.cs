@@ -1,33 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using EcsRx.Persistence.Data;
 
 namespace EcsRx.Persistence.Database
 {
-    [Serializable]
     public class ApplicationDatabase
     {
-        [SerializeField]
-        private IList<ApplicationEntityLink> _entityData;
-
-        [SerializeField]
-        private string _version = "1.0.0";
-
-        public IList<ApplicationEntityLink> EntityData
-        {
-            get { return _entityData; }
-            set { _entityData = value; }
-        }
-
-        public string Version
-        {
-            get { return _version; }
-            set { _version = value; }
-        }
-
+        public IList<PoolData> Pools { get; set; }
+        public string Version { get; set; }
+        
         public ApplicationDatabase()
         {
-            _entityData = new List<ApplicationEntityLink>();
+            Pools = new List<PoolData>();
+            Version = "1.0.0";
         }
     }
-}
+} 

@@ -146,7 +146,7 @@ namespace Persistity.Serialization
 
             var matchingHandler = Configuration.TypeHandlers.SingleOrDefault(x => x.MatchesType(type));
             if (matchingHandler != null)
-            { return matchingHandler.HandleTypeDeserialization(state); }
+            { return matchingHandler.HandleTypeDeserialization(state, type); }
 
             throw new Exception("Type is not primitive or known, cannot deserialize " + type);
         }
