@@ -6,7 +6,7 @@ namespace EcsRx.Unity.Installers
     {
         public override void InstallBindings()
         {
-            new EcsRxInstaller().InstallBindings();
+            this.Container.Install<EcsRxInstaller>();
         }
     }
 }

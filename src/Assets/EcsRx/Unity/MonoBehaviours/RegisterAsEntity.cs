@@ -57,7 +57,6 @@ namespace EcsRx.Unity.MonoBehaviours
 
         public void SerializeState()
         {
-            Debug.Log("Serializing");
             if (Serializer == null) { return; }
             EntityData.EntityId = EntityId;
             var data = Serializer.Serialize(EntityData);
@@ -66,8 +65,8 @@ namespace EcsRx.Unity.MonoBehaviours
 
         public void DeserializeState()
         {
-            Debug.Log("Deserializing");
-            if(Deserializer == null) { Debug.Log("No Deserializer"); return; }
+            if(Deserializer == null) { return; }
+
             HasDeserialized = true;
             if (EntityState == null || EntityState.Length == 0) { return; }
             var data = new DataObject(EntityState);

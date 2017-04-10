@@ -102,11 +102,15 @@ namespace EcsRx.Unity.Helpers
                 .ToArray();
 
             var types = availableTypes.Select(x => string.Format("{0} [{1}]", x.Name, x.Namespace)).ToArray();
+
             var index = -1;
-            index = EditorGUILayout.Popup("Add Component", index, types);
+            this.WithHorizontalLayout(() =>
+            {
+                EditorGUILayout.LabelField("Add Component", GUILayout.MaxWidth(100.0f));
+                index = EditorGUILayout.Popup(index, types);
+            });
 
             if (index < 0) { return; }
-
             var componentType = availableTypes.ElementAt(index);
             var component = (IComponent)Activator.CreateInstance(componentType);
             _registerAsEntity.EntityData.Components.Add(component);
@@ -144,21 +148,20 @@ namespace EcsRx.Unity.Helpers
                 return;
             }
 
-            if (Event.current.type == EventType.Layout || Event.current.type == EventType.Repaint)
-            {
-                EditorGUILayout.Space();
-                ComponentSelectionSection();
+            EditorGUILayout.Space();
+            EntityIdSection();
 
-                EditorGUILayout.Space();
-                foreach (var component in _registerAsEntity.EntityData.Components)
-                { ComponentSection(component); }
-            }
+            EditorGUILayout.Space();
+            ComponentSelectionSection();
+
+            EditorGUILayout.Space();
+            foreach (var component in _registerAsEntity.EntityData.Components)
+            { ComponentSection(component); }
 
             if (Event.current.type == EventType.MouseDown)
             {
                 foreach (var componentState in _componentShowList.Values)
                 {
-                    Debug.Log(componentState.InteractionArea);
                     if (componentState.HasBeenClicked())
                     {
                         componentState.ShowProperties = !componentState.ShowProperties;
@@ -188,7 +191,34 @@ namespace EcsRx.Unity.Helpers
 
             return new Color(r, g, b, alpha);
         }
-        
+
+        private void EntityIdSection()
+        {
+            this.WithVerticalLayout(() =>
+            {
+                this.WithHorizontalLayout(() =>
+                {
+                    EditorGUILayout.LabelField("Entity Id", GUILayout.MaxWidth(100.0f));
+                    var entityId = EditorGUILayout.TextField(_registerAsEntity.EntityId.ToString());
+                    try
+                    {
+                        var entityGuid = new Guid(entityId);
+                        _registerAsEntity.EntityData.EntityId = entityGuid;
+                        _registerAsEntity.EntityId = entityGuid;
+                    }
+                    catch (Exception)
+                    { }
+
+                    if (GUILayout.Button("↻", GUILayout.MaxWidth(25.0f)))
+                    {
+                        var newGuid = Guid.NewGuid();
+                        _registerAsEntity.EntityData.EntityId = newGuid;
+                        _registerAsEntity.EntityId = newGuid;
+                    }
+                });
+            });
+        }
+
         private void ComponentSection(IComponent component)
         {
             backgroundColor = GUI.backgroundColor;
@@ -226,10 +256,7 @@ namespace EcsRx.Unity.Helpers
                 GUI.contentColor = textColor;
 
                 if (_componentShowList[componentName].ShowProperties)
-                {
-                    Debug.Log("DRAWING");
-                    ComponentUIAspect.ShowComponentProperties(component);
-                }
+                { ComponentUIAspect.ShowComponentProperties(component); }
             }
             EditorGUILayout.EndVertical();
             

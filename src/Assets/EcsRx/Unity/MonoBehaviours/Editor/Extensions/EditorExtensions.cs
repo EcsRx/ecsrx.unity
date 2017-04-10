@@ -13,30 +13,36 @@ namespace EcsRx.Unity.Helpers.Extensions
         public static readonly RectOffset DefaultMargin = new RectOffset(2, 2, 2, 2);
         public static readonly GUIStyle DefaultBoxStyle = new GUIStyle(GUI.skin.box) { padding = DefaultPadding, margin = DefaultMargin };
 
-        public static void UseVerticalBoxLayout(this Editor editor, Action action)
+        public static void UseVerticalBoxLayout(this Editor editor, Action action, params GUILayoutOption[] options)
         {
-            EditorGUILayout.BeginVertical(DefaultBoxStyle);
+            EditorGUILayout.BeginVertical(DefaultBoxStyle, options);
             action();
             EditorGUILayout.EndVertical();
         }
 
-        public static void WithVerticalLayout(this Editor editor, Action action)
+        public static void WithVerticalLayout(this Editor editor, Action action, GUIStyle style = null, params GUILayoutOption[] options)
         {
-            EditorGUILayout.BeginVertical();
+            if (style == null)
+            { EditorGUILayout.BeginVertical(options); }
+            else
+            { EditorGUILayout.BeginVertical(style, options); }
             action();
             EditorGUILayout.EndVertical();
         }
 
-        public static void UseHorizontalBoxLayout(this Editor editor, Action action)
+        public static void UseHorizontalBoxLayout(this Editor editor, Action action, params GUILayoutOption[] options)
         {
-            EditorGUILayout.BeginHorizontal(DefaultBoxStyle);
+            EditorGUILayout.BeginHorizontal(DefaultBoxStyle, options);
             action();
             EditorGUILayout.EndHorizontal();
         }
 
-        public static void WithHorizontalLayout(this Editor editor, Action action)
+        public static void WithHorizontalLayout(this Editor editor, Action action, GUIStyle style = null, params GUILayoutOption[] options)
         {
-            EditorGUILayout.BeginHorizontal();
+            if(style == null)
+            { EditorGUILayout.BeginHorizontal(options); }
+            else
+            { EditorGUILayout.BeginHorizontal(style, options); }
             action();
             EditorGUILayout.EndHorizontal();
         }
