@@ -30,10 +30,10 @@ namespace EcsRx.Unity.MonoBehaviours
         public string PoolName;
 
         [SerializeField]
-        public Guid EntityId;
+        public Guid EntityId = Guid.NewGuid();
 
         [SerializeField]
-        private byte[] EntityState = null;
+        private byte[] EntityState;
 
         public bool HasDeserialized = false;
         public EntityData EntityData = new EntityData();

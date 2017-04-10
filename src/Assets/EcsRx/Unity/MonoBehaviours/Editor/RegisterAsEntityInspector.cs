@@ -9,7 +9,9 @@ using System.Linq;
 using EcsRx.Components;
 using EcsRx.Persistence.Editor;
 using EcsRx.Unity.Components;
+using EcsRx.Unity.MonoBehaviours.Editor.Models;
 using Persistity.Serialization.Binary;
+using UnityEditor.Graphs;
 
 namespace EcsRx.Unity.Helpers
 {
@@ -20,6 +22,10 @@ namespace EcsRx.Unity.Helpers
         private RegisterAsEntity _registerAsEntity;
 
         private bool showComponents;
+        private Color backgroundColor;
+        private Color textColor;
+
+        private readonly IDictionary<string, ComponentEditorState> _componentShowList = new Dictionary<string, ComponentEditorState>();
 
         private void PoolSection()
         {
@@ -90,23 +96,20 @@ namespace EcsRx.Unity.Helpers
 
         private void ComponentSelectionSection()
         {
-            this.UseVerticalBoxLayout(() =>
-            {
-                var availableTypes = ComponentLookup.AllComponents
-                    .Where(x => !typeof(ViewComponent).IsAssignableFrom(x))
-                    .Where(x => !_registerAsEntity.EntityData.Components.Select(y => y.GetType().FullName).Contains(x.FullName))
-                    .ToArray();
+            var availableTypes = ComponentLookup.AllComponents
+                .Where(x => !typeof(ViewComponent).IsAssignableFrom(x))
+                .Where(x => !_registerAsEntity.EntityData.Components.Select(y => y.GetType().FullName).Contains(x.FullName))
+                .ToArray();
 
-                var types = availableTypes.Select(x => string.Format("{0} [{1}]", x.Name, x.Namespace)).ToArray();
-                var index = -1;
-                index = EditorGUILayout.Popup("Add Component", index, types);
+            var types = availableTypes.Select(x => string.Format("{0} [{1}]", x.Name, x.Namespace)).ToArray();
+            var index = -1;
+            index = EditorGUILayout.Popup("Add Component", index, types);
 
-                if (index < 0) { return; }
+            if (index < 0) { return; }
 
-                var componentType = availableTypes.ElementAt(index);
-                var component = (IComponent)Activator.CreateInstance(componentType);
-                _registerAsEntity.EntityData.Components.Add(component);
-            });
+            var componentType = availableTypes.ElementAt(index);
+            var component = (IComponent)Activator.CreateInstance(componentType);
+            _registerAsEntity.EntityData.Components.Add(component);
         }
 
         private void PersistChanges()
@@ -141,11 +144,94 @@ namespace EcsRx.Unity.Helpers
                 return;
             }
 
+            if (Event.current.type == EventType.Layout || Event.current.type == EventType.Repaint)
+            {
+                EditorGUILayout.Space();
+                ComponentSelectionSection();
+
+                EditorGUILayout.Space();
+                foreach (var component in _registerAsEntity.EntityData.Components)
+                { ComponentSection(component); }
+            }
+
+            if (Event.current.type == EventType.MouseDown)
+            {
+                foreach (var componentState in _componentShowList.Values)
+                {
+                    Debug.Log(componentState.InteractionArea);
+                    if (componentState.HasBeenClicked())
+                    {
+                        componentState.ShowProperties = !componentState.ShowProperties;
+                        Repaint();
+                    }
+                }
+            }
+
+
+            /*
             PoolSection();
             EditorGUILayout.Space();
             ComponentSelectionSection();
             ComponentListings();
             PersistChanges();
+            */
+        }
+
+        private Color ToColor(int color, float alpha)
+        {
+            var rInt = (color >> 16) & 0xff;
+            var r = rInt == 0 ? 0.0f : rInt/255.0f;
+            var gInt = (color >> 8) & 0xff;
+            var g = gInt == 0 ? 0.0f : gInt / 255.0f;
+            var bInt = (color >> 0) & 0xff;
+            var b = bInt == 0 ? 0.0f : bInt / 255.0f;
+
+            return new Color(r, g, b, alpha);
+        }
+        
+        private void ComponentSection(IComponent component)
+        {
+            backgroundColor = GUI.backgroundColor;
+            textColor = GUI.contentColor;
+            var componentType = component.GetType();
+            var componentName = componentType.Name;
+            var componentBackgroundColor = ToColor(componentName.GetHashCode(), 0.3f);
+            var componentHeadingColor = ToColor(componentName.GetHashCode(), 0.5f);
+
+            if (!_componentShowList.ContainsKey(componentName))
+            {
+                var componentState = new ComponentEditorState
+                {
+                    ComponentName = componentName,
+                    ShowProperties = false
+                };
+                _componentShowList.Add(componentName, componentState);
+            }
+
+            GUI.backgroundColor = componentBackgroundColor;
+            EditorGUILayout.BeginVertical(EditorExtensions.DefaultBoxStyle);
+            {
+                GUI.backgroundColor = componentHeadingColor;
+                var headingRect = EditorGUILayout.BeginHorizontal(EditorExtensions.DefaultBoxStyle);
+                {
+                    var headingStyle = new GUIStyle { alignment = TextAnchor.MiddleCenter };
+                    this.DrawOutlinedLabel(componentName.ToUpper(), 1, headingStyle); 
+                }
+                EditorGUILayout.EndHorizontal();
+
+                if(Event.current.type == EventType.Repaint)
+                { _componentShowList[componentName].InteractionArea = headingRect; }
+
+                GUI.backgroundColor = backgroundColor;
+                GUI.contentColor = textColor;
+
+                if (_componentShowList[componentName].ShowProperties)
+                {
+                    Debug.Log("DRAWING");
+                    ComponentUIAspect.ShowComponentProperties(component);
+                }
+            }
+            EditorGUILayout.EndVertical();
             
         }
     }

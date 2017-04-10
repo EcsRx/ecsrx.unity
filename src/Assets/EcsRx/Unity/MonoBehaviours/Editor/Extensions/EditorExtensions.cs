@@ -1,4 +1,5 @@
 ﻿using System;
+using EcsRx.Unity.MonoBehaviours.Editor.Models;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -9,7 +10,8 @@ namespace EcsRx.Unity.Helpers.Extensions
     public static class EditorExtensions
     {
         public static readonly RectOffset DefaultPadding = new RectOffset(5, 5, 5, 5);
-        public static readonly GUIStyle DefaultBoxStyle = new GUIStyle(GUI.skin.box) { padding = DefaultPadding };
+        public static readonly RectOffset DefaultMargin = new RectOffset(2, 2, 2, 2);
+        public static readonly GUIStyle DefaultBoxStyle = new GUIStyle(GUI.skin.box) { padding = DefaultPadding, margin = DefaultMargin };
 
         public static void UseVerticalBoxLayout(this Editor editor, Action action)
         {
@@ -64,6 +66,42 @@ namespace EcsRx.Unity.Helpers.Extensions
             var result = EditorGUILayout.TextField(value);
             EditorGUILayout.EndHorizontal();
             return result;
+        }
+        
+        public static bool HasBeenClicked(this ComponentEditorState editorState)
+        {
+            var isMouseDown = Event.current.type == EventType.MouseDown;
+            if (isMouseDown)
+            {
+                var mousePos = Event.current.mousePosition;
+                var isOverCurrentControl = editorState.InteractionArea.Contains(mousePos);
+
+                if (isOverCurrentControl)
+                { return true; }
+            }
+            return false;
+        }
+
+        public static void DrawOutlinedLabel(this Editor editor, string labelText, int strength, GUIStyle style)
+        {
+            var originalColor = style.normal.textColor;
+            var outlineColor = new Color(0, 0, 0, 0.5f);
+            style.normal.textColor = outlineColor;
+            var rect = EditorGUILayout.GetControlRect();
+            int i;
+            for (i = -strength; i <= strength; i++)
+            {
+                GUI.Label(new Rect(rect.x - strength, rect.y + i, rect.width, rect.height), labelText, style);
+                GUI.Label(new Rect(rect.x + strength, rect.y + i, rect.width, rect.height), labelText, style);
+            }
+            for (i = -strength + 1; i <= strength - 1; i++)
+            {
+                GUI.Label(new Rect(rect.x + i, rect.y - strength, rect.width, rect.height), labelText, style);
+                GUI.Label(new Rect(rect.x + i, rect.y + strength, rect.width, rect.height), labelText, style);
+            }
+            style.normal.textColor = Color.white;
+            GUI.Label(rect, labelText, style);
+            style.normal.textColor = originalColor;
         }
 
         // Only works with unity 5.3+
