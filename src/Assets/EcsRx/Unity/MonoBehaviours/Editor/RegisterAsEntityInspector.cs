@@ -170,14 +170,14 @@ namespace EcsRx.Unity.Helpers
                 }
             }
 
-
             /*
-            PoolSection();
-            EditorGUILayout.Space();
-            ComponentSelectionSection();
-            ComponentListings();
-            PersistChanges();
+                PoolSection();
+                EditorGUILayout.Space();
+                ComponentSelectionSection();
+                ComponentListings();
             */
+
+            PersistChanges();
         }
 
         private Color ToColor(int color, float alpha)
