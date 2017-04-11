@@ -143,6 +143,7 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\ComponentLookup.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\DataFormatType.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\DataPersistanceType.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorHelper\EditorGuiHelper.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\BoolEditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\BoundsEditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\ColorEditorInput.cs" />
@@ -168,10 +169,11 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\Vector2EditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\Vector3EditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EntityViewInspector.cs" />
-    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Extensions\EditorExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Extensions\IntExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Models\ComponentEditorState.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\PoolManagerViewerInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\RegisterAsEntityInspector.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\UIAspects\ComponentsUIAspect.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\UIAspects\ComponentUIAspect.cs" />
     <Compile Include="Assets\Tests\Editor\Components\MoveableComponent.cs" />
     <Compile Include="Assets\Tests\Editor\Components\NpcComponent.cs" />

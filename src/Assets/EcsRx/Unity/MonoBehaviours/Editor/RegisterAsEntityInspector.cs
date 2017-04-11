@@ -1,5 +1,4 @@
-﻿using EcsRx.Unity.Helpers.Extensions;
-using EcsRx.Unity.Helpers.UIAspects;
+﻿using EcsRx.Unity.Helpers.UIAspects;
 using EcsRx.Unity.MonoBehaviours;
 using UnityEngine;
 using UnityEditor;
@@ -9,9 +8,10 @@ using System.Linq;
 using EcsRx.Components;
 using EcsRx.Persistence.Editor;
 using EcsRx.Unity.Components;
+using EcsRx.Unity.MonoBehaviours.Editor.EditorHelper;
+using EcsRx.Unity.MonoBehaviours.Editor.Extensions;
 using EcsRx.Unity.MonoBehaviours.Editor.Models;
 using Persistity.Serialization.Binary;
-using UnityEditor.Graphs;
 
 namespace EcsRx.Unity.Helpers
 {
@@ -29,9 +29,9 @@ namespace EcsRx.Unity.Helpers
 
         private void PoolSection()
         {
-            this.UseVerticalBoxLayout(() =>
+            EditorGUIHelper.WithVerticalBoxLayout(() =>
             {
-                _registerAsEntity.PoolName = this.WithTextField("Pool: ", _registerAsEntity.PoolName);
+                _registerAsEntity.PoolName = EditorGUIHelper.WithTextField("Pool: ", _registerAsEntity.PoolName);
             });
         }
 
@@ -39,12 +39,19 @@ namespace EcsRx.Unity.Helpers
         {
             var componentCount = _registerAsEntity.EntityData.Components.Count;
 
-            EditorGUILayout.BeginVertical(EditorExtensions.DefaultBoxStyle);
-            this.WithHorizontalLayout(() =>
+            EditorGUIHelper.WithVerticalBoxLayout(() =>
             {
-                this.WithLabel("Components (" + componentCount + ")");
-                if (this.WithIconButton("▸")) { showComponents = false; }
-                if (this.WithIconButton("▾")) { showComponents = true; }
+                EditorGUIHelper.WithHorizontalLayout(() =>
+                {
+
+                });
+            });
+            EditorGUILayout.BeginVertical(EditorGUIHelper.DefaultBoxStyle);
+            EditorGUIHelper.WithHorizontalLayout(() =>
+            {
+                EditorGUIHelper.WithLabel("Components (" + componentCount + ")");
+                if (EditorGUIHelper.WithIconButton("▸")) { showComponents = false; }
+                if (EditorGUIHelper.WithIconButton("▾")) { showComponents = true; }
             });
 
             var componentsToRemove = new List<int>();
@@ -62,20 +69,20 @@ namespace EcsRx.Unity.Helpers
                         break;
                     }
 
-                    this.UseVerticalBoxLayout(() =>
+                    EditorGUIHelper.WithVerticalBoxLayout(() =>
                     {
                         var namePortions = currentComponent.GetType().FullName.Split(',')[0].Split('.');
                         var typeName = namePortions.Last();
                         var typeNamespace = string.Join(".", namePortions.Take(namePortions.Length - 1).ToArray());
 
-                        this.WithVerticalLayout(() =>
+                        EditorGUIHelper.WithVerticalLayout(() =>
                         {
-                            this.WithHorizontalLayout(() =>
+                            EditorGUIHelper.WithHorizontalLayout(() =>
                             {
-                                if (this.WithIconButton("-"))
+                                if (EditorGUIHelper.WithIconButton("-"))
                                 { componentsToRemove.Add(currentIndex); }
 
-                                this.WithLabel(typeName);
+                                EditorGUIHelper.WithLabel(typeName);
                             });
 
                             EditorGUILayout.LabelField(typeNamespace);
@@ -104,7 +111,7 @@ namespace EcsRx.Unity.Helpers
             var types = availableTypes.Select(x => string.Format("{0} [{1}]", x.Name, x.Namespace)).ToArray();
 
             var index = -1;
-            this.WithHorizontalLayout(() =>
+            EditorGUIHelper.WithHorizontalLayout(() =>
             {
                 EditorGUILayout.LabelField("Add Component", GUILayout.MaxWidth(100.0f));
                 index = EditorGUILayout.Popup(index, types);
@@ -180,23 +187,13 @@ namespace EcsRx.Unity.Helpers
             PersistChanges();
         }
 
-        private Color ToColor(int color, float alpha)
-        {
-            var rInt = (color >> 16) & 0xff;
-            var r = rInt == 0 ? 0.0f : rInt/255.0f;
-            var gInt = (color >> 8) & 0xff;
-            var g = gInt == 0 ? 0.0f : gInt / 255.0f;
-            var bInt = (color >> 0) & 0xff;
-            var b = bInt == 0 ? 0.0f : bInt / 255.0f;
-
-            return new Color(r, g, b, alpha);
-        }
+        
 
         private void EntityIdSection()
         {
-            this.WithVerticalLayout(() =>
+            EditorGUIHelper.WithVerticalLayout(() =>
             {
-                this.WithHorizontalLayout(() =>
+                EditorGUIHelper.WithHorizontalLayout(() =>
                 {
                     EditorGUILayout.LabelField("Entity Id", GUILayout.MaxWidth(100.0f));
                     var entityId = EditorGUILayout.TextField(_registerAsEntity.EntityId.ToString());
@@ -225,8 +222,8 @@ namespace EcsRx.Unity.Helpers
             textColor = GUI.contentColor;
             var componentType = component.GetType();
             var componentName = componentType.Name;
-            var componentBackgroundColor = ToColor(componentName.GetHashCode(), 0.3f);
-            var componentHeadingColor = ToColor(componentName.GetHashCode(), 0.5f);
+            var componentBackgroundColor = componentName.GetHashCode().ToColor(0.3f);
+            var componentHeadingColor = componentName.GetHashCode().ToColor(0.6f);
 
             if (!_componentShowList.ContainsKey(componentName))
             {
@@ -239,17 +236,16 @@ namespace EcsRx.Unity.Helpers
             }
 
             GUI.backgroundColor = componentBackgroundColor;
-            EditorGUILayout.BeginVertical(EditorExtensions.DefaultBoxStyle);
+            EditorGUIHelper.WithVerticalBoxLayout(() =>
             {
                 GUI.backgroundColor = componentHeadingColor;
-                var headingRect = EditorGUILayout.BeginHorizontal(EditorExtensions.DefaultBoxStyle);
+                var headingRect = EditorGUIHelper.WithHorizontalBoxLayout(() =>
                 {
-                    var headingStyle = new GUIStyle { alignment = TextAnchor.MiddleCenter };
-                    this.DrawOutlinedLabel(componentName.ToUpper(), 1, headingStyle); 
-                }
-                EditorGUILayout.EndHorizontal();
+                    var headingStyle = new GUIStyle { alignment = TextAnchor.MiddleCenter, fontSize = 12 };
+                    EditorGUIHelper.DrawOutlinedLabel(componentName, 1, headingStyle);
+                });
 
-                if(Event.current.type == EventType.Repaint)
+                if (Event.current.type == EventType.Repaint)
                 { _componentShowList[componentName].InteractionArea = headingRect; }
 
                 GUI.backgroundColor = backgroundColor;
@@ -257,9 +253,7 @@ namespace EcsRx.Unity.Helpers
 
                 if (_componentShowList[componentName].ShowProperties)
                 { ComponentUIAspect.ShowComponentProperties(component); }
-            }
-            EditorGUILayout.EndVertical();
-            
+            });
         }
     }
 }

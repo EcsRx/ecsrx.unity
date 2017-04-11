@@ -5,75 +5,81 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace EcsRx.Unity.Helpers.Extensions
+namespace EcsRx.Unity.MonoBehaviours.Editor.EditorHelper
 {
-    public static class EditorExtensions
+    public static class EditorGUIHelper
     {
         public static readonly RectOffset DefaultPadding = new RectOffset(5, 5, 5, 5);
         public static readonly RectOffset DefaultMargin = new RectOffset(2, 2, 2, 2);
         public static readonly GUIStyle DefaultBoxStyle = new GUIStyle(GUI.skin.box) { padding = DefaultPadding, margin = DefaultMargin };
 
-        public static void UseVerticalBoxLayout(this Editor editor, Action action, params GUILayoutOption[] options)
+        public static Rect WithVerticalBoxLayout(Action action, params GUILayoutOption[] options)
         {
-            EditorGUILayout.BeginVertical(DefaultBoxStyle, options);
+            var rect = EditorGUILayout.BeginVertical(DefaultBoxStyle, options);
             action();
             EditorGUILayout.EndVertical();
+            return rect;
         }
 
-        public static void WithVerticalLayout(this Editor editor, Action action, GUIStyle style = null, params GUILayoutOption[] options)
+        public static Rect WithVerticalLayout(Action action, GUIStyle style = null, params GUILayoutOption[] options)
         {
+            Rect rect;
             if (style == null)
-            { EditorGUILayout.BeginVertical(options); }
+            { rect = EditorGUILayout.BeginVertical(options); }
             else
-            { EditorGUILayout.BeginVertical(style, options); }
+            { rect = EditorGUILayout.BeginVertical(style, options); }
             action();
             EditorGUILayout.EndVertical();
+            return rect;
         }
 
-        public static void UseHorizontalBoxLayout(this Editor editor, Action action, params GUILayoutOption[] options)
+        public static Rect WithHorizontalBoxLayout(Action action, params GUILayoutOption[] options)
         {
-            EditorGUILayout.BeginHorizontal(DefaultBoxStyle, options);
+            var rect = EditorGUILayout.BeginHorizontal(DefaultBoxStyle, options);
             action();
             EditorGUILayout.EndHorizontal();
+            return rect;
         }
 
-        public static void WithHorizontalLayout(this Editor editor, Action action, GUIStyle style = null, params GUILayoutOption[] options)
+        public static Rect WithHorizontalLayout(Action action, GUIStyle style = null, params GUILayoutOption[] options)
         {
-            if(style == null)
-            { EditorGUILayout.BeginHorizontal(options); }
+            Rect rect;
+            if (style == null)
+            { rect = EditorGUILayout.BeginHorizontal(options); }
             else
-            { EditorGUILayout.BeginHorizontal(style, options); }
+            { rect = EditorGUILayout.BeginHorizontal(style, options); }
             action();
             EditorGUILayout.EndHorizontal();
+            return rect;
         }
 
-        public static void WithLabel(this Editor editor, string label)
+        public static void WithLabel(string label)
         {
             EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
         }
 
-        public static bool WithIconButton(this Editor editor, string icon)
+        public static bool WithIconButton(string icon)
         {
             return GUILayout.Button(icon, GUILayout.Width(20), GUILayout.Height(15));
         }
 
-        public static void WithLabelField(this Editor editor, string label, string value)
+        public static void WithLabelField(string label, string value)
         {
             EditorGUILayout.BeginHorizontal();
-            editor.WithLabel(label);
+            WithLabel(label);
             EditorGUILayout.LabelField(value);
             EditorGUILayout.EndHorizontal();
         }
 
-        public static string WithTextField(this Editor editor, string label, string value)
+        public static string WithTextField(string label, string value)
         {
             EditorGUILayout.BeginHorizontal();
-            editor.WithLabel(label);
+            WithLabel(label);
             var result = EditorGUILayout.TextField(value);
             EditorGUILayout.EndHorizontal();
             return result;
         }
-        
+
         public static bool HasBeenClicked(this ComponentEditorState editorState)
         {
             var isMouseDown = Event.current.type == EventType.MouseDown;
@@ -88,11 +94,12 @@ namespace EcsRx.Unity.Helpers.Extensions
             return false;
         }
 
-        public static void DrawOutlinedLabel(this Editor editor, string labelText, int strength, GUIStyle style)
+        public static void DrawOutlinedLabel(string labelText, int strength, GUIStyle style)
         {
             var originalColor = style.normal.textColor;
             var outlineColor = new Color(0, 0, 0, 0.5f);
             style.normal.textColor = outlineColor;
+            
             var rect = EditorGUILayout.GetControlRect();
             int i;
             for (i = -strength; i <= strength; i++)
@@ -111,7 +118,7 @@ namespace EcsRx.Unity.Helpers.Extensions
         }
 
         // Only works with unity 5.3+
-        public static void SaveActiveSceneChanges(this Editor editor)
+        public static void SaveActiveSceneChanges(this UnityEditor.Editor editor)
         {
             var activeScene = SceneManager.GetActiveScene();
             EditorSceneManager.MarkSceneDirty(activeScene);

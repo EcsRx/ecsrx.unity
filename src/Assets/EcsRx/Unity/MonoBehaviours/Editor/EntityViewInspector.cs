@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Components;
-using EcsRx.Unity.Helpers.Extensions;
 using EcsRx.Unity.Helpers.UIAspects;
 using EcsRx.Unity.MonoBehaviours;
+using EcsRx.Unity.MonoBehaviours.Editor.EditorHelper;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,7 +19,7 @@ namespace EcsRx.Unity.Helpers
 
         private void PoolSection()
         {
-            this.UseVerticalBoxLayout(() =>
+            EditorGUIHelper.WithVerticalBoxLayout(() =>
             {
                 if (GUILayout.Button("Destroy Entity"))
                 {
@@ -27,27 +27,27 @@ namespace EcsRx.Unity.Helpers
                     Destroy(_entityView.gameObject);
                 }
 
-                this.UseVerticalBoxLayout(() =>
+                EditorGUIHelper.WithVerticalBoxLayout(() =>
                 {
                     var id = _entityView.Entity.Id.ToString();
-                    this.WithLabelField("Entity Id: ", id);
+                    EditorGUIHelper.WithLabelField("Entity Id: ", id);
                 });
 
-                this.UseVerticalBoxLayout(() =>
+                EditorGUIHelper.WithVerticalBoxLayout(() =>
                 {
-                    this.WithLabelField("Pool: ", _entityView.Pool.Name);
+                    EditorGUIHelper.WithLabelField("Pool: ", _entityView.Pool.Name);
                 });
             });
         }
 
         private void ComponentListings()
         {
-            EditorGUILayout.BeginVertical(EditorExtensions.DefaultBoxStyle);
-            this.WithHorizontalLayout(() =>
+            EditorGUILayout.BeginVertical(EditorGUIHelper.DefaultBoxStyle);
+            EditorGUIHelper.WithHorizontalLayout(() =>
             {
-                this.WithLabel("Components (" + _entityView.Entity.Components.Count() + ")");
-                if (this.WithIconButton("▸")) { showComponents = false; }
-                if (this.WithIconButton("▾")) { showComponents = true; }
+                EditorGUIHelper.WithLabel("Components (" + _entityView.Entity.Components.Count() + ")");
+                if (EditorGUIHelper.WithIconButton("▸")) { showComponents = false; }
+                if (EditorGUIHelper.WithIconButton("▾")) { showComponents = true; }
             });
 
             var componentsToRemove = new List<int>();
@@ -56,22 +56,22 @@ namespace EcsRx.Unity.Helpers
                 for (var i = 0; i < _entityView.Entity.Components.Count(); i++)
                 {
                     var currentIndex = i;
-                    this.UseVerticalBoxLayout(() =>
+                    EditorGUIHelper.WithVerticalBoxLayout(() =>
                     {
                         var componentType = _entityView.Entity.Components.ElementAt(currentIndex).GetType();
                         var typeName = componentType.Name;
                         var typeNamespace = componentType.Namespace;
 
-                        this.WithVerticalLayout(() =>
+                        EditorGUIHelper.WithVerticalLayout(() =>
                         {
-                            this.WithHorizontalLayout(() =>
+                            EditorGUIHelper.WithHorizontalLayout(() =>
                             {
-                                if (this.WithIconButton("-"))
+                                if (EditorGUIHelper.WithIconButton("-"))
                                 {
                                     componentsToRemove.Add(currentIndex);
                                 }
 
-                                this.WithLabel(typeName);
+                                EditorGUIHelper.WithLabel(typeName);
                             });
 
                             EditorGUILayout.LabelField(typeNamespace);
@@ -108,7 +108,7 @@ namespace EcsRx.Unity.Helpers
 
         private void ComponentSelectionSection()
         {
-            this.UseVerticalBoxLayout(() =>
+            EditorGUIHelper.WithVerticalBoxLayout(() =>
             {
                 var availableTypes = ComponentLookup.AllComponents
                     .Where(x => !_entityView.Entity.Components.Select(y => y.GetType()).Contains(x))

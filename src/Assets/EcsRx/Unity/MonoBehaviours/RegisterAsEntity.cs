@@ -36,6 +36,7 @@ namespace EcsRx.Unity.MonoBehaviours
         private byte[] EntityState;
 
         public bool HasDeserialized = false;
+        public IEntity Entity = new Entity(Guid.Empty, null);
         public EntityData EntityData = new EntityData();
 
         [Inject]
