@@ -43,7 +43,8 @@ namespace EcsRx.Unity.MonoBehaviours
         {
             if (!gameObject.activeInHierarchy || !gameObject.activeSelf) { return; }
 
-            var poolToUse = GetPool();
+            DeserializeState();
+            var poolToUse = GetPool();           
             var entity = (IEntity)Transformer.TransformFrom(EntityData);
 
             poolToUse.AddEntity(entity);

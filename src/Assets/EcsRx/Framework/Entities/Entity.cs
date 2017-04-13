@@ -71,7 +71,16 @@ namespace EcsRx.Entities
         }
 
         public T GetComponent<T>() where T : class, IComponent
-        { return _components[typeof(T)] as T; }
+        {
+            var componentType = typeof(T);
+            return (T)GetComponent(componentType);
+        }
+
+        public IComponent GetComponent(Type componentType)
+        {
+            IComponent component;
+            return _components.TryGetValue(componentType, out component) ? component : null;
+        }
 
         public void Dispose()
         { RemoveAllComponents(); }

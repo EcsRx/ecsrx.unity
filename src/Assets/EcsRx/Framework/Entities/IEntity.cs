@@ -15,6 +15,7 @@ namespace EcsRx.Entities
         void RemoveComponent<T>() where T : class, IComponent;
         void RemoveAllComponents();
         T GetComponent<T>() where T : class, IComponent;
+        IComponent GetComponent(Type componentType);
 
         bool HasComponent<T>() where T : class, IComponent;
         bool HasComponents(params Type[] component);

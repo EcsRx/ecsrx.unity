@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Components;
 using EcsRx.Persistence.Data;
+using EcsRx.Persistence.Events;
 using EcsRx.Unity.Components;
 using EcsRx.Unity.Helpers;
 using EcsRx.Unity.Helpers.UIAspects;
@@ -20,6 +21,8 @@ namespace EcsRx.Unity.MonoBehaviours.Editor.UIAspects
 
         private readonly IDictionary<string, ComponentEditorState> _componentShowList = new Dictionary<string, ComponentEditorState>();
         private readonly IList<IComponent> _componentsRemovalList = new List<IComponent>();
+
+        public event ComponentEventHandler ComponentAdded, ComponentRemoved;
 
         public EntityData EntityData { get; set; }
         public UnityEditor.Editor LinkedEditor { get; set; }
@@ -40,7 +43,12 @@ namespace EcsRx.Unity.MonoBehaviours.Editor.UIAspects
             { ComponentSection(component); }
 
             foreach (var componentToRemove in _componentsRemovalList)
-            { EntityData.Components.Remove(componentToRemove); }
+            {
+                EntityData.Components.Remove(componentToRemove);
+
+                if (ComponentRemoved != null)
+                { ComponentRemoved(this, new ComponentEvent(componentToRemove)); }
+            }
             _componentsRemovalList.Clear();
 
             if (Event.current.type == EventType.MouseDown)
@@ -76,6 +84,9 @@ namespace EcsRx.Unity.MonoBehaviours.Editor.UIAspects
             var componentType = availableTypes.ElementAt(index);
             var component = (IComponent)Activator.CreateInstance(componentType);
             EntityData.Components.Add(component);
+
+            if(ComponentAdded != null)
+            { ComponentAdded(this, new ComponentEvent(component)); }
         }
 
         private void ComponentSection(IComponent component)
