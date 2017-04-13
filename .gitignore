@@ -7,3 +7,6 @@ Temp
 /src/Assets/Plugins/Editor/Atom.cs
 /src/src.userprefs
 /*.unitypackage
+src/\.idea/\.idea\.src/\.idea/
+
+src/\.idea/\.idea\.src/
