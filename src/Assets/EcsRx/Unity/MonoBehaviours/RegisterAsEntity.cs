@@ -36,7 +36,6 @@ namespace EcsRx.Unity.MonoBehaviours
         private byte[] EntityState;
 
         public bool HasDeserialized = false;
-        public IEntity Entity = new Entity(Guid.Empty, null);
         public EntityData EntityData = new EntityData();
 
         [Inject]
@@ -71,7 +70,7 @@ namespace EcsRx.Unity.MonoBehaviours
             HasDeserialized = true;
             if (EntityState == null || EntityState.Length == 0) { return; }
             var data = new DataObject(EntityState);
-            EntityData = Deserializer.Deserialize<EntityData>(data);
+            Deserializer.DeserializeInto(data, EntityData);
             EntityId = EntityData.EntityId;
         }
 

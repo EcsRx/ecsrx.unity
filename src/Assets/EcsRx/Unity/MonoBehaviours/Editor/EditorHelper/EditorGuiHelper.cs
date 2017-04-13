@@ -58,9 +58,15 @@ namespace EcsRx.Unity.MonoBehaviours.Editor.EditorHelper
             EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
         }
 
-        public static bool WithIconButton(string icon)
+        public static bool WithIconButton(string icon, string tooltip = null)
         {
-            return GUILayout.Button(icon, GUILayout.Width(20), GUILayout.Height(15));
+            var content = new GUIContent(icon, tooltip);
+            return GUILayout.Button(content, GUILayout.Width(20), GUILayout.Height(15));
+        }
+
+        public static void WithIconLabel(string icon)
+        {
+            GUILayout.Label(icon, EditorStyles.boldLabel, GUILayout.Width(20), GUILayout.Height(15));
         }
 
         public static void WithLabelField(string label, string value)
@@ -74,7 +80,7 @@ namespace EcsRx.Unity.MonoBehaviours.Editor.EditorHelper
         public static string WithTextField(string label, string value)
         {
             EditorGUILayout.BeginHorizontal();
-            WithLabel(label);
+            EditorGUILayout.LabelField(label, GUILayout.Width(100));
             var result = EditorGUILayout.TextField(value);
             EditorGUILayout.EndHorizontal();
             return result;

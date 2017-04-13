@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using Persistity.Mappings;
 using Persistity.Mappings.Types;
 using Persistity.Registries;
@@ -23,7 +22,8 @@ namespace Persistity.Serialization
         }
 
         public abstract object Deserialize(DataObject data);
-        public abstract T Deserialize<T>(DataObject data) where T : new();
+        public abstract void DeserializeInto(DataObject data, object existingInstance);
+
         protected abstract bool IsDataNull(TDeserializeState state);
         protected abstract bool IsObjectNull(TDeserializeState state);
         protected abstract int GetCountFromState(TDeserializeState state);
@@ -31,6 +31,12 @@ namespace Persistity.Serialization
 
         protected abstract string GetDynamicTypeNameFromState(TDeserializeState state);
         protected abstract TDeserializeState GetDynamicTypeDataFromState(TDeserializeState state);
+
+        public virtual void DeserializeInto<T>(DataObject data, T existingInstance)
+        { DeserializeInto(data, (object)existingInstance); }
+
+        public virtual T Deserialize<T>(DataObject data) where T : new()
+        { return (T)Deserialize(data); }
 
         protected IList CreateCollectionFromMapping(CollectionMapping mapping, int count)
         {

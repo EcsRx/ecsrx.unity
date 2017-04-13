@@ -68,9 +68,18 @@ namespace Persistity.Serialization.Binary
             }
         }
 
-        public override T Deserialize<T>(DataObject data)
-        { return (T)Deserialize(data); }
-
+        public override void DeserializeInto(DataObject data, object existingInstance)
+        {
+            using (var memoryStream = new MemoryStream(data.AsBytes))
+            using (var reader = new BinaryReader(memoryStream))
+            {
+                var typeName = reader.ReadString();
+                var type = TypeCreator.LoadType(typeName);
+                var typeMapping = MappingRegistry.GetMappingFor(type);
+                Deserialize(typeMapping.InternalMappings, existingInstance, reader);
+            }
+        }
+        
         protected override string GetDynamicTypeNameFromState(BinaryReader state)
         { return state.ReadString(); }
 

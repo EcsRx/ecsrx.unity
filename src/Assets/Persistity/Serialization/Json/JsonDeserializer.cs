@@ -41,9 +41,6 @@ namespace Persistity.Serialization.Json
         protected override object DeserializeDefaultPrimitive(Type type, JToken state)
         { return JsonPrimitiveDeserializer.DeserializeDefaultPrimitive(type, state); }
         
-        public override T Deserialize<T>(DataObject data)
-        { return (T)Deserialize(data); }
-
         public override object Deserialize(DataObject data)
         {
             var jsonData = JObject.Parse(data.AsString);
@@ -54,6 +51,16 @@ namespace Persistity.Serialization.Json
             
             Deserialize(typeMapping.InternalMappings, instance, jsonData);
             return instance;
+        }
+
+        public override void DeserializeInto(DataObject data, object existingInstance)
+        {
+            var jsonData = JObject.Parse(data.AsString);
+            var typeName = jsonData[JsonSerializer.TypeField].ToString();
+            var type = TypeCreator.LoadType(typeName);
+            var typeMapping = MappingRegistry.GetMappingFor(type);
+            
+            Deserialize(typeMapping.InternalMappings, existingInstance, jsonData);
         }
 
         protected override int GetCountFromState(JToken state)

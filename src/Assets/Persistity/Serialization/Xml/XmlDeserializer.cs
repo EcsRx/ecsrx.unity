@@ -31,9 +31,6 @@ namespace Persistity.Serialization.Xml
         protected override object DeserializeDefaultPrimitive(Type type, XElement element)
         { return XmlPrimitiveDeserializer.DeserializeDefaultPrimitive(type, element); }
 
-        public override T Deserialize<T>(DataObject data)
-        { return (T) Deserialize(data); }
-
         public override object Deserialize(DataObject data)
         {
             var xDoc = XDocument.Parse(data.AsString);
@@ -45,6 +42,17 @@ namespace Persistity.Serialization.Xml
             var instance = Activator.CreateInstance(typeMapping.Type);
             Deserialize(typeMapping.InternalMappings, instance, containerElement);
             return instance;
+        }
+
+        public override void DeserializeInto(DataObject data, object existingInstance)
+        {
+            var xDoc = XDocument.Parse(data.AsString);
+            var containerElement = xDoc.Element("Container");
+            var typeName = containerElement.Element("Type").Value;
+            var type = TypeCreator.LoadType(typeName);
+            var typeMapping = MappingRegistry.GetMappingFor(type);
+            
+            Deserialize(typeMapping.InternalMappings, existingInstance, containerElement);
         }
 
         protected override void DeserializeCollection<T>(CollectionMapping mapping, T instance, XElement state)
