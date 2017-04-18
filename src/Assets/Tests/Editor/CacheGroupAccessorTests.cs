@@ -30,9 +30,9 @@ namespace EcsRx.Tests
             var cacheableGroupAccessor = new CacheableGroupAccessor(accessorToken, dummyEntitySnapshot, mockEventSystem);
 
             Assert.That(cacheableGroupAccessor.CachedEntities, Has.Count.EqualTo(3));
-            Assert.That(cacheableGroupAccessor.CachedEntities, Contains.Item(dummyEntitySnapshot[0]));
-            Assert.That(cacheableGroupAccessor.CachedEntities, Contains.Item(dummyEntitySnapshot[1]));
-            Assert.That(cacheableGroupAccessor.CachedEntities, Contains.Item(dummyEntitySnapshot[2]));
+            Assert.That(cacheableGroupAccessor.CachedEntities[dummyEntitySnapshot[0].Id], Is.EqualTo(dummyEntitySnapshot[0]));
+            Assert.That(cacheableGroupAccessor.CachedEntities[dummyEntitySnapshot[1].Id], Is.EqualTo(dummyEntitySnapshot[1]));
+            Assert.That(cacheableGroupAccessor.CachedEntities[dummyEntitySnapshot[2].Id], Is.EqualTo(dummyEntitySnapshot[2]));
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace EcsRx.Tests
             underlyingEvent.SetValueAndForceNotify(new EntityAddedEvent(unapplicableEntity, mockPool));
             
             Assert.That(cacheableGroupAccessor.CachedEntities, Has.Count.EqualTo(1));
-            Assert.That(cacheableGroupAccessor.CachedEntities, Contains.Item(applicableEntity));
+            Assert.That(cacheableGroupAccessor.CachedEntities[applicableEntity.Id], Is.EqualTo(applicableEntity));
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace EcsRx.Tests
             underlyingEvent.SetValueAndForceNotify(new EntityRemovedEvent(existingEntityOne, mockPool));
 
             Assert.That(cacheableGroupAccessor.CachedEntities, Has.Count.EqualTo(1));
-            Assert.That(cacheableGroupAccessor.CachedEntities, Contains.Item(existingEntityTwo));
+            Assert.That(cacheableGroupAccessor.CachedEntities[existingEntityTwo.Id], Is.EqualTo(existingEntityTwo));
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace EcsRx.Tests
             underlyingEvent.SetValueAndForceNotify(new ComponentRemovedEvent(existingEntityTwo, unapplicableComponent));
 
             Assert.That(cacheableGroupAccessor.CachedEntities, Has.Count.EqualTo(1));
-            Assert.That(cacheableGroupAccessor.CachedEntities, Contains.Item(existingEntityTwo));
+            Assert.That(cacheableGroupAccessor.CachedEntities[existingEntityTwo.Id], Is.EqualTo(existingEntityTwo));
         }
 
         [Test]
@@ -154,7 +154,7 @@ namespace EcsRx.Tests
             underlyingEvent.SetValueAndForceNotify(new ComponentAddedEvent(existingEntityTwo, unapplicableComponent));
 
             Assert.That(cacheableGroupAccessor.CachedEntities, Has.Count.EqualTo(1));
-            Assert.That(cacheableGroupAccessor.CachedEntities, Contains.Item(existingEntityOne));
+            Assert.That(cacheableGroupAccessor.CachedEntities[existingEntityOne.Id], Is.EqualTo(existingEntityOne));
         }
     }
 }

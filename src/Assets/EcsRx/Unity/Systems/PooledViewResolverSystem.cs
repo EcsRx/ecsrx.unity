@@ -21,8 +21,8 @@ namespace EcsRx.Unity.Systems
 
         protected GameObject PrefabTemplate { get; set; }
 
-        private IDictionary<Guid, GameObject> _viewCache;
-        private IDisposable _entitySubscription;
+        private readonly IDictionary<Guid, GameObject> _viewCache;
+        private readonly IDisposable _entitySubscription;
 
         public virtual IGroup TargetGroup
         {
@@ -36,7 +36,16 @@ namespace EcsRx.Unity.Systems
             EventSystem = eventSystem;
 
             _viewCache = new Dictionary<Guid, GameObject>();
-            HandleEntityRemoval();
+
+            _entitySubscription = EventSystem
+                .Receive<ComponentRemovedEvent>()
+                .Where(x => x.Component is ViewComponent && _viewCache.ContainsKey(x.Entity.Id))
+                .Subscribe(x =>
+                {
+                    var view = _viewCache[x.Entity.Id];
+                    RecycleView(view);
+                    _viewCache.Remove(x.Entity.Id);
+                });
 
             PrefabTemplate = ResolvePrefabTemplate();
         }
@@ -44,21 +53,6 @@ namespace EcsRx.Unity.Systems
         protected abstract GameObject ResolvePrefabTemplate();
         protected abstract void RecycleView(GameObject viewToRecycle);
         protected abstract GameObject AllocateView(IEntity entity, IPool pool);
-
-        protected void HandleEntityRemoval()
-        {
-            _entitySubscription = EventSystem
-                .Receive<EntityRemovedEvent>()
-                .Subscribe(x =>
-                {
-                    GameObject view;
-                    if (_viewCache.TryGetValue(x.Entity.Id, out view))
-                    {
-                        RecycleView(view);
-                        _viewCache.Remove(x.Entity.Id);
-                    }
-                });
-        }
 
         public virtual void Setup(IEntity entity)
         {
