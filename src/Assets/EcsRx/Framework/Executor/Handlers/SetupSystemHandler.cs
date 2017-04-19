@@ -19,8 +19,8 @@ namespace EcsRx.Systems.Executor.Handlers
         public IEnumerable<SubscriptionToken> Setup(ISetupSystem system)
         {
             var subscriptions = new List<SubscriptionToken>();
-            var groupAccessor = PoolManager.CreateGroupAccessor(system.TargetGroup);
-            groupAccessor.Entities.ForEachRun(x =>
+            var entities = PoolManager.GetEntitiesFor(system.TargetGroup);
+            entities.ForEachRun(x =>
             {
                 var possibleSubscription = ProcessEntity(system, x);
                 if(possibleSubscription != null) { subscriptions.Add(possibleSubscription); }
@@ -32,14 +32,13 @@ namespace EcsRx.Systems.Executor.Handlers
         public SubscriptionToken ProcessEntity(ISetupSystem system, IEntity entity)
         {
             var hasEntityPredicate = system.TargetGroup is IHasPredicate;
-            var groupPredicate = system.TargetGroup as IHasPredicate;
-
             if (!hasEntityPredicate)
             {
                 system.Setup(entity);
                 return null;
             }
 
+            var groupPredicate = system.TargetGroup as IHasPredicate;
             if (groupPredicate.CanProcessEntity(entity))
             {
                 system.Setup(entity);

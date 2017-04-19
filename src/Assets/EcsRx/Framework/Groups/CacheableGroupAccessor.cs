@@ -11,11 +11,11 @@ namespace EcsRx.Groups
 {
     public class CacheableGroupAccessor : IGroupAccessor, IDisposable
     {
-        public readonly IList<IEntity> CachedEntities;
+        public readonly IDictionary<Guid, IEntity> CachedEntities;
         public readonly IList<IDisposable> Subscriptions;
 
         public GroupAccessorToken AccessorToken { get; private set; }
-        public IEnumerable<IEntity> Entities { get { return CachedEntities; } }
+        public IEnumerable<IEntity> Entities { get { return CachedEntities.Values; } }
         public IEventSystem EventSystem { get; private set; }
 
         public CacheableGroupAccessor(GroupAccessorToken accessorToken, IEnumerable<IEntity> initialEntities, IEventSystem eventSystem)
@@ -23,7 +23,7 @@ namespace EcsRx.Groups
             AccessorToken = accessorToken;
             EventSystem = eventSystem;
 
-            CachedEntities = new List<IEntity>(initialEntities);
+            CachedEntities = initialEntities.ToDictionary(x => x.Id, x => x);
             Subscriptions = new List<IDisposable>();
         }
 
@@ -33,14 +33,14 @@ namespace EcsRx.Groups
                 .Subscribe(OnEntityAddedToPool);
 
             var removeEntitySubscription = EventSystem.Receive<EntityRemovedEvent>()
-                .Where(x => CachedEntities.Contains(x.Entity))
+                .Where(x => CachedEntities.ContainsKey(x.Entity.Id))
                 .Subscribe(OnEntityRemovedFromPool);
 
             var addComponentSubscription = EventSystem.Receive<ComponentAddedEvent>()
                 .Subscribe(OnEntityComponentAdded);
 
             var removeComponentEntitySubscription = EventSystem.Receive<ComponentRemovedEvent>()
-                .Where(x => CachedEntities.Contains(x.Entity))
+                .Where(x => CachedEntities.ContainsKey(x.Entity.Id))
                 .Subscribe(OnEntityComponentRemoved);
 
             Subscriptions.Add(addEntitySubscription);
@@ -52,26 +52,28 @@ namespace EcsRx.Groups
         public void OnEntityComponentRemoved(ComponentRemovedEvent args)
         {
             if(!args.Entity.HasComponents(AccessorToken.ComponentTypes))
-            { CachedEntities.Remove(args.Entity); }
+            { CachedEntities.Remove(args.Entity.Id); }
         }
 
         public void OnEntityComponentAdded(ComponentAddedEvent args)
         {
-            if(args.Entity.HasComponents(AccessorToken.ComponentTypes) && !CachedEntities.Contains(args.Entity))
-            { CachedEntities.Add(args.Entity); }
+            if(CachedEntities.ContainsKey(args.Entity.Id)) { return; }
+
+            if(args.Entity.HasComponents(AccessorToken.ComponentTypes))
+            { CachedEntities.Add(args.Entity.Id, args.Entity); }
         }
 
         public void OnEntityAddedToPool(EntityAddedEvent args)
         {
             if (!args.Entity.Components.Any()) { return; }
             if (!args.Entity.HasComponents(AccessorToken.ComponentTypes)) { return; }
-            CachedEntities.Add(args.Entity);
+            CachedEntities.Add(args.Entity.Id, args.Entity);
         }
 
         public void OnEntityRemovedFromPool(EntityRemovedEvent args)
         {
-            if(CachedEntities.Contains(args.Entity))
-            { CachedEntities.Remove(args.Entity); }
+            if(CachedEntities.ContainsKey(args.Entity.Id))
+            { CachedEntities.Remove(args.Entity.Id); }
         }
 
         public void Dispose()
