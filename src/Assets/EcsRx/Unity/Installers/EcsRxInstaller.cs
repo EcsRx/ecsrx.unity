@@ -5,6 +5,10 @@ using System.Xml.Linq;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Groups;
+using EcsRx.Persistence.Database;
+using EcsRx.Persistence.Database.Accessor;
+using EcsRx.Persistence.Endpoints;
+using EcsRx.Persistence.Pipelines;
 using EcsRx.Persistence.Transformers;
 using EcsRx.Persistence.TypeHandlers.Reactive;
 using EcsRx.Pools;
@@ -21,6 +25,7 @@ using Persistity.Serialization.Json;
 using Persistity.Serialization.Xml;
 using UniRx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 using TypeAnalyzer = Persistity.Mappings.Types.TypeAnalyzer;
 
@@ -32,6 +37,7 @@ namespace EcsRx.Unity.Installers
         {
             SetupEcsRx();
             SetupPersistance();
+            SetupApplicationDatabase();
         }
 
         private void SetupEcsRx()
@@ -103,6 +109,15 @@ namespace EcsRx.Unity.Installers
 
             Container.Bind<IEntityDataTransformer>().To<EntityDataTransformer>().AsSingle();
             Container.Bind<IPoolDataTransformer>().To<PoolDataTransformer>().AsSingle();
+        }
+
+        private void SetupApplicationDatabase()
+        {
+            var currentScene = SceneManager.GetActiveScene();
+
+            Container.Bind<IApplicationDatabaseFileEndpoint>().FromInstance(new ApplicationDatabaseFileEndpoint(currentScene)).AsSingle();
+            Container.Bind<ApplicationDatabase>().ToSelf().AsSingle();
+            Container.Bind<IApplicationDatabaseAccessor>().To<ApplicationDatabaseAccessor>().AsSingle();
         }
     }
 }

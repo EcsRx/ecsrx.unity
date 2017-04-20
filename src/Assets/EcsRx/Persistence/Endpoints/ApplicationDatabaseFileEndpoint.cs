@@ -5,21 +5,23 @@ using UnityEngine.SceneManagement;
 
 namespace EcsRx.Persistence.Endpoints
 {
-    public class ApplicationDatabaseFileEndpoint : IApplicationConfigFileEndpoint
+    public class ApplicationDatabaseFileEndpoint : IApplicationDatabaseFileEndpoint
     {
-        private string _configFile;
+        private readonly string _databaseFile;
         public Scene Scene { get; private set; }
 
         public ApplicationDatabaseFileEndpoint(Scene scene)
         {
             Scene = scene;
-            _configFile = string.Format("{0}/{1}.database.json", scene.path, scene.name);
+
+            var scenePath = scene.path.Replace(scene.name + ".unity", "");
+            _databaseFile = string.Format("{0}/{1}.database.json", scenePath, scene.name);
         }
 
         public void Execute(DataObject data, Action<object> onSuccess, Action<Exception> onError)
         {
             try
-            { File.WriteAllText(_configFile, data.AsString); }
+            { File.WriteAllText(_databaseFile, data.AsString); }
             catch (Exception ex)
             {
                 onError(ex);
@@ -34,8 +36,12 @@ namespace EcsRx.Persistence.Endpoints
             DataObject data;
             try
             {
-                var byteData = File.ReadAllText(_configFile);
-                data = new DataObject(byteData);
+                var rawData = "";
+
+                if (File.Exists(_databaseFile))
+                { rawData = File.ReadAllText(_databaseFile); }
+
+                data = new DataObject(rawData);
             }
             catch (Exception ex)
             {

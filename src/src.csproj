@@ -18,7 +18,8 @@
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.3f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -223,23 +224,26 @@
     <Compile Include="Assets\EcsRx\Framework\Systems\ISetupSystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ISystem.cs" />
     <Compile Include="Assets\EcsRx\Framework\Systems\ITeardownSystem.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Database\Accessor\IApplicationDatabaseAccessor.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Data\EntityData.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Data\PoolData.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationDatabase.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationDatabaseBehaviour.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationEntityLink.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Endpoints\ApplicationDatabaseEndpoint.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Endpoints\ApplicationDatabaseFileEndpoint.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Endpoints\IApplicationConfigFileEndpoint.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Endpoints\IApplicationDatabaseFileEndpoint.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Events\ApplicationDatabaseLoadedEvent.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Events\ComponentAddedEvent.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\BinaryIOExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\EntityDataExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Database\Accessor\ApplicationDatabaseAccessor.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Pipelines\Entities\ILoadEntityDataPipeline.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Pipelines\Entities\ISaveEntityDataPipeline.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Pipelines\Entities\SaveEntityToScenePipeline.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Pipelines\ISaveToScenePipeline.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Pipelines\LoadApplicationToFilePipeline.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Pipelines\ILoadApplicationDatabaseFromFilePipeline.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Pipelines\ISaveApplicationDatabaseToFilePipeline.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Pipelines\SaveApplicationDatabaseToFilePipeline.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Pipelines\LoadApplicationDatabaseFromFilePipeline.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Repositories\ApplicationRepository.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Transformers\EntityDataTransformer.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Transformers\IEntityDataTransformer.cs" />
