@@ -17,8 +17,7 @@ namespace EcsRx.Tests
         {
             var mockEnity = Substitute.For<IEntity>();
             var mockPoolManager = Substitute.For<IPoolManager>();
-            var fakeGroupAccessor = new GroupAccessor(null, new [] {mockEnity});
-            mockPoolManager.CreateGroupAccessor(Arg.Any<IGroup>()).Returns(fakeGroupAccessor);
+            mockPoolManager.GetEntitiesFor(Arg.Any<IGroup>()).Returns(new[] {mockEnity});
             var mockSystem = Substitute.For<ISetupSystem>();
 
             var handler = new SetupSystemHandler(mockPoolManager);

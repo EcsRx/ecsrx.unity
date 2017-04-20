@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
@@ -13,17 +14,31 @@ using Object = UnityEngine.Object;
 
 namespace EcsRx.Unity.Systems
 {
-    public class ViewHandler : IViewHandler
+    public class ViewHandler : IViewHandler, IDisposable
     {
         public IPoolManager PoolManager { get; private set; }
         public IEventSystem EventSystem { get; private set; }
         public IInstantiator Instantiator { get; private set; }
+
+        private readonly IDisposable _destructionSubscription;
+        private readonly IDictionary<Guid, GameObject> _viewCache;
 
         protected ViewHandler(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator)
         {
             PoolManager = poolManager;
             EventSystem = eventSystem;
             Instantiator = instantiator;
+
+            _viewCache = new Dictionary<Guid, GameObject>();
+
+            _destructionSubscription = EventSystem.Receive<ComponentRemovedEvent>()
+                .Where(x => x.Component is ViewComponent && _viewCache.ContainsKey(x.Entity.Id))
+                .Subscribe(x =>
+                {
+                    var view = _viewCache[x.Entity.Id];
+                    _viewCache.Remove(x.Entity.Id);
+                    DestroyView(view);
+                });
         }
 
         public virtual GameObject InstantiateAndInject(GameObject prefab,
@@ -47,6 +62,8 @@ namespace EcsRx.Unity.Systems
             var viewObject = viewResolver(entity);
             viewComponent.View = viewObject;
 
+            _viewCache.Add(entity.Id, viewObject);
+
             var entityBinding = viewObject.GetComponent<EntityView>();
             if (entityBinding == null)
             {
@@ -56,23 +73,15 @@ namespace EcsRx.Unity.Systems
                 entityBinding.Pool = PoolManager.GetContainingPoolFor(entity);
             }
 
-            IDisposable viewSubscription = null;
             if (viewComponent.DestroyWithView)
             {
-                viewSubscription = viewObject.OnDestroyAsObservable()
+                viewObject.OnDestroyAsObservable()
                     .Subscribe(x => entityBinding.Pool.RemoveEntity(entity))
                     .AddTo(viewObject);
             }
-
-            EventSystem.Receive<ComponentRemovedEvent>()
-                .First(x => x.Component is ViewComponent && x.Entity == entity)
-                .Subscribe(x =>
-                {
-                    if (viewSubscription != null)
-                    { viewSubscription.Dispose(); }
-
-                    DestroyView(viewObject);
-                });
         }
+
+        public void Dispose()
+        { _destructionSubscription.Dispose(); }
     }
 }
