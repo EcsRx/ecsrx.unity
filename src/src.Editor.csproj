@@ -13,8 +13,7 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.3f1</UnityVersion>
@@ -137,7 +136,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorContext.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\ActiveSystemsViewerInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\ComponentLookup.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\DataFormatType.cs" />
@@ -169,6 +167,8 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EditorInputs\Vector3EditorInput.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\EntityViewInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Extensions\IntExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Infrastructure\EditorContext.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Infrastructure\SceneListener.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Models\ComponentEditorState.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\PoolManagerViewerInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\RegisterAsEntityInspector.cs" />

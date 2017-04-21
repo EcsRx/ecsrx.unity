@@ -35,7 +35,6 @@ namespace EcsRx.Unity.MonoBehaviours.Editor.UIAspects
 
         public void DisplayUI()
         {
-            EntityIdSection();
             ComponentSelectionSection();
 
             EditorGUILayout.Space();
@@ -143,31 +142,6 @@ namespace EcsRx.Unity.MonoBehaviours.Editor.UIAspects
                         { _componentsRemovalList.Add(component); }
                     }
                 }
-            });
-        }
-
-        private void EntityIdSection()
-        {
-            EditorGUIHelper.WithVerticalLayout(() =>
-            {
-                EditorGUIHelper.WithHorizontalLayout(() =>
-                {
-                    EditorGUILayout.LabelField("Entity Id", GUILayout.MaxWidth(100.0f));
-                    var entityId = EditorGUILayout.TextField(EntityData.EntityId.ToString());
-                    try
-                    {
-                        var entityGuid = new Guid(entityId);
-                        EntityData.EntityId = entityGuid;
-                    }
-                    catch (Exception)
-                    { }
-
-                    if (EditorGUIHelper.WithIconButton("↻", "Generate new GUID"))
-                    {
-                        var newGuid = Guid.NewGuid();
-                        EntityData.EntityId = newGuid;
-                    }
-                });
             });
         }
     }

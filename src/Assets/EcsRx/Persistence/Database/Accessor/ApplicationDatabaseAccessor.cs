@@ -9,6 +9,7 @@ namespace EcsRx.Persistence.Database.Accessor
     public class ApplicationDatabaseAccessor : IApplicationDatabaseAccessor
     {
         public ApplicationDatabase Database { get; private set; }
+        public bool HasInitialized { get; private set; }
 
         private readonly IApplicationDatabaseFileEndpoint _databaseFileEndpoint;
         private readonly IJsonSerializer _serializer;
@@ -35,6 +36,7 @@ namespace EcsRx.Persistence.Database.Accessor
                 }
 
                 _deserializer.DeserializeInto(data, Database);
+                HasInitialized = true;
                 onReloaded();
             }, exception =>
             {
@@ -42,6 +44,9 @@ namespace EcsRx.Persistence.Database.Accessor
                 Debug.Log(message);
             });
         }
+
+        public void ResetDatabase()
+        { Database.Pools.Clear(); }
 
         public void PersistDatabase(Action onSaved)
         {
