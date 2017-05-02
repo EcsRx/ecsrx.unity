@@ -39,7 +39,7 @@ namespace EcsRx.Extensions
         public static IEnumerable<ISystem> GetApplicableSystems(this IEnumerable<ISystem> systems, IEnumerable<IComponent> components)
         {
             var componentTypes = components.Select(x => x.GetType());
-            return systems.Where(x => componentTypes.All(y => x.TargetGroup.TargettedComponents.Contains(y)));
+            return systems.Where(x => x.TargetGroup.TargettedComponents.All(y => componentTypes.Contains(y)));
         }
 
         public static IEnumerable<T> OrderByPriority<T>(this IEnumerable<T> systems)
