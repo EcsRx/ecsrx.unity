@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using EcsRx.Entities;
-using EcsRx.Groups;
 
-namespace Assets.EcsRx.Framework.Groups
+namespace EcsRx.Groups.Accessors
 {
     public interface IGroupAccessorQuery
     {

@@ -1,4 +1,5 @@
-﻿using EcsRx.Groups;
+﻿using EcsRx.Groups.Accessors;
+using EcsRx.Groups;
 
 namespace EcsRx.Systems
 {

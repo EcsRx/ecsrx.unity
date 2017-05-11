@@ -7,7 +7,7 @@ using EcsRx.Extensions;
 using EcsRx.Pools;
 using UniRx;
 
-namespace EcsRx.Groups
+namespace EcsRx.Groups.Accessors
 {
     public class CacheableGroupAccessor : IGroupAccessor, IDisposable
     {

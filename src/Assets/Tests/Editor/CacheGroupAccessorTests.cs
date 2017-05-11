@@ -1,11 +1,11 @@
 ﻿using System;
 using EcsRx.Entities;
 using EcsRx.Events;
-using EcsRx.Groups;
 using EcsRx.Pools;
 using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
+using EcsRx.Groups.Accessors;
 using EcsRx.Tests.Components;
 using UniRx;
 

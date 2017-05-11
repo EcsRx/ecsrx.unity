@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EcsRx.Entities;
+using EcsRx.Groups.Accessors;
 using EcsRx.Groups;
 
 namespace Assets.EcsRx.Framework.Groups.Filtration

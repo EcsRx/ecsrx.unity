@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.3f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -187,23 +189,25 @@
     <Compile Include="Assets\EcsRx\Framework\Extensions\ISystemExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Extensions\PoolManagerExtensions.cs" />
     <Compile Include="Assets\EcsRx\Framework\Factories\IFactory.cs" />
-    <Compile Include="Assets\EcsRx\Framework\Groups\CacheableGroupAccessor.cs" />
-    <Compile Include="Assets\EcsRx\Framework\Groups\DefaultGroupAccessorFactory.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\Accessors\CacheableGroupAccessor.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\Accessors\DefaultGroupAccessorFactory.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\EmptyGroup.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\Filtration\CacheableGroupAccessorFilter.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\Filtration\IGroupAccessorFilter.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\Group.cs" />
-    <Compile Include="Assets\EcsRx\Framework\Groups\GroupAccessor.cs" />
-    <Compile Include="Assets\EcsRx\Framework\Groups\GroupAccessorConfiguration.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\Accessors\GroupAccessor.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\Accessors\GroupAccessorConfiguration.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\GroupBuilder.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\IGroup.cs" />
-    <Compile Include="Assets\EcsRx\Framework\Groups\IGroupAccessor.cs" />
-    <Compile Include="Assets\EcsRx\Framework\Groups\IGroupAccessorFactory.cs" />
-    <Compile Include="Assets\EcsRx\Framework\Groups\IGroupAccessorQuery.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\Accessors\IGroupAccessor.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\Accessors\IGroupAccessorFactory.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\Accessors\IGroupAccessorQuery.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\IHasPredicate.cs" />
     <Compile Include="Assets\EcsRx\Framework\Groups\ITypeGroup.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\Watchers\DefaultGroupWatcher.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\Watchers\IGroupWatcher.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\DefaultPoolFactory.cs" />
-    <Compile Include="Assets\EcsRx\Framework\Pools\GroupAccessorToken.cs" />
+    <Compile Include="Assets\EcsRx\Framework\Groups\Accessors\GroupAccessorToken.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\IPool.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\IPoolFactory.cs" />
     <Compile Include="Assets\EcsRx\Framework\Pools\IPoolManager.cs" />
@@ -509,6 +513,7 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

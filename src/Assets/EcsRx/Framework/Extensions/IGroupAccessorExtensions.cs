@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Assets.EcsRx.Framework.Groups;
 using EcsRx.Entities;
+using EcsRx.Groups.Accessors;
 using EcsRx.Groups;
 
 namespace EcsRx.Extensions

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Entities;
+using EcsRx.Groups.Accessors;
 using EcsRx.Groups;
 using EcsRx.Pools;
 using EcsRx.Systems;
