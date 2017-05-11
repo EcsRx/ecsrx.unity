@@ -4,7 +4,7 @@ using UniRx;
 
 namespace EcsRx.Groups.Watchers
 {
-    public interface IGroupWatcher
+    public interface IGroupWatcher : IDisposable
     {
         Type[] ComponentTypes { get; }
 

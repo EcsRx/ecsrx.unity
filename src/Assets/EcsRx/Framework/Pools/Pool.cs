@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EcsRx.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Events;
@@ -7,16 +8,16 @@ namespace EcsRx.Pools
 {
     public class Pool : IPool
     {
-        private readonly IList<IEntity> _entities;
+        private readonly IDictionary<Guid, IEntity> _entities;
 
         public string Name { get; private set; }
-        public IEnumerable<IEntity> Entities { get { return _entities;} }
+        public IEnumerable<IEntity> Entities { get { return _entities.Values;} }
         public IEventSystem EventSystem { get; private set; }
         public IEntityFactory EntityFactory { get; private set; }
 
         public Pool(string name, IEntityFactory entityFactory, IEventSystem eventSystem)
         {
-            _entities = new List<IEntity>();
+            _entities = new Dictionary<Guid, IEntity>();
             Name = name;
             EventSystem = eventSystem;
             EntityFactory = entityFactory;
@@ -26,7 +27,7 @@ namespace EcsRx.Pools
         {
             var entity = EntityFactory.Create(null);
 
-            _entities.Add(entity);
+            _entities.Add(entity.Id, entity);
 
             EventSystem.Publish(new EntityAddedEvent(entity, this));
 
@@ -38,11 +39,13 @@ namespace EcsRx.Pools
 
         public void RemoveEntity(IEntity entity)
         {
-            _entities.Remove(entity);
-
+            _entities.Remove(entity.Id);
             entity.Dispose();
 
             EventSystem.Publish(new EntityRemovedEvent(entity, this));
         }
+
+        public bool ContainsEntity(IEntity entity)
+        { return _entities.ContainsKey(entity.Id); }
     }
 }

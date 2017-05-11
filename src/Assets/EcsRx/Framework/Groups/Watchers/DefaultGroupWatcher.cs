@@ -4,7 +4,6 @@ using System.Linq;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
-using EcsRx.Systems;
 using UniRx;
 
 namespace EcsRx.Groups.Watchers

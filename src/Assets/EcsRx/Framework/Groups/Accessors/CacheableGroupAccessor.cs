@@ -4,7 +4,6 @@ using System.Linq;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
-using EcsRx.Pools;
 using UniRx;
 
 namespace EcsRx.Groups.Accessors
@@ -65,6 +64,12 @@ namespace EcsRx.Groups.Accessors
 
         public void OnEntityAddedToPool(EntityAddedEvent args)
         {
+            if (!string.IsNullOrEmpty(AccessorToken.Pool))
+            {
+                if(args.Pool.Name != AccessorToken.Pool)
+                { return; }
+            }
+            
             if (!args.Entity.Components.Any()) { return; }
             if (!args.Entity.HasComponents(AccessorToken.ComponentTypes)) { return; }
             CachedEntities.Add(args.Entity.Id, args.Entity);
@@ -72,7 +77,7 @@ namespace EcsRx.Groups.Accessors
 
         public void OnEntityRemovedFromPool(EntityRemovedEvent args)
         {
-            if(CachedEntities.ContainsKey(args.Entity.Id))
+            if (CachedEntities.ContainsKey(args.Entity.Id))
             { CachedEntities.Remove(args.Entity.Id); }
         }
 
