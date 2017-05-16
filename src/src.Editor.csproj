@@ -183,6 +183,20 @@
     <Compile Include="Assets\Tests\Editor\Components\TestComponentThree.cs" />
     <Compile Include="Assets\Tests\Editor\Components\TestComponentTwo.cs" />
     <Compile Include="Assets\Tests\Editor\DefaultGroupWatcherTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Framework\CacheGroupAccessorTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Framework\EntityTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Framework\IEnumerableExtensionsTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Framework\ISystemExtensionTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Framework\PoolTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Framework\ReactToEntitySystemHandlerTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Framework\ReactToGroupSystemHandlerTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Framework\SanityTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Framework\SetupSystemHandlerTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Framework\SystemExecutorTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Persistence\ApplicationDataSanityTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Persistence\EntityPersistenceTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Persistence\EntitySanityTests.cs" />
+    <Compile Include="Assets\Tests\Editor\Persistence\PerformanceTests.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\DefaultPrioritySystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\HighPrioritySystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\HigherThanDefaultPrioritySystem.cs" />
@@ -263,6 +277,7 @@
     <None Include="Assets\Zenject\LICENSE.txt" />
     <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

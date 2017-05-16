@@ -51,7 +51,7 @@ namespace EcsRx.Pools
             if(entity.Id == Guid.Empty)
             { throw new InvalidEntityException("Entity provided does not have an assigned Id"); }
 
-            _entities.Add(entity);
+            _entities.Add(entity.Id, entity);
             EventSystem.Publish(new EntityAddedEvent(entity, this));
         }
 

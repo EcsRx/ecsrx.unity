@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Groups;
+using EcsRx.Groups.Accessors;
 using EcsRx.Persistence.Database;
 using EcsRx.Persistence.Database.Accessor;
 using EcsRx.Persistence.Endpoints;

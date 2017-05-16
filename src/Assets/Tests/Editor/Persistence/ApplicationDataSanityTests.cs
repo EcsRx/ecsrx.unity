@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using Assets.EcsRx.Examples.GroupFilters.Blueprints;
-using Assets.EcsRx.Examples.PooledViews.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
@@ -18,7 +15,6 @@ using Persistity.Mappings.Mappers;
 using Persistity.Mappings.Types;
 using Persistity.Registries;
 using Persistity.Serialization;
-using Persistity.Serialization.Binary;
 using Persistity.Serialization.Json;
 using UniRx;
 using UnityEngine;
