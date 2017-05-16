@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.3f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -180,20 +182,7 @@
     <Compile Include="Assets\Tests\Editor\Components\TestComponentOne.cs" />
     <Compile Include="Assets\Tests\Editor\Components\TestComponentThree.cs" />
     <Compile Include="Assets\Tests\Editor\Components\TestComponentTwo.cs" />
-    <Compile Include="Assets\Tests\Editor\Framework\CacheGroupAccessorTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Framework\EntityTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Framework\IEnumerableExtensionsTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Framework\ISystemExtensionTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Framework\PoolTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Framework\ReactToEntitySystemHandlerTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Framework\ReactToGroupSystemHandlerTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Framework\SanityTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Framework\SetupSystemHandlerTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Framework\SystemExecutorTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Persistence\ApplicationDataSanityTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Persistence\EntityPersistenceTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Persistence\EntitySanityTests.cs" />
-    <Compile Include="Assets\Tests\Editor\Persistence\PerformanceTests.cs" />
+    <Compile Include="Assets\Tests\Editor\DefaultGroupWatcherTests.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\DefaultPrioritySystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\HighPrioritySystem.cs" />
     <Compile Include="Assets\Tests\Editor\Systems\HigherThanDefaultPrioritySystem.cs" />

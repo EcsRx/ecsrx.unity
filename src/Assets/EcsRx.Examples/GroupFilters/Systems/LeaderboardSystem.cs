@@ -5,6 +5,7 @@ using System.Text;
 using Assets.EcsRx.Examples.GroupFilters.Components;
 using Assets.EcsRx.Examples.GroupFilters.Filters;
 using Assets.EcsRx.Examples.GroupFilters.Groups;
+using EcsRx.Groups.Accessors;
 using EcsRx.Groups;
 using EcsRx.Pools;
 using EcsRx.Systems;

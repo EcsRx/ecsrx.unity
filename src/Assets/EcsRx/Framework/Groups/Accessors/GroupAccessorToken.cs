@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using EcsRx.Groups;
 
-namespace EcsRx.Pools
+namespace EcsRx.Groups.Accessors
 {
     public class GroupAccessorToken
     {

@@ -4,6 +4,7 @@ using System.Linq;
 using Assets.EcsRx.Examples.GroupFilters.Components;
 using Assets.EcsRx.Framework.Groups.Filtration;
 using EcsRx.Extensions;
+using EcsRx.Groups.Accessors;
 using EcsRx.Groups;
 using UniRx;
 using UnityEngine;
