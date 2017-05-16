@@ -4,6 +4,7 @@ using System.Linq;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
+using EcsRx.Groups.Accessors;
 using EcsRx.Groups;
 
 namespace EcsRx.Pools

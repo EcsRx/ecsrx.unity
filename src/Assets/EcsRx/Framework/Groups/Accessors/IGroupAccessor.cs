@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using EcsRx.Entities;
 using EcsRx.Pools;
 
-namespace EcsRx.Groups
+namespace EcsRx.Groups.Accessors
 {
     public interface IGroupAccessor
     {

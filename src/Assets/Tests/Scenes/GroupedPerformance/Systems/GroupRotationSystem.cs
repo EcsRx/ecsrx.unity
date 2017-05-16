@@ -1,5 +1,6 @@
 ﻿using Assets.Tests.Scenes.GroupedPerformance.Components;
 using EcsRx.Entities;
+using EcsRx.Groups.Accessors;
 using EcsRx.Groups;
 using EcsRx.Systems;
 using EcsRx.Unity.Components;

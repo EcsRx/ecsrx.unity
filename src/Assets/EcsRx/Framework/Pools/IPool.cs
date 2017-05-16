@@ -9,8 +9,8 @@ namespace EcsRx.Pools
         string Name { get; }
 
         IEnumerable<IEntity> Entities { get; }
-
         IEntity CreateEntity(IBlueprint blueprint = null);
+        bool ContainsEntity(IEntity entity);
         void RemoveEntity(IEntity entity);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using EcsRx.Events;
 
-namespace EcsRx.Groups
+namespace EcsRx.Groups.Accessors
 {
     public class DefaultGroupAccessorFactory : IGroupAccessorFactory
     {

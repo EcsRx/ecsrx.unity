@@ -1,11 +1,11 @@
 ﻿using System;
 using EcsRx.Entities;
 using EcsRx.Events;
-using EcsRx.Groups;
 using EcsRx.Pools;
 using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
+using EcsRx.Groups.Accessors;
 using EcsRx.Tests.Components;
 using UniRx;
 
@@ -39,8 +39,10 @@ namespace EcsRx.Tests
         public void should_only_cache_applicable_entity_when_applicable_entity_added()
         {
             var mockEventSystem = Substitute.For<IEventSystem>();
-            var accessorToken = new GroupAccessorToken(new[] { typeof(TestComponentOne), typeof(TestComponentTwo) }, "default");
+            var poolName = "defaut";
+            var accessorToken = new GroupAccessorToken(new[] { typeof(TestComponentOne), typeof(TestComponentTwo) }, poolName);
             var mockPool = Substitute.For<IPool>();
+            mockPool.Name.Returns(poolName);
             
             var applicableEntity = new Entity(Guid.NewGuid(), mockEventSystem);
             applicableEntity.AddComponent<TestComponentOne>();
@@ -59,6 +61,33 @@ namespace EcsRx.Tests
             
             Assert.That(cacheableGroupAccessor.CachedEntities, Has.Count.EqualTo(1));
             Assert.That(cacheableGroupAccessor.CachedEntities[applicableEntity.Id], Is.EqualTo(applicableEntity));
+        }
+
+        [Test]
+        public void should_not_cache_applicable_entity_when_added_to_different_pool()
+        {
+            var mockEventSystem = Substitute.For<IEventSystem>();
+            var poolName = "defaut";
+            var accessorToken = new GroupAccessorToken(new[] { typeof(TestComponentOne), typeof(TestComponentTwo) }, "some-other-pool-name");
+            var mockPool = Substitute.For<IPool>();
+            mockPool.Name.Returns(poolName);
+
+            var applicableEntity = new Entity(Guid.NewGuid(), mockEventSystem);
+            applicableEntity.AddComponent<TestComponentOne>();
+            applicableEntity.AddComponent<TestComponentTwo>();
+
+            var unapplicableEntity = new Entity(Guid.NewGuid(), mockEventSystem);
+            unapplicableEntity.AddComponent<TestComponentOne>();
+
+            var underlyingEvent = new ReactiveProperty<EntityAddedEvent>(new EntityAddedEvent(applicableEntity, mockPool));
+            mockEventSystem.Receive<EntityAddedEvent>().Returns(underlyingEvent);
+
+            var cacheableGroupAccessor = new CacheableGroupAccessor(accessorToken, new IEntity[] { }, mockEventSystem);
+            cacheableGroupAccessor.MonitorEntityChanges();
+
+            underlyingEvent.SetValueAndForceNotify(new EntityAddedEvent(unapplicableEntity, mockPool));
+
+            Assert.That(cacheableGroupAccessor.CachedEntities, Is.Empty);
         }
 
         [Test]

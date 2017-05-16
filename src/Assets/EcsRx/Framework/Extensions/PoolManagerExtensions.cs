@@ -9,14 +9,10 @@ namespace EcsRx.Extensions
     public static class PoolManagerExtensions
     {
         public static IEnumerable<IEntity> GetAllEntities(this IEnumerable<IPool> pools)
-        {
-            return pools.SelectMany(x => x.Entities);
-        }
+        { return pools.SelectMany(x => x.Entities); }
 
         public static IPool GetContainingPoolFor(this IPoolManager poolManager, IEntity entity)
-        {
-            return poolManager.Pools.SingleOrDefault(x => x.Entities.Contains(entity));
-        }
+        { return poolManager.Pools.SingleOrDefault(x => x.ContainsEntity(entity)); }
 
         public static void RemoveEntitiesContaining(this IPoolManager poolManager, params Type[] components)
         {
