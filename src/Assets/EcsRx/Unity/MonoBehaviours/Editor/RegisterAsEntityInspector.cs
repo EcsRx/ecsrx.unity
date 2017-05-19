@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using System.Linq;
-using EcsRx.Events;
 using EcsRx.Persistence.Data;
 using EcsRx.Persistence.Database.Accessor;
 using EcsRx.Persistence.Events;
@@ -12,13 +11,12 @@ using EcsRx.Unity.MonoBehaviours.Editor.Infrastructure;
 using EcsRx.Unity.MonoBehaviours.Editor.UIAspects;
 using UniRx;
 
-namespace EcsRx.Unity.Helpers
+namespace EcsRx.Unity.Editors
 {
     [Serializable]
     [CustomEditor(typeof(RegisterAsEntity))]
-    public partial class RegisterAsEntityInspector : Editor
+    public partial class RegisterAsEntityInspector : InjectedEditor
     {
-        private IEventSystem _eventSystem;
         private IApplicationDatabaseAccessor _databaseAccessor;
 
         private RegisterAsEntity _registerAsEntity;
@@ -26,8 +24,7 @@ namespace EcsRx.Unity.Helpers
 
         private EntityData _entityData;
         private PoolData _currentPool;
-
-
+        
         private void PoolSection()
         {
             EditorGUIHelper.WithVerticalLayout(() =>
@@ -62,12 +59,12 @@ namespace EcsRx.Unity.Helpers
                 });
             });
         }
-
+        
         private void OnDestroy()
         {
-            if (Application.isEditor && !Application.isPlaying && !EditorApplication.isPlayingOrWillChangePlaymode)
+            if (WasInPlaymode)
             {
-                if (EditorUtility.DisplayDialog("Do you want to remove this entity from the database too?", "Yes", "No"))
+                if (EditorUtility.DisplayDialog("Removing Entity", "Do you want to remove this entity from the database too?", "Yes", "No"))
                 {
                     _currentPool.Entities.Remove(_entityData);
                     if (_currentPool.Entities.Count == 0)
@@ -81,7 +78,6 @@ namespace EcsRx.Unity.Helpers
             _registerAsEntity.EntityId = _entityData.EntityId;
             if (GUI.changed)
             {
-                //this._registerAsEntity.SerializeState();
                 this.SaveActiveSceneChanges();
                 _databaseAccessor.PersistDatabase(() => { Debug.Log("Saved Database"); });
             }
@@ -90,25 +86,6 @@ namespace EcsRx.Unity.Helpers
         private void OnEnable()
         {
             _registerAsEntity = (RegisterAsEntity)target;
-
-            SetupDependencies();
-
-            if (_databaseAccessor.HasInitialized)
-            {
-                OnDatabaseLoaded();
-                return;
-            }
-
-            _eventSystem.Receive<ApplicationDatabaseLoadedEvent>()
-                .First()
-                .Subscribe(evt => OnDatabaseLoaded());
-        }
-        
-
-        private void SetupDependencies()
-        {
-            _eventSystem = EditorContext.Container.Resolve<IEventSystem>();
-            _databaseAccessor = EditorContext.Container.Resolve<IApplicationDatabaseAccessor>();
         }
         
         private void OnDatabaseLoaded()
@@ -141,6 +118,26 @@ namespace EcsRx.Unity.Helpers
             EntityIdSection();
             _entityDataAspect.DisplayUI();
             PersistChanges();
+        }
+
+        protected override void SetupDependencies()
+        {
+            base.SetupDependencies();
+
+            _databaseAccessor = EditorContext.Container.Resolve<IApplicationDatabaseAccessor>();
+        }
+
+        protected override void OnDependenciesRegistered()
+        {
+            if (_databaseAccessor.HasInitialized)
+            {
+                OnDatabaseLoaded();
+                return;
+            }
+
+            EventSystem.Receive<ApplicationDatabaseLoadedEvent>()
+                .First()
+                .Subscribe(evt => OnDatabaseLoaded());
         }
     }
 }

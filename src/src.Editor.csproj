@@ -171,6 +171,7 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Extensions\IntExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Infrastructure\EditorContext.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Infrastructure\SceneListener.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\InjectedEditor.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Models\ComponentEditorState.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\PoolManagerViewerInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\RegisterAsEntityInspector.cs" />
