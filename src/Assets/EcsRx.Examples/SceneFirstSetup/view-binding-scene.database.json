@@ -4,18 +4,6 @@
       "PoolName": "Default",
       "Entities": [
         {
-          "EntityId": "00000000-0000-0000-0000-000000000000",
-          "Components": []
-        },
-        {
-          "EntityId": "65593326-ed2d-48ea-94c5-4a4ccefd85ad",
-          "Components": []
-        },
-        {
-          "EntityId": "365306b2-5cff-4e1f-b1cd-9828570becd9",
-          "Components": []
-        },
-        {
           "EntityId": "848fdb06-8fd9-4284-b9c3-c4fed714a0fa",
           "Components": [
             {

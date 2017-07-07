@@ -233,8 +233,6 @@
     <Compile Include="Assets\EcsRx\Persistence\Database\ApplicationEntityLink.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Endpoints\ApplicationDatabaseFileEndpoint.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Endpoints\IApplicationDatabaseFileEndpoint.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Events\ApplicationDatabaseLoadedEvent.cs" />
-    <Compile Include="Assets\EcsRx\Persistence\Events\ComponentAddedEvent.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\BinaryIOExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\EntityDataExtensions.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Extensions\ReflectionExtensions.cs" />

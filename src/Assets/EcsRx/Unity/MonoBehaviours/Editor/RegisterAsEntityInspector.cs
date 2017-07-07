@@ -5,11 +5,13 @@ using System;
 using System.Linq;
 using EcsRx.Persistence.Data;
 using EcsRx.Persistence.Database.Accessor;
-using EcsRx.Persistence.Events;
 using EcsRx.Unity.MonoBehaviours.Editor.EditorHelper;
+using EcsRx.Unity.MonoBehaviours.Editor.Events;
 using EcsRx.Unity.MonoBehaviours.Editor.Infrastructure;
 using EcsRx.Unity.MonoBehaviours.Editor.UIAspects;
 using UniRx;
+using UnityEditor.SceneManagement;
+using AssetModificationProcessor = UnityEditor.AssetModificationProcessor;
 
 namespace EcsRx.Unity.Editors
 {
@@ -76,11 +78,7 @@ namespace EcsRx.Unity.Editors
         private void PersistChanges()
         {
             _registerAsEntity.EntityId = _entityData.EntityId;
-            if (GUI.changed)
-            {
-                this.SaveActiveSceneChanges();
-                _databaseAccessor.PersistDatabase(() => { Debug.Log("Saved Database"); });
-            }
+            _databaseAccessor.PersistDatabase(() => { Debug.Log("Saved Database"); });
         }
 
         private void OnEnable()
@@ -117,7 +115,6 @@ namespace EcsRx.Unity.Editors
             PoolSection();
             EntityIdSection();
             _entityDataAspect.DisplayUI();
-            PersistChanges();
         }
 
         protected override void SetupDependencies()
@@ -138,6 +135,10 @@ namespace EcsRx.Unity.Editors
             EventSystem.Receive<ApplicationDatabaseLoadedEvent>()
                 .First()
                 .Subscribe(evt => OnDatabaseLoaded());
+
+            EventSystem.Receive<SceneSavedEvent>()
+                .First()
+                .Subscribe(evt => PersistChanges());
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using EcsRx.Events;
 using EcsRx.Persistence.Database.Accessor;
-using EcsRx.Persistence.Events;
+using EcsRx.Unity.MonoBehaviours.Editor.Events;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;

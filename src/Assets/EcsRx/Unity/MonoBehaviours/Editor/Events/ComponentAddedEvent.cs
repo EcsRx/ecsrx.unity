@@ -1,7 +1,7 @@
 ﻿using System;
 using EcsRx.Components;
 
-namespace EcsRx.Persistence.Events
+namespace EcsRx.Unity.MonoBehaviours.Editor.Events
 {
     public class ComponentEvent : EventArgs
     {

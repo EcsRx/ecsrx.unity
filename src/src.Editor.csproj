@@ -177,6 +177,7 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\RegisterAsEntityInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\UIAspects\ComponentUIAspect.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\UIAspects\EntityDataUIAspect.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\AssetProcessors\SceneSaveDetector.cs" />
     <Compile Include="Assets\Tests\Editor\Components\MoveableComponent.cs" />
     <Compile Include="Assets\Tests\Editor\Components\NpcComponent.cs" />
     <Compile Include="Assets\Tests\Editor\Components\StatsComponent.cs" />
@@ -184,6 +185,9 @@
     <Compile Include="Assets\Tests\Editor\Components\TestComponentThree.cs" />
     <Compile Include="Assets\Tests\Editor\Components\TestComponentTwo.cs" />
     <Compile Include="Assets\Tests\Editor\DefaultGroupWatcherTests.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Events\ApplicationDatabaseLoadedEvent.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Events\ComponentAddedEvent.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\Events\SceneSavedEvent.cs" />
     <Compile Include="Assets\Tests\Editor\Framework\CacheGroupAccessorTests.cs" />
     <Compile Include="Assets\Tests\Editor\Framework\EntityTests.cs" />
     <Compile Include="Assets\Tests\Editor\Framework\IEnumerableExtensionsTests.cs" />
