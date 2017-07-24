@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 
 Shader "AngryBots/Particle/AlphaBlend" {
 	Properties {
@@ -21,7 +23,7 @@ Shader "AngryBots/Particle/AlphaBlend" {
 		v2f vert(appdata_full v) {
 			v2f o;
 			
-			o.pos = mul (UNITY_MATRIX_MVP, v.vertex);	
+			o.pos = UnityObjectToClipPos (v.vertex);	
 			o.uv.xy = v.texcoord.xy;
 			o.vertexColor = v.color * _TintColor;
 					
