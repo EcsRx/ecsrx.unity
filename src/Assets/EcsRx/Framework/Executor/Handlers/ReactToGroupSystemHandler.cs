@@ -32,7 +32,7 @@ namespace EcsRx.Systems.Executor.Handlers
                             {
                                 system.Execute(entities[i]);
                             }
-                            return;
+                            continue;
                         }
 
                         system.Execute(entities[i]);
