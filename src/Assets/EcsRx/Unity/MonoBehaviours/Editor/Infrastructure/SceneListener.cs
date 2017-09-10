@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 namespace EcsRx.Unity.MonoBehaviours.Editor.Infrastructure
 {
-    [InitializeOnLoad]
+    //[InitializeOnLoad] This class is not in use currently
     public class SceneListener
     {
         private static readonly IEventSystem EventSystem;
