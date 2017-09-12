@@ -1,4 +1,5 @@
-﻿using Assets.Tests.Scenes.GroupedPerformance.Components;
+﻿using System;
+using Assets.Tests.Scenes.GroupedPerformance.Components;
 using EcsRx.Entities;
 using EcsRx.Groups;
 using EcsRx.Systems;

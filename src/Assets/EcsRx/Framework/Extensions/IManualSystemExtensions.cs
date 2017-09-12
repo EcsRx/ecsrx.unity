@@ -1,4 +1,5 @@
-﻿using EcsRx.Systems;
+﻿using System;
+using EcsRx.Systems;
 using UniRx;
 
 namespace EcsRx.Extensions

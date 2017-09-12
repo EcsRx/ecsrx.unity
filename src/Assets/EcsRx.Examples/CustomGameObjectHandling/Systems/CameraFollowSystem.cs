@@ -1,4 +1,5 @@
-﻿using Assets.EcsRx.Examples.CustomGameObjectHandling.Components;
+﻿using System;
+using Assets.EcsRx.Examples.CustomGameObjectHandling.Components;
 using EcsRx.Entities;
 using EcsRx.Groups.Accessors;
 using EcsRx.Groups;
