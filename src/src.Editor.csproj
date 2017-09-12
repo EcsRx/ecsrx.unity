@@ -131,6 +131,10 @@
       <Project>{6001150F-B5BC-D04E-994E-425096E0FFE6}</Project>
       <Name>src.Plugins</Name>
     </ProjectReference>
+    <ProjectReference Include="src.Editor.Plugins.csproj">
+      <Project>{3BE7610A-3DD7-B09A-C200-5D649B2A2535}</Project>
+      <Name>src.Editor.Plugins</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\Editor\ActiveSystemsViewerInspector.cs" />
@@ -221,23 +225,11 @@
     <Compile Include="Assets\UnityTestTools\IntegrationTestsFramework\TestRunner\Editor\Renderer\IntegrationTestRendererBase.cs" />
     <Compile Include="Assets\UnityTestTools\IntegrationTestsFramework\TestRunner\Editor\Renderer\RenderingOptions.cs" />
     <Compile Include="Assets\UnityTestTools\IntegrationTestsFramework\TestRunner\Editor\TestComponentEditor.cs" />
-    <Compile Include="Assets\Zenject\OptionalExtras\TestingFramework\Editor\ZenjectIntegrationTestRunnerEditor.cs" />
-    <Compile Include="Assets\Zenject\OptionalExtras\TestingFramework\Editor\ZenjectUnitTestFixture.cs" />
-    <Compile Include="Assets\Zenject\Source\Editor\Editors\ContextEditor.cs" />
-    <Compile Include="Assets\Zenject\Source\Editor\Editors\GameObjectContextEditor.cs" />
-    <Compile Include="Assets\Zenject\Source\Editor\Editors\ProjectContextEditor.cs" />
-    <Compile Include="Assets\Zenject\Source\Editor\Editors\SceneContextEditor.cs" />
-    <Compile Include="Assets\Zenject\Source\Editor\Editors\SceneDecoratorContextEditor.cs" />
-    <Compile Include="Assets\Zenject\Source\Editor\EditorWindow\GuiRenderableManager.cs" />
-    <Compile Include="Assets\Zenject\Source\Editor\EditorWindow\IGuiRenderable.cs" />
-    <Compile Include="Assets\Zenject\Source\Editor\EditorWindow\ZenjectEditorWindow.cs" />
-    <Compile Include="Assets\Zenject\Source\Editor\ObjectGraphVisualizer.cs" />
-    <Compile Include="Assets\Zenject\Source\Editor\UnityInspectorListEditor.cs" />
-    <Compile Include="Assets\Zenject\Source\Editor\ZenMenuItems.cs" />
-    <Compile Include="Assets\Zenject\Source\Editor\ZenUnityEditorUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Plugins\UniRx\ReadMe.txt" />
+    <None Include="Assets\Plugins\Zenject\LICENSE.txt" />
+    <None Include="Assets\Plugins\Zenject\Version.txt" />
     <None Include="Assets\UnityTestTools\Examples\IntegrationTestsFrameworkExamples\AngryBotsTests\Shaders\BackgroundAndCharacters\AngryInclude.cginc" />
     <None Include="Assets\UnityTestTools\Examples\IntegrationTestsFrameworkExamples\AngryBotsTests\Shaders\BackgroundAndCharacters\CharacterSelfIlluminationReflective.shader" />
     <None Include="Assets\UnityTestTools\Examples\IntegrationTestsFrameworkExamples\AngryBotsTests\Shaders\BackgroundAndCharacters\EnemySelfIlluminationReflective.shader" />
@@ -254,8 +246,6 @@
     <None Include="Assets\UnityTestTools\Examples\IntegrationTestsFrameworkExamples\AngryBotsTests\Shaders\Fx\ParticleBlend.shader" />
     <None Include="Assets\UnityTestTools\LICENSE.txt" />
     <None Include="Assets\UnityTestTools\changelog.txt" />
-    <None Include="Assets\Zenject\LICENSE.txt" />
-    <None Include="Assets\Zenject\Version.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
