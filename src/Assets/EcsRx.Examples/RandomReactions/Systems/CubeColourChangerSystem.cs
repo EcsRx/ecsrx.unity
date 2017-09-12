@@ -1,3 +1,4 @@
+using System;
 using Assets.EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Entities;
 using EcsRx.Groups;

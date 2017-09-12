@@ -1,4 +1,5 @@
-﻿using Assets.EcsRx.Examples.SimpleMovement.Components;
+﻿using System;
+using Assets.EcsRx.Examples.SimpleMovement.Components;
 using EcsRx.Entities;
 using EcsRx.Groups.Accessors;
 using EcsRx.Groups;
