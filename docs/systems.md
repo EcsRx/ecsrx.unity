@@ -14,6 +14,10 @@ All systems have the notion of a `TargetGroup` which describes what entities to 
 
 This interface implies that you want to setup entities, so it will match all entities via the group and will run a `Setup` method once for each of the entities. This is primarily there for doing one off setup methods on entities, such as instantiating `GameObject` or complex object types.
 
+### ITeardownSystem
+
+This is similar to `ISetupSystem`, but is used when a matched entity's group is removed.
+
 ### IReactToEntitySystem
 
 This interface implies that you want to react to individual changes in an entity. It will pass each entity to the `ReactToEntity` method to setup the observable you want, such as Health changing, input occurring, random intervals etc. This only happens once per matched entity, here is an example of the sort of thing you would do here:
