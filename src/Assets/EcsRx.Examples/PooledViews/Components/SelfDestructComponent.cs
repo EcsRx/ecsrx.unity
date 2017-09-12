@@ -1,8 +1,11 @@
 ﻿using EcsRx.Components;
 using UnityEngine;
 
-public class SelfDestructComponent : IComponent
+namespace EcsRx.Examples.PooledViews.Components
 {
-    public Vector3 StartingPosition { get; set; }
-    public float Lifetime { get; set; }
+    public class SelfDestructComponent : IComponent
+    {
+        public Vector3 StartingPosition { get; set; }
+        public float Lifetime { get; set; }
+    }
 }

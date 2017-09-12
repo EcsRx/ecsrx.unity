@@ -1,5 +1,6 @@
 ﻿using EcsRx.Blueprints;
 using EcsRx.Entities;
+using EcsRx.Examples.PooledViews.Components;
 using EcsRx.Unity.Components;
 using UnityEngine;
 

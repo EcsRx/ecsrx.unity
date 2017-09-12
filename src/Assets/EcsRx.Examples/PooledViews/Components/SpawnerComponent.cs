@@ -1,6 +1,9 @@
 ﻿using EcsRx.Components;
 
-public class SpawnerComponent : IComponent
+namespace EcsRx.Examples.PooledViews.Components
 {
-    public float SpawnRate { get; set; }
+    public class SpawnerComponent : IComponent
+    {
+        public float SpawnRate { get; set; }
+    }
 }

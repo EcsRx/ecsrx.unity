@@ -1,5 +1,6 @@
 ﻿using System;
 using EcsRx.Entities;
+using EcsRx.Examples.PooledViews.Components;
 using EcsRx.Groups;
 using EcsRx.Pools;
 using EcsRx.Systems;
