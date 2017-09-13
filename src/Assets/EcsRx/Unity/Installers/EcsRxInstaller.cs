@@ -32,7 +32,7 @@ using TypeAnalyzer = Persistity.Mappings.Types.TypeAnalyzer;
 
 namespace EcsRx.Unity.Installers
 {
-    public class EcsRxInstaller : Installer
+    public class EcsRxInstaller : Installer<EcsRxInstaller>
     {
         public override void InstallBindings()
         {
@@ -53,11 +53,11 @@ namespace EcsRx.Unity.Installers
             Container.Bind<IPoolManager>().To<PoolManager>().AsSingle();
             Container.Bind<IViewHandler>().To<ViewHandler>().AsSingle();
 
-            Container.Bind<IReactToDataSystemHandler>().To<ReactToDataSystemHandler>();
-            Container.Bind<IReactToEntitySystemHandler>().To<ReactToEntitySystemHandler>();
-            Container.Bind<IReactToGroupSystemHandler>().To<ReactToGroupSystemHandler>();
-            Container.Bind<ISetupSystemHandler>().To<SetupSystemHandler>();
-            Container.Bind<IManualSystemHandler>().To<ManualSystemHandler>();
+            Container.Bind<IReactToDataSystemHandler>().To<ReactToDataSystemHandler>().AsSingle();
+            Container.Bind<IReactToEntitySystemHandler>().To<ReactToEntitySystemHandler>().AsSingle();
+            Container.Bind<IReactToGroupSystemHandler>().To<ReactToGroupSystemHandler>().AsSingle();
+            Container.Bind<ISetupSystemHandler>().To<SetupSystemHandler>().AsSingle();
+            Container.Bind<IManualSystemHandler>().To<ManualSystemHandler>().AsSingle();
 
             Container.Bind<ISystemExecutor>().To<SystemExecutor>().AsSingle();
         }

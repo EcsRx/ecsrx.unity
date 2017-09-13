@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using ModestTree;
 using System;
 using System.Collections.Generic;
@@ -167,9 +168,10 @@ namespace Zenject
             return t.GetFields(flags).Concat(GetAllFields(t.BaseType, flags)).Distinct();
         }
 
+        [NotNull]
         private static Action<object, object> GetOnlyPropertySetter(
-            Type parentType,
-            string propertyName)
+            [NotNull] Type parentType,
+            [NotNull] string propertyName)
         {
             Assert.That(parentType != null);
             Assert.That(!string.IsNullOrEmpty(propertyName));

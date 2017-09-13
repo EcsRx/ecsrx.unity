@@ -10,7 +10,7 @@ namespace EcsRx.Unity.MonoBehaviours.Editor.Infrastructure
         static EditorContext()
         {
             _container = new DiContainer();
-            _container.Install<EcsRxInstaller>();
+            EcsRxInstaller.Install(_container);
         }
         
         public static DiContainer Container
