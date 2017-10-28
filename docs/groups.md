@@ -63,7 +63,7 @@ As you can see, you can now just instantiate `new MyGroup();` and everyone is ha
 
 ## TargettedComponents and TargettedEntities
 
-So as mentioned most entities and constrained by their component types, thisi s the `TargettedComponents` aspect, however there is also a **HUGELY EXPERIMENTAL** `TargettedEntities` notion, which basically takes the constraining a step further and allows you to constrain further on the entities matching the components.
+So as mentioned most entities and constrained by their component types, this is the `TargettedComponents` aspect, however there is also a **HUGELY EXPERIMENTAL** `TargettedEntities` notion, which basically takes the constraining a step further and allows you to constrain further on the entities matching the components.
 
 The `TargettedEntities` property is just a predicate that takes an entity, and returns if it matches or not. Currently these are checked before subscriptions are passed to the system to execute, so you can express some complex constraints without having to be specific in each system.
 
