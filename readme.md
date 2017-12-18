@@ -51,6 +51,8 @@ The **Core** package contains the pure project files which are required for the 
 
 The **Unity** package contains a wrapper around the **Core** framework and some unity helpers, this will be built upon going forward.
 
+There is also a pure .net (with rx.net) prototype available [EcsRx.Net](https://github.com/grofit/EcsRx.Net) for those who want to use this outside of unity in the wider .net world, it was made as a proof of concept for if unirx ends up absorbing some of rx.net with the new unity .net updates, but there is yet to be any news on this.
+
 ## Quick Start
 
 - Install both the above packages 
