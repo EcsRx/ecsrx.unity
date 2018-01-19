@@ -29,6 +29,19 @@ namespace Zenject
             return this;
         }
 
+        public ConditionCopyNonLazyBinder FromIFactoryResolve()
+        {
+            return FromIFactoryResolve(null);
+        }
+
+        public ConditionCopyNonLazyBinder FromIFactoryResolve(object subIdentifier)
+        {
+            ProviderFunc =
+                (container) => new IFactoryResolveProvider<TParam1, TParam2, TParam3, TParam4, TParam5, TContract>(container, subIdentifier);
+
+            return new ConditionCopyNonLazyBinder(BindInfo);
+        }
+
         public FactorySubContainerBinder<TParam1, TParam2, TParam3, TParam4, TParam5, TContract> FromSubContainerResolve()
         {
             return FromSubContainerResolve(null);

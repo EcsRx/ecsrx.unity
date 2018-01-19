@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using ModestTree;
 using ModestTree.Util;
 
@@ -87,44 +88,76 @@ namespace Zenject.Internal
             }
         }
 
-        // NOTE: This method will not return components that are within a GameObjectContext
-        public static List<MonoBehaviour> GetInjectableMonoBehaviours(GameObject gameObject)
+        public static void GetInjectableMonoBehaviours(
+            Scene scene, List<MonoBehaviour> monoBehaviours)
         {
-            var childMonoBehaviours = gameObject.GetComponentsInChildren<MonoBehaviour>(true);
+            foreach (var rootObj in GetRootGameObjects(scene))
+            {
+                if (rootObj != null)
+                {
+                    GetInjectableMonoBehaviours(rootObj, monoBehaviours);
+                }
+            }
+        }
 
-            var subContexts = childMonoBehaviours.OfType<GameObjectContext>().Select(x => x.transform).ToList();
+        // NOTE: This method will not return components that are within a GameObjectContext
+        // It returns monobehaviours in a bottom-up order
+        public static void GetInjectableMonoBehaviours(
+            GameObject gameObject, List<MonoBehaviour> injectableComponents)
+        {
+            if (gameObject == null)
+            {
+                return;
+            }
 
-            return childMonoBehaviours.Where(x =>
-                    // Can be null for broken component references
-                    x != null
-                    // Do not inject on installers since these are always injected before they are installed
-                    && !x.GetType().DerivesFrom<MonoInstaller>()
+            var monoBehaviours = gameObject.GetComponents<MonoBehaviour>();
+
+            for (int i = 0; i < monoBehaviours.Length; i++)
+            {
+                var monoBehaviour = monoBehaviours[i];
+
+                // Can be null for broken component references
+                if (monoBehaviour != null
+                    && monoBehaviour.GetType().DerivesFromOrEqual<GameObjectContext>())
+                {
                     // Need to make sure we don't inject on any MonoBehaviour's that are below a GameObjectContext
                     // Since that is the responsibility of the GameObjectContext
                     // BUT we do want to inject on the GameObjectContext itself
-                    && UnityUtil.GetParents(x.transform).Intersect(subContexts).IsEmpty()
-                    && (x.GetComponent<GameObjectContext>() == null || x is GameObjectContext))
-                .OrderByDescending(x => GetParentCount(x.transform))
-                .ToList();
-        }
-
-        static int GetParentCount(Transform transform)
-        {
-            int result = 0;
-
-            while (transform.parent != null)
-            {
-                transform = transform.parent;
-                result++;
+                    injectableComponents.Add(monoBehaviour);
+                    return;
+                }
             }
 
-            return result;
+            // Recurse first so it adds components bottom up
+            for (int i = 0; i < gameObject.transform.childCount; i++)
+            {
+                var child = gameObject.transform.GetChild(i);
+
+                if (child != null)
+                {
+                    GetInjectableMonoBehaviours(child.gameObject, injectableComponents);
+                }
+            }
+
+            for (int i = 0; i < monoBehaviours.Length; i++)
+            {
+                var monoBehaviour = monoBehaviours[i];
+
+                // Can be null for broken component references
+                if (monoBehaviour != null
+                    && IsInjectableMonoBehaviourType(monoBehaviour.GetType()))
+                {
+                    injectableComponents.Add(monoBehaviour);
+                }
+            }
         }
 
-        public static IEnumerable<MonoBehaviour> GetInjectableMonoBehaviours(Scene scene)
+        public static bool IsInjectableMonoBehaviourType(Type type)
         {
-            return GetRootGameObjects(scene)
-                .SelectMany<GameObject, MonoBehaviour>(ZenUtilInternal.GetInjectableMonoBehaviours);
+            // Do not inject on installers since these are always injected before they are installed
+            return type != null && !type.DerivesFrom<MonoInstaller>()
+                // Don't bother performing reflection operations on unity classes since they are guaranteed not to use zenject
+                && (type.Namespace == null || !type.Namespace.StartsWith("UnityEngine."));
         }
 
         public static IEnumerable<GameObject> GetRootGameObjects(Scene scene)

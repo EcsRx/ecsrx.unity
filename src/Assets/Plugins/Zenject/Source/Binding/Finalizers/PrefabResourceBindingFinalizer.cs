@@ -11,15 +11,17 @@ namespace Zenject
     {
         readonly GameObjectCreationParameters _gameObjectBindInfo;
         readonly string _resourcePath;
+        readonly Func<Type, IPrefabInstantiator, IProvider> _providerFactory;
 
         public PrefabResourceBindingFinalizer(
             BindInfo bindInfo,
             GameObjectCreationParameters gameObjectBindInfo,
-            string resourcePath)
+            string resourcePath, Func<Type, IPrefabInstantiator, IProvider> providerFactory)
             : base(bindInfo)
         {
             _gameObjectBindInfo = gameObjectBindInfo;
             _resourcePath = resourcePath;
+            _providerFactory = providerFactory;
         }
 
         protected override void OnFinalizeBinding(DiContainer container)
@@ -33,15 +35,6 @@ namespace Zenject
             {
                 FinalizeBindingConcrete(container, BindInfo.ToTypes);
             }
-        }
-
-        IProvider CreateProviderForType(
-            Type contractType, IPrefabInstantiator instantiator)
-        {
-            Assert.That(contractType.IsInterface() || contractType.DerivesFrom<Component>());
-
-            return new GetFromPrefabComponentProvider(
-                contractType, instantiator);
         }
 
         void FinalizeBindingConcrete(DiContainer container, List<Type> concreteTypes)
@@ -58,7 +51,7 @@ namespace Zenject
                             concreteType,
                             _gameObjectBindInfo,
                             BindInfo.Arguments,
-                            BindInfo.ConcreteIdentifier));
+                            BindInfo.ConcreteIdentifier, _providerFactory));
                     break;
                 }
                 case ScopeTypes.Transient:
@@ -67,7 +60,7 @@ namespace Zenject
                         container,
                         concreteTypes,
                         (_, concreteType) =>
-                            CreateProviderForType(
+                            _providerFactory(
                                 concreteType,
                                 new PrefabInstantiator(
                                     container,
@@ -99,7 +92,7 @@ namespace Zenject
                         container,
                         concreteTypes,
                         (_, concreteType) => new CachedProvider(
-                            CreateProviderForType(concreteType, prefabCreator)));
+                            _providerFactory(concreteType, prefabCreator)));
                     break;
                 }
                 default:
@@ -122,7 +115,7 @@ namespace Zenject
                             contractType,
                             _gameObjectBindInfo,
                             BindInfo.Arguments,
-                            BindInfo.ConcreteIdentifier));
+                            BindInfo.ConcreteIdentifier, _providerFactory));
                     break;
                 }
                 case ScopeTypes.Transient:
@@ -130,7 +123,7 @@ namespace Zenject
                     RegisterProviderPerContract(
                         container,
                         (_, contractType) =>
-                            CreateProviderForType(
+                            _providerFactory(
                                 contractType,
                                 new PrefabInstantiator(
                                     container,
@@ -162,7 +155,7 @@ namespace Zenject
                         container,
                         (_, contractType) =>
                             new CachedProvider(
-                                CreateProviderForType(contractType, prefabCreator)));
+                                _providerFactory(contractType, prefabCreator)));
                     break;
                 }
                 default:

@@ -17,7 +17,7 @@ namespace Zenject
 
         public bool IsHandlerRegistered(BindingId signalType)
         {
-            return !GetList(signalType).IsEmpty();
+            return GetList(signalType).Count > 0;
         }
 
         List<ISignalHandler> GetList(BindingId signalType)
@@ -54,12 +54,12 @@ namespace Zenject
         {
             var handlers = GetList(signalType);
 
-            if (handlers.IsEmpty())
+            if (handlers.Count == 0)
             {
                 return false;
             }
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
             using (ProfileBlock.Start("Signal '{0}'", signalType))
 #endif
             {

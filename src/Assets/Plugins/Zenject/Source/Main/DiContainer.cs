@@ -30,7 +30,8 @@ namespace Zenject
         public const string DependencyRootIdentifier = "DependencyRoot";
 
         readonly Dictionary<BindingId, List<ProviderInfo>> _providers = new Dictionary<BindingId, List<ProviderInfo>>();
-        readonly DiContainer _parentContainer;
+        readonly List<DiContainer> _parentContainers = new List<DiContainer>();
+        readonly List<DiContainer> _ancestorContainers = new List<DiContainer>();
         readonly Stack<LookupId> _resolvesInProgress = new Stack<LookupId>();
 
         readonly SingletonProviderCreator _singletonProviderCreator;
@@ -54,6 +55,8 @@ namespace Zenject
             _singletonMarkRegistry = new SingletonMarkRegistry();
             _lazyInjector = new LazyInstanceInjector(this);
             _singletonProviderCreator = new SingletonProviderCreator(this, _singletonMarkRegistry);
+
+            ShouldCheckForInstallWarning = true;
 
             InstallDefaultBindings();
             FlushBindings();
@@ -91,19 +94,26 @@ namespace Zenject
         {
         }
 
-        public DiContainer(DiContainer parentContainer, bool isValidating)
+        public DiContainer(IEnumerable<DiContainer> parentContainers, bool isValidating)
             : this(isValidating)
         {
-            _parentContainer = parentContainer;
+            _parentContainers = parentContainers.ToList();
+            _ancestorContainers = FlattenInheritanceChain();
 
-            if (parentContainer != null)
+            if (!_parentContainers.IsEmpty())
             {
-                parentContainer.FlushBindings();
+                foreach (var parent in _parentContainers)
+                {
+                    parent.FlushBindings();
+                }
 
 #if !NOT_UNITY3D
-                DefaultParent = parentContainer.DefaultParent;
+                DefaultParent = _parentContainers.First().DefaultParent;
 #endif
-                foreach (var binding in parentContainer._childBindings)
+
+                // Make sure to avoid duplicates which could happen if a parent container
+                // appears multiple times in the inheritance chain
+                foreach (var binding in _parentContainers.SelectMany(x => x._childBindings).Distinct())
                 {
                     Assert.That(binding.CopyIntoAllSubContainers);
                     _currentBindings.Enqueue(binding);
@@ -113,9 +123,14 @@ namespace Zenject
             }
         }
 
-        public DiContainer(DiContainer parentContainer)
-            : this(parentContainer, false)
+        public DiContainer(IEnumerable<DiContainer> parentContainers)
+            : this(parentContainers, false)
         {
+        }
+
+        public bool ShouldCheckForInstallWarning
+        {
+            get; set;
         }
 
         // When true, this will throw exceptions whenever we create new game objects
@@ -146,9 +161,9 @@ namespace Zenject
         }
 #endif
 
-        public DiContainer ParentContainer
+        public IEnumerable<DiContainer> ParentContainers
         {
-            get { return _parentContainer; }
+            get { return _parentContainers; }
         }
 
         public bool ChecksForCircularDependencies
@@ -273,7 +288,7 @@ namespace Zenject
 
         DiContainer CreateSubContainer(bool isValidating)
         {
-            return new DiContainer(this, isValidating);
+            return new DiContainer(new DiContainer[] { this }, isValidating);
         }
 
         public void RegisterProvider(
@@ -306,49 +321,90 @@ namespace Zenject
                 .Where(x => x.ProviderInfo.Condition == null || x.ProviderInfo.Condition(context));
         }
 
-        IEnumerable<ProviderPair> GetProvidersForContract(BindingId bindingId, InjectSources sourceType)
+        IEnumerable<DiContainer> GetAllContainersToLookup(InjectSources sourceType)
         {
-            FlushBindings();
-
             switch (sourceType)
             {
                 case InjectSources.Local:
                 {
-                    return GetLocalProviders(bindingId).Select(x => new ProviderPair(x, this));
-                }
-                case InjectSources.Any:
-                {
-                    var localPairs = GetLocalProviders(bindingId).Select(x => new ProviderPair(x, this));
-
-                    if (_parentContainer == null)
-                    {
-                        return localPairs;
-                    }
-
-                    return localPairs.Concat(
-                        _parentContainer.GetProvidersForContract(bindingId, InjectSources.Any));
-                }
-                case InjectSources.AnyParent:
-                {
-                    if (_parentContainer == null)
-                    {
-                        return Enumerable.Empty<ProviderPair>();
-                    }
-
-                    return _parentContainer.GetProvidersForContract(bindingId, InjectSources.Any);
+                    yield return this;
+                    break;
                 }
                 case InjectSources.Parent:
                 {
-                    if (_parentContainer == null)
+                    foreach (var parent in _parentContainers)
                     {
-                        return Enumerable.Empty<ProviderPair>();
+                        yield return parent;
                     }
+                    break;
+                }
+                case InjectSources.Any:
+                {
+                    yield return this;
+                    foreach (var ancestor in _ancestorContainers)
+                    {
+                        yield return ancestor;
+                    }
+                    break;
+                }
+                case InjectSources.AnyParent:
+                {
+                    foreach (var ancestor in _ancestorContainers)
+                    {
+                        yield return ancestor;
+                    }
+                    break;
+                }
+                default:
+                {
+                    throw Assert.CreateException();
+                }
+            }
+        }
 
-                    return _parentContainer.GetProvidersForContract(bindingId, InjectSources.Local);
+        // Get the full list of ancestor Di Containers, making sure to avoid
+        // duplicates and also order them in a breadth-first way
+        List<DiContainer> FlattenInheritanceChain()
+        {
+            var processed = new List<DiContainer>();
+
+            var containerQueue = new Queue<DiContainer>();
+            containerQueue.Enqueue(this);
+
+            while (containerQueue.Count > 0)
+            {
+                var current = containerQueue.Dequeue();
+
+                foreach (var parent in current.ParentContainers)
+                {
+                    if (!processed.Contains(parent))
+                    {
+                        processed.Add(parent);
+                        containerQueue.Enqueue(parent);
+                    }
                 }
             }
 
-            throw Assert.CreateException("Invalid source type");
+            return processed;
+        }
+
+        IEnumerable<ProviderPair> GetLocalProviderPairs(BindingId bindingId)
+        {
+            return GetLocalProviders(bindingId).Select(x => new ProviderPair(x, this));
+        }
+
+        IEnumerable<ProviderPair> GetProvidersForContract(
+            BindingId bindingId, InjectSources sourceType)
+        {
+            var containers = GetAllContainersToLookup(sourceType);
+
+            foreach (var container in containers)
+            {
+                container.FlushBindings();
+            }
+
+            return containers
+                .SelectMany(x => x.GetLocalProviderPairs(bindingId));
         }
 
         List<ProviderInfo> GetLocalProviders(BindingId bindingId)
@@ -368,6 +424,20 @@ namespace Zenject
             }
 
             return new List<ProviderInfo>();
+        }
+
+        public void Install<TInstaller>()
+            where TInstaller : Installer
+        {
+            Instantiate<TInstaller>().InstallBindings();
+        }
+
+        // Note: You might want to use Installer<> as your base class instead to allow
+        // for strongly typed parameters
+        public void Install<TInstaller>(object[] extraArgs)
+            where TInstaller : Installer
+        {
+            Instantiate<TInstaller>(extraArgs).InstallBindings();
         }
 
         public IList ResolveAll(InjectContext context)
@@ -409,6 +479,11 @@ namespace Zenject
 
         void CheckForInstallWarning(InjectContext context)
         {
+            if (!ShouldCheckForInstallWarning)
+            {
+                return;
+            }
+
             Assert.IsNotNull(context);
 #if DEBUG || UNITY_EDITOR
             if (!_isInstalling)
@@ -437,7 +512,7 @@ namespace Zenject
 
             _hasDisplayedInstallWarning = true;
             // Feel free to comment this out if you are comfortable with this practice
-            Log.Warn("Zenject Warning: It is bad practice to call Inject/Resolve/Instantiate before all the Installers have completed!  This is important to ensure that all bindings have properly been installed in case they are needed when injecting/instantiating/resolving.  Detected when operating on type '{0}'.  If you don't care about this, you can just remove this warning.", rootContext.MemberType);
+            Log.Warn("Zenject Warning: It is bad practice to call Inject/Resolve/Instantiate before all the Installers have completed!  This is important to ensure that all bindings have properly been installed in case they are needed when injecting/instantiating/resolving.  Detected when operating on type '{0}'.  If you don't care about this, you can remove this warning or set 'Container.ShouldCheckForInstallWarning' to false.", rootContext.MemberType);
 #endif
         }
 
@@ -716,18 +791,29 @@ namespace Zenject
 
         int GetContainerHeirarchyDistance(DiContainer container)
         {
-            return GetContainerHeirarchyDistance(container, 0);
+            return GetContainerHeirarchyDistance(container, 0).Value;
         }
 
-        int GetContainerHeirarchyDistance(DiContainer container, int depth)
+        int? GetContainerHeirarchyDistance(DiContainer container, int depth)
         {
             if (container == this)
             {
                 return depth;
             }
 
-            Assert.IsNotNull(_parentContainer);
-            return _parentContainer.GetContainerHeirarchyDistance(container, depth + 1);
+            int? result = null;
+
+            foreach (var parent in _parentContainers)
+            {
+                var distance = parent.GetContainerHeirarchyDistance(container, depth + 1);
+
+                if (distance.HasValue && (!result.HasValue || distance.Value < result.Value))
+                {
+                    result = distance;
+                }
+            }
+
+            return result;
         }
 
         public IEnumerable<Type> GetDependencyContracts<TContract>()
@@ -829,7 +915,7 @@ namespace Zenject
                     //Log.Debug("Zenject: Instantiating type '{0}'", concreteType);
                     try
                     {
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
                         using (ProfileBlock.Start("{0}.{1}()", concreteType, concreteType.Name))
 #endif
                         {
@@ -961,7 +1047,7 @@ namespace Zenject
 
             foreach (var method in typeInfo.PostInjectMethods)
             {
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
                 using (ProfileBlock.Start("{0}.{1}()", injectableType, method.MethodInfo.Name))
 #endif
                 {
@@ -1091,8 +1177,29 @@ namespace Zenject
 
             try
             {
-                var gameObj = (GameObject)GameObject.Instantiate(
-                    prefabAsGameObject, GetTransformGroup(gameObjectBindInfo, context), false);
+                GameObject gameObj;
+
+                var transformParent = GetTransformGroup(gameObjectBindInfo, context);
+
+                if (gameObjectBindInfo.Position.HasValue && gameObjectBindInfo.Rotation.HasValue)
+                {
+                    gameObj = (GameObject)GameObject.Instantiate(
+                        prefabAsGameObject, gameObjectBindInfo.Position.Value,gameObjectBindInfo.Rotation.Value, transformParent);
+                }
+                else if (gameObjectBindInfo.Position.HasValue)
+                {
+                    gameObj = (GameObject)GameObject.Instantiate(
+                        prefabAsGameObject, gameObjectBindInfo.Position.Value,prefabAsGameObject.transform.rotation, transformParent);
+                }
+                else if (gameObjectBindInfo.Rotation.HasValue)
+                {
+                    gameObj = (GameObject)GameObject.Instantiate(
+                        prefabAsGameObject, prefabAsGameObject.transform.position, gameObjectBindInfo.Rotation.Value, transformParent);
+                }
+                else
+                {
+                    gameObj = (GameObject)GameObject.Instantiate(prefabAsGameObject, transformParent);
+                }
 
                 if (gameObjectBindInfo.Name != null)
                 {
@@ -1308,6 +1415,19 @@ namespace Zenject
 
         // Create a new game object from a prefab and fill in dependencies for all children
         public GameObject InstantiatePrefab(
+            UnityEngine.Object prefab, Vector3 position, Quaternion rotation, Transform parentTransform)
+        {
+            return InstantiatePrefab(
+                prefab, new GameObjectCreationParameters()
+                {
+                    ParentTransform = parentTransform,
+                    Position = position,
+                    Rotation = rotation
+                });
+        }
+
+        // Create a new game object from a prefab and fill in dependencies for all children
+        public GameObject InstantiatePrefab(
             UnityEngine.Object prefab, GameObjectCreationParameters gameObjectBindInfo)
         {
             FlushBindings();
@@ -1481,7 +1601,9 @@ namespace Zenject
         {
             FlushBindings();
 
-            foreach (var monoBehaviour in ZenUtilInternal.GetInjectableMonoBehaviours(gameObject))
+            var monoBehaviours = new List<MonoBehaviour>();
+            ZenUtilInternal.GetInjectableMonoBehaviours(gameObject, monoBehaviours);
+            foreach (var monoBehaviour in monoBehaviours)
             {
                 Inject(monoBehaviour);
             }
@@ -1533,7 +1655,9 @@ namespace Zenject
                     "Cannot inject into non-monobehaviours!  Argument list must be zero length");
             }
 
-            foreach (var monoBehaviour in ZenUtilInternal.GetInjectableMonoBehaviours(gameObject))
+            var injectableMonoBehaviours = new List<MonoBehaviour>();
+            ZenUtilInternal.GetInjectableMonoBehaviours(gameObject, injectableMonoBehaviours);
+            foreach (var monoBehaviour in injectableMonoBehaviours)
             {
                 if (monoBehaviour.GetType().DerivesFromOrEqual(componentType))
                 {
@@ -1679,6 +1803,63 @@ namespace Zenject
             var bindingId = new BindingId(contractType, identifier);
 
             return _providers.Remove(bindingId);
+        }
+
+        public void UnbindInterfacesTo<TConcrete>()
+        {
+            UnbindInterfacesTo(typeof(TConcrete));
+        }
+
+        public void UnbindInterfacesTo(Type concreteType)
+        {
+            foreach (var i in concreteType.Interfaces())
+            {
+                Unbind(i, concreteType);
+            }
+        }
+
+        public bool Unbind<TContract, TConcrete>()
+        {
+            return Unbind(typeof(TContract), typeof(TConcrete));
+        }
+
+        public bool Unbind(Type contractType, Type concreteType)
+        {
+            return UnbindId(contractType, concreteType, null);
+        }
+
+        public bool UnbindId<TContract, TConcrete>(object identifier)
+        {
+            return UnbindId(typeof(TContract), typeof(TConcrete), identifier);
+        }
+
+        public bool UnbindId(Type contractType, Type concreteType, object identifier)
+        {
+            FlushBindings();
+
+            var bindingId = new BindingId(contractType, identifier);
+
+            List<ProviderInfo> providers;
+
+            if (!_providers.TryGetValue(bindingId, out providers))
+            {
+                return false;
+            }
+
+            var matches = providers.Where(x => x.Provider.GetInstanceType(new InjectContext(this, contractType, identifier)).DerivesFromOrEqual(concreteType)).ToList();
+
+            if (matches.IsEmpty())
+            {
+                return false;
+            }
+
+            foreach (var info in matches)
+            {
+                bool success = providers.Remove(info);
+                Assert.That(success);
+            }
+
+            return true;
         }
 
         // Returns true if the given type is bound to something in the container
@@ -1900,7 +2081,7 @@ namespace Zenject
         public FromBinderNonGeneric BindInterfacesAndSelfTo(Type type)
         {
             var bindInfo = new BindInfo(
-                type.Interfaces().Append(type).ToList(), "BindInterfacesAndSelfTo({0})".Fmt(type));
+                type.Interfaces().Concat(new[] { type }).ToList(), "BindInterfacesAndSelfTo({0})".Fmt(type));
 
             // Almost always, you don't want to use the default AsTransient so make them type it
             bindInfo.RequireExplicitScope = true;
@@ -1966,6 +2147,13 @@ namespace Zenject
             return BindFactoryInternal<TContract, TFactory, TFactory>();
         }
 
+        public FactoryToChoiceIdBinder<TContract> BindFactoryContract<TContract, TFactoryContract, TFactoryConcrete>()
+            where TFactoryConcrete : Factory<TContract>, TFactoryContract
+            where TFactoryContract : IFactory
+        {
+            return BindFactoryInternal<TContract, TFactoryContract, TFactoryConcrete>();
+        }
+
         public MemoryPoolInitialSizeBinder<TItemContract> BindMemoryPool<TItemContract>()
         {
             return BindMemoryPool<TItemContract, MemoryPool<TItemContract>>();
@@ -2025,6 +2213,13 @@ namespace Zenject
                 TParam1, TContract, TFactory, TFactory>();
         }
 
+        public FactoryToChoiceIdBinder<TParam1, TContract> BindFactoryContract<TParam1, TContract, TFactoryContract, TFactoryConcrete>()
+            where TFactoryConcrete : Factory<TParam1, TContract>, TFactoryContract
+            where TFactoryContract : IFactory
+        {
+            return BindFactoryInternal<TParam1, TContract, TFactoryContract, TFactoryConcrete>();
+        }
+
         FactoryToChoiceIdBinder<TParam1, TParam2, TContract> BindFactoryInternal<TParam1, TParam2, TContract, TFactoryContract, TFactoryConcrete>()
             where TFactoryConcrete : TFactoryContract, IFactory
             where TFactoryContract : IFactory
@@ -2050,6 +2245,13 @@ namespace Zenject
         {
             return BindFactoryInternal<
                 TParam1, TParam2, TContract, TFactory, TFactory>();
+        }
+
+        public FactoryToChoiceIdBinder<TParam1, TParam2, TContract> BindFactoryContract<TParam1, TParam2, TContract, TFactoryContract, TFactoryConcrete>()
+            where TFactoryConcrete : Factory<TParam1, TParam2, TContract>, TFactoryContract
+            where TFactoryContract : IFactory
+        {
+            return BindFactoryInternal<TParam1, TParam2, TContract, TFactoryContract, TFactoryConcrete>();
         }
 
         FactoryToChoiceIdBinder<TParam1, TParam2, TParam3, TContract> BindFactoryInternal<TParam1, TParam2, TParam3, TContract, TFactoryContract, TFactoryConcrete>()
@@ -2079,6 +2281,13 @@ namespace Zenject
                 TParam1, TParam2, TParam3, TContract, TFactory, TFactory>();
         }
 
+        public FactoryToChoiceIdBinder<TParam1, TParam2, TParam3, TContract> BindFactoryContract<TParam1, TParam2, TParam3, TContract, TFactoryContract, TFactoryConcrete>()
+            where TFactoryConcrete : Factory<TParam1, TParam2, TParam3, TContract>, TFactoryContract
+            where TFactoryContract : IFactory
+        {
+            return BindFactoryInternal<TParam1, TParam2, TParam3, TContract, TFactoryContract, TFactoryConcrete>();
+        }
+
         FactoryToChoiceIdBinder<TParam1, TParam2, TParam3, TParam4, TContract> BindFactoryInternal<TParam1, TParam2, TParam3, TParam4, TContract, TFactoryContract, TFactoryConcrete>()
             where TFactoryConcrete : TFactoryContract, IFactory
             where TFactoryContract : IFactory
@@ -2104,6 +2313,13 @@ namespace Zenject
         {
             return BindFactoryInternal<
                 TParam1, TParam2, TParam3, TParam4, TContract, TFactory, TFactory>();
+        }
+
+        public FactoryToChoiceIdBinder<TParam1, TParam2, TParam3, TParam4, TContract> BindFactoryContract<TParam1, TParam2, TParam3, TParam4, TContract, TFactoryContract, TFactoryConcrete>()
+            where TFactoryConcrete : Factory<TParam1, TParam2, TParam3, TParam4, TContract>, TFactoryContract
+            where TFactoryContract : IFactory
+        {
+            return BindFactoryInternal<TParam1, TParam2, TParam3, TParam4, TContract, TFactoryContract, TFactoryConcrete>();
         }
 
         FactoryToChoiceIdBinder<TParam1, TParam2, TParam3, TParam4, TParam5, TContract> BindFactoryInternal<TParam1, TParam2, TParam3, TParam4, TParam5, TContract, TFactoryContract, TFactoryConcrete>()
@@ -2133,6 +2349,13 @@ namespace Zenject
                 TParam1, TParam2, TParam3, TParam4, TParam5, TContract, TFactory, TFactory>();
         }
 
+        public FactoryToChoiceIdBinder<TParam1, TParam2, TParam3, TParam4, TParam5, TContract> BindFactoryContract<TParam1, TParam2, TParam3, TParam4, TParam5, TContract, TFactoryContract, TFactoryConcrete>()
+            where TFactoryConcrete : Factory<TParam1, TParam2, TParam3, TParam4, TParam5, TContract>, TFactoryContract
+            where TFactoryContract : IFactory
+        {
+            return BindFactoryInternal<TParam1, TParam2, TParam3, TParam4, TParam5, TContract, TFactoryContract, TFactoryConcrete>();
+        }
+
         public T InstantiateExplicit<T>(List<TypeValuePair> extraArgs)
         {
             return (T)InstantiateExplicit(typeof(T), extraArgs);
@@ -2155,11 +2378,28 @@ namespace Zenject
 
         public object InstantiateExplicit(Type concreteType, bool autoInject, InjectArgs args)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
             using (ProfileBlock.Start("Zenject.Instantiate({0})", concreteType))
 #endif
             {
-                return InstantiateInternal(concreteType, autoInject, args);
+                if (IsValidating)
+                {
+                    try
+                    {
+                        return InstantiateInternal(concreteType, autoInject, args);
+                    }
+                    catch (Exception e)
+                    {
+                        // Just log the error and continue to print multiple validation errors
+                        // at once
+                        Log.ErrorException(e);
+                        return new ValidationMarker(concreteType);
+                    }
+                }
+                else
+                {
+                    return InstantiateInternal(concreteType, autoInject, args);
+                }
             }
         }
 
@@ -2269,6 +2509,139 @@ namespace Zenject
             return component;
         }
 #endif
+
+        ////////////// Execution order ////////////////
+
+        public void BindExecutionOrder<T>(int order)
+        {
+            BindExecutionOrder(typeof(T), order);
+        }
+
+        public void BindExecutionOrder(Type type, int order)
+        {
+            Assert.That(type.DerivesFrom<ITickable>() || type.DerivesFrom<IInitializable>() || type.DerivesFrom<IDisposable>() || type.DerivesFrom<ILateDisposable>() || type.DerivesFrom<IFixedTickable>() || type.DerivesFrom<ILateTickable>(),
+                "Expected type '{0}' to derive from one or more of the following interfaces: ITickable, IInitializable, ILateTickable, IFixedTickable, IDisposable, ILateDisposable", type);
+
+            if (type.DerivesFrom<ITickable>())
+            {
+                BindTickableExecutionOrder(type, order);
+            }
+
+            if (type.DerivesFrom<IInitializable>())
+            {
+                BindInitializableExecutionOrder(type, order);
+            }
+
+            if (type.DerivesFrom<IDisposable>())
+            {
+                BindDisposableExecutionOrder(type, order);
+            }
+
+            if (type.DerivesFrom<ILateDisposable>())
+            {
+                BindLateDisposableExecutionOrder(type, order);
+            }
+
+            if (type.DerivesFrom<IFixedTickable>())
+            {
+                BindFixedTickableExecutionOrder(type, order);
+            }
+
+            if (type.DerivesFrom<ILateTickable>())
+            {
+                BindLateTickableExecutionOrder(type, order);
+            }
+        }
+
+        public void BindTickableExecutionOrder<T>(int order)
+            where T : ITickable
+        {
+            BindTickableExecutionOrder(typeof(T), order);
+        }
+
+        public void BindTickableExecutionOrder(Type type, int order)
+        {
+            Assert.That(type.DerivesFrom<ITickable>(),
+                "Expected type '{0}' to derive from ITickable", type);
+
+            BindInstance(
+                ModestTree.Util.ValuePair.New(type, order)).WhenInjectedInto<TickableManager>();
+        }
+
+        public void BindInitializableExecutionOrder<T>(int order)
+            where T : IInitializable
+        {
+            BindInitializableExecutionOrder(typeof(T), order);
+        }
+
+        public void BindInitializableExecutionOrder(Type type, int order)
+        {
+            Assert.That(type.DerivesFrom<IInitializable>(),
+                "Expected type '{0}' to derive from IInitializable", type);
+
+            BindInstance(
+                ModestTree.Util.ValuePair.New(type, order)).WhenInjectedInto<InitializableManager>();
+        }
+
+        public void BindDisposableExecutionOrder<T>(int order)
+            where T : IDisposable
+        {
+            BindDisposableExecutionOrder(typeof(T), order);
+        }
+
+        public void BindLateDisposableExecutionOrder<T>(int order)
+            where T : ILateDisposable
+        {
+            BindLateDisposableExecutionOrder(typeof(T), order);
+        }
+
+        public void BindDisposableExecutionOrder(Type type, int order)
+        {
+            Assert.That(type.DerivesFrom<IDisposable>(),
+                "Expected type '{0}' to derive from IDisposable", type);
+
+            BindInstance(
+                ModestTree.Util.ValuePair.New(type, order)).WhenInjectedInto<DisposableManager>();
+        }
+
+        public void BindLateDisposableExecutionOrder(Type type, int order)
+        {
+            Assert.That(type.DerivesFrom<ILateDisposable>(),
+            "Expected type '{0}' to derive from ILateDisposable", type);
+
+            BindInstance(
+                ModestTree.Util.ValuePair.New(type, order)).WithId("Late").WhenInjectedInto<DisposableManager>();
+        }
+
+        public void BindFixedTickableExecutionOrder<T>(int order)
+            where T : IFixedTickable
+        {
+            BindFixedTickableExecutionOrder(typeof(T), order);
+        }
+
+        public void BindFixedTickableExecutionOrder(Type type, int order)
+        {
+            Assert.That(type.DerivesFrom<IFixedTickable>(),
+                "Expected type '{0}' to derive from IFixedTickable", type);
+
+            Bind<ModestTree.Util.ValuePair<Type, int>>().WithId("Fixed")
+                .FromInstance(ModestTree.Util.ValuePair.New(type, order)).WhenInjectedInto<TickableManager>();
+        }
+
+        public void BindLateTickableExecutionOrder<T>(int order)
+            where T : ILateTickable
+        {
+            BindLateTickableExecutionOrder(typeof(T), order);
+        }
+
+        public void BindLateTickableExecutionOrder(Type type, int order)
+        {
+            Assert.That(type.DerivesFrom<ILateTickable>(),
+                "Expected type '{0}' to derive from ILateTickable", type);
+
+            Bind<ModestTree.Util.ValuePair<Type, int>>().WithId("Late")
+                .FromInstance(ModestTree.Util.ValuePair.New(type, order)).WhenInjectedInto<TickableManager>();
+        }
 
         ////////////// Types ////////////////
 

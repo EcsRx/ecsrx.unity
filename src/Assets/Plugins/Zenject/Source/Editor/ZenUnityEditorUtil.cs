@@ -17,21 +17,42 @@ namespace Zenject
         // Don't use this
         public static void ValidateCurrentSceneSetup()
         {
-            Assert.That(!ProjectContext.HasInstance);
-            ProjectContext.ValidateOnNextRun = true;
+            bool encounteredError = false;
 
-            foreach (var sceneContext in GetAllSceneContexts())
+            Application.LogCallback logCallback = (condition, stackTrace, type) =>
             {
-                try
+                if (type == LogType.Error || type == LogType.Assert
+                        || type == LogType.Exception)
+                {
+                    encounteredError = true;
+                }
+            };
+
+            Application.logMessageReceived += logCallback;
+
+            try
+            {
+                Assert.That(!ProjectContext.HasInstance);
+                ProjectContext.ValidateOnNextRun = true;
+
+                foreach (var sceneContext in GetAllSceneContexts())
                 {
                     sceneContext.Validate();
                 }
-                catch (Exception e)
-                {
-                    // Add a bit more context
-                    throw new ZenjectException(
-                        "Scene '{0}' Failed Validation!".Fmt(sceneContext.gameObject.scene.name), e);
-                }
+            }
+            catch (Exception e)
+            {
+                Log.ErrorException(e);
+                encounteredError = true;
+            }
+            finally
+            {
+                Application.logMessageReceived -= logCallback;
+            }
+
+            if (encounteredError)
+            {
+                throw new ZenjectException("Zenject Validation Failed!  See errors below for details.");
             }
         }
 

@@ -146,7 +146,7 @@ namespace Zenject
     {
         protected override void UpdateItem(ITickable task)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
             using (ProfileBlock.Start("{0}.Tick()", task.GetType()))
 #endif
             {
@@ -159,7 +159,7 @@ namespace Zenject
     {
         protected override void UpdateItem(ILateTickable task)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
             using (ProfileBlock.Start("{0}.LateTick()", task.GetType()))
 #endif
             {
@@ -172,7 +172,7 @@ namespace Zenject
     {
         protected override void UpdateItem(IFixedTickable task)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
             using (ProfileBlock.Start("{0}.FixedTick()", task.GetType()))
 #endif
             {

@@ -76,7 +76,7 @@ namespace Zenject
         public void Despawn(TContract item)
         {
             Assert.That(!_inactiveItems.Contains(item),
-            "Tried to return an item to pool {0} twice", this.GetType());
+                "Tried to return an item to pool {0} twice", this.GetType());
 
             _activeCount--;
 
@@ -119,7 +119,7 @@ namespace Zenject
         {
             TContract item;
 
-            if (_inactiveItems.IsEmpty())
+            if (_inactiveItems.Count == 0)
             {
                 ExpandPool();
                 Assert.That(!_inactiveItems.IsEmpty());

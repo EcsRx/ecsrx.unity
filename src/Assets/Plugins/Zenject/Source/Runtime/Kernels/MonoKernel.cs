@@ -29,18 +29,17 @@ namespace Zenject
 
         public virtual void Start()
         {
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            // We don't put this in start in case Start is overridden
             if (!_hasInitialized)
             {
                 _hasInitialized = true;
                 _initializableManager.Initialize();
             }
-        }
-
-        public void ForceInitialize()
-        {
-            Assert.That(!_hasInitialized);
-            _hasInitialized = true;
-            _initializableManager.Initialize();
         }
 
         public virtual void Update()

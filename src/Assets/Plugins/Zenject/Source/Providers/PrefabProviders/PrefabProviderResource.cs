@@ -18,7 +18,7 @@ namespace Zenject
         {
             var prefab = (GameObject)Resources.Load(_resourcePath);
 
-            Assert.IsNotNull(prefab,
+            Assert.That(prefab != null,
                 "Expected to find prefab at resource path '{0}'", _resourcePath);
 
             return prefab;

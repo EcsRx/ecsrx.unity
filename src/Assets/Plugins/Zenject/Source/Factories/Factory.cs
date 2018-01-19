@@ -1,12 +1,19 @@
 using System;
 using System.Collections.Generic;
 
+#if !NOT_UNITY3D
+using JetBrains.Annotations;
+#endif
+
 namespace Zenject
 {
     // Zero parameters
     public class Factory<TValue> : PlaceholderFactory<TValue>, IFactory<TValue>
     {
-        // If you were hoping to override this method, use BindFactory<>.ToFactory instead
+        // If you were hoping to override this method, use BindFactory<>.FromFactory instead
+#if !NOT_UNITY3D
+        [NotNull]
+#endif
         public TValue Create()
         {
             return CreateInternal(new List<TypeValuePair>());
@@ -22,7 +29,10 @@ namespace Zenject
     public class Factory<TParam1, TValue>
         : PlaceholderFactory<TValue>, IFactory<TParam1, TValue>
     {
-        // If you were hoping to override this method, use BindFactory<>.ToFactory instead
+        // If you were hoping to override this method, use BindFactory<>.FromFactory instead
+#if !NOT_UNITY3D
+        [NotNull]
+#endif
         public TValue Create(TParam1 param)
         {
             return CreateInternal(
@@ -42,7 +52,10 @@ namespace Zenject
     public class Factory<TParam1, TParam2, TValue>
         : PlaceholderFactory<TValue>, IFactory<TParam1, TParam2, TValue>
     {
-        // If you were hoping to override this method, use BindFactory<>.ToFactory instead
+        // If you were hoping to override this method, use BindFactory<>.FromFactory instead
+#if !NOT_UNITY3D
+        [NotNull]
+#endif
         public TValue Create(TParam1 param1, TParam2 param2)
         {
             return CreateInternal(
@@ -67,7 +80,10 @@ namespace Zenject
     public class Factory<TParam1, TParam2, TParam3, TValue>
         : PlaceholderFactory<TValue>, IFactory<TParam1, TParam2, TParam3, TValue>
     {
-        // If you were hoping to override this method, use BindFactory<>.ToFactory instead
+        // If you were hoping to override this method, use BindFactory<>.FromFactory instead
+#if !NOT_UNITY3D
+        [NotNull]
+#endif
         public TValue Create(TParam1 param1, TParam2 param2, TParam3 param3)
         {
             return CreateInternal(
@@ -94,7 +110,10 @@ namespace Zenject
     public class Factory<TParam1, TParam2, TParam3, TParam4, TValue>
         : PlaceholderFactory<TValue>, IFactory<TParam1, TParam2, TParam3, TParam4, TValue>
     {
-        // If you were hoping to override this method, use BindFactory<>.ToFactory instead
+        // If you were hoping to override this method, use BindFactory<>.FromFactory instead
+#if !NOT_UNITY3D
+        [NotNull]
+#endif
         public TValue Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
         {
             return CreateInternal(
@@ -123,7 +142,10 @@ namespace Zenject
     public class Factory<TParam1, TParam2, TParam3, TParam4, TParam5, TValue>
         : PlaceholderFactory<TValue>, IFactory<TParam1, TParam2, TParam3, TParam4, TParam5, TValue>
     {
-        // If you were hoping to override this method, use BindFactory<>.ToFactory instead
+        // If you were hoping to override this method, use BindFactory<>.FromFactory instead
+#if !NOT_UNITY3D
+        [NotNull]
+#endif
         public TValue Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
         {
             return CreateInternal(
@@ -150,3 +172,4 @@ namespace Zenject
         }
     }
 }
+

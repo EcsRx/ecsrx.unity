@@ -44,6 +44,7 @@ namespace Zenject
             Assert.That(_fallbackType == null || _fallbackType.DerivesFromOrEqual<TBase>(),
                 "Expected fallback type '{0}' to derive from '{1}'", _fallbackType, typeof(TBase));
 
+#if UNITY_EDITOR
             var duplicates = _typePairs.Select(x => x.First).GetDuplicates();
 
             if (!duplicates.IsEmpty())
@@ -51,6 +52,7 @@ namespace Zenject
                 throw Assert.CreateException(
                     "Found duplicate values in KeyedFactory: {0}", duplicates.Select(x => x.ToString()).Join(", "));
             }
+#endif
 
             _typeMap = _typePairs.ToDictionary(x => x.First, x => x.Second);
             _typePairs.Clear();

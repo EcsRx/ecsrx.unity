@@ -174,6 +174,46 @@ namespace Zenject
             return new NameTransformScopeArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }
 
+        public NameTransformScopeArgConditionCopyNonLazyBinder FromNewComponentOnNewPrefabResource(string resourcePath)
+        {
+            return FromNewComponentOnNewPrefabResource(resourcePath, new GameObjectCreationParameters());
+        }
+
+        internal NameTransformScopeArgConditionCopyNonLazyBinder FromNewComponentOnNewPrefabResource(
+            string resourcePath, GameObjectCreationParameters gameObjectInfo)
+        {
+            BindingUtil.AssertIsValidResourcePath(resourcePath);
+            BindingUtil.AssertIsComponent(ConcreteTypes);
+            BindingUtil.AssertTypesAreNotAbstract(ConcreteTypes);
+
+            BindInfo.RequireExplicitScope = true;
+            SubFinalizer = new PrefabResourceBindingFinalizer(
+                BindInfo, gameObjectInfo, resourcePath,
+                (contractType, instantiator) => new InstantiateOnPrefabComponentProvider(contractType, instantiator));
+
+            return new NameTransformScopeArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
+        }
+
+        public NameTransformScopeArgConditionCopyNonLazyBinder FromNewComponentOnNewPrefab(UnityEngine.Object prefab)
+        {
+            return FromNewComponentOnNewPrefab(prefab, new GameObjectCreationParameters());
+        }
+
+        internal NameTransformScopeArgConditionCopyNonLazyBinder FromNewComponentOnNewPrefab(
+            UnityEngine.Object prefab, GameObjectCreationParameters gameObjectInfo)
+        {
+            BindingUtil.AssertIsValidPrefab(prefab);
+            BindingUtil.AssertIsComponent(ConcreteTypes);
+            BindingUtil.AssertTypesAreNotAbstract(ConcreteTypes);
+
+            BindInfo.RequireExplicitScope = true;
+            SubFinalizer = new PrefabBindingFinalizer(
+                BindInfo, gameObjectInfo, prefab,
+                (contractType, instantiator) => new InstantiateOnPrefabComponentProvider(contractType, instantiator));
+
+            return new NameTransformScopeArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
+        }
+
         public NameTransformScopeArgConditionCopyNonLazyBinder FromComponentInNewPrefab(UnityEngine.Object prefab)
         {
             return FromComponentInNewPrefab(
@@ -188,7 +228,8 @@ namespace Zenject
 
             BindInfo.RequireExplicitScope = true;
             SubFinalizer = new PrefabBindingFinalizer(
-                BindInfo, gameObjectInfo, prefab);
+                BindInfo, gameObjectInfo, prefab,
+                (contractType, instantiator) => new GetFromPrefabComponentProvider(contractType, instantiator));
 
             return new NameTransformScopeArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }
@@ -206,7 +247,8 @@ namespace Zenject
 
             BindInfo.RequireExplicitScope = true;
             SubFinalizer = new PrefabResourceBindingFinalizer(
-                BindInfo, gameObjectInfo, resourcePath);
+                BindInfo, gameObjectInfo, resourcePath,
+                (contractType, instantiator) => new GetFromPrefabComponentProvider(contractType, instantiator));
 
             return new NameTransformScopeArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }

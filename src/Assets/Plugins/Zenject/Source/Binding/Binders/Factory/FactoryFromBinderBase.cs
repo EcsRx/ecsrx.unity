@@ -118,6 +118,24 @@ namespace Zenject
             return new NameTransformConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }
 
+        public NameTransformConditionCopyNonLazyBinder FromNewComponentOnNewPrefab(UnityEngine.Object prefab)
+        {
+            BindingUtil.AssertIsValidPrefab(prefab);
+            BindingUtil.AssertIsComponent(ContractType);
+            BindingUtil.AssertIsNotAbstract(ContractType);
+
+            var gameObjectInfo = new GameObjectCreationParameters();
+
+            ProviderFunc =
+                (container) => new InstantiateOnPrefabComponentProvider(
+                    ContractType,
+                    new PrefabInstantiator(
+                        container, gameObjectInfo,
+                        ContractType, new List<TypeValuePair>(), new PrefabProvider(prefab)));
+
+            return new NameTransformConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
+        }
+
         public NameTransformConditionCopyNonLazyBinder FromComponentInNewPrefab(UnityEngine.Object prefab)
         {
             BindingUtil.AssertIsValidPrefab(prefab);
@@ -144,6 +162,24 @@ namespace Zenject
 
             ProviderFunc =
                 (container) => new GetFromPrefabComponentProvider(
+                    ContractType,
+                    new PrefabInstantiator(
+                        container, gameObjectInfo,
+                        ContractType, new List<TypeValuePair>(), new PrefabProviderResource(resourcePath)));
+
+            return new NameTransformConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
+        }
+
+        public NameTransformConditionCopyNonLazyBinder FromNewComponentOnNewPrefabResource(string resourcePath)
+        {
+            BindingUtil.AssertIsValidResourcePath(resourcePath);
+            BindingUtil.AssertIsComponent(ContractType);
+            BindingUtil.AssertIsNotAbstract(ContractType);
+
+            var gameObjectInfo = new GameObjectCreationParameters();
+
+            ProviderFunc =
+                (container) => new InstantiateOnPrefabComponentProvider(
                     ContractType,
                     new PrefabInstantiator(
                         container, gameObjectInfo,

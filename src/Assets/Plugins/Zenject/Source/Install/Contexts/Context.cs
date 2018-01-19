@@ -27,6 +27,7 @@ namespace Zenject
         List<ScriptableObjectInstaller> _scriptableObjectInstallers = new List<ScriptableObjectInstaller>();
 
         List<InstallerBase> _normalInstallers = new List<InstallerBase>();
+        List<Type> _normalInstallerTypes = new List<Type>();
 
         public IEnumerable<MonoInstaller> Installers
         {
@@ -59,6 +60,19 @@ namespace Zenject
         }
 
         // Unlike other installer types this has to be set through code
+        public IEnumerable<Type> NormalInstallerTypes
+        {
+            get { return _normalInstallerTypes; }
+            set
+            {
+                Assert.That(value.All(x => x != null && x.DerivesFrom<InstallerBase>()));
+
+                _normalInstallerTypes.Clear();
+                _normalInstallerTypes.AddRange(value);
+            }
+        }
+
+        // Unlike other installer types this has to be set through code
         public IEnumerable<InstallerBase> NormalInstallers
         {
             get { return _normalInstallers; }
@@ -75,6 +89,14 @@ namespace Zenject
         }
         public abstract IEnumerable<GameObject> GetRootGameObjects();
 
+
+        public void AddNormalInstallerType(Type installerType)
+        {
+            Assert.IsNotNull(installerType);
+            Assert.That(installerType.DerivesFrom<InstallerBase>());
+
+            _normalInstallerTypes.Add(installerType);
+        }
 
         public void AddNormalInstaller(InstallerBase installer)
         {
@@ -109,11 +131,13 @@ namespace Zenject
 
         protected void InstallInstallers()
         {
-            InstallInstallers(_normalInstallers, _scriptableObjectInstallers, _installers, _installerPrefabs);
+            InstallInstallers(
+                _normalInstallers, _normalInstallerTypes, _scriptableObjectInstallers, _installers, _installerPrefabs);
         }
 
         protected void InstallInstallers(
             List<InstallerBase> normalInstallers,
+            List<Type> normalInstallerTypes,
             List<ScriptableObjectInstaller> scriptableObjectInstallers,
             List<MonoInstaller> installers,
             List<MonoInstaller> installerPrefabs)
@@ -139,7 +163,8 @@ namespace Zenject
             // that are injected into other installers like MonoInstallers)
 
             var allInstallers = normalInstallers.Cast<IInstaller>()
-                .Concat(scriptableObjectInstallers.Cast<IInstaller>()).Concat(installers.Cast<IInstaller>()).ToList();
+                .Concat(scriptableObjectInstallers.Cast<IInstaller>())
+                .Concat(installers.Cast<IInstaller>()).ToList();
 
             foreach (var installerPrefab in installerPrefabs)
             {
@@ -154,6 +179,11 @@ namespace Zenject
                 allInstallers.Add(installer);
             }
 
+            foreach (var installerType in normalInstallerTypes)
+            {
+                ((InstallerBase)Container.Instantiate(installerType)).InstallBindings();
+            }
+
             foreach (var installer in allInstallers)
             {
                 Assert.IsNotNull(installer,
@@ -164,9 +194,9 @@ namespace Zenject
             }
         }
 
-        protected void InstallSceneBindings()
+        protected void InstallSceneBindings(List<MonoBehaviour> injectableMonoBehaviours)
         {
-            foreach (var binding in GetInjectableMonoBehaviours().OfType<ZenjectBinding>())
+            foreach (var binding in injectableMonoBehaviours.OfType<ZenjectBinding>())
             {
                 if (binding == null)
                 {
@@ -181,6 +211,9 @@ namespace Zenject
 
             // We'd prefer to use GameObject.FindObjectsOfType<ZenjectBinding>() here
             // instead but that doesn't find inactive gameobjects
+            // TODO: Consider changing this
+            // Maybe ZenjectBinding could add itself to a registry class on Awake/OnEnable
+            // then we could avoid calling the slow Resources.FindObjectsOfTypeAll here
             foreach (var binding in Resources.FindObjectsOfTypeAll<ZenjectBinding>())
             {
                 if (binding == null)
@@ -246,7 +279,7 @@ namespace Zenject
                     }
                     case ZenjectBinding.BindTypes.AllInterfacesAndSelf:
                     {
-                        Container.Bind(componentType.Interfaces().Append(componentType).ToArray()).WithId(identifier).FromInstance(component);
+                        Container.Bind(componentType.Interfaces().Concat(new[] { componentType }).ToArray()).WithId(identifier).FromInstance(component);
                         break;
                     }
                     default:
@@ -257,7 +290,7 @@ namespace Zenject
             }
         }
 
-        protected abstract IEnumerable<MonoBehaviour> GetInjectableMonoBehaviours();
+        protected abstract void GetInjectableMonoBehaviours(List<MonoBehaviour> components);
     }
 }
 

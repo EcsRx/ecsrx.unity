@@ -35,10 +35,12 @@ namespace Zenject
 
             _renderables = _renderables.OrderBy(x => x.Priority).ToList();
 
+#if UNITY_EDITOR
             foreach (var renderable in _renderables.Select(x => x.Renderable).GetDuplicates())
             {
                 Assert.That(false, "Found duplicate IGuiRenderable with type '{0}'".Fmt(renderable.GetType()));
             }
+#endif
         }
 
         public void OnGui()
@@ -47,7 +49,7 @@ namespace Zenject
             {
                 try
                 {
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
                     using (ProfileBlock.Start("{0}.GuiRender()", renderable.Renderable.GetType()))
 #endif
                     {
