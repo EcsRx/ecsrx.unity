@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using EcsRx.Components;
 using EcsRx.Entities;
 
@@ -15,10 +16,21 @@ namespace EcsRx.Groups
             _components = new List<Type>();
         }
 
-        public GroupBuilder Create()
+        public static GroupBuilder Create()
         {
-            _components = new List<Type>();
-            return this;
+            return new GroupBuilder
+            {
+                _components = new List<Type>()
+            };
+        }
+
+        public static GroupBuilder Create(Group template)
+        {
+            return new GroupBuilder
+            {
+                _components = template.TargettedComponents.ToList(),
+                _predicate = template.TargettedEntities
+            };
         }
 
         public GroupBuilder WithComponent<T>() where T : class, IComponent
