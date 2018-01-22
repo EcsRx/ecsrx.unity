@@ -17,7 +17,7 @@ namespace Zenject
 {
     public class ProfileBlock : IDisposable
     {
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
         static bool _isActive;
 
         bool _rootBlock;

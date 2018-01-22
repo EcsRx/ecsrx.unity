@@ -54,7 +54,7 @@ namespace Zenject
             Assert.That(args.IsEmpty());
 
             var method = _methodGetter(handler);
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
             using (ProfileBlock.Start(method.ToDebugString()))
 #endif
             {
@@ -64,10 +64,6 @@ namespace Zenject
     }
 
     public class InstanceMethodSignalHandler<TParam1, THandler> : InstanceMethodSignalHandlerBase<THandler>
-#if ENABLE_IL2CPP
-        // See discussion here for why we do this: https://github.com/modesttree/Zenject/issues/219#issuecomment-284751679
-        where TParam1 : class
-#endif
     {
         readonly Func<THandler, Action<TParam1>> _methodGetter;
 
@@ -86,7 +82,7 @@ namespace Zenject
             ValidateParameter<TParam1>(args[0]);
 
             var method = _methodGetter(handler);
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
             using (ProfileBlock.Start(method.ToDebugString()))
 #endif
             {
@@ -96,11 +92,6 @@ namespace Zenject
     }
 
     public class InstanceMethodSignalHandler<TParam1, TParam2, THandler> : InstanceMethodSignalHandlerBase<THandler>
-#if ENABLE_IL2CPP
-        // See discussion here for why we do this: https://github.com/modesttree/Zenject/issues/219#issuecomment-284751679
-        where TParam1 : class
-        where TParam2 : class
-#endif
     {
         readonly Func<THandler, Action<TParam1, TParam2>> _methodGetter;
 
@@ -120,7 +111,7 @@ namespace Zenject
             ValidateParameter<TParam2>(args[1]);
 
             var method = _methodGetter(handler);
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
             using (ProfileBlock.Start(method.ToDebugString()))
 #endif
             {
@@ -130,12 +121,6 @@ namespace Zenject
     }
 
     public class InstanceMethodSignalHandler<TParam1, TParam2, TParam3, THandler> : InstanceMethodSignalHandlerBase<THandler>
-#if ENABLE_IL2CPP
-        // See discussion here for why we do this: https://github.com/modesttree/Zenject/issues/219#issuecomment-284751679
-        where TParam1 : class
-        where TParam2 : class
-        where TParam3 : class
-#endif
     {
         readonly Func<THandler, Action<TParam1, TParam2, TParam3>> _methodGetter;
 
@@ -156,7 +141,7 @@ namespace Zenject
             ValidateParameter<TParam3>(args[2]);
 
             var method = _methodGetter(handler);
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
             using (ProfileBlock.Start(method.ToDebugString()))
 #endif
             {
@@ -166,13 +151,6 @@ namespace Zenject
     }
 
     public class InstanceMethodSignalHandler<TParam1, TParam2, TParam3, TParam4, THandler> : InstanceMethodSignalHandlerBase<THandler>
-#if ENABLE_IL2CPP
-        // See discussion here for why we do this: https://github.com/modesttree/Zenject/issues/219#issuecomment-284751679
-        where TParam1 : class
-        where TParam2 : class
-        where TParam3 : class
-        where TParam4 : class
-#endif
     {
         readonly Func<THandler, Action<TParam1, TParam2, TParam3, TParam4>> _methodGetter;
 
@@ -194,7 +172,7 @@ namespace Zenject
             ValidateParameter<TParam4>(args[3]);
 
             var method = _methodGetter(handler);
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
             using (ProfileBlock.Start(method.ToDebugString()))
 #endif
             {

@@ -24,9 +24,10 @@ namespace Zenject
             Assert.That(!ZenUtilInternal.IsNull(prefab), "Received null prefab during bind command");
 
 #if UNITY_EDITOR
-            // This won't execute in dll builds sadly
-            Assert.That(PrefabUtility.GetPrefabType(prefab) == PrefabType.Prefab,
-                "Expected prefab but found game object with name '{0}' during bind command", prefab.name);
+            // Unfortunately we can't do this check because asset bundles return PrefabType.None here
+            // as discussed here: https://github.com/modesttree/Zenject/issues/269#issuecomment-323419408
+            //Assert.That(PrefabUtility.GetPrefabType(prefab) == PrefabType.Prefab,
+                //"Expected prefab but found game object with name '{0}' during bind command", prefab.name);
 #endif
         }
 
@@ -35,8 +36,10 @@ namespace Zenject
             Assert.That(!ZenUtilInternal.IsNull(gameObject), "Received null game object during bind command");
 
 #if UNITY_EDITOR
-            Assert.That(PrefabUtility.GetPrefabType(gameObject) != PrefabType.Prefab,
-                "Expected game object but found prefab instead with name '{0}' during bind command", gameObject.name);
+            // Unfortunately we can't do this check because asset bundles return PrefabType.None here
+            // as discussed here: https://github.com/modesttree/Zenject/issues/269#issuecomment-323419408
+            //Assert.That(PrefabUtility.GetPrefabType(gameObject) != PrefabType.Prefab,
+                //"Expected game object but found prefab instead with name '{0}' during bind command", gameObject.name);
 #endif
         }
 
@@ -197,8 +200,24 @@ namespace Zenject
 
         public static void AssertIsDerivedFromType(Type concreteType, Type parentType)
         {
-            Assert.That(concreteType.DerivesFromOrEqual(parentType),
-                "Invalid type given during bind command.  Expected type '{0}' to derive from type '{1}'", concreteType, parentType.Name());
+#if !(UNITY_WSA && ENABLE_DOTNET)
+            // TODO: Is it possible to do this on WSA?
+
+            Assert.That(parentType.IsOpenGenericType() == concreteType.IsOpenGenericType(),
+                "Invalid type given during bind command.  Expected type '{0}' and type '{1}' to both either be open generic types or not open generic types", parentType, concreteType);
+
+            if (parentType.IsOpenGenericType())
+            {
+                Assert.That(concreteType.IsOpenGenericType());
+                Assert.That(TypeExtensions.IsAssignableToGenericType(concreteType, parentType),
+                    "Invalid type given during bind command.  Expected open generic type '{0}' to derive from open generic type '{1}'", concreteType, parentType);
+            }
+            else
+#endif
+            {
+                Assert.That(concreteType.DerivesFromOrEqual(parentType),
+                    "Invalid type given during bind command.  Expected type '{0}' to derive from type '{1}'", concreteType, parentType.Name());
+            }
         }
 
         public static void AssertConcreteTypeListIsNotEmpty(IEnumerable<Type> concreteTypes)

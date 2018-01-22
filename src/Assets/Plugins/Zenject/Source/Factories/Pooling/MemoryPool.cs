@@ -92,7 +92,8 @@ namespace Zenject
     public class MemoryPool<TParam1, TParam2, TParam3, TParam4, TParam5, TValue>
         : MemoryPoolBase<TValue>, IMemoryPool<TParam1, TParam2, TParam3, TParam4, TParam5, TValue>
     {
-        public TValue Spawn(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
+        public TValue Spawn(
+            TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
         {
             var item = GetInternal();
             Reinitialize(param1, param2, param3, param4, param5, item);

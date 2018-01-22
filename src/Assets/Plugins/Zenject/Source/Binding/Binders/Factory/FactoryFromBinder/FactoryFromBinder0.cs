@@ -49,9 +49,23 @@ namespace Zenject
             where TSubFactory : IFactory<TContract>
         {
             ProviderFunc =
-                (container) => new FactoryProvider<TContract, TSubFactory>(container, BindInfo.Arguments);
+                (container) => new FactoryProvider<TContract, TSubFactory>(
+                    container, BindInfo.Arguments);
 
             return new ArgConditionCopyNonLazyBinder(BindInfo);
+        }
+
+        public ConditionCopyNonLazyBinder FromIFactoryResolve()
+        {
+            return FromIFactoryResolve(null);
+        }
+
+        public ConditionCopyNonLazyBinder FromIFactoryResolve(object subIdentifier)
+        {
+            ProviderFunc =
+                (container) => new IFactoryResolveProvider<TContract>(container, subIdentifier);
+
+            return new ConditionCopyNonLazyBinder(BindInfo);
         }
 
         public FactorySubContainerBinder<TContract> FromSubContainerResolve()

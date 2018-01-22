@@ -44,16 +44,8 @@ namespace Zenject
 
         public virtual void Validate()
         {
-            try
-            {
-                _provider.GetInstance(
-                    _injectContext, ValidationUtil.CreateDefaultArgs(ParamTypes.ToArray()));
-            }
-            catch (Exception e)
-            {
-                throw new ZenjectException(
-                    "Validation for factory '{0}' failed".Fmt(this.GetType()), e);
-            }
+            _provider.GetInstance(
+                _injectContext, ValidationUtil.CreateDefaultArgs(ParamTypes.ToArray()));
         }
 
         protected abstract IEnumerable<Type> ParamTypes

@@ -16,26 +16,6 @@ namespace ModestTree
             }
         }
 
-        public static IEnumerable<T> Append<T>(this IEnumerable<T> first, T item)
-        {
-            foreach (T t in first)
-            {
-                yield return t;
-            }
-
-            yield return item;
-        }
-
-        public static IEnumerable<T> Prepend<T>(this IEnumerable<T> first, T item)
-        {
-            yield return item;
-
-            foreach (T t in first)
-            {
-                yield return t;
-            }
-        }
-
         // Inclusive because it includes the item that meets the predicate
         public static IEnumerable<TSource> TakeUntilInclusive<TSource>(
             this IEnumerable<TSource> source, Func<TSource, bool> predicate)

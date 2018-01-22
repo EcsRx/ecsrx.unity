@@ -69,12 +69,17 @@ namespace Zenject
                 Assert.IsNotNull(ctx.ObjectInstance);
 
                 var res = ((MonoBehaviour)ctx.ObjectInstance).GetComponentsInChildren<TContract>(includeInactive)
-                                                             .Where(x => !ReferenceEquals(x, ctx.ObjectInstance));
+                    .Where(x => !ReferenceEquals(x, ctx.ObjectInstance));
 
                 if (excludeSelf)
+                {
                     res = res.Where(x => (x as Component).gameObject != (ctx.ObjectInstance as Component).gameObject);
+                }
 
-                if (predicate != null) res = res.Where(predicate);
+                if (predicate != null)
+                {
+                    res = res.Where(predicate);
+                }
 
                 return res;
             });
@@ -93,7 +98,10 @@ namespace Zenject
                     var res = ((MonoBehaviour)ctx.ObjectInstance).GetComponentsInParent<TContract>()
                         .Where(x => !ReferenceEquals(x, ctx.ObjectInstance));
 
-                    if (excludeSelf) res = res.Where(x => (x as Component).gameObject != (ctx.ObjectInstance as Component).gameObject);
+                    if (excludeSelf)
+                    {
+                        res = res.Where(x => (x as Component).gameObject != (ctx.ObjectInstance as Component).gameObject);
+                    }
 
                     return res;
                 });
@@ -123,7 +131,10 @@ namespace Zenject
                     .SelectMany(x => x.GetComponentsInChildren<TContract>(includeInactive))
                     .Where(x => !ReferenceEquals(x, ctx.ObjectInstance));
 
-                if (predicate != null) res = res.Where(predicate);
+                if (predicate != null)
+                {
+                    res = res.Where(predicate);
+                }
 
                 return res;
             });

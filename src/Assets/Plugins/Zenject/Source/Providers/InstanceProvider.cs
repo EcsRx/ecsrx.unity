@@ -30,9 +30,9 @@ namespace Zenject
 
             Assert.That(_instanceType.DerivesFromOrEqual(context.MemberType));
 
-            _container.OnInstanceResolved(_instance);
-
             yield return new List<object>() { _instance };
+
+            _container.OnInstanceResolved(_instance);
         }
     }
 }

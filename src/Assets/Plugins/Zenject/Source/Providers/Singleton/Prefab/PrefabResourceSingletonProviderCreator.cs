@@ -24,7 +24,7 @@ namespace Zenject
 
         public IProvider CreateProvider(
             string resourcePath, Type resultType, GameObjectCreationParameters gameObjectBindInfo,
-            List<TypeValuePair> extraArguments, object concreteIdentifier)
+            List<TypeValuePair> extraArguments, object concreteIdentifier, Func<Type, IPrefabInstantiator, IProvider> providerFactory)
         {
             IPrefabInstantiator creator;
 
@@ -59,7 +59,7 @@ namespace Zenject
                 return new PrefabGameObjectProvider(creator);
             }
 
-            return new GetFromPrefabComponentProvider(resultType, creator);
+            return providerFactory(resultType, creator);
         }
 
         class PrefabId : IEquatable<PrefabId>

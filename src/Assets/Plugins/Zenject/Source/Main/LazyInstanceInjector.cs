@@ -50,11 +50,21 @@ namespace Zenject
 
         public void LazyInjectAll()
         {
-            while (!_instancesToInject.IsEmpty())
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
+            using (ProfileBlock.Start("LazyInstanceInjector.LazyInjectAll"))
+#endif
             {
-                var instance = _instancesToInject.First();
-                _instancesToInject.Remove(instance);
-                _container.Inject(instance);
+                var tempList = new List<object>();
+                while (!_instancesToInject.IsEmpty())
+                {
+                    tempList.Clear();
+                    tempList.AddRange(_instancesToInject);
+                    _instancesToInject.Clear();
+                    foreach (var instance in tempList)
+                    {
+                        _container.Inject(instance);
+                    }
+                }
             }
         }
     }

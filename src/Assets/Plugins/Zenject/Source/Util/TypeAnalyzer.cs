@@ -17,7 +17,7 @@ namespace Zenject
 
         public static ZenjectTypeInfo GetInfo(Type type)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
             using (ProfileBlock.Start("Zenject Reflection"))
 #endif
             {
@@ -175,23 +175,22 @@ namespace Zenject
             Assert.That(!string.IsNullOrEmpty(propertyName));
 
             var allFields = GetAllFields(
-                parentType, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy);
+                parentType, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy).ToList();
 
-            var writeableField = allFields.SingleOrDefault(
-                f => f.Name == string.Format("<{0}>k__BackingField", propertyName));
+            var writeableFields = allFields.Where(f => f.Name == string.Format("<{0}>k__BackingField", propertyName)).ToList();
 
-            if (writeableField == null)
+            if (!writeableFields.Any())
             {
                 throw new ZenjectException(string.Format(
                     "Can't find backing field for get only property {0} on {1}.\r\n{2}",
                     propertyName, parentType.FullName, string.Join(";", allFields.Select(f => f.Name).ToArray())));
             }
 
-            return (injectable, value) => writeableField.SetValue(injectable, value);
-        }
+			return (injectable, value) => writeableFields.ForEach(f => f.SetValue(injectable, value));
+		}
 #endif
 
-        static InjectableInfo CreateForMember(MemberInfo memInfo, Type parentType)
+		static InjectableInfo CreateForMember(MemberInfo memInfo, Type parentType)
         {
             var injectAttributes = memInfo.AllAttributes<InjectAttributeBase>().ToList();
 

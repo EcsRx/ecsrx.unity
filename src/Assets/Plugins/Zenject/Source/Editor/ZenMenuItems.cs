@@ -166,21 +166,27 @@ namespace Zenject
         [MenuItem("Assets/Create/Zenject/Integration Test", false, 60)]
         public static void CreateIntegrationTest()
         {
-            AddCSharpClassTemplate("Integration Test", "UntitledIntegrationTest", true,
+            AddCSharpClassTemplate("Integration Test", "UntitledIntegrationTest", false,
                   "using Zenject;"
-                + "\nusing NUnit.Framework;"
+                + "\nusing System.Collections;"
+                + "\nusing UnityEngine.TestTools;"
                 + "\n"
-                + "\n[TestFixture]"
                 + "\npublic class CLASS_NAME : ZenjectIntegrationTestFixture"
                 + "\n{"
-                + "\n    [Test]"
-                + "\n    public void RunTest1()"
+                + "\n    [UnityTest]"
+                + "\n    public IEnumerator RunTest1()"
                 + "\n    {"
-                + "\n        // TODO: Add bindings"
-                + "\n        "
-                + "\n        Initialize();"
-                + "\n        "
-                + "\n        // TODO"
+                + "\n        // Setup initial state by creating game objects from scratch, loading prefabs/scenes, etc"
+                + "\n"
+                + "\n        PreInstall();"
+                + "\n"
+                + "\n        // Call Container.Bind methods"
+                + "\n"
+                + "\n        PostInstall();"
+                + "\n"
+                + "\n        // Add test assertions for expected state"
+                + "\n        // Using Container.Resolve or [Inject] fields"
+                + "\n        yield break;"
                 + "\n    }"
                 + "\n}");
         }
@@ -275,7 +281,7 @@ namespace Zenject
             Selection.activeObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
         }
 
-        [MenuItem("Edit/Zenject/Validate All Active Scenes #%v")]
+        [MenuItem("Edit/Zenject/Validate All Active Scenes")]
         public static void ValidateAllActiveScenes()
         {
             ValidateWrapper(() =>

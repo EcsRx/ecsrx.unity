@@ -29,7 +29,7 @@ namespace Zenject
 
             var context = gameObject.GetComponent<GameObjectContext>();
 
-            Assert.IsNotNull(context,
+            Assert.That(context != null,
                 "Expected prefab with name '{0}' to container a component of type 'GameObjectContext'", prefab.name);
 
             // Note: We don't need to call ValidateValidatables here because GameObjectContext does this for us
