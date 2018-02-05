@@ -24,7 +24,7 @@ namespace EcsRx.Unity.Systems
         private readonly IDictionary<Guid, GameObject> _viewCache;
         private readonly IDisposable _entitySubscription;
 
-        public virtual IGroup TargetGroup
+        public virtual Group TargetGroup
         {
             get { return new Group(typeof(ViewComponent)); }
         }

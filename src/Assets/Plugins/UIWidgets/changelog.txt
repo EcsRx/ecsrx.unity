@@ -1,0 +1,134 @@
+v1.8.4
+- Added ColorPickerRange - allow to select color from range of two colors.
+- Fixed Combobox bug.
+
+v1.8.3
+- Added SelectableHelper - allow to control additional Graphic component according selection state of current gameobject. So you can control button background color with Button component and Button text color with SelectableHelper
+- Added ListViewInt
+- Added Picker - base class for creating own pickers
+- Added PickerInt, PickerString, PickerIcons
+- Added LayoutSwitcher
+- SpinnerFloat - added property Culture, specified how number will be displayed and how input will be parsed
+- SpinnerFloat - added field DecimalSeparators, along with decimal separator within Culture determine valid decimal separators for input
+	(Warning: incompatible types with different Unity versions - Unity 4.x use string[] and Unity 5.x use char[])
+- Spinner, SpinnerFloat - fixed overflow exception
+- Resizable - added corners directions for resize
+- ListView's - added FadeDuration for colors change
+
+v1.8.2
+- EasyLayout - added Shrink on Overflow option
+- EasyLayout - added CompactConstraint and CompactConstraintCount options
+- Splitter - fixed problem with using more than one splitter with same container
+- Tabs - added prefab for left side Tabs
+- Added ScrollRectRestictedDrag
+- TextMeshPro support available with separate unitypackage
+- Beta: Added Connectors. Add SingleConnector or MultipleConnector to empty gameobject
+
+v1.8.0
+- Added ScrollRectPaginator
+- Added ListViewPaginator
+- Added Autocomplete
+- Added Popup
+- TreeView: added TreeViewDataSource component with nodes editor
+- ListView's: added ScrollTo()
+- EasyLayout: reduced memory allocation
+- EasyLayout: added row/column constraint for Grid layout
+- Tabs: added DefaultTabName property
+- TreeNode: added Path property - return list of parent nodes
+- TreeViewComponent: added OnNodeExpand property with Rotate (rotate toggle) and ChangeSprite (change toggle sprite) values
+- Notify and Dialog: added Template() method, now you can use notifyPrefab.Template().Show(...) instead Notify.Template("template name").Show(...)
+- CenteredSlider: added ValueMin, ValueMax and UseValueLimits. If UseValueLimits enabled then ValueMin <= Value <= ValueMax
+- Tabs: added TabButtonComponent, use derived class with overrided SetButtonData() to control how tab name will be displayed. For TabsIcons you can use TabIconButton.
+- Dialog: added DialogButtonComponent, use derived class with overrided SetButtonName() to control how button name will be displayed.
+- Dialog: added DialogInfoBase, use derived class with overrided SetInfo() to control how info will be displayed.
+- ListView's, TileView: added DropIndicator for Drag-and-Drop
+- TileView: added TileViewScrollRectFitter, ScrollRect will be resized to display whole number of items.
+
+v1.7.4
+- Added Switch
+- Resizable: added KeepAspectRatio property
+- Tabs: added SelectedTab property
+- Tabs: added OnTabSelect event
+- Known problems: Accordion with EasyLayout and Canvas.PixelPerfect enabled in Unity 5.3 cause error "Trying to add (Layout Rebuilder for) {ObjectName} (UnityEngine.RectTransform) for layout rebuild while we are already inside a layout rebuild loop. This is not supported." in some cases. Workaround - use Vertical or Horizontal Layout Group instead EasyLayout.
+
+v1.7.2
+- Fixed errors in WinStore builds.
+- IDropSupport: added DropCanceled method.
+- DragSupport: added DragPoint property (empty gameobject on cursor/touch position), you can use it to attach custom gameobject with information about draggable object.
+- ListViewIconsDragSupport, TreeViewNodeDragSupport: show information about draggable object.
+- Tabs: added Tabs with icons.
+
+v1.7.0
+- Added Drag and Drop support.
+- ComboboxCustom and ComboboxIcons: Added Multiselect support.
+- ResizableHeader: Added drag column support.
+- TreeViewItem: Added Tag property.
+- SlideBlock: Optional support for children ScrollRect.
+- Accordion: Added Direction.
+- Accordion: Added support Horizontal Layout Group and Vertical Layout Group (Content Objects should have LayoutElement component).
+- ListViews: Added limited support Horizontal Layout Group and Vertical Layout Group (you cannot change ListView direction in runtime).
+- ObservableList: Added events OnCollectionChange (raised when items added, removed or replaced) and OnCollectionItemChange (raised when item in collection raise OnChange or PropertyChanged events).
+- ObservableList: Added Comparison, ResortOnCollectionChanged, ResortOnCollectionItemChanged properties.
+- TreeNode: Added Parent property. Now you can remove node from tree using Node.Parent = null or move node to another subtree Node.Parent = AnotherNode.
+
+v1.6.5
+- Added Resizable.
+- Added Splitter.
+- Added SlideBlock.
+- Added ScrollRectEvents component with PullUp, PullDown, PullLeft, PullRight events (use it for refresh or load more options).
+- ListViewCustom: Removed properties SelectedComponent and SelectedComponents.
+- ObservableList: Now you can disable items observe in constructor.
+- ListViewItem: Added MovedToCache function, called when item moved to cache, you can use it to free used resources.
+- Added Table sample (ListViewCustom + ResizableHeader + Tooltip).
+- TileView sample - added Resizable for TileView and TileViewItems and toggle direction.
+- Bug fixes.
+- Optimization.
+
+v1.6.0
+- ColorPicker
+- For ListView, ListViewIcons, ListViewCustom, ListViewCustomHeight, TileView added support for ObservableList
+- Items property marked obsolete, but can be used.
+- Added optional sequence parametres for Notify - notifications can be showed one by one, not only all at once like before.
+- For ListViewIcons items and TreeView nodes added field LocalizedName, so now can be easily added localization support.
+- EasyLayout - Control Width, Max Width, Control Height, Max Height replaced with "Children Width" and "Children Height" with options:
+    Do Nothing
+    Set Preferred - Set width/height to preferred, like Control Width/Height
+    Set Max from Preferred - Set width/height to maximum preferred width/height of items, like Max Width/Height
+    Fit Container - similar to "Child Force Expand" from Horizontal/Vertical Layout Group
+- ListViewCustomHeight - implimentation of IListViewItemHeight for components now optional, but you still can implement it for optimization purpose.
+
+v.1.5.0
+- Added TileView
+- Added TreeView
+- Added ResizableHeader
+- Direction option for ListView's
+- Value option for ListViewIcons items
+
+v.1.4.2 
+- Added ListViewCustomHeight (support items of variable heights).
+
+v.1.4.1
+- Added CenteredSlider.
+
+v.1.4
+- Added RangeSlider
+- Added Accordion
+- Bugfixes.
+Thanks to Nox from Purple Pwny Studios (http://purplepwny.com) for helping fix a mobile combobox bug.
+
+v.1.3
+- Added ListViewIcons
+- Added ComboboxIcons
+- Added ListViewCustom
+- Added ComboboxCustom
+
+v.1.2
+- Added Dialog
+- Added Draggable
+
+v.1.1
+- Added Notify
+- Added EasyLayout
+
+v.1.0
+- Initial release

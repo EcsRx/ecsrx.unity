@@ -6,7 +6,7 @@ using EcsRx.Groups;
 
 namespace Assets.EcsRx.Examples.UsingBlueprints.Groups
 {
-    public class PlayerGroup : IGroup
+    public class PlayerGroup : Group
     {
         private readonly IEnumerable<Type> _components = new[]
         {

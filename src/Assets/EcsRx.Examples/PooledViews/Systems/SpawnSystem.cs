@@ -14,7 +14,7 @@ namespace Assets.EcsRx.Examples.PooledViews.Systems
     {
         private readonly IPool _defaultPool;
 
-        public IGroup TargetGroup { get { return new Group(typeof(SpawnerComponent), typeof(ViewComponent));} }
+        public Group TargetGroup { get { return new Group(typeof(SpawnerComponent), typeof(ViewComponent));} }
 
         public SpawnSystem(IPoolManager poolManager)
         { _defaultPool = poolManager.GetPool(); }

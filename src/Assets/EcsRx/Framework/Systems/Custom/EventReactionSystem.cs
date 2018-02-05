@@ -8,7 +8,7 @@ namespace EcsRx.Systems.Custom
 {
     public abstract class EventReactionSystem<T> : IManualSystem
     {
-        public virtual IGroup TargetGroup { get { return new EmptyGroup();} }
+        public virtual Group TargetGroup { get { return new EmptyGroup();} }
         public IEventSystem EventSystem { get; private set; }
 
         private IDisposable _subscription;

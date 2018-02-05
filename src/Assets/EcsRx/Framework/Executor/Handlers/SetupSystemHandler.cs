@@ -45,11 +45,11 @@ namespace EcsRx.Systems.Executor.Handlers
                 return null;
             }
 
-            var subscription = entity.WaitForPredicateMet(groupPredicate.CanProcessEntity)
-                .Subscribe(system.Setup);
+            //var subscription = entity.WaitForPredicateMet(groupPredicate.CanProcessEntity)
+            //    .Subscribe(system.Setup);
 
-            var subscriptionToken = new SubscriptionToken(entity, subscription);
-            return subscriptionToken;
+            //var subscriptionToken = new SubscriptionToken(entity, subscription);
+            return null;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Systems
 {
     public class CustomViewSetupSystem : ISetupSystem
     {
-        public IGroup TargetGroup { get { return new Group().WithComponent<CustomViewComponent>();} }
+        public Group TargetGroup { get { return new Group().WithComponent<CustomViewComponent>();} }
         
         public void Setup(IEntity entity)
         {

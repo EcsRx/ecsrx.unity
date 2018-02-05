@@ -12,7 +12,7 @@ namespace Assets.Tests.Scenes.GroupedPerformance.Systems
 {
     public class GroupRotationSystem : IReactToGroupSystem
     {
-        public IGroup TargetGroup { get { return new Group(typeof(ViewComponent), typeof(RotationComponent));} }
+        public Group TargetGroup { get { return new Group(typeof(ViewComponent), typeof(RotationComponent));} }
 
         public IObservable<IGroupAccessor> ReactToGroup(IGroupAccessor @group)
         {

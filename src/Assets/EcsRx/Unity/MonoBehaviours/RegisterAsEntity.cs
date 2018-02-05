@@ -61,7 +61,7 @@ namespace EcsRx.Unity.MonoBehaviours
             {
                 var typeName = Components[i];
                 var type = Type.GetType(typeName);
-                if (type == null) { throw new Exception("Cannot resolve type for [" + typeName + "]"); }
+                if (type == null) { throw new System.Exception("Cannot resolve type for [" + typeName + "]"); }
 
                 var component = (IComponent)Activator.CreateInstance(type);
                 var componentProperties = JSON.Parse(ComponentEditorState[i]);

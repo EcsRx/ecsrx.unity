@@ -12,7 +12,7 @@ namespace Assets.EcsRx.Examples.GameObjectBinding
 {
     public class SphereViewResolver : ViewResolverSystem
     {
-        public override IGroup TargetGroup
+        public override Group TargetGroup
         {
             get { return base.TargetGroup.WithComponent<SphereComponent>(); }
         }

@@ -13,7 +13,7 @@ namespace EcsRx.Unity.Systems
     {
         public IViewHandler ViewHandler { get; private set; }
 
-        public virtual IGroup TargetGroup
+        public virtual Group TargetGroup
         {
             get { return new Group(typeof(ViewComponent)); }
         }

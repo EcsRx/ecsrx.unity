@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ffc9d4f678be1254aaf56d6628a6c1f2
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - CurrentCamera: {instanceID: 0}
+  - CursorEWTexture: {fileID: 2800000, guid: 6849a3e9e15bf7d4c98cd8bb5762c7bb, type: 3}
+  - CursorNSTexture: {fileID: 2800000, guid: 1499b07727031c3449372d55f72dca6f, type: 3}
+  - CursorNWSETexture: {fileID: 2800000, guid: a11340f3ef0069e41bf169ad8846defc, type: 3}
+  - CursorNESWTexture: {fileID: 2800000, guid: f5f1888064a79ee41afa5d08fd6d1a40, type: 3}
+  - DefaultCursorTexture: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 

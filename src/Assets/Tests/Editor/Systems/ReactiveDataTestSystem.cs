@@ -12,7 +12,7 @@ namespace EcsRx.Tests.Systems
 {
     public class ReactiveDataTestSystem : IReactToDataSystem<float>
     {
-        public IGroup TargetGroup { get { return new Group().WithComponent<TestComponentOne>();} }
+        public Group TargetGroup { get { return new Group().WithComponent<TestComponentOne>();} }
 
         public IObservable<float> ReactToData(IEntity entity)
         {

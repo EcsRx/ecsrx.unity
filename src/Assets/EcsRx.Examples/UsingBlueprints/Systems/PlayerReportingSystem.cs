@@ -9,7 +9,7 @@ namespace Assets.EcsRx.Examples.UsingBlueprints.Systems
 {
     public class PlayerReportingSystem : ISetupSystem
     {
-        public IGroup TargetGroup { get { return new PlayerGroup();} }
+        public Group TargetGroup { get { return new PlayerGroup();} }
 
         public void Setup(IEntity entity)
         {

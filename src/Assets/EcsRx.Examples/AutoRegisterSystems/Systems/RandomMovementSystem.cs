@@ -12,7 +12,7 @@ namespace Assets.EcsRx.Examples.AutoRegisterSystems.Systems
 {
     public class RandomMovementSystem : IReactToGroupSystem
     {
-        public IGroup TargetGroup { get { return new Group(typeof (ViewComponent)); } }
+        public Group TargetGroup { get { return new Group(typeof (ViewComponent)); } }
 
         public IObservable<IGroupAccessor> ReactToGroup(IGroupAccessor @group)
         {

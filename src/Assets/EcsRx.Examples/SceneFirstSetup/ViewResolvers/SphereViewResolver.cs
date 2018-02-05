@@ -14,7 +14,7 @@ namespace Assets.EcsRx.Examples.SceneFirstSetup.ViewResolvers
     {
         private readonly Transform ParentTrasform = GameObject.Find("Entities").transform;
 
-        public override IGroup TargetGroup
+        public override Group TargetGroup
         {
             get { return base.TargetGroup.WithComponent<SphereComponent>(); }
         }

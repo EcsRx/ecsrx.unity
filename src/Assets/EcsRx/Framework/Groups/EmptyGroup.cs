@@ -4,7 +4,7 @@ using EcsRx.Entities;
 
 namespace EcsRx.Groups
 {
-    public class EmptyGroup : IGroup
+    public class EmptyGroup : Group
     {
         public IEnumerable<Type> TargettedComponents { get { return new Type[0]; } }
         public Predicate<IEntity> TargettedEntities { get { return null; } }

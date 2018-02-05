@@ -8,7 +8,7 @@ namespace Assets.EcsRx.Examples.PluginExample.HelloWorldPlugin.systems
 {
     public class OutputHelloWorldSystem : ISetupSystem
     {
-        public IGroup TargetGroup { get { return new Group(typeof(SayHelloWorldComponent));} }
+        public Group TargetGroup { get { return new Group(typeof(SayHelloWorldComponent));} }
 
         public void Setup(IEntity entity)
         {

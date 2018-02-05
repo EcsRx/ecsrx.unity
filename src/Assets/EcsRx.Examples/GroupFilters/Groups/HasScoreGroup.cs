@@ -5,7 +5,7 @@ using EcsRx.Groups;
 
 namespace Assets.EcsRx.Examples.GroupFilters.Groups
 {
-    public class HasScoreGroup : IGroup
+    public class HasScoreGroup : Group
     {
         public IEnumerable<Type> TargettedComponents
         {

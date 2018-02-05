@@ -11,7 +11,7 @@ namespace Assets.EcsRx.Examples.GroupFilters.Systems
 {
     public class RandomScoreIncrementerSystem : IReactToEntitySystem
     {
-        public IGroup TargetGroup { get { return new HasScoreGroup(); } }
+        public Group TargetGroup { get { return new HasScoreGroup(); } }
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         { return Observable.Interval(TimeSpan.FromSeconds(1)).Select(x => entity); }

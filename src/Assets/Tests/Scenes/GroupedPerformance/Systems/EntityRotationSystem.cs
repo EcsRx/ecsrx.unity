@@ -11,7 +11,7 @@ namespace Assets.Tests.Scenes.GroupedPerformance.Systems
 {
     public class EntityRotationSystem : IReactToEntitySystem
     {
-        public IGroup TargetGroup { get { return new Group(typeof(ViewComponent), typeof(RotationComponent)); } }
+        public Group TargetGroup { get { return new Group(typeof(ViewComponent), typeof(RotationComponent)); } }
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {

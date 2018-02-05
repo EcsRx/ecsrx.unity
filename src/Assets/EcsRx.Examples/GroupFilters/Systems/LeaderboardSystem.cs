@@ -24,7 +24,7 @@ namespace Assets.EcsRx.Examples.GroupFilters.Systems
         private Text _leaderBoardText;
         private Toggle _useCacheToggle;
 
-        public IGroup TargetGroup { get { return new EmptyGroup(); } }
+        public Group TargetGroup { get { return new EmptyGroup(); } }
 
         public LeaderboardSystem(IPoolManager poolManager)
         {

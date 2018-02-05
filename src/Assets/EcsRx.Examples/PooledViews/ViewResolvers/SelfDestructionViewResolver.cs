@@ -11,7 +11,7 @@ namespace Assets.EcsRx.Examples.PooledViews.ViewResolvers
 {
     public class SelfDestructionViewResolver : DefaultPooledViewResolverSystem
     {
-        public override IGroup TargetGroup
+        public override Group TargetGroup
         {
             get { return new Group(typeof(SelfDestructComponent), typeof(ViewComponent)); }
         }

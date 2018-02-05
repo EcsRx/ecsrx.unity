@@ -7,7 +7,7 @@ namespace EcsRx.Tests.Systems
 {
     public class TestSetupSystem : ISetupSystem
     {
-        public IGroup TargetGroup { get { return new Group(typeof(TestComponentOne));} }
+        public Group TargetGroup { get { return new Group(typeof(TestComponentOne));} }
 
         public void Setup(IEntity entity)
         {

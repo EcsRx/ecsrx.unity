@@ -11,7 +11,7 @@ namespace Assets.EcsRx.Examples.RandomReactions.Systems
 {
     public class CubeColourChangerSystem : IReactToEntitySystem
     {
-        public IGroup TargetGroup
+        public Group TargetGroup
         {
             get
             {

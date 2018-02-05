@@ -11,7 +11,7 @@ namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Systems
 {
     public class CameraFollowSystem : ISetupSystem, IReactToGroupSystem
     {
-        public IGroup TargetGroup
+        public Group TargetGroup
         {
             get
             {

@@ -14,7 +14,7 @@ namespace Assets.EcsRx.Examples.SimpleMovement.Systems
     {
         public readonly float MovementSpeed = 2.0f;
 
-        public IGroup TargetGroup
+        public Group TargetGroup
         {
             get
             {

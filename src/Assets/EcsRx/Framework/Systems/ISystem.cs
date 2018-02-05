@@ -5,6 +5,6 @@ namespace EcsRx.Systems
 {
     public interface ISystem
     {
-        IGroup TargetGroup { get; }
+        Group TargetGroup { get; }
     }
 }

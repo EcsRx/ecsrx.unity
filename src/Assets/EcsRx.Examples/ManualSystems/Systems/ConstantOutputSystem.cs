@@ -10,7 +10,7 @@ namespace Assets.EcsRx.Examples.ManualSystems.Systems
     public class ConstantOutputSystem : IManualSystem
     {
         // Empty group will match nothing
-        public IGroup TargetGroup { get { return new EmptyGroup(); } }
+        public Group TargetGroup { get { return new EmptyGroup(); } }
 
         private IDisposable _updateLoop;
         private float _timesOutputted = 0;

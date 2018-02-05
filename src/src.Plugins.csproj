@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6001150F-B5BC-D04E-994E-425096E0FFE6}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
+    <AssemblyName>Assembly-CSharp-firstpass.dll</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
@@ -15,7 +15,7 @@
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
-    <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
+    <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.3.0f3</UnityVersion>
     <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
@@ -27,7 +27,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_3_0;UNITY_2017_3;UNITY_2017;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_GRID;ENABLE_TILEMAP;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;ENABLE_SPRITE_MASKING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_RMGUI;ENABLE_PACKMAN;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_STYLE_SHEETS;ENABLE_LOCALIZATION;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_AR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_3_0;UNITY_2017_3;UNITY_2017;PLATFORM_ARCH_64;UNITY_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_GRID;ENABLE_TILEMAP;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;ENABLE_SPRITE_MASKING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_RMGUI;ENABLE_PACKMAN;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_STYLE_SHEETS;ENABLE_LOCALIZATION;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_AR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -37,7 +37,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_3_0;UNITY_2017_3;UNITY_2017;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_GRID;ENABLE_TILEMAP;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;ENABLE_SPRITE_MASKING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_RMGUI;ENABLE_PACKMAN;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_STYLE_SHEETS;ENABLE_LOCALIZATION;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_AR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU</DefineConstants>
+    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_3_0;UNITY_2017_3;UNITY_2017;PLATFORM_ARCH_64;UNITY_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_GRID;ENABLE_TILEMAP;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;ENABLE_SPRITE_MASKING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_RMGUI;ENABLE_PACKMAN;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_STYLE_SHEETS;ENABLE_LOCALIZATION;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_AR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
@@ -50,241 +50,507 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEditor">
-      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AccessibilityModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.AccessibilityModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ParticleSystemModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.ParticleSystemModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VehiclesModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.VehiclesModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.VehiclesModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClothModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.ClothModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.ClothModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.AIModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.UIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TerrainPhysicsModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClusterInputModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.ClusterInputModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterInputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClusterRendererModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.ClusterRendererModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterRendererModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UNETModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UNETModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.UNETModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.DirectorModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.DirectorModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.DirectorModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityAnalyticsModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PerformanceReportingModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.PerformanceReportingModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityConnectModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UnityConnectModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.WebModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.WebModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.WebModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ARModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.ARModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.ARModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VRModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.VRModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.VRModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIElementsModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UIElementsModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.UIElementsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.StyleSheetsModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.StyleSheetsModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.StyleSheetsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AssetBundleModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.AssetBundleModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.AssetBundleModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CrashReportingModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.CrashReportingModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GameCenterModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.GameCenterModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.GameCenterModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GridModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.GridModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.GridModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.ImageConversionModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.InputModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.InputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.JSONSerializeModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ParticlesLegacyModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.ParticlesLegacyModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.ParticlesLegacyModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Physics2DModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Physics2DModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.Physics2DModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ScreenCaptureModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.ScreenCaptureModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SharedInternalsModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.SharedInternalsModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.SharedInternalsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpriteMaskModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.SpriteMaskModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpriteShapeModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.SpriteShapeModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteShapeModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TerrainModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.TerrainModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TilemapModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.TilemapModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestTextureModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VideoModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.VideoModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.WindModule">
-      <HintPath>Library\UnityAssemblies\UnityEngine.WindModule.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Networking.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.TestRunner">
-      <HintPath>Library\UnityAssemblies\UnityEditor.TestRunner.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>Library\UnityAssemblies\UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Timeline">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Timeline.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Timeline">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Timeline.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.TreeEditor">
-      <HintPath>Library\UnityAssemblies\UnityEditor.TreeEditor.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIAutomation">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UIAutomation.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UIAutomation">
-      <HintPath>Library\UnityAssemblies\UnityEditor.UIAutomation.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.GoogleAudioSpatializer">
-      <HintPath>Library\UnityAssemblies\UnityEditor.GoogleAudioSpatializer.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GoogleAudioSpatializer">
-      <HintPath>Library\UnityAssemblies\UnityEngine.GoogleAudioSpatializer.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.HoloLens">
-      <HintPath>Library\UnityAssemblies\UnityEditor.HoloLens.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
-      <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
-      <HintPath>Library\UnityAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.VR">
-      <HintPath>Library\UnityAssemblies\UnityEditor.VR.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Graphs">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
-      <HintPath>Library\UnityAssemblies\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+      <HintPath>E:/Untiy/x86/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Purchasing">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Purchasing">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.StandardEvents">
-      <HintPath>Library\UnityAssemblies\UnityEngine.StandardEvents.dll</HintPath>
+      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/2015/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="NSubstitute">
-      <HintPath>Assets\Plugins\NSubstitute.dll</HintPath>
+      <HintPath>Assets/Plugins/NSubstitute.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>C:/Users/Administrator/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Advertisements">
+      <HintPath>C:/Users/Administrator/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/Editor/UnityEditor.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>C:/Users/Administrator/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.13/UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Analytics">
+      <HintPath>C:/Users/Administrator/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.13/Editor/UnityEditor.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>C:/Users/Administrator/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@0.0.19/UnityEngine.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Purchasing">
+      <HintPath>C:/Users/Administrator/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@0.0.19/Editor/UnityEditor.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.StandardEvents">
+      <HintPath>C:/Users/Administrator/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\AccordionTest.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\CenteredSliderLabel.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Combobox\KeyValueCombobox.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Combobox\KeyValueListView.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Combobox\KeyValueListViewDataSource.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Combobox\KeyValueListViewItem.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\DialogInputHelper.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\DialogTreeViewInputHelper.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\Chat\ChatLine.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\Chat\ChatLineComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\Chat\ChatView.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\Chat\ChatViewTest.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewCustomSample\ListViewCustomSample.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewCustomSample\ListViewCustomSampleComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewCustomSample\ListViewCustomSampleItemDescription.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewImages\ListViewImages.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewImages\ListViewImagesComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewImages\ListViewImagesItem.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewNoColoring.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewSlider\ListViewSlider.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewSlider\ListViewSliderComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewSlider\ListViewSliderItem.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewUnderlineSample\ListViewUnderlineSample.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewUnderlineSample\ListViewUnderlineSampleComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewUnderlineSample\ListViewUnderlineSampleItemDescription.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewVariableHeight\ListViewVariableHeight.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewVariableHeight\ListViewVariableHeightComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\ListViewVariableHeight\ListViewVariableHeightItemDescription.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\TasksView\Task.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\TasksView\TaskAutocomplete.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\TasksView\TaskComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\TasksView\TaskPicker.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\TasksView\TaskTests.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ListView\TasksView\TaskView.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Picker\PickerIntTest.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\PopupTest.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Progressbar\SampleProgressbar.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Progressbar\SampleProgressBar1.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Progressbar\SampleProgressBar2.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\RangeSlider\RangeSliderFloatSample.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\RangeSlider\RangeSliderSample.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\HarborShop\HarborListView.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\HarborShop\HarborListViewComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\HarborShop\HarborOrder.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\HarborShop\HarborOrderLine.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\HarborShop\HarborShop.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\IOrder.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\IOrderLine.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\Item.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\JRPGShop\JRPGOrder.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\JRPGShop\JRPGOrderLine.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\JRPGShop\JRPGShop.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\JRPGShop\TraderListView.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\JRPGShop\TraderListViewComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\Prices.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\ResultOrderLine.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Shops\Trader.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\StandaloneExit.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\SwitchTest.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Table\SteamSpyComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Table\SteamSpyItem.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Table\SteamSpyView.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Table\Table.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Table\TableCell.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Table\TableRow.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\Table\TableRowComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\ListViewSaveIndicies.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\LocalizationSample.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\SampleFilter.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\SmokeTest.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\TestColorPicker.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\TestColorPickerRange.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\TestFolderRenamed\TestScriptRenamed.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\TestListView.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\TestListViewPerformance.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\TestListViewSlider.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\TestNotify.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\TestPaginator.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\TestScrollRectEvents.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\TestSpinnerFloat.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\TestTreeView.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestScripts\TreeViewListeners.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TestTabs.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TileView\TileViewComponentSample.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TileView\TileViewIcons.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TileView\TileViewIconsDataSource.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TileView\TileViewIconsLayoutWidthExtender.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TileView\TileViewIconsTest.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TileView\TileViewItemSample.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TileView\TileViewResizeHelper.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TileView\TileViewSample.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TileView\TileViewSampleDataSource.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TileView\TileViewSampleDragSupport.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TileView\TileViewSampleDropSupport.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TileView\TileViewToggleDirection.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ToDoList\ToDoListView.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ToDoList\ToDoListViewComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\ToDoList\ToDoListViewItem.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TreeView\TreeViewCheckboxes\TestTreeViewCheckboxes.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TreeView\TreeViewCheckboxes\TreeViewCheckboxes.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TreeView\TreeViewCheckboxes\TreeViewCheckboxesComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TreeView\TreeViewCheckboxes\TreeViewCheckboxesItem.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TreeView\TreeViewSample.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TreeView\TreeViewSampleComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TreeView\TreeViewSampleData.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TreeView\TreeViewSampleItem.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TreeView\TreeViewSampleItemContinent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TreeView\TreeViewSampleItemCountry.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\TreeView\TreeViewToggle\TreeViewToggleComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Sample Assets\UITestSamples.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Accordion\Accordion.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Accordion\AccordionEvent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Accordion\AccordionItem.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Accordion\AccordionItemComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Autocomplete\Autocomplete.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Autocomplete\AutocompleteCustom.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Autocomplete\AutocompleteDataSource.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Autocomplete\AutocompleteIcons.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\CenteredSlider\CenteredSlider.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\CenteredSlider\CenteredSliderBase.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\CenteredSlider\CenteredSliderVertical.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ColorPicker\ColorHSV.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ColorPicker\ColorPicker.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ColorPicker\ColorPickerABlock.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ColorPicker\ColorPickerColorBlock.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ColorPicker\ColorPickerHSVBlock.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ColorPicker\ColorPickerHSVPalette.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ColorPicker\ColorPickerRange.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ColorPicker\ColorPickerRGBBlock.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ColorPicker\ColorPickerRGBPalette.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ColorPicker\IColorPickerBlock.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Combobox\Combobox.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Combobox\ComboboxCustom.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Combobox\ComboboxIcons.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Combobox\ComboboxIconsItemComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Connector\ConnectorBase.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Connector\ConnectorLine.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Connector\MultipleConnector.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Connector\SingleConnector.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Dialog\BringToFront.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Dialog\Dialog.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Dialog\DialogActions.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Dialog\DialogButtonComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Dialog\DialogButtonComponentBase.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Dialog\DialogInfo.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Dialog\DialogInfoBase.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Dialog\Picker.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Dialog\PickerIcons.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Dialog\PickerInt.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Dialog\PickerString.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Dialog\Popup.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Drag-and-Drop\BaseDragSupport.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Drag-and-Drop\DragSupport.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Drag-and-Drop\IDropSupport.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Drag-and-Drop\ListViewDropIndicator.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Drag-and-Drop\ListViewIconsDragSupport.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Drag-and-Drop\ListViewIconsDropSupport.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Drag-and-Drop\TreeViewDropSupport.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Drag-and-Drop\TreeViewNodeDragSupport.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Drag-and-Drop\TreeViewNodeDropSupport.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Draggable\Draggable.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Draggable\DraggableHandle.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Draggable\OnDragKeepSelected.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Draggable\OnDragListener.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\EasyLayout\EasyLayout.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\EasyLayout\EasyLayoutCompact.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\EasyLayout\EasyLayoutExtensions.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\EasyLayout\EasyLayoutGrid.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\EasyLayout\EasyLayoutUtilites.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ITemplatable.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\LayoutSwitcher\LayoutSwitcher.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\LayoutSwitcher\UILayout.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\LayoutSwitcher\UIPosition.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Listeners\TransformListener.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\EasyLayoutBridge.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\IItemHeight.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ILayoutBridge.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\IListViewItemHeight.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListView.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListViewBase.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListViewCustom.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListViewCustomHeight.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListViewGameObjects.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListViewHeight.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListViewIcons.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListViewIconsItemComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListViewInt\ListViewInt.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListViewInt\ListViewIntComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListViewInt\ListViewIntComponentBase.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListViewItem.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListViewItemEventData.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\ListViewStringComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ListView\StandardLayoutBridge.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Notify\Notify.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Notify\NotifyInfoBase.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Notify\NotifySequenceManager.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Progressbar.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\RangeSlider\RangeSlider.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\RangeSlider\RangeSliderBase.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\RangeSlider\RangeSliderFloat.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\RangeSlider\RangeSliderFloatVertical.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\RangeSlider\RangeSliderHandle.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\RangeSlider\RangeSliderVertical.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Resizable\Resizable.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Resizable\ResizableHeader.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Resizable\ResizableHeaderCell.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Resizable\ResizableHeaderDragCell.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Resizable\Splitter.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ScrollRectUtilites\ListViewPaginator.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ScrollRectUtilites\ScrollRectEvents.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ScrollRectUtilites\ScrollRectPage.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ScrollRectUtilites\ScrollRectPageWithNumber.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ScrollRectUtilites\ScrollRectPaginator.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\ScrollRectUtilites\ScrollRectRestrictedDrag.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\SlideBlock\SlideBlock.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\SlideBlock\SlideBlockHandle.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Spinner\Spinner.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Spinner\SpinnerBase.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Spinner\SpinnerFloat.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Switch\Switch.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Switch\SwitchGroup.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Tabs\Tab.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Tabs\TabButton.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Tabs\TabButtonComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Tabs\TabButtonComponentBase.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Tabs\TabIconActiveButton.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Tabs\TabIconButton.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Tabs\TabIconButtonBase.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Tabs\TabIconDefaultButton.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Tabs\TabIcons.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Tabs\Tabs.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Tabs\TabsCustom.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Tabs\TabsIcons.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Templates.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\TileView\TileView.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\TileView\TileViewScrollRectFitter.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Tooltip.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\TreeView\ListNode.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\TreeView\TreeNode.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\TreeView\TreeNodeToggle.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\TreeView\TreeView.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\TreeView\TreeViewComponent.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\TreeView\TreeViewComponentBase.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\TreeView\TreeViewCustom.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\TreeView\TreeViewDataSource.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\TreeView\TreeViewItem.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\Animations.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\ButtonAdvanced.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\ComparisonCompare.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\DragRedirect.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\Extensions.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\ICollectionChanged.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\ICollectionItemChanged.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\IInputFieldProxy.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\ImageAdvanced.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\InputFieldListener.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\InputFieldProxy.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\IObservable.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\IObservableList.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\ModalHelper.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\ObservableList.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\ResizeListener.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\SelectableHelper.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\SelectListener.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\SlideUp.cs" />
+    <Compile Include="Assets\Plugins\UIWidgets\Standart Assets\Utilites\Utilites.cs" />
     <Compile Include="Assets\Plugins\UniRx\Examples\Sample01_ObservableWWW.cs" />
     <Compile Include="Assets\Plugins\UniRx\Examples\Sample02_ObservableTriggers.cs" />
     <Compile Include="Assets\Plugins\UniRx\Examples\Sample03_GameObjectAsObservable.cs" />
@@ -812,6 +1078,16 @@
     <Compile Include="Assets\Plugins\Zenject\Source\Validation\ValidationMarker.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Plugins\UIWidgets\Sample Assets\classes.txt" />
+    <None Include="Assets\Plugins\UIWidgets\Sample Assets\countries.txt" />
+    <None Include="Assets\Plugins\UIWidgets\Shaders\UIGradientShaderHLineHSV.shader" />
+    <None Include="Assets\Plugins\UIWidgets\Shaders\UIGradientShaderHLineRGB.shader" />
+    <None Include="Assets\Plugins\UIWidgets\Shaders\UIGradientShaderPlaneHSV.shader" />
+    <None Include="Assets\Plugins\UIWidgets\Shaders\UIGradientShaderPlaneRGB.shader" />
+    <None Include="Assets\Plugins\UIWidgets\Shaders\UIGradientShaderVLineHSV.shader" />
+    <None Include="Assets\Plugins\UIWidgets\Shaders\UIGradientShaderVLineRGB.shader" />
+    <None Include="Assets\Plugins\UIWidgets\changelog.txt" />
+    <None Include="Assets\Plugins\UIWidgets\readme.txt" />
     <None Include="Assets\Plugins\UniRx\ReadMe.txt" />
     <None Include="Assets\Plugins\Zenject\LICENSE.txt" />
     <None Include="Assets\Plugins\Zenject\OptionalExtras\SampleGame1 (Beginner)\Media\Fonts\Space.txt" />

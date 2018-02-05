@@ -63,15 +63,20 @@ namespace EcsRx.Systems.Executor
 
             foreach (var effectedSystem in effectedSystems)
             {
-                if (effectedSystem is ITeardownSystem)
-                { (effectedSystem as ITeardownSystem).Teardown(args.Entity); }
+                if (effectedSystem.TargetGroup.CanProcessEntity(args.Entity))
+                {
+                    if (effectedSystem is ITeardownSystem)
+                    {
+                        (effectedSystem as ITeardownSystem).Teardown(args.Entity);
+                    }
 
-                var subscriptionTokens = _systemSubscriptions[effectedSystem]
-                    .Where(x => x.AssociatedObject == args.Entity)
-                    .ToList();
+                    var subscriptionTokens = _systemSubscriptions[effectedSystem]
+                        .Where(x => x.AssociatedObject == args.Entity)
+                        .ToList();
 
-                _systemSubscriptions[effectedSystem].RemoveAllFrom(subscriptionTokens);
-                subscriptionTokens.DisposeAll();
+                    _systemSubscriptions[effectedSystem].RemoveAllFrom(subscriptionTokens);
+                    subscriptionTokens.DisposeAll();
+                }
             }
         }
 

@@ -12,7 +12,7 @@ namespace Assets.EcsRx.Examples.SimpleMovement.Systems
 {
     public class CameraFollowSystem : ISetupSystem, IReactToGroupSystem
     {
-        public IGroup TargetGroup
+        public Group TargetGroup
         {
             get
             {

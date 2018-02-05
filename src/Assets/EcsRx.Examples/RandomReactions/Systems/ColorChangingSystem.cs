@@ -15,7 +15,7 @@ namespace Assets.EcsRx.Examples.RandomReactions.Systems
         private readonly float MaxDelay = 5.0f;
         private readonly float MinDelay = 1.0f;
 
-        public IGroup TargetGroup
+        public Group TargetGroup
         {
             get { return new Group(typeof (RandomColorComponent)); }
         }
