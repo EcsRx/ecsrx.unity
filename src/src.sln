@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "src.Plugins", "src.Plugins.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "src.Editor", "src.Editor.csproj", "{12779E55-4C1A-4EB5-8A00-A2561BBE9934}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.PackageManagerUI.Editor", "Unity.PackageManagerUI.Editor.csproj", "{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "src.Editor.Plugins", "src.Editor.Plugins.csproj", "{3BE7610A-3DD7-B09A-C200-5D649B2A2535}"
 EndProject
 Global
@@ -27,6 +29,10 @@ Global
 		{12779E55-4C1A-4EB5-8A00-A2561BBE9934}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12779E55-4C1A-4EB5-8A00-A2561BBE9934}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12779E55-4C1A-4EB5-8A00-A2561BBE9934}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3BE7610A-3DD7-B09A-C200-5D649B2A2535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BE7610A-3DD7-B09A-C200-5D649B2A2535}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BE7610A-3DD7-B09A-C200-5D649B2A2535}.Release|Any CPU.ActiveCfg = Release|Any CPU
