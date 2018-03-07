@@ -37,6 +37,7 @@ namespace EcsRx.MVVM
         {
             view.Model = model;
             SetupModel(model);
+            Reinit(view, model);
             view.View.OnEnableAsObservable().Subscribe(_ =>
             {
                 Reinit(view, model);
@@ -71,12 +72,12 @@ namespace EcsRx.MVVM
         {
             disposable = new CompositeDisposable();
             var viewComponet = entity.GetComponent<ViewComponent>();
-            viewComponet.View.SetActive(false);
+           // viewComponet.View.SetActive(false);
             var model = CreateModel();
             var view = CreateView(entity);
             view.InitWithView(viewComponet.View);
             Initialize(view, model);
-            viewComponet.View.SetActive(true);
+            //viewComponet.View.SetActive(true);
         }
     }
 }
