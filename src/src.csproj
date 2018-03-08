@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.3.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -253,6 +255,12 @@
     <Reference Include="UnityEditor.Graphs">
       <HintPath>E:/Untiy/x86/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.Android.Extensions">
+      <HintPath>E:/Untiy/x86/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions">
+      <HintPath>E:/Untiy/x86/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>E:/Untiy/x86/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
@@ -282,6 +290,12 @@
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>C:/Users/Administrator/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>E:/Untiy/x86/Editor/Data/PlaybackEngines/iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>E:/Untiy/x86/Editor/Data/PlaybackEngines/iOSSupport\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -383,6 +397,11 @@
     <Compile Include="Assets\EcsRx\BindingsRx\Filters\DynamicSampleFilter.cs" />
     <Compile Include="Assets\EcsRx\BindingsRx\Filters\IFilter.cs" />
     <Compile Include="Assets\EcsRx\BindingsRx\Filters\SampleFilter.cs" />
+    <Compile Include="Assets\EcsRx\Crypto\AesCrypto.cs" />
+    <Compile Include="Assets\EcsRx\Crypto\AesUtility.cs" />
+    <Compile Include="Assets\EcsRx\Crypto\ICrypto.cs" />
+    <Compile Include="Assets\EcsRx\ErrorHandle\IErrorHandle.cs" />
+    <Compile Include="Assets\EcsRx\ErrorHandle\IHttpErrorHandle.cs" />
     <Compile Include="Assets\EcsRx\Framework\Attributes\PriorityAttribute.cs" />
     <Compile Include="Assets\EcsRx\Framework\Blueprints\IBlueprint.cs" />
     <Compile Include="Assets\EcsRx\Framework\Components\IComponent.cs" />
@@ -461,6 +480,24 @@
     <Compile Include="Assets\EcsRx\MVVM\ModelBase.cs" />
     <Compile Include="Assets\EcsRx\MVVM\ViewBase.cs" />
     <Compile Include="Assets\EcsRx\MVVM\ViewModelBase.cs" />
+    <Compile Include="Assets\EcsRx\Network\Messages\HttpRequestMessage.cs" />
+    <Compile Include="Assets\EcsRx\Network\Messages\HttpResponseMessage.cs" />
+    <Compile Include="Assets\EcsRx\Network\Messages\IHttpRequestMessage.cs" />
+    <Compile Include="Assets\EcsRx\Network\Messages\INetworkMessage.cs" />
+    <Compile Include="Assets\EcsRx\Network\Messages\IRequestMessage.cs" />
+    <Compile Include="Assets\EcsRx\Network\Messages\IResponseMessage.cs" />
+    <Compile Include="Assets\EcsRx\Network\Protocols\DefaultHttpProtocol.cs" />
+    <Compile Include="Assets\EcsRx\Network\Protocols\HttpProtocol.cs" />
+    <Compile Include="Assets\EcsRx\Network\Protocols\FileProtocol.cs" />
+    <Compile Include="Assets\EcsRx\Network\Protocols\IFileProtocol.cs" />
+    <Compile Include="Assets\EcsRx\Network\Protocols\IHttpProtocol.cs" />
+    <Compile Include="Assets\EcsRx\Network\Protocols\IProtocol.cs" />
+    <Compile Include="Assets\EcsRx\Serialize\IDeserialize.cs" />
+    <Compile Include="Assets\EcsRx\Serialize\IJsonDeserialize.cs" />
+    <Compile Include="Assets\EcsRx\Serialize\IJsonSerialize.cs" />
+    <Compile Include="Assets\EcsRx\Serialize\ISerialize.cs" />
+    <Compile Include="Assets\EcsRx\Serialize\JsonDeserialize.cs" />
+    <Compile Include="Assets\EcsRx\Serialize\JsonSerialize.cs" />
     <Compile Include="Assets\EcsRx\Unity\Components\DialogComponent.cs" />
     <Compile Include="Assets\EcsRx\Unity\Components\NotifyComponent.cs" />
     <Compile Include="Assets\EcsRx\Unity\Components\PopupComponent.cs" />
