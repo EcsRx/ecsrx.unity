@@ -5,7 +5,7 @@ using System.Text;
 using UniRx;
 using UnityEngine;
 
-namespace EcsRx.Net
+namespace EcsRx.Network
 {
     public interface IFileProtocol : IProtocol
     {

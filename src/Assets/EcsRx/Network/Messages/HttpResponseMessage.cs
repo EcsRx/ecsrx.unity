@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using EcsRx.Json;
 
-namespace EcsRx.Net
+namespace EcsRx.Network
 {
-    public class HttpResponseMessage<T> : IResponseMessage where T : struct 
+    public abstract class HttpResponseMessage<T> : IHttpResponseMessage where T : struct
     {
-        public virtual T Data { get { return new T();} }
-        public virtual bool IsOK { get { return true; } }
-        public virtual string ResultMessage {
-            get { return ""; }
-        }
-        public virtual int ResultCode { get { return -1; } }
+        protected Dictionary<int, string> errorMessages; 
+        public abstract T Data { get; }
+        public abstract bool IsOK { get; }
+        public abstract string ErrorMessage { get; }
+        public abstract int ErrorCode { get; }
     }
 }
