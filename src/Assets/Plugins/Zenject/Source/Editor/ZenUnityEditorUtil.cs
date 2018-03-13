@@ -42,7 +42,7 @@ namespace Zenject
             }
             catch (Exception e)
             {
-                Log.ErrorException(e);
+                ModestTree.Log.ErrorException(e);
                 encounteredError = true;
             }
             finally

@@ -329,6 +329,15 @@
  <Reference Include="NSubstitute">
  <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/NSubstitute.dll</HintPath>
  </Reference>
+ <Reference Include="System.Reactive.Core">
+ <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/System.Reactive.Core.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Reactive">
+ <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/System.Reactive.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Reactive.Linq">
+ <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/System.Reactive.Linq.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>C:/ProgramData/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/UnityEngine.Advertisements.dll</HintPath>
  </Reference>

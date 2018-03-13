@@ -12,7 +12,7 @@ namespace EcsRx.Unity.Examples.SceneFirstSetup
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = PoolManager.GetPool();
+            var defaultPool = CollectionManager.GetCollection();
 
             var cubeEntity = defaultPool.CreateEntity();
             cubeEntity.AddComponent<ViewComponent>();

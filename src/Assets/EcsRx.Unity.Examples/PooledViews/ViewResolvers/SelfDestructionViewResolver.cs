@@ -1,7 +1,6 @@
-﻿using EcsRx.Entities;
-using EcsRx.Events;
+﻿using EcsRx.Collections;
+using EcsRx.Entities;
 using EcsRx.Groups;
-using EcsRx.Pools;
 using EcsRx.Unity.Examples.PooledViews.Components;
 using EcsRx.Unity.Systems;
 using EcsRx.Views.Components;
@@ -14,7 +13,7 @@ namespace EcsRx.Unity.Examples.PooledViews.ViewResolvers
     {
         public override IGroup TargetGroup => new Group(typeof(SelfDestructComponent), typeof(ViewComponent));
 
-        public SelfDestructionViewResolver(IInstantiator instantiator, IPoolManager poolManager) : base(instantiator, poolManager)
+        public SelfDestructionViewResolver(IInstantiator instantiator, IEntityCollectionManager collectionManager) : base(instantiator, collectionManager)
         {}
 
         protected override GameObject PrefabTemplate => Resources.Load("PooledPrefab") as GameObject;
@@ -29,7 +28,6 @@ namespace EcsRx.Unity.Examples.PooledViews.ViewResolvers
         {
             var selfDestructComponent = entity.GetComponent<SelfDestructComponent>();
             view.transform.position = selfDestructComponent.StartingPosition;
-            Debug.Log("Created @ " + view.transform.position);
         }
 
         protected override void OnViewRecycled(GameObject view)

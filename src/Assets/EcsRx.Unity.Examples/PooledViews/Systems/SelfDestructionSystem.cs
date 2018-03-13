@@ -1,7 +1,7 @@
 ﻿using System;
+using EcsRx.Collections;
 using EcsRx.Entities;
 using EcsRx.Groups;
-using EcsRx.Pools;
 using EcsRx.Systems;
 using EcsRx.Unity.Examples.PooledViews.Components;
 using EcsRx.Views.Components;
@@ -12,10 +12,10 @@ namespace EcsRx.Unity.Examples.PooledViews.Systems
     public class SelfDestructionSystem : IReactToEntitySystem
     {
         public IGroup TargetGroup => new Group(typeof(SelfDestructComponent), typeof(ViewComponent));
-        private readonly IPool _defaultPool;
+        private readonly IEntityCollection _defaultCollection;
 
-        public SelfDestructionSystem(IPoolManager poolManager)
-        { _defaultPool = poolManager.GetPool(); }
+        public SelfDestructionSystem(IEntityCollectionManager collectionManager)
+        { _defaultCollection = collectionManager.GetCollection(); }
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {
@@ -24,6 +24,6 @@ namespace EcsRx.Unity.Examples.PooledViews.Systems
         }
 
         public void Execute(IEntity entity)
-        { _defaultPool.RemoveEntity(entity); }
+        { _defaultCollection.RemoveEntity(entity); }
     }
 }

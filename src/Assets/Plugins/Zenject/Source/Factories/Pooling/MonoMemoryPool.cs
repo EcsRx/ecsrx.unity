@@ -8,7 +8,7 @@ namespace Zenject
     // Zero parameters
     // NOTE: For this to work, the given component must be at the root game object of the thing
     // you want to use in a pool
-    public abstract class MonoMemoryPool<TValue> : MemoryPool<TValue>
+    public class MonoMemoryPool<TValue> : MemoryPool<TValue>
         where TValue : Component
     {
         protected override void OnCreated(TValue item)
@@ -30,7 +30,7 @@ namespace Zenject
     // One parameter
     // NOTE: For this to work, the given component must be at the root game object of the thing
     // you want to use in a pool
-    public abstract class MonoMemoryPool<TParam1, TValue> : MemoryPool<TParam1, TValue>
+    public class MonoMemoryPool<TParam1, TValue> : MemoryPool<TParam1, TValue>
         where TValue : Component
     {
         protected override void OnCreated(TValue item)
@@ -52,7 +52,7 @@ namespace Zenject
     // Two parameters
     // NOTE: For this to work, the given component must be at the root game object of the thing
     // you want to use in a pool
-    public abstract class MonoMemoryPool<TParam1, TParam2, TValue>
+    public class MonoMemoryPool<TParam1, TParam2, TValue>
         : MemoryPool<TParam1, TParam2, TValue>
         where TValue : Component
     {
@@ -75,7 +75,7 @@ namespace Zenject
     // Three parameters
     // NOTE: For this to work, the given component must be at the root game object of the thing
     // you want to use in a pool
-    public abstract class MonoMemoryPool<TParam1, TParam2, TParam3, TValue>
+    public class MonoMemoryPool<TParam1, TParam2, TParam3, TValue>
         : MemoryPool<TParam1, TParam2, TParam3, TValue>
         where TValue : Component
     {
@@ -98,7 +98,7 @@ namespace Zenject
     // Four parameters
     // NOTE: For this to work, the given component must be at the root game object of the thing
     // you want to use in a pool
-    public abstract class MonoMemoryPool<TParam1, TParam2, TParam3, TParam4, TValue>
+    public class MonoMemoryPool<TParam1, TParam2, TParam3, TParam4, TValue>
         : MemoryPool<TParam1, TParam2, TParam3, TParam4, TValue>
         where TValue : Component
     {
@@ -121,7 +121,7 @@ namespace Zenject
     // Five parameters
     // NOTE: For this to work, the given component must be at the root game object of the thing
     // you want to use in a pool
-    public abstract class MonoMemoryPool<TParam1, TParam2, TParam3, TParam4, TParam5, TValue>
+    public class MonoMemoryPool<TParam1, TParam2, TParam3, TParam4, TParam5, TValue>
         : MemoryPool<TParam1, TParam2, TParam3, TParam4, TParam5, TValue>
         where TValue : Component
     {

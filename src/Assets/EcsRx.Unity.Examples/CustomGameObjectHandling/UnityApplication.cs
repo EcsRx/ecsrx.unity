@@ -1,5 +1,4 @@
-﻿using EcsRx.Infrastructure.Dependencies;
-using EcsRx.Unity.Examples.CustomGameObjectHandling.Components;
+﻿using EcsRx.Unity.Examples.CustomGameObjectHandling.Components;
 using EcsRx.Unity.Examples.CustomGameObjectHandling.Systems;
 using Zenject;
 
@@ -22,7 +21,7 @@ namespace EcsRx.Unity.Examples.CustomGameObjectHandling
             SystemExecutor.AddSystem(PlayerControlSystem);
             SystemExecutor.AddSystem(CameraFollowSystem);
 
-            var defaultPool = PoolManager.GetPool();
+            var defaultPool = CollectionManager.GetCollection();
             var viewEntity = defaultPool.CreateEntity();
             viewEntity.AddComponent(new CustomViewComponent());
             viewEntity.AddComponent(new PlayerControlledComponent());

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ModestTree;
+using TypeExtensions = ModestTree.TypeExtensions;
 
 namespace Zenject
 {
@@ -49,25 +50,6 @@ namespace Zenject
             }
 
             OnFinalizeBinding(container);
-
-            if (BindInfo.NonLazy)
-            {
-                // Note that we can't simply use container.BindRootResolve here because
-                // binding finalizers must only use RegisterProvider to allow cloning / bind
-                // inheritance to work properly
-                var bindingId = new BindingId(
-                    typeof(object), DiContainer.DependencyRootIdentifier);
-
-                foreach (var contractType in BindInfo.ContractTypes)
-                {
-                    container.RegisterProvider(
-                        bindingId, null, new ResolveProvider(
-                            contractType, container, BindInfo.Identifier, false,
-                            // We always want to only use local here so that we can use
-                            // NonLazy() inside subcontainers
-                            InjectSources.Local));
-                }
-            }
         }
 
         protected abstract void OnFinalizeBinding(DiContainer container);
@@ -84,9 +66,9 @@ namespace Zenject
             container.RegisterProvider(
                 new BindingId(contractType, BindInfo.Identifier),
                 BindInfo.Condition,
-                provider);
+                provider, BindInfo.NonLazy);
 
-            if (contractType.IsValueType())
+            if (contractType.IsValueType() && !(contractType.IsGenericType() && contractType.GetGenericTypeDefinition() == typeof(Nullable<>)))
             {
                 var nullableType = typeof(Nullable<>).MakeGenericType(contractType);
 
@@ -95,7 +77,7 @@ namespace Zenject
                 container.RegisterProvider(
                     new BindingId(nullableType, BindInfo.Identifier),
                     BindInfo.Condition,
-                    provider);
+                    provider, BindInfo.NonLazy);
             }
         }
 

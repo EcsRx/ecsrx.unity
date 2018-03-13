@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EcsRx.Collections;
 using EcsRx.Events;
 using EcsRx.Executor;
+using EcsRx.Executor.Handlers;
 using EcsRx.Extensions;
 using EcsRx.Infrastructure;
 using EcsRx.Infrastructure.Dependencies;
 using EcsRx.Infrastructure.Modules;
 using EcsRx.Infrastructure.Plugins;
-using EcsRx.Pools;
 using EcsRx.Systems;
 using EcsRx.Unity.Dependencies;
 using EcsRx.Views.Systems;
@@ -23,7 +24,7 @@ namespace EcsRx.Unity
         
         public ISystemExecutor SystemExecutor { get; private set; }
         public IEventSystem EventSystem { get; private set; }
-        public IPoolManager PoolManager { get; private set; }
+        public IEntityCollectionManager CollectionManager { get; private set; }
         public List<IEcsRxPlugin> Plugins { get; } = new List<IEcsRxPlugin>();
 
         [Inject]
@@ -46,9 +47,15 @@ namespace EcsRx.Unity
         {
             DependencyContainer.LoadModule<FrameworkModule>();
 
-            SystemExecutor = DependencyContainer.Resolve<ISystemExecutor>();
+            // HACK
+            var container = DependencyContainer.NativeContainer as DiContainer;
+            var systems = container.ResolveAll<IConventionalSystemHandler>();
+            SystemExecutor = new SystemExecutor(systems);
+            // END HACK
+
+            //SystemExecutor = DependencyContainer.Resolve<ISystemExecutor>();
             EventSystem = DependencyContainer.Resolve<IEventSystem>();
-            PoolManager = DependencyContainer.Resolve<IPoolManager>();
+            CollectionManager = DependencyContainer.Resolve<IEntityCollectionManager>();
         }
 
         protected virtual void ApplicationStarting() { }

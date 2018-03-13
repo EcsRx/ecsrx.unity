@@ -11,7 +11,7 @@ namespace EcsRx.Unity.Examples.UsingBlueprints
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = PoolManager.GetPool();
+            var defaultPool = CollectionManager.GetCollection();
 
             defaultPool.CreateEntity(new PlayerBlueprint("Player One"));
             defaultPool.CreateEntity(new PlayerBlueprint("Player Two", 150.0f));

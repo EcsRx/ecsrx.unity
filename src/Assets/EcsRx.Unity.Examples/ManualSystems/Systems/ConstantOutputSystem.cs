@@ -1,6 +1,6 @@
 ﻿using System;
 using EcsRx.Groups;
-using EcsRx.Groups.Accessors;
+using EcsRx.Groups.Observable;
 using EcsRx.Systems;
 using UniRx;
 using UnityEngine;
@@ -23,7 +23,7 @@ namespace EcsRx.Unity.Examples.ManualSystems.Systems
             });
         }
 
-        public void StopSystem(IObservableGroup @group)
+        public void StopSystem(IObservableGroup group)
         {
             _updateLoop.Dispose();
             _timesOutputted = 0;

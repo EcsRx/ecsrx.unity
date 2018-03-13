@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EcsRx.Groups.Accessors;
 using EcsRx.Groups.Computed;
+using EcsRx.Groups.Observable;
 using EcsRx.Unity.Examples.GroupFilters.Components;
 using UniRx;
 using UnityEngine;

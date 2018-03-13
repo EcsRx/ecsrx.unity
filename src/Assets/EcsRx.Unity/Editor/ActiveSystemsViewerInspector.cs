@@ -10,6 +10,7 @@ namespace EcsRx.Unity
         public override void OnInspectorGUI()
         {
             var activeSystemsViewer = (ActiveSystemsViewer)target;
+            if(activeSystemsViewer == null) {  return; }
             var executor = activeSystemsViewer.SystemExecutor;
 
             if (executor == null)

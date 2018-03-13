@@ -14,7 +14,7 @@ namespace EcsRx.Unity.Examples.RandomReactions
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = PoolManager.GetPool();
+            var defaultPool = CollectionManager.GetCollection();
 
             for (var i = 0; i < _cubeCount; i++)
             {

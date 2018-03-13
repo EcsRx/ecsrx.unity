@@ -17,5 +17,10 @@ namespace Zenject
         {
             BindInfo.NonLazy = true;
         }
+
+        public void Lazy()
+        {
+            BindInfo.NonLazy = false;
+        }
     }
 }

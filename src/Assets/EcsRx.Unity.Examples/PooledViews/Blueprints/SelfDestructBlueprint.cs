@@ -25,8 +25,8 @@ namespace EcsRx.Unity.Examples.PooledViews.Blueprints
                 StartingPosition = _startPosition
             };
 
-            entity.AddComponent(selfDestructComponent);
-            entity.AddComponent<ViewComponent>();
+            var viewComponent = new ViewComponent();
+            entity.AddComponents(selfDestructComponent, viewComponent);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace EcsRx.Unity
         {
             this.UseVerticalBoxLayout(() =>
             {
-                _registerAsEntity.PoolName = this.WithTextField("Pool: ", _registerAsEntity.PoolName);
+                _registerAsEntity.PoolName = this.WithTextField("EntityCollection: ", _registerAsEntity.PoolName);
             });
         }
 

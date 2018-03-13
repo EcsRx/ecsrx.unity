@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reactive;
 using UniRx.Triggers;
 using UnityEngine;
 using System.Threading;

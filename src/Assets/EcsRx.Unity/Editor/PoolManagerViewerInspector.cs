@@ -4,17 +4,17 @@ using UnityEditor;
 
 namespace EcsRx.Unity
 {
-    [CustomEditor(typeof(PoolManagerViewer))]
+    [CustomEditor(typeof(EntityCollectionManagerViewer))]
     public class PoolManagerViewerInspector : Editor
     {
         public override void OnInspectorGUI()
         {
-            var poolManagerViewer = (PoolManagerViewer)target;
-            var poolManager = poolManagerViewer.PoolManager;
+            var poolManagerViewer = (EntityCollectionManagerViewer)target;
+            var poolManager = poolManagerViewer.CollectionManager;
 
             if (poolManager == null)
             {
-                EditorGUILayout.LabelField("Pool Manager Inactive");
+                EditorGUILayout.LabelField("EntityCollection Manager Inactive");
                 return;
             }
             
@@ -24,8 +24,8 @@ namespace EcsRx.Unity
             foreach (var pool in poolManager.Pools)
             {
                 EditorGUILayout.BeginVertical();
-                EditorGUILayout.LabelField("Pool: " + pool.Name);
-                EditorGUILayout.LabelField("Entities: " + pool.Entities.Count());
+                EditorGUILayout.LabelField("EntityCollection: " + pool.Name);
+                EditorGUILayout.LabelField("Entities: " + pool.Count());
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.Space();
             }

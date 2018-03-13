@@ -15,8 +15,6 @@ namespace Zenject
 {
     public class GameObjectContext : RunnableContext
     {
-        readonly List<object> _dependencyRoots = new List<object>();
-
         [SerializeField]
         [Tooltip("Note that this field is optional and can be ignored in most cases.  This is really only needed if you want to control the 'Script Execution Order' of your subcontainer.  In this case, define a new class that derives from MonoKernel, add it to this game object, then drag it into this field.  Then you can set a value for 'Script Execution Order' for this new class and this will control when all ITickable/IInitializable classes bound within this subcontainer get called.")]
         [FormerlySerializedAs("_facade")]
@@ -73,11 +71,7 @@ namespace Zenject
                 _container.IsInstalling = false;
             }
 
-            Log.Debug("GameObjectContext: Resolving all dependencies...");
-
-            Assert.That(_dependencyRoots.IsEmpty());
-            _dependencyRoots.AddRange(_container.ResolveDependencyRoots());
-
+            _container.ResolveDependencyRoots();
             _container.FlushInjectQueue();
 
             if (_container.IsValidating)
@@ -87,8 +81,6 @@ namespace Zenject
                 // so call it here instead
                 _container.ValidateValidatables();
             }
-
-            Log.Debug("GameObjectContext: Initialized successfully");
 
             // Normally, the IInitializable.Initialize method would be called during MonoKernel.Start
             // However, this behaviour is undesirable for dynamically created objects, since Unity

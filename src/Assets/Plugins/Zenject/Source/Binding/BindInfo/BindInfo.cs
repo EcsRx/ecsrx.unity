@@ -34,7 +34,10 @@ namespace Zenject
             Arguments = new List<TypeValuePair>();
             ToChoice = ToChoices.Self;
             CopyIntoAllSubContainers = false;
+
+            // Change this to true if you want all dependencies to be created at the start
             NonLazy = false;
+
             Scope = ScopeTypes.Unset;
             InvalidBindResponse = InvalidBindResponses.Assert;
         }

@@ -11,7 +11,7 @@ namespace EcsRx.Unity.Examples.AutoRegisterSystems
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = PoolManager.GetPool();
+            var defaultPool = CollectionManager.GetCollection();
             var entity = defaultPool.CreateEntity();
             entity.AddComponent(new ViewComponent());
         }

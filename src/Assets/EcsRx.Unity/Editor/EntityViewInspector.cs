@@ -28,7 +28,7 @@ namespace EcsRx.Unity
             {
                 if (GUILayout.Button("Destroy Entity"))
                 {
-                    _entityView.Pool.RemoveEntity(_entityView.Entity);
+                    _entityView.EntityCollection.RemoveEntity(_entityView.Entity);
                     Destroy(_entityView.gameObject);
                 }
 
@@ -40,7 +40,7 @@ namespace EcsRx.Unity
 
                 this.UseVerticalBoxLayout(() =>
                 {
-                    this.WithLabelField("Pool: ", _entityView.Pool.Name);
+                    this.WithLabelField("EntityCollection: ", _entityView.EntityCollection.Name);
                 });
             });
         }

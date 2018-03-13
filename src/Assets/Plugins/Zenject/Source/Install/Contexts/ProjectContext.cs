@@ -23,8 +23,6 @@ namespace Zenject
 
         DiContainer _container;
 
-        readonly List<object> _dependencyRoots = new List<object>();
-
         public override DiContainer Container
         {
             get { return _container; }
@@ -147,8 +145,6 @@ namespace Zenject
 
         void Initialize()
         {
-            Log.Debug("Initializing ProjectContext");
-
             Assert.IsNull(_container);
 
             bool isValidating = false;
@@ -182,8 +178,7 @@ namespace Zenject
                 _container.IsInstalling = false;
             }
 
-            Assert.That(_dependencyRoots.IsEmpty());
-            _dependencyRoots.AddRange(_container.ResolveDependencyRoots());
+            _container.ResolveDependencyRoots();
 
             _container.FlushInjectQueue();
         }
@@ -213,6 +208,8 @@ namespace Zenject
 
             _container.Bind(typeof(ProjectKernel), typeof(MonoKernel))
                 .To<ProjectKernel>().FromNewComponentOn(this.gameObject).AsSingle().NonLazy();
+
+            _container.Bind<SceneContextRegistry>().AsSingle();
 
             InstallSceneBindings(injectableMonoBehaviours);
             InstallInstallers();

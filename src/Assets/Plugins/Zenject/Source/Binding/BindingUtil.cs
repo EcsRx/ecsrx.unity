@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ModestTree;
 using Zenject.Internal;
 using System.Linq;
+using TypeExtensions = ModestTree.TypeExtensions;
 
 #if !NOT_UNITY3D
 using UnityEngine;

@@ -12,7 +12,7 @@ namespace EcsRx.Unity.Examples.GameObjectLinking
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = PoolManager.GetPool();
+            var defaultPool = CollectionManager.GetCollection();
             var entity = defaultPool.CreateEntity();
 
             var existingGameObject = GameObject.Find("ExistingGameObject");

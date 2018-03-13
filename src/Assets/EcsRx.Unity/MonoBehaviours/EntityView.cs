@@ -1,12 +1,12 @@
-﻿using EcsRx.Entities;
-using EcsRx.Pools;
+﻿using EcsRx.Collections;
+using EcsRx.Entities;
 using UnityEngine;
 
 namespace EcsRx.Unity.MonoBehaviours
 {
     public class EntityView : MonoBehaviour
     {
-        public IPool Pool { get; set; }
+        public IEntityCollection EntityCollection { get; set; }
         public IEntity Entity { get; set; }
     }
 }

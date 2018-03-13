@@ -40,7 +40,7 @@ namespace Zenject
             _instancesToInject.UnionWith(instances);
         }
 
-        public void OnInstanceResolved(object instance)
+        public void LazyInject(object instance)
         {
             if (_instancesToInject.Remove(instance))
             {

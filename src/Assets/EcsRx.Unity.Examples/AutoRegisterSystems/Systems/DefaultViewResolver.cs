@@ -1,8 +1,7 @@
-﻿using EcsRx.Entities;
+﻿using EcsRx.Collections;
+using EcsRx.Entities;
 using EcsRx.Events;
-using EcsRx.Pools;
 using EcsRx.Unity.Systems;
-using EcsRx.Views.Components;
 using UnityEngine;
 using Zenject;
 
@@ -10,8 +9,8 @@ namespace EcsRx.Unity.Examples.AutoRegisterSystems.Systems
 {
     public class DefaultViewResolver : UnityViewResolverSystem
     {
-        public DefaultViewResolver(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator) 
-            : base(poolManager, eventSystem, instantiator)
+        public DefaultViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) 
+            : base(collectionManager, eventSystem, instantiator)
         {}
 
         protected override GameObject PrefabTemplate => GameObject.CreatePrimitive(PrimitiveType.Cube);

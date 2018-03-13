@@ -32,7 +32,7 @@ namespace Zenject
 
             yield return new List<object>() { _instance };
 
-            _container.OnInstanceResolved(_instance);
+            _container.LazyInject(_instance);
         }
     }
 }

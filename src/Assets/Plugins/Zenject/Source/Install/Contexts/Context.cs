@@ -237,7 +237,7 @@ namespace Zenject
 
             if (binding.Components == null || binding.Components.IsEmpty())
             {
-                Log.Warn("Found empty list of components on ZenjectBinding on object '{0}'", binding.name);
+                ModestTree.Log.Warn("Found empty list of components on ZenjectBinding on object '{0}'", binding.name);
                 return;
             }
 
@@ -254,7 +254,7 @@ namespace Zenject
 
                 if (component == null)
                 {
-                    Log.Warn("Found null component in ZenjectBinding on object '{0}'", binding.name);
+                    ModestTree.Log.Warn("Found null component in ZenjectBinding on object '{0}'", binding.name);
                     continue;
                 }
 

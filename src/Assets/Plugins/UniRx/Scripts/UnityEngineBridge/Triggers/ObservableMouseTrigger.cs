@@ -1,6 +1,8 @@
 ﻿#if !(UNITY_IPHONE || UNITY_ANDROID || UNITY_METRO)
 
-using System; // require keep for Windows Universal App
+using System;
+using System.Reactive;
+// require keep for Windows Universal App
 using UnityEngine;
 
 namespace UniRx.Triggers

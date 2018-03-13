@@ -15,6 +15,7 @@ namespace EcsRx.Unity.Dependencies
         
         public void Bind<TFrom, TTo>(BindingConfiguration configuration = null) where TTo : TFrom
         {
+            /*
             var bindingSetup = _container.Bind<TFrom>();
             
             if (configuration == null)
@@ -44,7 +45,8 @@ namespace EcsRx.Unity.Dependencies
             if (configuration.WithConstructorArgs.Count == 0)
             { return; }
 
-            binding.WithArguments(configuration.WithConstructorArgs.Values);
+            binding.WithArguments(configuration.WithConstructorArgs.Values);*/
+            _container.Bind<TFrom>().To<TTo>().AsSingle();
         }
 
         public void Bind<T>(BindingConfiguration configuration = null)

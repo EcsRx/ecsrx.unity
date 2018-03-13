@@ -1,8 +1,8 @@
-﻿using EcsRx.Entities;
+﻿using EcsRx.Collections;
+using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Pools;
 using EcsRx.Unity.Examples.GameObjectBinding.components;
 using EcsRx.Unity.Systems;
 using UnityEngine;
@@ -15,7 +15,7 @@ namespace EcsRx.Unity.Examples.GameObjectBinding
         public override IGroup TargetGroup => base.TargetGroup.WithComponent<SphereComponent>();
         protected override GameObject PrefabTemplate => GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
-        public SphereViewResolver(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator) : base(poolManager, eventSystem, instantiator)
+        public SphereViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) : base(collectionManager, eventSystem, instantiator)
         {
         }
 

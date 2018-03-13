@@ -50,8 +50,6 @@ namespace Zenject
             // Since this is the reverse order that they were loaded in
             foreach (var sceneContext in ZenUtilInternal.GetAllSceneContexts().Reverse().ToList())
             {
-                Log.Debug("Destroying scene context for scene '{0}'", sceneContext.gameObject.scene.name);
-
                 if (immediate)
                 {
                     GameObject.DestroyImmediate(sceneContext.gameObject);

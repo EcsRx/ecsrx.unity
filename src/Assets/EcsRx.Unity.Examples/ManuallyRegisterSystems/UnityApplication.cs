@@ -13,7 +13,7 @@ namespace EcsRx.Unity.Examples.ManuallyRegisterSystems
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = PoolManager.GetPool();
+            var defaultPool = CollectionManager.GetCollection();
             
             var entity = defaultPool.CreateEntity();
             entity.AddComponent(new ViewComponent());

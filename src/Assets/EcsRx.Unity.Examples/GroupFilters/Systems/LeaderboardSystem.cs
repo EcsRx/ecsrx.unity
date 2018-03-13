@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EcsRx.Collections;
 using EcsRx.Groups;
-using EcsRx.Groups.Accessors;
-using EcsRx.Pools;
+using EcsRx.Groups.Observable;
 using EcsRx.Systems;
 using EcsRx.Unity.Examples.GroupFilters.Components;
 using EcsRx.Unity.Examples.GroupFilters.Filters;
@@ -26,9 +26,9 @@ namespace EcsRx.Unity.Examples.GroupFilters.Systems
 
         public IGroup TargetGroup => new EmptyGroup();
 
-        public LeaderboardSystem(IPoolManager poolManager)
+        public LeaderboardSystem(IEntityCollectionManager collectionManager)
         {
-            var accessor = poolManager.CreateObservableGroup(new HasScoreGroup());
+            var accessor = collectionManager.CreateObservableGroup(new HasScoreGroup());
             _leaderboardFilter = new LeaderboardFilter(accessor);
             _cacheableLeaderboardFilter = new CacheableLeaderboardFilter(accessor);
             _leaderBoardText = GameObject.Find("Leaderboard").GetComponent<Text>();

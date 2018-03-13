@@ -12,7 +12,7 @@ namespace EcsRx.Unity.Examples.SimpleMovement
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = PoolManager.GetPool();
+            var defaultPool = CollectionManager.GetCollection();
             var viewEntity = defaultPool.CreateEntity();
             viewEntity.AddComponent(new ViewComponent());
             viewEntity.AddComponent(new PlayerControlledComponent());

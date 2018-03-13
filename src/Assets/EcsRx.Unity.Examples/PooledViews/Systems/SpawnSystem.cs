@@ -1,7 +1,7 @@
 ﻿using System;
+using EcsRx.Collections;
 using EcsRx.Entities;
 using EcsRx.Groups;
-using EcsRx.Pools;
 using EcsRx.Systems;
 using EcsRx.Unity.Examples.PooledViews.Blueprints;
 using EcsRx.Unity.Examples.PooledViews.Components;
@@ -13,12 +13,12 @@ namespace EcsRx.Unity.Examples.PooledViews.Systems
 {
     public class SpawnSystem : IReactToEntitySystem
     {
-        private readonly IPool _defaultPool;
+        private readonly IEntityCollection _defaultCollection;
 
-        public IGroup TargetGroup { get { return new Group(typeof(SpawnerComponent), typeof(ViewComponent));} }
+        public IGroup TargetGroup => new Group(typeof(SpawnerComponent), typeof(ViewComponent));
 
-        public SpawnSystem(IPoolManager poolManager)
-        { _defaultPool = poolManager.GetPool(); }
+        public SpawnSystem(IEntityCollectionManager collectionManager)
+        { _defaultCollection = collectionManager.GetCollection(); }
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {
@@ -31,7 +31,7 @@ namespace EcsRx.Unity.Examples.PooledViews.Systems
             var viewComponent = entity.GetComponent<ViewComponent>();
             var view = viewComponent.View as GameObject;
             var blueprint = new SelfDestructBlueprint(view.transform.position);
-            _defaultPool.CreateEntity(blueprint);
+            _defaultCollection.CreateEntity(blueprint);
         }
     }
 }

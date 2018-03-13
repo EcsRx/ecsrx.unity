@@ -52,8 +52,6 @@ namespace Zenject
 
             foreach (var initializable in _initializables)
             {
-                Log.Debug("Initializing '" + initializable.Initializable.GetType() + "'");
-
                 try
                 {
 #if UNITY_EDITOR && ZEN_PROFILING_ENABLED

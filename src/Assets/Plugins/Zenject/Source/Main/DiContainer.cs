@@ -27,8 +27,6 @@ namespace Zenject
     // - Instantiate new values via InstantiateX() methods
     public class DiContainer : IInstantiator
     {
-        public const string DependencyRootIdentifier = "DependencyRoot";
-
         readonly Dictionary<BindingId, List<ProviderInfo>> _providers = new Dictionary<BindingId, List<ProviderInfo>>();
         readonly List<DiContainer> _parentContainers = new List<DiContainer>();
         readonly List<DiContainer> _ancestorContainers = new List<DiContainer>();
@@ -42,6 +40,10 @@ namespace Zenject
         readonly List<IBindingFinalizer> _childBindings = new List<IBindingFinalizer>();
 
         readonly List<ILazy> _lateBindingsToValidate = new List<ILazy>();
+
+#if !NOT_UNITY3D
+        Context _context;
+#endif
 
         bool _isFinalizingBinding;
         bool _isValidating;
@@ -66,7 +68,7 @@ namespace Zenject
         void InstallDefaultBindings()
         {
             Bind(typeof(DiContainer), typeof(IInstantiator)).FromInstance(this);
-            Bind(typeof(Lazy<>)).FromMethodUntyped(CreateLazyBinding);
+            Bind(typeof(Lazy<>)).FromMethodUntyped(CreateLazyBinding).Lazy();
         }
 
         object CreateLazyBinding(InjectContext context)
@@ -127,6 +129,22 @@ namespace Zenject
             : this(parentContainers, false)
         {
         }
+
+#if !NOT_UNITY3D
+        Context Context
+        {
+            get
+            {
+                if (_context == null)
+                {
+                    _context = Resolve<Context>();
+                    Assert.IsNotNull(_context);
+                }
+
+                return _context;
+            }
+        }
+#endif
 
         public bool ShouldCheckForInstallWarning
         {
@@ -206,14 +224,27 @@ namespace Zenject
             }
         }
 
-        public List<object> ResolveDependencyRoots()
+        public void ResolveDependencyRoots()
         {
-            var context = new InjectContext(
-                this, typeof(object), DependencyRootIdentifier);
-            context.SourceType = InjectSources.Local;
-            context.Optional = true;
+            FlushBindings();
+            foreach (var bindinPair in _providers)
+            {
+                foreach (var provider in bindinPair.Value)
+                {
+                    if (provider.NonLazy)
+                    {
+                        var context = new InjectContext(
+                            this, bindinPair.Key.Type, bindinPair.Key.Identifier);
+                        context.SourceType = InjectSources.Local;
+                        context.Optional = true;
 
-            return ResolveAll(context).Cast<object>().ToList();
+                        var matches = SafeGetInstances(
+                            new ProviderPair(provider, this), context);
+
+                        Assert.That(matches.Count() > 0);
+                    }
+                }
+            }
         }
 
         // This will instantiate any binding that results in a type that derives from IValidatable
@@ -253,9 +284,12 @@ namespace Zenject
 
                 foreach (var provider in validatableProviders)
                 {
-                    var validatable = (IValidatable)provider.Provider.GetInstance(injectContext);
+                    var validatable = provider.Provider.GetInstance(injectContext) as IValidatable;
 
-                    validatable.Validate();
+                    if (validatable != null)
+                    {
+                        validatable.Validate();
+                    }
                 }
             }
 
@@ -280,10 +314,17 @@ namespace Zenject
             _lazyInjector.LazyInjectAll();
         }
 
-        // Do not use this
-        internal void OnInstanceResolved(object instance)
+        // Note: this only does anything useful during the injection phase
+        // It will inject on the given instance if it hasn't already been injected, but only
+        // if the given instance has been queued for inject already by calling QueueForInject
+        // In some rare cases this can be useful - for example if you want to add a binding in a
+        // a higher level container to a resolve inside a lower level game object context container
+        // since in this case you need the game object context to be injected so you can access its
+        // Container property
+        public T LazyInject<T>(T instance)
         {
-            _lazyInjector.OnInstanceResolved(instance);
+            _lazyInjector.LazyInject(instance);
+            return instance;
         }
 
         DiContainer CreateSubContainer(bool isValidating)
@@ -292,9 +333,9 @@ namespace Zenject
         }
 
         public void RegisterProvider(
-            BindingId bindingId, BindingCondition condition, IProvider provider)
+            BindingId bindingId, BindingCondition condition, IProvider provider, bool nonLazy)
         {
-            var info = new ProviderInfo(provider, condition);
+            var info = new ProviderInfo(provider, condition, nonLazy);
 
             if (_providers.ContainsKey(bindingId))
             {
@@ -512,7 +553,7 @@ namespace Zenject
 
             _hasDisplayedInstallWarning = true;
             // Feel free to comment this out if you are comfortable with this practice
-            Log.Warn("Zenject Warning: It is bad practice to call Inject/Resolve/Instantiate before all the Installers have completed!  This is important to ensure that all bindings have properly been installed in case they are needed when injecting/instantiating/resolving.  Detected when operating on type '{0}'.  If you don't care about this, you can remove this warning or set 'Container.ShouldCheckForInstallWarning' to false.", rootContext.MemberType);
+            ModestTree.Log.Warn("Zenject Warning: It is bad practice to call Inject/Resolve/Instantiate before all the Installers have completed!  This is important to ensure that all bindings have properly been installed in case they are needed when injecting/instantiating/resolving.  Detected when operating on type '{0}'.  If you don't care about this, you can remove this warning or set 'Container.ShouldCheckForInstallWarning' to false.", rootContext.MemberType);
 #endif
         }
 
@@ -912,7 +953,6 @@ namespace Zenject
 
                 if (!IsValidating || CanCreateOrInjectDuringValidation(concreteType))
                 {
-                    //Log.Debug("Zenject: Instantiating type '{0}'", concreteType);
                     try
                     {
 #if UNITY_EDITOR && ZEN_PROFILING_ENABLED
@@ -977,6 +1017,37 @@ namespace Zenject
         }
 
         public void InjectExplicit(
+            object injectable, Type injectableType, InjectArgs args)
+        {
+            if (IsValidating)
+            {
+                var marker = injectable as ValidationMarker;
+
+                if (marker != null && marker.InstantiateFailed)
+                {
+                    // Do nothing in this case because it already failed and so there
+                    // could be many knock-on errors that aren't related to the user
+                    return;
+                }
+
+                try
+                {
+                    InjectExplicitInternal(injectable, injectableType, args);
+                }
+                catch (Exception e)
+                {
+                    // Just log the error and continue to print multiple validation errors
+                    // at once
+                    ModestTree.Log.ErrorException(e);
+                }
+            }
+            else
+            {
+                InjectExplicitInternal(injectable, injectableType, args);
+            }
+        }
+
+        void InjectExplicitInternal(
             object injectable, Type injectableType, InjectArgs args)
         {
             Assert.That(injectable != null);
@@ -1201,6 +1272,13 @@ namespace Zenject
                     gameObj = (GameObject)GameObject.Instantiate(prefabAsGameObject, transformParent);
                 }
 
+                if (transformParent == null)
+                {
+                    // This ensures it gets added to the right scene instead of just the active scene
+                    gameObj.transform.SetParent(Context.transform, false);
+                    gameObj.transform.SetParent(null, false);
+                }
+
                 if (gameObjectBindInfo.Name != null)
                 {
                     gameObj.name = gameObjectBindInfo.Name;
@@ -1233,7 +1311,19 @@ namespace Zenject
             FlushBindings();
 
             var gameObj = new GameObject(gameObjectBindInfo.Name ?? "GameObject");
-            gameObj.transform.SetParent(GetTransformGroup(gameObjectBindInfo, context), false);
+            var parent = GetTransformGroup(gameObjectBindInfo, context);
+
+            if (parent == null)
+            {
+                // This ensures it gets added to the right scene instead of just the active scene
+                gameObj.transform.SetParent(Context.transform, false);
+                gameObj.transform.SetParent(null, false);
+            }
+            else
+            {
+                gameObj.transform.SetParent(parent, false);
+            }
+
             return gameObj;
         }
 
@@ -1277,7 +1367,7 @@ namespace Zenject
                     return null;
                 }
 
-                return (GameObject.Find("/" + groupName) ?? new GameObject(groupName)).transform;
+                return (GameObject.Find("/" + groupName) ?? CreateTransformGroup(groupName)).transform;
             }
 
             if (groupName == null)
@@ -1296,6 +1386,14 @@ namespace Zenject
             var group = new GameObject(groupName).transform;
             group.SetParent(DefaultParent, false);
             return group;
+        }
+
+        GameObject CreateTransformGroup(string groupName)
+        {
+            var gameObj = new GameObject(groupName);
+            gameObj.transform.SetParent(Context.transform, false);
+            gameObj.transform.SetParent(null, false);
+            return gameObj;
         }
 
 #endif
@@ -2019,28 +2117,6 @@ namespace Zenject
         }
 #endif
 
-        // This is equivalent to calling NonLazy() at the end of your bind statement
-        // It's only in rare cases where you need to call this instead of NonLazy()
-        public void BindRootResolve<TContract>()
-        {
-            BindRootResolveId<TContract>(null);
-        }
-
-        public void BindRootResolve(IEnumerable<Type> rootTypes)
-        {
-            BindRootResolveId(rootTypes, null);
-        }
-
-        public void BindRootResolveId<TContract>(object identifier)
-        {
-            BindRootResolveId(new Type[] { typeof(TContract) }, identifier);
-        }
-
-        public void BindRootResolveId(IEnumerable<Type> rootTypes, object identifier)
-        {
-            Bind<object>().WithId(DependencyRootIdentifier).To(rootTypes).FromResolve(identifier);
-        }
-
         // Bind all the interfaces for the given type to the same thing.
         //
         // Example:
@@ -2392,8 +2468,8 @@ namespace Zenject
                     {
                         // Just log the error and continue to print multiple validation errors
                         // at once
-                        Log.ErrorException(e);
-                        return new ValidationMarker(concreteType);
+                        ModestTree.Log.ErrorException(e);
+                        return new ValidationMarker(concreteType, true);
                     }
                 }
                 else
@@ -2690,10 +2766,17 @@ namespace Zenject
 
         public class ProviderInfo
         {
-            public ProviderInfo(IProvider provider, BindingCondition condition)
+            public ProviderInfo(IProvider provider, BindingCondition condition, bool nonLazy)
             {
                 Provider = provider;
                 Condition = condition;
+                NonLazy = nonLazy;
+            }
+
+            public bool NonLazy
+            {
+                get;
+                private set;
             }
 
             public IProvider Provider

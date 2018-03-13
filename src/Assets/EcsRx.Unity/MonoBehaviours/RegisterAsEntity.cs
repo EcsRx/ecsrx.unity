@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EcsRx.Collections;
 using EcsRx.Components;
 using EcsRx.Entities;
-using EcsRx.Pools;
 using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace EcsRx.Unity.MonoBehaviours
     public class RegisterAsEntity : MonoBehaviour
     {
         [Inject]
-        public IPoolManager PoolManager { get; private set; }
+        public IEntityCollectionManager CollectionManager { get; private set; }
 
         [SerializeField]
         public string PoolName;
@@ -30,28 +30,28 @@ namespace EcsRx.Unity.MonoBehaviours
         {
             if (!gameObject.activeInHierarchy || !gameObject.activeSelf) { return; }
 
-            IPool poolToUse;
+            IEntityCollection collectionToUse;
 
             if (string.IsNullOrEmpty(PoolName))
-            { poolToUse = PoolManager.GetPool(); }
-            else if (PoolManager.Pools.All(x => x.Name != PoolName))
-            { poolToUse = PoolManager.CreatePool(PoolName); }
+            { collectionToUse = CollectionManager.GetCollection(); }
+            else if (CollectionManager.Pools.All(x => x.Name != PoolName))
+            { collectionToUse = CollectionManager.CreateCollection(PoolName); }
             else
-            { poolToUse = PoolManager.GetPool(PoolName); }
+            { collectionToUse = CollectionManager.GetCollection(PoolName); }
 
-            var createdEntity = poolToUse.CreateEntity();
+            var createdEntity = collectionToUse.CreateEntity();
             createdEntity.AddComponent(new ViewComponent { View = gameObject });
-            SetupEntityBinding(createdEntity, poolToUse);
+            SetupEntityBinding(createdEntity, collectionToUse);
             SetupEntityComponents(createdEntity);
 
             Destroy(this);
         }
 
-        private void SetupEntityBinding(IEntity entity, IPool pool)
+        private void SetupEntityBinding(IEntity entity, IEntityCollection entityCollection)
         {
             var entityBinding = gameObject.AddComponent<EntityView>();
             entityBinding.Entity = entity;
-            entityBinding.Pool = pool;
+            entityBinding.EntityCollection = entityCollection;
         }
 
         private void SetupEntityComponents(IEntity entity)
@@ -70,9 +70,9 @@ namespace EcsRx.Unity.MonoBehaviours
             }
         }
         
-        public IPool GetPool()
+        public IEntityCollection GetPool()
         {
-            return PoolManager.GetPool(PoolName);
+            return CollectionManager.GetCollection(PoolName);
         }
     }
 }

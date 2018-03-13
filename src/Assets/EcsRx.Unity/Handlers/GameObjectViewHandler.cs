@@ -25,13 +25,10 @@ namespace EcsRx.Unity.Handlers
 
         public object CreateView()
         {
-            //TODO: ENABLE
-            /*
             var createdPrefab = Instantiator.InstantiatePrefab(PrefabTemplate);
             createdPrefab.transform.position = Vector3.zero;
-            createdPrefab.transform.rotation = Vector3.zero;
-            return createdPrefab;*/
-            return null;
+            createdPrefab.transform.rotation = Quaternion.identity;
+            return createdPrefab;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace EcsRx.Unity.Examples.GroupFilters
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = PoolManager.GetPool();
+            var defaultPool = CollectionManager.GetCollection();
 
             var entityCount = 1000;
 

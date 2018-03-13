@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reactive;
 using System.Runtime.Serialization;
 
 namespace UniRx

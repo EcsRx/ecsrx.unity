@@ -1,6 +1,6 @@
+using EcsRx.Collections;
 using EcsRx.Entities;
 using EcsRx.Extensions;
-using EcsRx.Pools;
 using EcsRx.Unity.Handlers;
 using EcsRx.Unity.MonoBehaviours;
 using EcsRx.Views.Pooling;
@@ -13,7 +13,7 @@ namespace EcsRx.Unity.Systems
     public abstract class UnityPooledViewResolverSystem : PooledViewResolverSystem
     {
         public IInstantiator Instantiator { get; }
-        public IPoolManager PoolManager { get; }
+        public IEntityCollectionManager CollectionManager { get; }
 
         public override IViewPool ViewPool { get; }
         
@@ -23,10 +23,10 @@ namespace EcsRx.Unity.Systems
         protected IViewPool CreateViewPool()
         { return new ViewPool(PoolIncrementSize, new GameObjectViewHandler(Instantiator, PrefabTemplate)); }
 
-        protected UnityPooledViewResolverSystem(IInstantiator instantiator, IPoolManager poolManager)
+        protected UnityPooledViewResolverSystem(IInstantiator instantiator, IEntityCollectionManager collectionManager)
         {
             Instantiator = instantiator;
-            PoolManager = poolManager;
+            CollectionManager = collectionManager;
             ViewPool = CreateViewPool();
         }
         
@@ -41,7 +41,7 @@ namespace EcsRx.Unity.Systems
 
             var entityView = gameObject.GetComponent<EntityView>();
             entityView.Entity = null;
-            entityView.Pool = null;
+            entityView.EntityCollection = null;
 
             OnViewRecycled(gameObject);
         }
@@ -50,9 +50,9 @@ namespace EcsRx.Unity.Systems
         {
             var gameObject = view as GameObject;
             var entityView = gameObject.GetComponent<EntityView>();
-            var containingPool = PoolManager.GetContainingPoolFor(entity);
+            var containingPool = CollectionManager.GetCollectionFor(entity);
             entityView.Entity = entity;
-            entityView.Pool = containingPool;
+            entityView.EntityCollection = containingPool;
 
             OnViewAllocated(gameObject, entity);
         }

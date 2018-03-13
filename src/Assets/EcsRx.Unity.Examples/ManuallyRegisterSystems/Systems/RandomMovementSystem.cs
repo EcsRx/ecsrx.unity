@@ -1,7 +1,7 @@
 ﻿using System;
 using EcsRx.Entities;
 using EcsRx.Groups;
-using EcsRx.Groups.Accessors;
+using EcsRx.Groups.Observable;
 using EcsRx.Systems;
 using EcsRx.Views.Components;
 using UniRx;
