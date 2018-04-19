@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EcsRx.Net
+namespace EcsRx.Network
 {
     public interface IHttpRequestMessage : IRequestMessage
     {
-        string Path { get; }
+        string Url { get; set; }
+        string Path { get; set; }
     }
 }

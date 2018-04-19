@@ -6,7 +6,7 @@ using EcsRx.Crypto;
 using EcsRx.Serialize;
 using UnityEngine;
 
-namespace EcsRx.Net
+namespace EcsRx.Network
 {
     public interface IProtocol
     {

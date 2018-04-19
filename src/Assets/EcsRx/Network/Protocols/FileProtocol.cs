@@ -7,7 +7,7 @@ using EcsRx.Serialize;
 using UniRx;
 using UnityEngine;
 
-namespace EcsRx.Net
+namespace EcsRx.Network
 {
     public class FileProtocol : IFileProtocol
     {

@@ -11,62 +11,37 @@ using EcsRx.Unity.Exception;
 using UniRx;
 using UnityEngine;
 
-namespace EcsRx.Net
+namespace EcsRx.Network
 {
-    public abstract class HttpProtocol : IHttpProtocol
+    public class HttpProtocol : IHttpProtocol
     {
-        private IHttpErrorHandle errorHandle;
         public ISerialize Serialize { get; set; }
         public IDeserialize Deserialize { get; set; }
         public ICrypto Crypto { get; set; }
-        public Dictionary<string, string> Header { get; set; } 
 
-        public HttpProtocol(IJsonSerialize serialize, IJsonDeserialize deserialize, ICrypto crypto, IHttpErrorHandle errorHandle)
+        public HttpProtocol(ISerialize serialize, IDeserialize deserialize, ICrypto crypto)
         {
             Serialize = serialize;
             Deserialize = deserialize;
             Crypto = crypto;
-            this.errorHandle = errorHandle;
-            Header = new Dictionary<string, string>();
         }
 
-
-        protected abstract string EncodeMessage<TIn>(HttpRequestMessage<TIn> message) where TIn : struct;
-        protected abstract HttpResponseMessage<TOut> DecodeMessage<TOut>(string data) where TOut : struct;
-
-        public IObservable<TOut> Post<TIn, TOut>(HttpRequestMessage<TIn> message) where TIn : struct where TOut : struct 
+        public virtual string EncodeMessage<TIn>(HttpRequestMessage<TIn> message) where TIn : struct
         {
-            string request = EncodeMessage(message);
-            Debug.Log("Http Path: " + message.Url + message.Path);
-            Debug.Log("HttpRequest Request: " + request);
-
-            var subject = new Subject<TOut>();
-            ObservableWWW.Post(message.Url + message.Path, Encoding.UTF8.GetBytes(request), Header).CatchIgnore(
-                (WWWErrorException ex) =>
-                {
-                    Debug.Log(ex.RawErrorMessage);
-                    errorHandle.Handel(new HttpException(ex.RawErrorMessage,
-                        -1));
-                }).Subscribe(data =>
-            {
-                var response = DecodeMessage<TOut>(data);
-                if (response.IsOK)
-                {
-                    Debug.Log("HttpRequest Response: " + data);
-                    subject.OnNext(response.Data);
-                }
-                else
-                {
-                    Debug.LogError("HttpRequest Response: " + data);
-                    errorHandle.Handel(new HttpException(response.ResultMessage,
-                        Convert.ToInt32(response.ResultCode)));
-                }
-                subject.OnNext(response.Data);
-                subject.OnCompleted();
-            }
-            );
-
-            return subject;
+            string data = Serialize.Serialize(message.Data);
+            byte[] encryptedData = Crypto.Encryption(data);
+            data = Convert.ToBase64String(encryptedData);
+            return Serialize.Serialize(data);
         }
+
+        public virtual HttpResponseMessage<TOut> DecodeMessage<TOut, TResponse>(string data) where TOut : struct where TResponse : HttpResponseMessage<TOut>, new()
+        {
+            var response = new TResponse();
+            var base64Data = Convert.FromBase64String(data);
+            var decryptionData = Crypto.Decryption(base64Data);
+            response = Deserialize.Deserialize<TResponse>(decryptionData);
+            return response;
+        }
+
     }
 }
