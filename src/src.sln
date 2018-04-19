@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
+# Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "src.Plugins", "src.Plugins.csproj", "{6001150F-B5BC-D04E-994E-425096E0FFE6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "src", "src.csproj", "{7C30CA80-AAF2-6895-C66E-ABBB6F8A6825}"
