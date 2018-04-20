@@ -30,7 +30,7 @@ namespace EcsRx.Crypto
                         sw.Write(input);
                     }
                 }
-
+                return msEncrypt.ToArray();
             }
             finally
             {
@@ -40,6 +40,7 @@ namespace EcsRx.Crypto
                     //aesAlg.Dispose();
                     aesAlg.Clear();
                 }
+                msEncrypt?.Close();
             }
 
             //if (msEncrypt != null)
@@ -48,8 +49,6 @@ namespace EcsRx.Crypto
 
             //    sresult = Convert.ToBase64String(content);
             //}
-
-            return msEncrypt.ToArray();
         }
 
         public static string Decrption(byte[] input, string key, string iv)

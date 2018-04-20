@@ -13,6 +13,7 @@ namespace EcsRx.Unity.Network
     public class HttpRequest
     {
         public Dictionary<string, string> Header { get; set; }
+        public string Url { get; set; }
 
         private IHttpProtocol protocol;
         private IHttpErrorHandle errorHandle;
@@ -27,11 +28,11 @@ namespace EcsRx.Unity.Network
         public IObservable<TOut> Post<TIn, TOut, TResponse>(HttpRequestMessage<TIn> message) where TIn : struct where TOut : struct where TResponse : HttpResponseMessage<TOut>, new()
         {
             string request = protocol.EncodeMessage(message);
-            Debug.Log("Http Path: " + message.Url + message.Path);
+            Debug.Log("Http Path: " + Url + message.Path);
             Debug.Log("HttpRequest Request: " + request);
 
             var subject = new Subject<TOut>();
-            ObservableWWW.Post(message.Url + message.Path, Encoding.UTF8.GetBytes(request), Header).CatchIgnore(
+            ObservableWWW.Post(Url + message.Path, Encoding.UTF8.GetBytes(request), Header).CatchIgnore(
                 (WWWErrorException ex) =>
                 {
                     Debug.Log(ex.RawErrorMessage);

@@ -6,12 +6,11 @@ using EcsRx.Json;
 
 namespace EcsRx.Network
 {
-    public abstract class HttpRequestMessage<T> : IRequestMessage<T> where T : struct 
+    public abstract class SocketRequestMessage<T> : IRequestMessage<T> where T : struct 
     {
-        public abstract string Path { get; set; }
         public T Data { get; set; }
 
-        protected HttpRequestMessage(T data)
+        protected SocketRequestMessage(T data)
         {
             Data = data;
         }
