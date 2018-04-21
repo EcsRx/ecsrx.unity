@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using cocosocket4unity;
 using EcsRx.Crypto;
@@ -22,23 +23,26 @@ namespace EcsRx.Network
             Crypto = crypto;
         }
 
-        public Frame EncodeMessage<TIn>(SocketRequestMessage<TIn> message) where TIn : struct
+        public Frame EncodeMessage<TIn>(SocketRequestMessage<TIn> message)
         {
-            var serialize = Serialize as IProtobufSerialize;
-            byte[] bs = serialize.Serialize(message.Data);
+            byte[] data = Serialize.Serialize(message.Data);
+            Debug.Log("SocketRequest Request: " + message.Data);
             Frame f = new Frame(512);
-            f.PutShort(MessageQueueHandler.GetProtocolCMD(message.Data.GetType()));
-            byte[] encryptedData = Crypto.Encryption(Encoding.UTF8.GetString(bs));
+            f.PutShort(MessageQueueHandler.GetProtocolCMD(message.GetType()));
+            byte[] encryptedData = Crypto.Encryption(data);
             f.PutBytes(encryptedData);
             f.End();
             return f;
         }
 
-        public SocketResponseMessage<TOut> DecodeMessage<TOut, TResponse>(Type type, Stream stream) where TOut : struct where TResponse : SocketResponseMessage<TOut>, new()
+        public object DecodeMessage(Type type, MemoryStream stream)
         {
-            var desrialize = Deserialize as IProtobufDeserialize;
-            object obj = desrialize.Deserialize(type, stream);
-
+            var poco = Activator.CreateInstance(type);
+            
+            PropertyInfo propertyInfo = type.GetProperty("Data");
+            object obj = Deserialize.Deserialize(propertyInfo.PropertyType, stream);
+            propertyInfo.SetValue(poco, obj, null);
+            return poco;
         }
     }
 }

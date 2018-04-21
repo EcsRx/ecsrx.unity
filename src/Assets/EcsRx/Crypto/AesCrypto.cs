@@ -11,7 +11,7 @@ namespace EcsRx.Crypto
         public string Key { get; set; }
         public string InitialVector { get; set; }
 
-        public byte[] Encryption(string data)
+        public byte[] Encryption(byte[] data)
         {
             return AesUtility.Encrption(data, Key, InitialVector);
         }

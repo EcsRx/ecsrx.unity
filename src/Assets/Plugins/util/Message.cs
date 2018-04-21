@@ -29,7 +29,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-static internal class Messenger
+static public class Messenger
 {
     #region Internal variables
 

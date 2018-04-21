@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EcsRx.Network
 {
-    public interface IRequestMessage<out T> : INetworkMessage where T : struct
+    public interface IRequestMessage<out T> : INetworkMessage
     {
         T Data { get; }
     }

@@ -28,10 +28,10 @@ namespace EcsRx.Network
 
         public virtual string EncodeMessage<TIn>(HttpRequestMessage<TIn> message) where TIn : struct
         {
-            string data = Serialize.Serialize(message.Data);
+            byte[] data = Serialize.Serialize(message.Data);
             byte[] encryptedData = Crypto.Encryption(data);
-            data = Convert.ToBase64String(encryptedData);
-            return data;
+            var str = Convert.ToBase64String(encryptedData);
+            return str;
         }
 
         public virtual HttpResponseMessage<TOut> DecodeMessage<TOut, TResponse>(string data) where TOut : struct where TResponse : HttpResponseMessage<TOut>, new()

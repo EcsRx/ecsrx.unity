@@ -9,9 +9,13 @@ namespace EcsRx.Serialize
 {
     public class ProtobufSerialize : IProtobufSerialize
     {
-        public string Serialize<T>(T data)
+        public byte[] Serialize<T>(T data)
         {
-            throw new NotImplementedException();
+            using (var stream = new MemoryStream())
+            {
+                ProtoBuf.Serializer.Serialize(stream, data);
+                return stream.ToArray();
+            }
         }
 
         public byte[] Serialize(object target)

@@ -7,6 +7,7 @@ using EcsRx.Network;
 using EcsRx.Unity.Exception;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace EcsRx.Unity.Network
 {
@@ -16,13 +17,18 @@ namespace EcsRx.Unity.Network
         public string Url { get; set; }
 
         private IHttpProtocol protocol;
-        private IHttpErrorHandle errorHandle;
+        private IErrorHandle errorHandle;
 
-        public HttpRequest(IHttpProtocol protocol, IHttpErrorHandle errorHandle)
+        public HttpRequest(string url, IHttpProtocol protocol, IErrorHandle errorHandle)
         {
+            Url = url;
             this.protocol = protocol;
             this.errorHandle = errorHandle;
             Header["Content-Type"] = "application/json";
+        }
+
+        public class Factory : Factory<string, HttpRequest>
+        {
         }
 
         public IObservable<TOut> Post<TIn, TOut, TResponse>(HttpRequestMessage<TIn> message) where TIn : struct where TOut : struct where TResponse : HttpResponseMessage<TOut>, new()

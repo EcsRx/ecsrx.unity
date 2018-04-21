@@ -7,6 +7,6 @@ namespace EcsRx.Serialize
 {
     public interface ISerialize
     {
-        string Serialize<T>(T data);
+        byte[] Serialize<T>(T data);
     }
 }

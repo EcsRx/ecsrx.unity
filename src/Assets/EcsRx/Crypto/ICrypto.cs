@@ -7,7 +7,7 @@ namespace EcsRx.Crypto
 {
     public interface ICrypto
     {
-        byte[] Encryption(string data);
+        byte[] Encryption(byte[] data);
         string Decryption(byte[] data);
     }
 }

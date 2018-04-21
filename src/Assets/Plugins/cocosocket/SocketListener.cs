@@ -9,6 +9,8 @@ namespace cocosocket4unity
 		abstract public void OnIdle(USocket us);
 		abstract public void OnOpen(USocket us);
 		abstract public void OnError(USocket us,string err);
-	}
+
+	    public Action<USocket> SocketOpenedEvent;
+    }
 }
 

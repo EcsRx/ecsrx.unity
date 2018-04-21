@@ -8,9 +8,10 @@ namespace EcsRx.Serialize
 {
     public class JsonSerialize : IJsonSerialize
     {
-        public string Serialize<T>(T data)
+        public byte[] Serialize<T>(T data)
         {
-            return JsonExtensions.SerializeObject(data).ToString();
+            var str = JsonExtensions.SerializeObject(data).ToString();
+            return Encoding.UTF8.GetBytes(str);
         }
 
         public JSONNode SerializeObject(object data)

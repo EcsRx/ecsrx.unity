@@ -6,7 +6,7 @@ namespace EcsRx.Crypto
 {
     public class AesUtility
     {
-        public static byte[] Encrption(string input, string key, string iv)
+        public static byte[] Encrption(byte[] input, string key, string iv)
         {
             MemoryStream msEncrypt = null;
             RijndaelManaged aesAlg = null;

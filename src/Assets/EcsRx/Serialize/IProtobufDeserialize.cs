@@ -9,6 +9,5 @@ namespace EcsRx.Serialize
 {
     public interface IProtobufDeserialize : IDeserialize
     {
-        object Deserialize(System.Type type, Stream source);
     }
 }

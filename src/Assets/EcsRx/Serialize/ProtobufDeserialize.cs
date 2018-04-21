@@ -14,7 +14,7 @@ namespace EcsRx.Serialize
             throw new NotImplementedException();
         }
 
-        public object Deserialize(Type type, Stream source)
+        public object Deserialize(Type type, MemoryStream source)
         {
              return ProtoBuf.Serializer.NonGeneric.Deserialize(type, source);
         }

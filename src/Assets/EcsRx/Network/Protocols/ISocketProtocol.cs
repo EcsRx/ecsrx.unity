@@ -10,7 +10,7 @@ namespace EcsRx.Network
 {
     public interface ISocketProtocol : IProtocol
     {
-       Frame EncodeMessage<TIn>(SocketRequestMessage<TIn> message) where TIn : struct;
-       SocketResponseMessage<TOut> DecodeMessage<TOut, TResponse>(Type type, Stream stream) where TOut : struct where TResponse: SocketResponseMessage<TOut>, new();
+        Frame EncodeMessage<TIn>(SocketRequestMessage<TIn> message);
+        object DecodeMessage(Type type, MemoryStream stream);
     }
 }

@@ -6,7 +6,7 @@ using EcsRx.Json;
 
 namespace EcsRx.Network
 {
-    public abstract class SocketResponseMessage<T> : IResponseMessage<T> where T : struct 
+    public abstract class SocketResponseMessage<T> : IResponseMessage<T>
     {
         public T Data { get; set; }
     }
