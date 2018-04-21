@@ -502,6 +502,14 @@
     <Compile Include="Assets\EcsRx\Unity\Installers\AutoBindSystemsInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\DefaultEcsRxInstaller.cs" />
     <Compile Include="Assets\EcsRx\Unity\JSON.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Loader\IFileLoader.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Loader\Loader.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Loader\ILoader.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Loader\ILoadStrategy.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Loader\ImageLoader.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Loader\LocalFileLoader.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Loader\LocalPriorLoadStrategy.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Loader\RemoteFileLoader.cs" />
     <Compile Include="Assets\EcsRx\Unity\Managers\SceneManager.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\ActiveSystemsViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityView.cs" />
@@ -516,9 +524,7 @@
     <Compile Include="Assets\EcsRx\Network\Messages\INetworkMessage.cs" />
     <Compile Include="Assets\EcsRx\Network\Messages\IRequestMessage.cs" />
     <Compile Include="Assets\EcsRx\Network\Messages\IResponseMessage.cs" />
-    <Compile Include="Assets\EcsRx\Network\Protocols\FileProtocol.cs" />
     <Compile Include="Assets\EcsRx\Network\Protocols\HttpProtocol.cs" />
-    <Compile Include="Assets\EcsRx\Network\Protocols\IFileProtocol.cs" />
     <Compile Include="Assets\EcsRx\Network\Protocols\IHttpProtocol.cs" />
     <Compile Include="Assets\EcsRx\Network\Protocols\IProtocol.cs" />
     <Compile Include="Assets\EcsRx\Unity\Plugins\IEcsRxPlugin.cs" />
@@ -565,9 +571,7 @@
     <None Include="Assets\Plugins\Zenject\OptionalExtras\SampleGame1 (Beginner)\Media\Imported\Shaders\Particle Alpha Blend_IgnoreFog.shader" />
     <None Include="Assets\Plugins\Zenject\Version.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\EcsRx\Network\Http\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

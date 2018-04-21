@@ -5,10 +5,9 @@ using System.Text;
 using UniRx;
 using UnityEngine;
 
-namespace EcsRx.Network
+namespace EcsRx.Unity.Loader
 {
-    public interface IFileProtocol : IProtocol
+    public interface ILoader
     {
-        IObservable<WWW> Load(string path);
     }
 }
