@@ -31,7 +31,7 @@ namespace EcsRx.Network
             string data = Serialize.Serialize(message.Data);
             byte[] encryptedData = Crypto.Encryption(data);
             data = Convert.ToBase64String(encryptedData);
-            return Serialize.Serialize(data);
+            return data;
         }
 
         public virtual HttpResponseMessage<TOut> DecodeMessage<TOut, TResponse>(string data) where TOut : struct where TResponse : HttpResponseMessage<TOut>, new()

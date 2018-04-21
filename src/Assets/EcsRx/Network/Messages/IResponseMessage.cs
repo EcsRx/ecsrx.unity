@@ -5,7 +5,8 @@ using System.Text;
 
 namespace EcsRx.Network
 {
-    public interface IResponseMessage : INetworkMessage
+    public interface IResponseMessage<out T> : INetworkMessage where T : struct
     {
+        T Data { get; }
     }
 }
