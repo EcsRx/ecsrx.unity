@@ -265,6 +265,9 @@
     <Reference Include="System.Reactive.Core">
       <HintPath>Assets/Plugins/System.Reactive.Core.dll</HintPath>
     </Reference>
+    <Reference Include="System.Reactive">
+      <HintPath>Assets/Plugins/System.Reactive.dll</HintPath>
+    </Reference>
     <Reference Include="System.Reactive.Interfaces">
       <HintPath>Assets/Plugins/System.Reactive.Interfaces.dll</HintPath>
     </Reference>
@@ -282,9 +285,6 @@
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>C:/ProgramData/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive">
-      <HintPath>Assets/Plugins/System.Reactive.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.1.0b10\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll</HintPath>
