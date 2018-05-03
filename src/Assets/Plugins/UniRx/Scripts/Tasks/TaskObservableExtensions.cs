@@ -3,7 +3,6 @@
 #if (NET_4_6)
 
 using System;
-using System.Reactive;
 using System.Threading.Tasks;
 using System.Threading;
 

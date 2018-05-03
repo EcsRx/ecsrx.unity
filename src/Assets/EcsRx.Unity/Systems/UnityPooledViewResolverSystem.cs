@@ -50,9 +50,9 @@ namespace EcsRx.Unity.Systems
         {
             var gameObject = view as GameObject;
             var entityView = gameObject.GetComponent<EntityView>();
-            var containingPool = CollectionManager.GetCollectionFor(entity);
+            var entityCollection = CollectionManager.GetCollectionFor(entity);
             entityView.Entity = entity;
-            entityView.EntityCollection = containingPool;
+            entityView.EntityCollection = entityCollection;
 
             OnViewAllocated(gameObject, entity);
         }

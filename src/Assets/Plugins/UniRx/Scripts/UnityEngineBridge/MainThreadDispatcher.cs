@@ -5,7 +5,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reactive;
 using System.Reflection;
 using System.Threading;
 using UniRx.InternalUtil;
