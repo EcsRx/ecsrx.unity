@@ -1,5 +1,6 @@
 using EcsRx.Collections;
 using EcsRx.Entities;
+using EcsRx.Events;
 using EcsRx.Extensions;
 using EcsRx.Unity.Handlers;
 using EcsRx.Unity.MonoBehaviours;
@@ -23,7 +24,7 @@ namespace EcsRx.Unity.Systems
         protected IViewPool CreateViewPool()
         { return new ViewPool(PoolIncrementSize, new GameObjectViewHandler(Instantiator, PrefabTemplate)); }
 
-        protected UnityPooledViewResolverSystem(IInstantiator instantiator, IEntityCollectionManager collectionManager)
+        protected UnityPooledViewResolverSystem(IInstantiator instantiator, IEntityCollectionManager collectionManager, IEventSystem eventSystem) : base(eventSystem) 
         {
             Instantiator = instantiator;
             CollectionManager = collectionManager;

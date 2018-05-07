@@ -283,15 +283,6 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.1.0f2/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="EcsRx">
-      <HintPath>Assets/Plugins/EcsRx.dll</HintPath>
-    </Reference>
-    <Reference Include="EcsRx.Infrastructure">
-      <HintPath>Assets/Plugins/EcsRx.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="EcsRx.Views">
-      <HintPath>Assets/Plugins/EcsRx.Views.dll</HintPath>
-    </Reference>
     <Reference Include="NSubstitute">
       <HintPath>Assets/Plugins/NSubstitute.dll</HintPath>
     </Reference>
@@ -315,6 +306,15 @@
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
+    <Reference Include="EcsRx.Infrastructure">
+      <HintPath>Assets/EcsRx/EcsRx.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="EcsRx">
+      <HintPath>Assets/EcsRx/EcsRx.dll</HintPath>
+    </Reference>
+    <Reference Include="EcsRx.Views">
+      <HintPath>Assets/EcsRx/EcsRx.Views.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.1.0f2\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll</HintPath>

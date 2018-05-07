@@ -250,15 +250,6 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.1.0f2/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
-    <Reference Include="EcsRx">
-      <HintPath>Assets/Plugins/EcsRx.dll</HintPath>
-    </Reference>
-    <Reference Include="EcsRx.Infrastructure">
-      <HintPath>Assets/Plugins/EcsRx.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="EcsRx.Views">
-      <HintPath>Assets/Plugins/EcsRx.Views.dll</HintPath>
-    </Reference>
     <Reference Include="NSubstitute">
       <HintPath>Assets/Plugins/NSubstitute.dll</HintPath>
     </Reference>
@@ -270,6 +261,15 @@
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>C:/Users/leepr/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="EcsRx.Infrastructure">
+      <HintPath>Assets/EcsRx/EcsRx.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="EcsRx">
+      <HintPath>Assets/EcsRx/EcsRx.dll</HintPath>
+    </Reference>
+    <Reference Include="EcsRx.Views">
+      <HintPath>Assets/EcsRx/EcsRx.Views.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.1.0f2\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll</HintPath>
@@ -616,13 +616,13 @@
       <Project>{6001150F-B5BC-D04E-994E-425096E0FFE6}</Project>
       <Name>src.Plugins</Name>
     </ProjectReference>
-    <ProjectReference Include="Unity.PackageManagerUI.Editor.csproj">
-      <Project>{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}</Project>
-      <Name>Unity.PackageManagerUI.Editor</Name>
-    </ProjectReference>
     <ProjectReference Include="UnityEditor.StandardEvents.csproj">
       <Project>{6800202F-4402-D405-F8CB-03DC7BD78B92}</Project>
       <Name>UnityEditor.StandardEvents</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.PackageManagerUI.Editor.csproj">
+      <Project>{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}</Project>
+      <Name>Unity.PackageManagerUI.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -691,22 +691,22 @@
     <Compile Include="Assets\EcsRx.Unity.Examples\UsingBlueprints\Groups\PlayerGroup.cs" />
     <Compile Include="Assets\EcsRx.Unity.Examples\UsingBlueprints\Systems\PlayerReportingSystem.cs" />
     <Compile Include="Assets\EcsRx.Unity.Examples\UsingBlueprints\UnityApplication.cs" />
-    <Compile Include="Assets\EcsRx.Unity\Dependencies\ZenjectDependencyContainer.cs" />
-    <Compile Include="Assets\EcsRx.Unity\EcsRxApplicationBehaviour.cs" />
-    <Compile Include="Assets\EcsRx.Unity\Extensions\ComponentExtensions.cs" />
-    <Compile Include="Assets\EcsRx.Unity\Extensions\GameObjectExtensions.cs" />
-    <Compile Include="Assets\EcsRx.Unity\Extensions\IEntityExtensions.cs" />
-    <Compile Include="Assets\EcsRx.Unity\Extensions\ViewComponentExtensions.cs" />
-    <Compile Include="Assets\EcsRx.Unity\Handlers\GameObjectViewHandler.cs" />
-    <Compile Include="Assets\EcsRx.Unity\Installers\AutoBindSystemsInstaller.cs" />
-    <Compile Include="Assets\EcsRx.Unity\JSON.cs" />
-    <Compile Include="Assets\EcsRx.Unity\MonoBehaviours\ActiveSystemsViewer.cs" />
-    <Compile Include="Assets\EcsRx.Unity\MonoBehaviours\EntityCollectionManagerViewer.cs" />
-    <Compile Include="Assets\EcsRx.Unity\MonoBehaviours\EntityView.cs" />
-    <Compile Include="Assets\EcsRx.Unity\MonoBehaviours\InjectableMonoBehaviour.cs" />
-    <Compile Include="Assets\EcsRx.Unity\MonoBehaviours\RegisterAsEntity.cs" />
-    <Compile Include="Assets\EcsRx.Unity\Systems\UnityPooledViewResolverSystem.cs" />
-    <Compile Include="Assets\EcsRx.Unity\Systems\UnityViewResolverSystem.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\Dependencies\ZenjectDependencyContainer.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\EcsRxApplicationBehaviour.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\Extensions\ComponentExtensions.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\Extensions\GameObjectExtensions.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\Extensions\IEntityExtensions.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\Extensions\ViewComponentExtensions.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\Handlers\GameObjectViewHandler.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\Installers\AutoBindSystemsInstaller.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\JSON.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\MonoBehaviours\ActiveSystemsViewer.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\MonoBehaviours\EntityCollectionManagerViewer.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\MonoBehaviours\EntityView.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\MonoBehaviours\InjectableMonoBehaviour.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\MonoBehaviours\RegisterAsEntity.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\Systems\UnityPooledViewResolverSystem.cs" />
+    <Compile Include="Assets\EcsRx\EcsRx.Unity\Systems\UnityViewResolverSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Plugins\UniRx\ReadMe.txt" />

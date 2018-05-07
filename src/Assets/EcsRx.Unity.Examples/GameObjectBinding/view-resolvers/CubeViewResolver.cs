@@ -8,7 +8,7 @@ using EcsRx.Unity.Systems;
 using UnityEngine;
 using Zenject;
 
-namespace EcsRx.Unity.Examples.GameObjectBinding
+namespace EcsRx.Unity.Examples.GameObjectBinding.Systems
 {
     public class CubeViewResolver : UnityViewResolverSystem
     {

@@ -1,5 +1,6 @@
 ﻿using EcsRx.Collections;
 using EcsRx.Entities;
+using EcsRx.Events;
 using EcsRx.Groups;
 using EcsRx.Unity.Examples.PooledViews.Components;
 using EcsRx.Unity.Systems;
@@ -13,7 +14,7 @@ namespace EcsRx.Unity.Examples.PooledViews.ViewResolvers
     {
         public override IGroup TargetGroup => new Group(typeof(SelfDestructComponent), typeof(ViewComponent));
 
-        public SelfDestructionViewResolver(IInstantiator instantiator, IEntityCollectionManager collectionManager) : base(instantiator, collectionManager)
+        public SelfDestructionViewResolver(IInstantiator instantiator, IEntityCollectionManager collectionManager, IEventSystem eventSystem) : base(instantiator, collectionManager, eventSystem)
         {}
 
         protected override GameObject PrefabTemplate => Resources.Load("PooledPrefab") as GameObject;
