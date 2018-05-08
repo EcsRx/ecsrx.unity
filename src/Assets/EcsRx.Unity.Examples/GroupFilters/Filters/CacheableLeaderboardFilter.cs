@@ -20,7 +20,7 @@ namespace EcsRx.Unity.Examples.GroupFilters.Filters
         protected override IEnumerable<HasScoreComponent> FilterQuery()
         {
             Debug.Log("Updating");
-            return ObservableGroup.Entities
+            return ObservableGroup
                 .Select(x => x.GetComponent<HasScoreComponent>())
                 .OrderByDescending(x => x.Score.Value)
                 .Take(5)

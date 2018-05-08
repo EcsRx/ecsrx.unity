@@ -15,7 +15,7 @@ namespace EcsRx.Unity.Examples.GroupFilters.Filters
 
         public IEnumerable<HasScoreComponent> Filter()
         {
-            return ObservableGroup.Entities
+            return ObservableGroup
                 .Select(x => x.GetComponent<HasScoreComponent>())
                 .OrderByDescending(x => x.Score.Value)
                 .Take(5);

@@ -21,7 +21,7 @@ namespace EcsRx.Unity
             EditorGUILayout.TextField("Active Pools");
             EditorGUILayout.Space();
 
-            foreach (var pool in poolManager.Pools)
+            foreach (var pool in poolManager.Collections)
             {
                 EditorGUILayout.BeginVertical();
                 EditorGUILayout.LabelField("EntityCollection: " + pool.Name);

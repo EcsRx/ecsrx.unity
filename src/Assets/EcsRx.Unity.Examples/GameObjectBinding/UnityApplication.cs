@@ -1,5 +1,4 @@
-﻿using EcsRx.Infrastructure.Dependencies;
-using EcsRx.Unity.Examples.GameObjectBinding.components;
+﻿using EcsRx.Unity.Examples.GameObjectBinding.Components;
 using EcsRx.Views.Components;
 
 namespace EcsRx.Unity.Examples.GameObjectBinding

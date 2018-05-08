@@ -3,12 +3,12 @@ using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Unity.Examples.GameObjectBinding.components;
+using EcsRx.Unity.Examples.GameObjectBinding.Components;
 using EcsRx.Unity.Systems;
 using UnityEngine;
 using Zenject;
 
-namespace EcsRx.Unity.Examples.GameObjectBinding
+namespace EcsRx.Unity.Examples.GameObjectBinding.ViewResolvers
 {
     public class SphereViewResolver : UnityViewResolverSystem
     {

@@ -35,7 +35,7 @@ namespace EcsRx.Unity.Systems
         protected abstract void OnViewAllocated(GameObject view, IEntity entity);
         protected abstract void OnViewRecycled(GameObject view);
 
-        protected override void OnViewRecycled(object view)
+        protected override void OnViewRecycled(object view, IEntity entity)
         {
             var gameObject = view as GameObject;
             gameObject.transform.parent = null;

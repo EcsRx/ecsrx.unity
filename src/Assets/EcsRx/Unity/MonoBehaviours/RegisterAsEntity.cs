@@ -17,7 +17,7 @@ namespace EcsRx.Unity.MonoBehaviours
         public IEntityCollectionManager CollectionManager { get; private set; }
 
         [SerializeField]
-        public string PoolName;
+        public string CollectionName;
 
         [SerializeField]
         public List<string> Components = new List<string>();
@@ -32,12 +32,12 @@ namespace EcsRx.Unity.MonoBehaviours
 
             IEntityCollection collectionToUse;
 
-            if (string.IsNullOrEmpty(PoolName))
+            if (string.IsNullOrEmpty(CollectionName))
             { collectionToUse = CollectionManager.GetCollection(); }
-            else if (CollectionManager.Pools.All(x => x.Name != PoolName))
-            { collectionToUse = CollectionManager.CreateCollection(PoolName); }
+            else if (CollectionManager.Collections.All(x => x.Name != CollectionName))
+            { collectionToUse = CollectionManager.CreateCollection(CollectionName); }
             else
-            { collectionToUse = CollectionManager.GetCollection(PoolName); }
+            { collectionToUse = CollectionManager.GetCollection(CollectionName); }
 
             var createdEntity = collectionToUse.CreateEntity();
             createdEntity.AddComponent(new ViewComponent { View = gameObject });
@@ -72,7 +72,7 @@ namespace EcsRx.Unity.MonoBehaviours
         
         public IEntityCollection GetPool()
         {
-            return CollectionManager.GetCollection(PoolName);
+            return CollectionManager.GetCollection(CollectionName);
         }
     }
 }
