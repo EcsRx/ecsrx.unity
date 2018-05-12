@@ -16,7 +16,7 @@ This project contains lots of running examples, mainly based around common use c
 There have been requests for a reading order, and while there is not really a specific route through the docs it is recommended that you learn about:
 
 - [entities](entities.md)
-- [components(components.md)
+- [components](components.md)
 - [groups](groups.md)
 - [systems](systems.md)
 
