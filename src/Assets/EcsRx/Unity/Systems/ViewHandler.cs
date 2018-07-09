@@ -60,10 +60,11 @@ namespace EcsRx.Unity.Systems
             if (viewComponent.View != null) { return; }
 
             var viewObject = viewResolver(entity);
+            if (viewObject != null) { return; }
             viewComponent.View = viewObject;
 
             _viewCache.Add(entity.Id, viewObject);
-
+            
             var entityBinding = viewObject.GetComponent<EntityView>();
             if (entityBinding == null)
             {
