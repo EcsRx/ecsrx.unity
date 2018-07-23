@@ -2,13 +2,15 @@
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
+using UnityEngine;
 
 namespace EcsRx.Examples.SimpleMovement
 {
     public class UnityApplication : EcsRxApplicationBehaviour
-    {
+    {        
         protected override void ApplicationStarting()
         {
+            this.BindAllSystemsWithinApplicationScope();
             this.RegisterAllBoundSystems();
         }
 

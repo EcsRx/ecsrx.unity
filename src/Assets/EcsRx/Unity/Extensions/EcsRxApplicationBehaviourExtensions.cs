@@ -27,12 +27,12 @@ namespace EcsRx.Unity.Extensions
             application.SystemExecutor.AddSystem(system);
         }
 
-        public static void RegisterSystemsInNamespace(this EcsRxApplicationBehaviour application, params string[] namespaces)
+        public static void BindAnySystemsInNamespace(this EcsRxApplicationBehaviour application, params string[] namespaces)
         {
             BindSystemsInNamespace.Bind(application.DependencyContainer.NativeContainer as DiContainer, namespaces);
         }
         
-        public static void RegisterAllSystemsWithinApplicationScope(this EcsRxApplicationBehaviour application)
+        public static void BindAllSystemsWithinApplicationScope(this EcsRxApplicationBehaviour application)
         {
             var applicationNamespace = application.GetType().Namespace;
             var namespaces = new[]

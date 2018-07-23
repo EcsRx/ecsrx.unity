@@ -8,6 +8,7 @@ namespace EcsRx.Examples.UsingBlueprints
     {
         protected override void ApplicationStarting()
         {
+            this.BindAllSystemsWithinApplicationScope();
             this.RegisterAllBoundSystems();
         }
 
