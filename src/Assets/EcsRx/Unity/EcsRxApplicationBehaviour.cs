@@ -20,7 +20,7 @@ namespace EcsRx.Unity
 {
     public abstract class EcsRxApplicationBehaviour : MonoBehaviour, IEcsRxApplication
     {
-        protected IDependencyContainer DependencyContainer { get; private set; }
+        public IDependencyContainer DependencyContainer { get; private set; }
         
         public ISystemExecutor SystemExecutor { get; private set; }
         public IEventSystem EventSystem { get; private set; }
@@ -66,22 +66,5 @@ namespace EcsRx.Unity
 
         protected void RegisterPlugin(IEcsRxPlugin plugin)
         { Plugins.Add(plugin); }
-
-        protected virtual void RegisterAllBoundSystems()
-        {
-            var allSystems = DependencyContainer.ResolveAll<ISystem>();
-
-            var orderedSystems = allSystems
-                .OrderByDescending(x => x is ViewResolverSystem)
-                .ThenByDescending(x => x is ISetupSystem);
-
-            orderedSystems.ForEachRun(SystemExecutor.AddSystem);
-        }
-
-        protected virtual void RegisterSystem<T>() where T : ISystem
-        {
-            var system = DependencyContainer.Resolve<T>();
-            SystemExecutor.AddSystem(system);
-        }
     }
 }

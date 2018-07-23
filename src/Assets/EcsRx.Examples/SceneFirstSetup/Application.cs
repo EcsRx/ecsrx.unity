@@ -1,5 +1,6 @@
 ﻿using EcsRx.Examples.SceneFirstSetup.Components;
 using EcsRx.Unity;
+using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
 
 namespace EcsRx.Examples.SceneFirstSetup
@@ -8,7 +9,7 @@ namespace EcsRx.Examples.SceneFirstSetup
     {
         protected override void ApplicationStarting()
         {
-            RegisterAllBoundSystems();
+            this.RegisterAllBoundSystems();
         }
 
         protected override void ApplicationStarted()

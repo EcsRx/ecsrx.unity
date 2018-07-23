@@ -1,5 +1,6 @@
 ﻿using EcsRx.Examples.PluginExample.HelloWorldPlugin.components;
 using EcsRx.Unity;
+using EcsRx.Unity.Extensions;
 
 namespace EcsRx.Examples.PluginExample
 {
@@ -7,7 +8,7 @@ namespace EcsRx.Examples.PluginExample
     {
         protected override void ApplicationStarting()
         {
-            RegisterAllBoundSystems();
+            this.RegisterAllBoundSystems();
             RegisterPlugin(new HelloWorldPlugin.HelloWorldPlugin());
         }
         

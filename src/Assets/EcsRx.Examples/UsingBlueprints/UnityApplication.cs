@@ -1,5 +1,6 @@
 ﻿using EcsRx.Examples.UsingBlueprints.Blueprints;
 using EcsRx.Unity;
+using EcsRx.Unity.Extensions;
 
 namespace EcsRx.Examples.UsingBlueprints
 {
@@ -7,7 +8,7 @@ namespace EcsRx.Examples.UsingBlueprints
     {
         protected override void ApplicationStarting()
         {
-            RegisterAllBoundSystems();
+            this.RegisterAllBoundSystems();
         }
 
         protected override void ApplicationStarted()

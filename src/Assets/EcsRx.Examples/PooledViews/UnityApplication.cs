@@ -1,4 +1,5 @@
 ﻿using EcsRx.Unity;
+using EcsRx.Unity.Extensions;
 
 namespace EcsRx.Examples.PooledViews
 {
@@ -6,7 +7,7 @@ namespace EcsRx.Examples.PooledViews
     {
         protected override void ApplicationStarting()
         {
-            RegisterAllBoundSystems();
+            this.RegisterAllBoundSystems();
         }
 
         protected override void ApplicationStarted()

@@ -1,5 +1,6 @@
 ﻿using EcsRx.Examples.ManuallyRegisterSystems.Systems;
 using EcsRx.Unity;
+using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
 
 namespace EcsRx.Examples.ManuallyRegisterSystems
@@ -8,8 +9,8 @@ namespace EcsRx.Examples.ManuallyRegisterSystems
     {
         protected override void ApplicationStarting()
         {
-            RegisterSystem<DefaultViewResolver>();
-            RegisterSystem<RandomMovementSystem>();
+            this.RegisterSystem<DefaultViewResolver>();
+            this.RegisterSystem<RandomMovementSystem>();
         }
 
         protected override void ApplicationStarted()

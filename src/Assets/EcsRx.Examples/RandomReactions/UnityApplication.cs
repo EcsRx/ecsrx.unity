@@ -1,5 +1,6 @@
 ﻿using EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Unity;
+using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
 
 namespace EcsRx.Examples.RandomReactions
@@ -10,7 +11,7 @@ namespace EcsRx.Examples.RandomReactions
         
         protected override void ApplicationStarting()
         {
-            RegisterAllBoundSystems();
+            this.RegisterAllBoundSystems();
         }
 
         protected override void ApplicationStarted()

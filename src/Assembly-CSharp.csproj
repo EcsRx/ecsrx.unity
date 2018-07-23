@@ -113,11 +113,13 @@
     <Compile Include="Assets\EcsRx\Unity\Dependencies\ZenjectDependencyContainer.cs" />
     <Compile Include="Assets\EcsRx\Unity\EcsRxApplicationBehaviour.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\ComponentExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Extensions\EcsRxApplicationBehaviourExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\GameObjectExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\IEntityExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\ViewComponentExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Handlers\GameObjectViewHandler.cs" />
     <Compile Include="Assets\EcsRx\Unity\Installers\AutoBindSystemsInstaller.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Installers\BindSystemsInNamespace.cs" />
     <Compile Include="Assets\EcsRx\Unity\JSON.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\ActiveSystemsViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityCollectionManagerViewer.cs" />

@@ -8,7 +8,7 @@ namespace EcsRx.Examples.GameObjectLinking
     {
         protected override void ApplicationStarting()
         {
-            RegisterAllBoundSystems();
+            this.RegisterAllBoundSystems();
         }
 
         protected override void ApplicationStarted()
