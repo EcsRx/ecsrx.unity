@@ -50,7 +50,7 @@ The **Core** package contains the pure project files which are required for the 
 
 The **Unity** package contains a wrapper around the **Core** framework and some unity helpers, this will be built upon going forward.
 
-There is also a pure .net (with rx.net) prototype available [EcsRx.Net](https://github.com/grofit/EcsRx.Net) for those who want to use this outside of unity in the wider .net world, it was made as a proof of concept for if unirx ends up absorbing some of rx.net with the new unity .net updates, but there is yet to be any news on this.
+Going forward this will depend upon the newer generic .net version which can be found at [EcsRx/EcsRx](https://github.com/EcsRx/ecsrx).
 
 ## Quick Start
 
@@ -70,7 +70,7 @@ There are also a suite of tests which are being expanded as the project grows, i
 
 ## Docs
 
-See the docs folder for more information. (This will grow)
+See the [docs folder](/docs) for more information or head on over to our gitter channel.
 
 ## HEADS UP
 
