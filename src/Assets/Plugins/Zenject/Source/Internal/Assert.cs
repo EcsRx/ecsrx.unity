@@ -57,7 +57,7 @@ namespace ModestTree
         {
             if (!(obj is T))
             {
-                throw CreateException("Assert Hit! {0}\nWrong type found. Expected '{1}' (left) but found '{2}' (right). ", message, typeof(T).Name(), obj.GetType().Name());
+                throw CreateException("Assert Hit! {0}\nWrong type found. Expected '{1}' (left) but found '{2}' (right). ", message, typeof(T).PrettyName(), obj.GetType().PrettyName());
             }
         }
 

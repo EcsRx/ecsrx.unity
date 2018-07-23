@@ -47,13 +47,7 @@ namespace EcsRx.Unity
         {
             DependencyContainer.LoadModule<FrameworkModule>();
 
-            // HACK (this is a known issue in Zenject)
-            var container = DependencyContainer.NativeContainer as DiContainer;
-            var systems = container.ResolveAll<IConventionalSystemHandler>();
-            SystemExecutor = new SystemExecutor(systems);
-            // END HACK
-
-            //SystemExecutor = DependencyContainer.Resolve<ISystemExecutor>();
+            SystemExecutor = DependencyContainer.Resolve<ISystemExecutor>();
             EventSystem = DependencyContainer.Resolve<IEventSystem>();
             CollectionManager = DependencyContainer.Resolve<IEntityCollectionManager>();
         }

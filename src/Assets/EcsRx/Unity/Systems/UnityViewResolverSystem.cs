@@ -60,7 +60,7 @@ namespace EcsRx.Unity.Systems
             if (viewComponent.DestroyWithView)
             {
                 gameObject.OnDestroyAsObservable()
-                    .Subscribe(x => entityBinding.EntityCollection.RemoveEntity(entity))
+                    .Subscribe(x => entityBinding.EntityCollection.RemoveEntity(entity.Id))
                     .AddTo(gameObject);
             }
         }

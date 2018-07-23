@@ -8,8 +8,8 @@ namespace Zenject
         : FactoryFromBinder<TParam1, TParam2, TParam3, TParam4, TParam5, TContract>
     {
         public FactoryToChoiceBinder(
-            BindInfo bindInfo, FactoryBindInfo factoryBindInfo)
-            : base(bindInfo, factoryBindInfo)
+            DiContainer bindContainer, BindInfo bindInfo, FactoryBindInfo factoryBindInfo)
+            : base(bindContainer, bindInfo, factoryBindInfo)
         {
         }
 
@@ -29,7 +29,7 @@ namespace Zenject
                 typeof(TConcrete)
             };
 
-            return new FactoryFromBinder<TParam1, TParam2, TParam3, TParam4, TParam5, TConcrete>(BindInfo, FactoryBindInfo);
+            return new FactoryFromBinder<TParam1, TParam2, TParam3, TParam4, TParam5, TConcrete>(BindContainer, BindInfo, FactoryBindInfo);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace EcsRx.Unity
             {
                 if (GUILayout.Button("Destroy Entity"))
                 {
-                    _entityView.EntityCollection.RemoveEntity(_entityView.Entity);
+                    _entityView.EntityCollection.RemoveEntity(_entityView.Entity.Id);
                     Destroy(_entityView.gameObject);
                 }
 

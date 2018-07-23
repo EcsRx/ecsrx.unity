@@ -15,6 +15,11 @@ namespace Zenject
 {
     public class GameObjectContext : RunnableContext
     {
+        public event Action PreInstall = null;
+        public event Action PostInstall = null;
+        public event Action PreResolve = null;
+        public event Action PostResolve = null;
+
         [SerializeField]
         [Tooltip("Note that this field is optional and can be ignored in most cases.  This is really only needed if you want to control the 'Script Execution Order' of your subcontainer.  In this case, define a new class that derives from MonoKernel, add it to this game object, then drag it into this field.  Then you can set a value for 'Script Execution Order' for this new class and this will control when all ITickable/IInitializable classes bound within this subcontainer get called.")]
         [FormerlySerializedAs("_facade")]
@@ -45,6 +50,12 @@ namespace Zenject
 
         protected override void RunInternal()
         {
+            // Do this after creating DiContainer in case it's needed by the pre install logic
+            if (PreInstall != null)
+            {
+                PreInstall();
+            }
+
             var injectableMonoBehaviours = new List<MonoBehaviour>();
 
             GetInjectableMonoBehaviours(injectableMonoBehaviours);
@@ -71,15 +82,21 @@ namespace Zenject
                 _container.IsInstalling = false;
             }
 
-            _container.ResolveDependencyRoots();
-            _container.FlushInjectQueue();
-
-            if (_container.IsValidating)
+            if (PostInstall != null)
             {
-                // The root-level Container has its ValidateValidatables method
-                // called explicitly - however, this is not so for sub-containers
-                // so call it here instead
-                _container.ValidateValidatables();
+                PostInstall();
+            }
+
+            if (PreResolve != null)
+            {
+                PreResolve();
+            }
+
+            _container.ResolveRoots();
+
+            if (PostResolve != null)
+            {
+                PostResolve();
             }
 
             // Normally, the IInitializable.Initialize method would be called during MonoKernel.Start
@@ -101,6 +118,8 @@ namespace Zenject
 
         protected override void GetInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
         {
+            ZenUtilInternal.AddStateMachineBehaviourAutoInjectersUnderGameObject(this.gameObject);
+
             // We inject on all components on the root except ourself
             foreach (var monoBehaviour in GetComponents<MonoBehaviour>())
             {
@@ -129,7 +148,7 @@ namespace Zenject
 
                 if (child != null)
                 {
-                    ZenUtilInternal.GetInjectableMonoBehaviours(
+                    ZenUtilInternal.GetInjectableMonoBehavioursUnderGameObject(
                         child.gameObject, monoBehaviours);
                 }
             }

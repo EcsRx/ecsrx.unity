@@ -19,17 +19,28 @@ namespace Zenject
             _container = container;
         }
 
+        public bool IsCached
+        {
+            get { return false; }
+        }
+
+        public bool TypeVariesBasedOnMemberType
+        {
+            get { return false; }
+        }
+
         public Type GetInstanceType(InjectContext context)
         {
             return typeof(GameObject);
         }
 
-        public IEnumerator<List<object>> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args)
+        public List<object> GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction)
         {
             Assert.IsEmpty(args);
 
-            yield return new List<object>()
+            injectAction = null;
+            return new List<object>()
             {
                 _container.CreateEmptyGameObject(_gameObjectBindInfo, context)
             };

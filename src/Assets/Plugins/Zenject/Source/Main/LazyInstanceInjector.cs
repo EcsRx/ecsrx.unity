@@ -50,7 +50,7 @@ namespace Zenject
 
         public void LazyInjectAll()
         {
-#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
+#if UNITY_EDITOR
             using (ProfileBlock.Start("LazyInstanceInjector.LazyInjectAll"))
 #endif
             {

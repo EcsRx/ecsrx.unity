@@ -6,25 +6,33 @@ namespace Zenject
         : FactorySubContainerBinderWithParams<TContract>
     {
         public FactorySubContainerBinder(
-            BindInfo bindInfo, FactoryBindInfo factoryBindInfo, object subIdentifier)
-            : base(bindInfo, factoryBindInfo, subIdentifier)
+            DiContainer bindContainer, BindInfo bindInfo, FactoryBindInfo factoryBindInfo, object subIdentifier)
+            : base(bindContainer, bindInfo, factoryBindInfo, subIdentifier)
         {
         }
 
-        public ConditionCopyNonLazyBinder ByMethod(ModestTree.Util.Action<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5> installerMethod)
+        public ConditionCopyNonLazyBinder ByMethod(
+#if !NET_4_6
+            ModestTree.Util.
+#endif
+            Action<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5> installerMethod)
         {
             ProviderFunc =
                 (container) => new SubContainerDependencyProvider(
                     ContractType, SubIdentifier,
                     new SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4, TParam5>(
-                        container, installerMethod));
+                        container, installerMethod), false);
 
             return new ConditionCopyNonLazyBinder(BindInfo);
         }
 
 #if !NOT_UNITY3D
         public NameTransformConditionCopyNonLazyBinder ByNewPrefabMethod(
-            UnityEngine.Object prefab, ModestTree.Util.Action<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5> installerMethod)
+            UnityEngine.Object prefab,
+#if !NET_4_6
+            ModestTree.Util.
+#endif
+            Action<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5> installerMethod)
         {
             BindingUtil.AssertIsValidPrefab(prefab);
 
@@ -36,13 +44,17 @@ namespace Zenject
                     new SubContainerCreatorByNewPrefabMethod<TParam1, TParam2, TParam3, TParam4, TParam5>(
                         container,
                         new PrefabProvider(prefab),
-                        gameObjectInfo, installerMethod));
+                        gameObjectInfo, installerMethod), false);
 
             return new NameTransformConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }
 
         public NameTransformConditionCopyNonLazyBinder ByNewPrefabResourceMethod(
-            string resourcePath, ModestTree.Util.Action<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5> installerMethod)
+            string resourcePath,
+#if !NET_4_6
+            ModestTree.Util.
+#endif
+            Action<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5> installerMethod)
         {
             BindingUtil.AssertIsValidResourcePath(resourcePath);
 
@@ -54,7 +66,7 @@ namespace Zenject
                     new SubContainerCreatorByNewPrefabMethod<TParam1, TParam2, TParam3, TParam4, TParam5>(
                         container,
                         new PrefabProviderResource(resourcePath),
-                        gameObjectInfo, installerMethod));
+                        gameObjectInfo, installerMethod), false);
 
             return new NameTransformConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }

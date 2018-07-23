@@ -13,19 +13,31 @@ namespace Zenject
             _method = method;
         }
 
+        public bool IsCached
+        {
+            get { return false; }
+        }
+
+        public bool TypeVariesBasedOnMemberType
+        {
+            get { return false; }
+        }
+
         public Type GetInstanceType(InjectContext context)
         {
             return typeof(TReturn);
         }
 
-        public IEnumerator<List<object>> GetAllInstancesWithInjectSplit(InjectContext context, List<TypeValuePair> args)
+        public List<object> GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction)
         {
             Assert.IsEmpty(args);
             Assert.IsNotNull(context);
 
             Assert.That(typeof(TReturn).DerivesFromOrEqual(context.MemberType));
 
-            yield return new List<object>() { _method() };
+            injectAction = null;
+            return new List<object>() { _method() };
         }
     }
 }

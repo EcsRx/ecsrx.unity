@@ -8,14 +8,6 @@ namespace ModestTree
 {
     public static class LinqExtensions
     {
-        public static void ForEach<T>(this IEnumerable<T> first, Action<T> action)
-        {
-            foreach(T t in first)
-            {
-                action(t);
-            }
-        }
-
         // Inclusive because it includes the item that meets the predicate
         public static IEnumerable<TSource> TakeUntilInclusive<TSource>(
             this IEnumerable<TSource> source, Func<TSource, bool> predicate)
@@ -38,8 +30,12 @@ namespace ModestTree
                 throw new ArgumentNullException("source");
             }
 
-            var results = source.Take(2).ToArray();
-            return results.Length == 1 ? results[0] : default(TSource);
+            if (source.Count() > 1)
+            {
+                return default(TSource);
+            }
+
+            return source.FirstOrDefault();
         }
 
         // Another name for IEnumerable.Reverse()

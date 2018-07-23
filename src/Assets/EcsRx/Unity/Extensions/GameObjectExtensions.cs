@@ -17,7 +17,7 @@ namespace EcsRx.Unity.Extensions
             if (gameObject.GetComponent<RegisterAsEntity>())
             { throw new Exception("GameObject already has a RegisterAsEntity monobehaviour applied"); }
 
-            if (!entity.HasComponents(typeof(ViewComponent)))
+            if (!entity.HasComponent<ViewComponent>())
             { entity.AddComponent<ViewComponent>(); }
 
             var entityViewMb = gameObject.AddComponent<EntityView>();

@@ -3,9 +3,9 @@ namespace Zenject
     public class ConcreteIdBinderNonGeneric : ConcreteBinderNonGeneric
     {
         public ConcreteIdBinderNonGeneric(
-            BindInfo bindInfo,
+            DiContainer bindContainer, BindInfo bindInfo,
             BindFinalizerWrapper finalizerWrapper)
-            : base(bindInfo, finalizerWrapper)
+            : base(bindContainer, bindInfo, finalizerWrapper)
         {
         }
 

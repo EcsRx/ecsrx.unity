@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Zenject
 {
@@ -8,7 +9,6 @@ namespace Zenject
         Unset,
         Transient,
         Singleton,
-        Cached,
     }
 
     public enum ToChoices
@@ -23,39 +23,71 @@ namespace Zenject
         Skip,
     }
 
+    public enum BindingInheritanceMethods
+    {
+        None,
+        CopyIntoAll,
+        CopyDirectOnly,
+        MoveIntoAll,
+        MoveDirectOnly,
+    }
+
     public class BindInfo
     {
-        public BindInfo(List<Type> contractTypes, string contextInfo)
+        public BindInfo()
         {
-            ContextInfo = contextInfo;
+            ContextInfo = null;
             Identifier = null;
-            ContractTypes = contractTypes;
+            ConcreteIdentifier = null;
+            ContractTypes = new List<Type>();
             ToTypes = new List<Type>();
             Arguments = new List<TypeValuePair>();
             ToChoice = ToChoices.Self;
-            CopyIntoAllSubContainers = false;
+            BindingInheritanceMethod = BindingInheritanceMethods.None;
+            OnlyBindIfNotBound = false;
+            SaveProvider = false;
 
             // Change this to true if you want all dependencies to be created at the start
             NonLazy = false;
+
+            MarkAsUniqueSingleton = false;
+            MarkAsCreationBinding = true;
 
             Scope = ScopeTypes.Unset;
             InvalidBindResponse = InvalidBindResponses.Assert;
         }
 
-        public BindInfo(List<Type> contractTypes)
-            : this(contractTypes, null)
+        [Conditional("UNITY_EDITOR")]
+        public void SetContextInfo(string contextInfo)
         {
+            ContextInfo = contextInfo;
         }
 
-        public BindInfo(Type contractType)
-            : this(new List<Type>() { contractType } )
-        {
-        }
+        public bool MarkAsCreationBinding;
 
-        public BindInfo()
-            : this(new List<Type>())
-        {
-        }
+        public bool MarkAsUniqueSingleton;
+
+        public object ConcreteIdentifier;
+
+        public bool SaveProvider;
+
+        public bool OnlyBindIfNotBound;
+
+        public bool RequireExplicitScope;
+
+        public object Identifier;
+
+        public List<Type> ContractTypes;
+
+        public BindingInheritanceMethods BindingInheritanceMethod;
+
+        public InvalidBindResponses InvalidBindResponse;
+
+        public bool NonLazy;
+
+        public BindingCondition Condition;
+
+        public ToChoices ToChoice;
 
         public string ContextInfo
         {
@@ -63,78 +95,11 @@ namespace Zenject
             private set;
         }
 
-        public bool RequireExplicitScope
-        {
-            get;
-            set;
-        }
-
-        public object Identifier
-        {
-            get;
-            set;
-        }
-
-        public List<Type> ContractTypes
-        {
-            get;
-            set;
-        }
-
-        public bool CopyIntoAllSubContainers
-        {
-            get;
-            set;
-        }
-
-        public InvalidBindResponses InvalidBindResponse
-        {
-            get;
-            set;
-        }
-
-        public bool NonLazy
-        {
-            get;
-            set;
-        }
-
-        public BindingCondition Condition
-        {
-            get;
-            set;
-        }
-
-        public ToChoices ToChoice
-        {
-            get;
-            set;
-        }
-
         // Only relevant with ToChoices.Concrete
-        public List<Type> ToTypes
-        {
-            get;
-            set;
-        }
+        public List<Type> ToTypes;
 
-        public ScopeTypes Scope
-        {
-            get;
-            set;
-        }
+        public ScopeTypes Scope;
 
-        // Note: This only makes sense for ScopeTypes.Singleton
-        public object ConcreteIdentifier
-        {
-            get;
-            set;
-        }
-
-        public List<TypeValuePair> Arguments
-        {
-            get;
-            set;
-        }
+        public List<TypeValuePair> Arguments;
     }
 }

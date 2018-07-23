@@ -18,10 +18,7 @@ namespace EcsRx.Unity
                 EditorGUILayout.LabelField("System Executor Inactive");
                 return;
             }
-
-            var isNormalExecutorType = executor is SystemExecutor;
-            var typedExecutor = executor as SystemExecutor;
-
+            
             EditorGUILayout.TextField("Setup Systems");
             EditorGUILayout.Space();
             foreach (var system in executor.Systems)

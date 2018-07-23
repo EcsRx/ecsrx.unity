@@ -11,21 +11,31 @@ namespace Zenject
 {
     public class AddToCurrentGameObjectComponentProvider : IProvider
     {
-        readonly object _concreteIdentifier;
         readonly Type _componentType;
         readonly DiContainer _container;
         readonly List<TypeValuePair> _extraArguments;
+        readonly object _concreteIdentifier;
 
         public AddToCurrentGameObjectComponentProvider(
             DiContainer container, Type componentType,
-            object concreteIdentifier, List<TypeValuePair> extraArguments)
+            List<TypeValuePair> extraArguments, object concreteIdentifier)
         {
             Assert.That(componentType.DerivesFrom<Component>());
 
-            _concreteIdentifier = concreteIdentifier;
             _extraArguments = extraArguments;
             _componentType = componentType;
             _container = container;
+            _concreteIdentifier = concreteIdentifier;
+        }
+
+        public bool IsCached
+        {
+            get { return false; }
+        }
+
+        public bool TypeVariesBasedOnMemberType
+        {
+            get { return false; }
         }
 
         protected DiContainer Container
@@ -38,17 +48,13 @@ namespace Zenject
             get { return _componentType; }
         }
 
-        protected object ConcreteIdentifier
-        {
-            get { return _concreteIdentifier; }
-        }
-
         public Type GetInstanceType(InjectContext context)
         {
             return _componentType;
         }
 
-        public IEnumerator<List<object>> GetAllInstancesWithInjectSplit(InjectContext context, List<TypeValuePair> args)
+        public List<object> GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction)
         {
             Assert.IsNotNull(context);
 
@@ -58,7 +64,7 @@ namespace Zenject
 
             object instance;
 
-            if (!_container.IsValidating || DiContainer.CanCreateOrInjectDuringValidation(_componentType))
+            if (!_container.IsValidating || TypeAnalyzer.ShouldAllowDuringValidation(_componentType))
             {
                 var gameObj = ((Component)context.ObjectInstance).gameObject;
 
@@ -66,8 +72,8 @@ namespace Zenject
 
                 if (instance != null)
                 {
-                    yield return new List<object>() { instance };
-                    yield break;
+                    injectAction = null;
+                    return new List<object>() { instance };
                 }
 
                 instance = gameObj.AddComponent(_componentType);
@@ -79,18 +85,21 @@ namespace Zenject
 
             // Note that we don't just use InstantiateComponentOnNewGameObjectExplicit here
             // because then circular references don't work
-            yield return new List<object>() { instance };
 
             var injectArgs = new InjectArgs()
             {
                 ExtraArgs = _extraArguments.Concat(args).ToList(),
                 Context = context,
-                ConcreteIdentifier = _concreteIdentifier,
+                ConcreteIdentifier = _concreteIdentifier
             };
 
-            _container.InjectExplicit(instance, _componentType, injectArgs);
+            injectAction = () =>
+            {
+                _container.InjectExplicit(instance, _componentType, injectArgs);
+                Assert.That(injectArgs.ExtraArgs.IsEmpty());
+            };
 
-            Assert.That(injectArgs.ExtraArgs.IsEmpty());
+            return new List<object>() { instance };
         }
     }
 }

@@ -1,26 +1,22 @@
 namespace Zenject
 {
-    public class NonLazyBinder
+    public class NonLazyBinder : IfNotBoundBinder
     {
         public NonLazyBinder(BindInfo bindInfo)
+            : base(bindInfo)
         {
-            BindInfo = bindInfo;
         }
 
-        protected BindInfo BindInfo
-        {
-            get;
-            private set;
-        }
-
-        public void NonLazy()
+        public IfNotBoundBinder NonLazy()
         {
             BindInfo.NonLazy = true;
+            return this;
         }
 
-        public void Lazy()
+        public IfNotBoundBinder Lazy()
         {
             BindInfo.NonLazy = false;
+            return this;
         }
     }
 }

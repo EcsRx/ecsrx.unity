@@ -5,21 +5,17 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
-using ModestTree;
-using Zenject.Internal;
-
-#if !NOT_UNITY3D
-
-#if UNITY_5_5
+#if UNITY_EDITOR
 using UnityEngine.Profiling;
 #endif
-#endif
+using ModestTree;
+using Zenject.Internal;
 
 namespace Zenject
 {
     public class ProfileBlock : IDisposable
     {
-#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
+#if UNITY_EDITOR
         static int _blockCount;
         static ProfileBlock _instance = new ProfileBlock();
         static Dictionary<int, string> _nameCache = new Dictionary<int, string>();
@@ -59,6 +55,14 @@ namespace Zenject
 
         public static ProfileBlock Start(string sampleNameFormat, object obj1, object obj2)
         {
+#if ZEN_TESTS_OUTSIDE_UNITY
+            return null;
+#else
+            if (!Profiler.enabled)
+            {
+                return null;
+            }
+
             // We need to ensure that we do not have per-frame allocations in ProfileBlock
             // to avoid infecting the test too much, so use a cache of formatted strings given
             // the input values
@@ -74,10 +78,19 @@ namespace Zenject
             }
 
             return StartInternal(formatString);
+#endif
         }
 
         public static ProfileBlock Start(string sampleNameFormat, object obj)
         {
+#if ZEN_TESTS_OUTSIDE_UNITY
+            return null;
+#else
+            if (!Profiler.enabled)
+            {
+                return null;
+            }
+
             // We need to ensure that we do not have per-frame allocations in ProfileBlock
             // to avoid infecting the test too much, so use a cache of formatted strings given
             // the input values
@@ -93,19 +106,26 @@ namespace Zenject
             }
 
             return StartInternal(formatString);
+#endif
         }
 
         public static ProfileBlock Start(string sampleName)
         {
+#if ZEN_TESTS_OUTSIDE_UNITY
+            return null;
+#else
+            if (!Profiler.enabled)
+            {
+                return null;
+            }
+
             return StartInternal(sampleName);
+#endif
         }
 
         static ProfileBlock StartInternal(string sampleName)
         {
-            if (!UnityEngine.Profiling.Profiler.enabled)
-            {
-                return null;
-            }
+            Assert.That(Profiler.enabled);
 
             if (ProfilePattern == null || ProfilePattern.Match(sampleName).Success)
             {
@@ -120,8 +140,8 @@ namespace Zenject
         public void Dispose()
         {
             _blockCount--;
-            UnityEngine.Profiling.Profiler.EndSample();
             Assert.That(_blockCount >= 0);
+            UnityEngine.Profiling.Profiler.EndSample();
         }
 
 #else

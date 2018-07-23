@@ -1,5 +1,6 @@
 using System;
 using ModestTree;
+using System.Linq;
 
 namespace Zenject
 {
@@ -11,7 +12,7 @@ namespace Zenject
             BindInfo bindInfo, FactoryBindInfo factoryBindInfo)
             : base(bindInfo)
         {
-            // Note that it doesn't derive from Factory<TContract>
+            // Note that it doesn't derive from PlaceholderFactory<TContract>
             // when used with To<>, so we can only check IPlaceholderFactory
             Assert.That(factoryBindInfo.FactoryType.DerivesFrom<IPlaceholderFactory>());
 
@@ -24,15 +25,15 @@ namespace Zenject
 
             RegisterProviderForAllContracts(
                 container,
-                new CachedProvider(
+                BindingUtil.CreateCachedProvider(
                     new TransientProvider(
                         _factoryBindInfo.FactoryType,
                         container,
-                        InjectUtil.CreateArgListExplicit(
-                            provider,
-                            new InjectContext(container, typeof(TContract))),
-                        null,
-                        BindInfo.ContextInfo)));
+                        _factoryBindInfo.Arguments.Concat(
+                            InjectUtil.CreateArgListExplicit(
+                                provider,
+                                new InjectContext(container, typeof(TContract)))).ToList(),
+                        BindInfo.ContextInfo, BindInfo.ConcreteIdentifier)));
         }
     }
 }
