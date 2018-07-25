@@ -7,20 +7,21 @@ namespace EcsRx.Examples.RandomReactions
 {
     public class UnityApplication : EcsRxApplicationBehaviour
     {
-        private readonly int _cubeCount = 500;
+        private readonly int _cubeCount = 5000;
         
         protected override void ApplicationStarting()
         {
+            this.BindAllSystemsWithinApplicationScope();
             this.RegisterAllBoundSystems();
         }
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = CollectionManager.GetCollection();
+            var collection = CollectionManager.GetCollection();
 
             for (var i = 0; i < _cubeCount; i++)
             {
-                var viewEntity = defaultPool.CreateEntity();
+                var viewEntity = collection.CreateEntity();
                 viewEntity.AddComponents(new ViewComponent(), new RandomColorComponent());
             }
         }

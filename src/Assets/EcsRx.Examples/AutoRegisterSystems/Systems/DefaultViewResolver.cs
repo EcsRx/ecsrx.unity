@@ -7,7 +7,7 @@ using Zenject;
 
 namespace EcsRx.Examples.AutoRegisterSystems.Systems
 {
-    public class DefaultViewResolver : UnityViewResolverSystem
+    public class DefaultViewResolver : PrefabViewResolverSystem
     {
         public DefaultViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) 
             : base(collectionManager, eventSystem, instantiator)

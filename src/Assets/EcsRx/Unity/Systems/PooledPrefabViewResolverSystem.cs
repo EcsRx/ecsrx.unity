@@ -11,7 +11,7 @@ using Zenject;
 
 namespace EcsRx.Unity.Systems
 {
-    public abstract class UnityPooledViewResolverSystem : PooledViewResolverSystem
+    public abstract class PooledPrefabViewResolverSystem : PooledViewResolverSystem
     {
         public IInstantiator Instantiator { get; }
         public IEntityCollectionManager CollectionManager { get; }
@@ -24,7 +24,7 @@ namespace EcsRx.Unity.Systems
         protected IViewPool CreateViewPool()
         { return new ViewPool(PoolIncrementSize, new GameObjectViewHandler(Instantiator, PrefabTemplate)); }
 
-        protected UnityPooledViewResolverSystem(IInstantiator instantiator, IEntityCollectionManager collectionManager, IEventSystem eventSystem) : base(eventSystem) 
+        protected PooledPrefabViewResolverSystem(IInstantiator instantiator, IEntityCollectionManager collectionManager, IEventSystem eventSystem) : base(eventSystem) 
         {
             Instantiator = instantiator;
             CollectionManager = collectionManager;

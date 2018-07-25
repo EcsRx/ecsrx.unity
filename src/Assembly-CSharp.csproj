@@ -126,8 +126,8 @@
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityView.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\InjectableMonoBehaviour.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\RegisterAsEntity.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Systems\UnityPooledViewResolverSystem.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Systems\UnityViewResolverSystem.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Systems\PooledPrefabViewResolverSystem.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Systems\PrefabViewResolverSystem.cs" />
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>

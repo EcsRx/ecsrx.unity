@@ -10,7 +10,7 @@ using Zenject;
 
 namespace EcsRx.Examples.GameObjectBinding.ViewResolvers
 {
-    public class SphereViewResolver : UnityViewResolverSystem
+    public class SphereViewResolver : PrefabViewResolverSystem
     {
         public override IGroup Group => base.Group.WithComponent<SphereComponent>();
         protected override GameObject PrefabTemplate => GameObject.CreatePrimitive(PrimitiveType.Sphere);

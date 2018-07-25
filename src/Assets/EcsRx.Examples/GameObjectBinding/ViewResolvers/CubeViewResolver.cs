@@ -10,7 +10,7 @@ using Zenject;
 
 namespace EcsRx.Examples.GameObjectBinding.ViewResolvers
 {
-    public class CubeViewResolver : UnityViewResolverSystem
+    public class CubeViewResolver : PrefabViewResolverSystem
     {
         public override IGroup Group => base.Group.WithComponent<CubeComponent>();
 

@@ -7,6 +7,7 @@ namespace EcsRx.Examples.ManualSystems
     {
         protected override void ApplicationStarting()
         {
+            this.BindAllSystemsWithinApplicationScope();
             this.RegisterAllBoundSystems();
         }
 

@@ -10,7 +10,7 @@ using Zenject;
 
 namespace EcsRx.Examples.SceneFirstSetup.ViewResolvers
 {
-    public class CubeViewResolver : UnityViewResolverSystem
+    public class CubeViewResolver : PrefabViewResolverSystem
     {
         private readonly Transform _parentTransform = GameObject.Find("Entities").transform;
 
@@ -19,7 +19,7 @@ namespace EcsRx.Examples.SceneFirstSetup.ViewResolvers
         public CubeViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) : base(collectionManager, eventSystem, instantiator)
         {}
 
-        protected override GameObject PrefabTemplate => GameObject.CreatePrimitive(PrimitiveType.Cube);
+        protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("Cube");
         protected override void OnViewCreated(IEntity entity, GameObject view)
         {
             view.transform.position = new Vector3(-2, 0, 0);

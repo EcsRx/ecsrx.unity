@@ -7,7 +7,7 @@ using Zenject;
 
 namespace EcsRx.Examples.ManuallyRegisterSystems.Systems
 {
-    public class DefaultViewResolver : UnityViewResolverSystem
+    public class DefaultViewResolver : PrefabViewResolverSystem
     {
         protected override GameObject PrefabTemplate => GameObject.CreatePrimitive(PrimitiveType.Cube);
 

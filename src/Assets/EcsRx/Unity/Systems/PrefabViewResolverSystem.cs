@@ -15,14 +15,14 @@ using Zenject;
 
 namespace EcsRx.Unity.Systems
 {
-    public abstract class UnityViewResolverSystem : ViewResolverSystem
+    public abstract class PrefabViewResolverSystem : ViewResolverSystem
     {
         public IEntityCollectionManager CollectionManager { get; }
         public IInstantiator Instantiator { get; }
 
         protected abstract GameObject PrefabTemplate { get; }
 
-        protected UnityViewResolverSystem(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) : base(eventSystem)
+        protected PrefabViewResolverSystem(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) : base(eventSystem)
         {
             CollectionManager = collectionManager;
             Instantiator = instantiator;

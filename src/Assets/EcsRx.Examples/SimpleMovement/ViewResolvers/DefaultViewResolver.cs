@@ -1,18 +1,19 @@
 ﻿using EcsRx.Collections;
 using EcsRx.Entities;
 using EcsRx.Events;
+using EcsRx.Unity.Extensions;
 using EcsRx.Unity.Systems;
 using UnityEngine;
 using Zenject;
 
 namespace EcsRx.Examples.SimpleMovement.ViewResolvers
 {
-    public class DefaultViewResolver : UnityViewResolverSystem
+    public class DefaultViewResolver : PrefabViewResolverSystem
     {
         public DefaultViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) : base(collectionManager, eventSystem, instantiator)
         {}
         
-        protected override GameObject PrefabTemplate => GameObject.CreatePrimitive(PrimitiveType.Cube);
+        protected override GameObject PrefabTemplate {get;} = Resources.Load<GameObject>("Cube");
 
         protected override void OnViewCreated(IEntity entity, GameObject view)
         {

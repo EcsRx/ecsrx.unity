@@ -10,7 +10,7 @@ using Zenject;
 
 namespace EcsRx.Examples.SceneFirstSetup.ViewResolvers
 {
-    public class SphereViewResolver : UnityViewResolverSystem
+    public class SphereViewResolver : PrefabViewResolverSystem
     {
         private readonly Transform ParentTrasform = GameObject.Find("Entities").transform;
 
@@ -19,7 +19,7 @@ namespace EcsRx.Examples.SceneFirstSetup.ViewResolvers
         public SphereViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) : base(collectionManager, eventSystem, instantiator)
         {}
 
-        protected override GameObject PrefabTemplate => GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("Sphere");
 
         protected override void OnViewCreated(IEntity entity, GameObject view)
         {

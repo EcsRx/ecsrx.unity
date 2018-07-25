@@ -10,14 +10,14 @@ using Zenject;
 
 namespace EcsRx.Examples.PooledViews.ViewResolvers
 {
-    public class SelfDestructionViewResolver : UnityPooledViewResolverSystem
+    public class SelfDestructionViewResolver : PooledPrefabViewResolverSystem
     {
-        public override IGroup Group => new Group(typeof(SelfDestructComponent), typeof(ViewComponent));
+        public override IGroup Group { get; } = new Group(typeof(SelfDestructComponent), typeof(ViewComponent));
 
         public SelfDestructionViewResolver(IInstantiator instantiator, IEntityCollectionManager collectionManager, IEventSystem eventSystem) : base(instantiator, collectionManager, eventSystem)
         {}
 
-        protected override GameObject PrefabTemplate => Resources.Load("PooledPrefab") as GameObject;
+        protected override GameObject PrefabTemplate { get; } = Resources.Load("PooledPrefab") as GameObject;
         protected override int PoolIncrementSize => 5;
 
         protected override void OnPoolStarting()
