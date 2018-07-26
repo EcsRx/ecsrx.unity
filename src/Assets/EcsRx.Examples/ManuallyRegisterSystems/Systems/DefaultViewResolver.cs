@@ -9,7 +9,7 @@ namespace EcsRx.Examples.ManuallyRegisterSystems.Systems
 {
     public class DefaultViewResolver : PrefabViewResolverSystem
     {
-        protected override GameObject PrefabTemplate => GameObject.CreatePrimitive(PrimitiveType.Cube);
+        protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("Cube");
 
         public DefaultViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) : base(collectionManager, eventSystem, instantiator)
         {}

@@ -1,6 +1,7 @@
 using System.Linq;
 using EcsRx.Executor;
 using EcsRx.Extensions;
+using EcsRx.Infrastructure.Dependencies;
 using EcsRx.Systems;
 using EcsRx.Unity.Installers;
 using EcsRx.Views.Systems;
@@ -19,6 +20,12 @@ namespace EcsRx.Unity.Extensions
                 .ThenByDescending(x => x is ISetupSystem);
 
             orderedSystems.ForEachRun(application.SystemExecutor.AddSystem);
+        }
+        
+        public static void BindAndRegisterSystem<T>(this EcsRxApplicationBehaviour application) where T : ISystem
+        {
+            application.DependencyContainer.Bind<ISystem, T>(new BindingConfiguration{WithName = typeof(T).Name});
+            RegisterSystem<T>(application);
         }
 
         public static void RegisterSystem<T>(this EcsRxApplicationBehaviour application) where T : ISystem

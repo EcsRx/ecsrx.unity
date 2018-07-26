@@ -15,13 +15,13 @@ namespace EcsRx.Examples.GameObjectBinding
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = CollectionManager.GetCollection();
+            var entityCollection = CollectionManager.GetCollection();
 
-            var cubeEntity = defaultPool.CreateEntity();
+            var cubeEntity = entityCollection.CreateEntity();
             cubeEntity.AddComponent<ViewComponent>();
             cubeEntity.AddComponent<CubeComponent>();
 
-            var sphereEntity = defaultPool.CreateEntity();
+            var sphereEntity = entityCollection.CreateEntity();
             sphereEntity.AddComponent<ViewComponent>();
             sphereEntity.AddComponent<SphereComponent>();
         }

@@ -8,7 +8,6 @@ namespace EcsRx.Examples.PluginExample
     {
         protected override void ApplicationStarting()
         {
-            this.RegisterAllBoundSystems();
             RegisterPlugin(new HelloWorldPlugin.HelloWorldPlugin());
         }
         
