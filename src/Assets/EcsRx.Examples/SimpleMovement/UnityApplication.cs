@@ -18,9 +18,8 @@ namespace EcsRx.Examples.SimpleMovement
         {
             var defaultPool = CollectionManager.GetCollection();
             var viewEntity = defaultPool.CreateEntity();
-            viewEntity.AddComponent(new ViewComponent());
-            viewEntity.AddComponent(new PlayerControlledComponent());
-            viewEntity.AddComponent(new CameraFollowsComponent());
+            viewEntity.AddComponents(new ViewComponent(), 
+                new PlayerControlledComponent(), new CameraFollowsComponent());
         }
     }
 }

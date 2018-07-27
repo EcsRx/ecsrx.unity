@@ -11,6 +11,7 @@ using Zenject;
 
 namespace EcsRx.Unity.MonoBehaviours
 {
+    // TODO: Zenject inject issue timing
     public class RegisterAsEntity : MonoBehaviour
     {
         [Inject]
@@ -40,7 +41,7 @@ namespace EcsRx.Unity.MonoBehaviours
             { collectionToUse = CollectionManager.GetCollection(CollectionName); }
 
             var createdEntity = collectionToUse.CreateEntity();
-            createdEntity.AddComponent(new ViewComponent { View = gameObject });
+            createdEntity.AddComponents(new ViewComponent { View = gameObject });
             SetupEntityBinding(createdEntity, collectionToUse);
             SetupEntityComponents(createdEntity);
 
@@ -56,7 +57,8 @@ namespace EcsRx.Unity.MonoBehaviours
 
         private void SetupEntityComponents(IEntity entity)
         {
-            for (var i = 0; i < Components.Count(); i++)
+            var componentsToRegister = new IComponent[Components.Count];
+            for (var i = 0; i < Components.Count; i++)
             {
                 var typeName = Components[i];
                 var type = Type.GetType(typeName);
@@ -65,12 +67,12 @@ namespace EcsRx.Unity.MonoBehaviours
                 var component = (IComponent)Activator.CreateInstance(type);
                 var componentProperties = JSON.Parse(ComponentEditorState[i]);
                 component.DeserializeComponent(componentProperties);
-
-                entity.AddComponent(component);
+                componentsToRegister[i] = component;
             }
+            entity.AddComponents(componentsToRegister);
         }
         
-        public IEntityCollection GetPool()
+        public IEntityCollection GetCollection()
         {
             return CollectionManager.GetCollection(CollectionName);
         }

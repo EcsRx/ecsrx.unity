@@ -1,6 +1,7 @@
 ﻿using EcsRx.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Examples.UsingBlueprints.Components;
+using EcsRx.Extensions;
 
 namespace EcsRx.Examples.UsingBlueprints.Blueprints
 {
@@ -17,8 +18,8 @@ namespace EcsRx.Examples.UsingBlueprints.Blueprints
 
         public void Apply(IEntity entity)
         {
-            entity.AddComponent(new HasName { Name = Name });
-            entity.AddComponent(new WithHealthComponent { CurrentHealth = DefaultHealth, MaxHealth = DefaultHealth});
+            entity.AddComponents(new HasName { Name = Name }, 
+                new WithHealthComponent { CurrentHealth = DefaultHealth, MaxHealth = DefaultHealth});
         }
     }
 }

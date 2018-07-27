@@ -1,6 +1,7 @@
 ﻿using System;
 using EcsRx.Collections;
 using EcsRx.Entities;
+using EcsRx.Extensions;
 using EcsRx.Unity.MonoBehaviours;
 using EcsRx.Views.Components;
 using UnityEngine;

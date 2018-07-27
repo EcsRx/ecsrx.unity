@@ -1,4 +1,5 @@
 ﻿using EcsRx.Examples.GameObjectBinding.Components;
+using EcsRx.Extensions;
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;

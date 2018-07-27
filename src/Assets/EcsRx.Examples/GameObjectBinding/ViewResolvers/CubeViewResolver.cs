@@ -14,7 +14,7 @@ namespace EcsRx.Examples.GameObjectBinding.ViewResolvers
     {
         public override IGroup Group => base.Group.WithComponent<CubeComponent>();
 
-        protected override GameObject PrefabTemplate => GameObject.CreatePrimitive(PrimitiveType.Cube);
+        protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("Cube");
 
         public CubeViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) 
             : base(collectionManager, eventSystem, instantiator)

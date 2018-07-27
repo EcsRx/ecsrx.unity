@@ -2,6 +2,7 @@
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Examples.PooledViews.Components;
+using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Unity.Systems;
 using EcsRx.Views.Components;

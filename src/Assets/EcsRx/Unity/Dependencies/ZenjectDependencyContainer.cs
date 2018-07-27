@@ -11,6 +11,11 @@ namespace EcsRx.Unity.Dependencies
         public ZenjectDependencyContainer(DiContainer container)
         { _container = container; }
 
+        public void LoadModule(IDependencyModule module)
+        {
+            module.Setup(this);
+        }
+
         public object NativeContainer => _container;
         
         public void Bind<TFrom, TTo>(BindingConfiguration configuration = null) where TTo : TFrom
@@ -59,13 +64,18 @@ namespace EcsRx.Unity.Dependencies
             return _container.ResolveId<T>(name);
         }
 
+        public void Unbind<T>()
+        {
+            _container.Unbind<T>();
+        }
+
         public IEnumerable<T> ResolveAll<T>()
         { return _container.ResolveAll<T>(); }
 
         public void LoadModule<T>() where T : IDependencyModule, new()
         {
             var module = new T();
-            module.Setup(this);
+            LoadModule(module);
         }
     }
 }

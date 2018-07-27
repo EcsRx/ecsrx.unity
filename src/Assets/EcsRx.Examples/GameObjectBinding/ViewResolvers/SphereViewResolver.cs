@@ -13,7 +13,7 @@ namespace EcsRx.Examples.GameObjectBinding.ViewResolvers
     public class SphereViewResolver : PrefabViewResolverSystem
     {
         public override IGroup Group => base.Group.WithComponent<SphereComponent>();
-        protected override GameObject PrefabTemplate => GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("Sphere");
 
         public SphereViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) : base(collectionManager, eventSystem, instantiator)
         {

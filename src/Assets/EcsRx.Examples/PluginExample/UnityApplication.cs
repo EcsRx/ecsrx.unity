@@ -1,4 +1,5 @@
 ﻿using EcsRx.Examples.PluginExample.HelloWorldPlugin.components;
+using EcsRx.Extensions;
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 

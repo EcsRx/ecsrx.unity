@@ -1,6 +1,7 @@
 ﻿using System;
 using EcsRx.Entities;
 using EcsRx.Examples.SimpleMovement.Components;
+using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Groups.Observable;
 using EcsRx.Systems;

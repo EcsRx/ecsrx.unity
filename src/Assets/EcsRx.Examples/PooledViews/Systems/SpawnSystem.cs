@@ -3,6 +3,7 @@ using EcsRx.Collections;
 using EcsRx.Entities;
 using EcsRx.Examples.PooledViews.Blueprints;
 using EcsRx.Examples.PooledViews.Components;
+using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Systems;
 using EcsRx.Views.Components;

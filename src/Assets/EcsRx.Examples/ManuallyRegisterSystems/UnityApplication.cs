@@ -18,7 +18,7 @@ namespace EcsRx.Examples.ManuallyRegisterSystems
             var defaultPool = CollectionManager.GetCollection();
             
             var entity = defaultPool.CreateEntity();
-            entity.AddComponent(new ViewComponent());
+            entity.AddComponents(new ViewComponent());
         }
     }
 }

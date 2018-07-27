@@ -1,6 +1,7 @@
 using System;
 using EcsRx.Entities;
 using EcsRx.Examples.RandomReactions.Components;
+using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Systems;
 using EcsRx.Views.Components;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Components;
+using EcsRx.Extensions;
 using EcsRx.Unity.Extensions;
 using EcsRx.Unity.MonoBehaviours;
 using EcsRx.Unity.UIAspects;
@@ -91,11 +92,13 @@ namespace EcsRx.Unity
 
             EditorGUILayout.EndVertical();
 
-            for (var i = 0; i < componentsToRemove.Count(); i++)
+            var componentArray = new Type[componentsToRemove.Count];
+            for (var i = 0; i < componentsToRemove.Count; i++)
             {
                 var component = _entityView.Entity.Components.ElementAt(i);
-                _entityView.Entity.RemoveComponent(component);
+                componentArray[i] = component.GetType();
             }
+            _entityView.Entity.RemoveComponents(componentArray);
         }
 
         public static Type GetTypeWithAssembly(string typeName)
@@ -125,7 +128,7 @@ namespace EcsRx.Unity
                 if (index >= 0)
                 {
                     var component = (IComponent)Activator.CreateInstance(availableTypes[index]);
-                    _entityView.Entity.AddComponent(component);
+                    _entityView.Entity.AddComponents(component);
                 }
             });
         }
