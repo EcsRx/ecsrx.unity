@@ -18,6 +18,7 @@ using Zenject;
 
 namespace EcsRx.Unity
 {
+    [DefaultExecutionOrder(-20000)]
     public abstract class EcsRxApplicationBehaviour : MonoBehaviour, IEcsRxApplication
     {
         public IDependencyContainer DependencyContainer { get; private set; }
@@ -26,11 +27,23 @@ namespace EcsRx.Unity
         public IEventSystem EventSystem { get; private set; }
         public IEntityCollectionManager CollectionManager { get; private set; }
         public List<IEcsRxPlugin> Plugins { get; } = new List<IEcsRxPlugin>();
+        
+        private SceneContext _sceneContext;
 
-        [Inject]
-        private void Init(DiContainer container)
+        private void Awake()
         {
-            DependencyContainer = new ZenjectDependencyContainer(container);
+            var sceneContexts = FindObjectsOfType<SceneContext>();
+            _sceneContext = sceneContexts.FirstOrDefault();
+            
+            if(_sceneContext == null) 
+            { throw new Exception("Cannot find SceneContext, please make sure one is on the scene"); }
+            
+            _sceneContext.PreInstall += OnZenjectReady;
+        }
+
+        protected void OnZenjectReady()
+        {   
+            DependencyContainer = new ZenjectDependencyContainer(_sceneContext.Container);
             StartApplication();
         }
 
