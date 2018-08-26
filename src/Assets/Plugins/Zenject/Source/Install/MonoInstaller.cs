@@ -139,7 +139,7 @@ namespace Zenject
         public static string GetDefaultResourcePath<TInstaller>()
             where TInstaller : MonoInstallerBase
         {
-            return "Installers/" + typeof(TInstaller).Name();
+            return "Installers/" + typeof(TInstaller).PrettyName();
         }
 
         public static TInstaller CreateInstaller<TInstaller>(

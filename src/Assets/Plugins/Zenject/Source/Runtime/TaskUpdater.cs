@@ -40,7 +40,9 @@ namespace Zenject
 
         public void RemoveTask(TTask task)
         {
-            var info = AllTasks.Where(x => ReferenceEquals(x.Task, task)).Single();
+            var info = AllTasks.Where(x => ReferenceEquals(x.Task, task)).SingleOrDefault();
+
+            Assert.IsNotNull(info, "Tried to remove a task not added to DependencyRoot, task = " + task.GetType().Name);
 
             Assert.That(!info.IsRemoved, "Tried to remove task twice, task = " + task.GetType().Name);
             info.IsRemoved = true;
@@ -90,7 +92,7 @@ namespace Zenject
 
                 if (info.IsRemoved)
                 {
-                    //Log.Debug("Removed task '" + info.Task.GetType().ToString() + "'");
+                    //ModestTree.Log.Debug("Removed task '" + info.Task.GetType().ToString() + "'");
                     tasks.Remove(node);
                 }
 
@@ -146,7 +148,7 @@ namespace Zenject
     {
         protected override void UpdateItem(ITickable task)
         {
-#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
+#if UNITY_EDITOR
             using (ProfileBlock.Start("{0}.Tick()", task.GetType()))
 #endif
             {
@@ -159,7 +161,7 @@ namespace Zenject
     {
         protected override void UpdateItem(ILateTickable task)
         {
-#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
+#if UNITY_EDITOR
             using (ProfileBlock.Start("{0}.LateTick()", task.GetType()))
 #endif
             {
@@ -172,7 +174,7 @@ namespace Zenject
     {
         protected override void UpdateItem(IFixedTickable task)
         {
-#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
+#if UNITY_EDITOR
             using (ProfileBlock.Start("{0}.FixedTick()", task.GetType()))
 #endif
             {

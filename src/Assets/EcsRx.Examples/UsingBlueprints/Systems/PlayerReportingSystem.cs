@@ -1,15 +1,16 @@
-﻿using Assets.EcsRx.Examples.UsingBlueprints.Components;
-using Assets.EcsRx.Examples.UsingBlueprints.Groups;
-using EcsRx.Entities;
+﻿using EcsRx.Entities;
+using EcsRx.Examples.UsingBlueprints.Components;
+using EcsRx.Examples.UsingBlueprints.Groups;
+using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Systems;
 using UnityEngine;
 
-namespace Assets.EcsRx.Examples.UsingBlueprints.Systems
+namespace EcsRx.Examples.UsingBlueprints.Systems
 {
     public class PlayerReportingSystem : ISetupSystem
     {
-        public IGroup TargetGroup { get { return new PlayerGroup();} }
+        public IGroup Group { get { return new PlayerGroup();} }
 
         public void Setup(IEntity entity)
         {

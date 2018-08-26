@@ -1,26 +1,21 @@
 using System;
-using Assets.EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Entities;
+using EcsRx.Examples.RandomReactions.Components;
+using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Systems;
-using EcsRx.Unity.Components;
+using EcsRx.Views.Components;
 using UniRx;
 using UnityEngine;
 
-namespace Assets.EcsRx.Examples.RandomReactions.Systems
+namespace EcsRx.Examples.RandomReactions.Systems
 {
     public class CubeColourChangerSystem : IReactToEntitySystem
     {
-        public IGroup TargetGroup
-        {
-            get
-            {
-                return new GroupBuilder()
-                    .WithComponent<ViewComponent>()
-                    .WithComponent<RandomColorComponent>()
-                    .Build();
-            }
-        }
+        public IGroup Group => new GroupBuilder()
+            .WithComponent<ViewComponent>()
+            .WithComponent<RandomColorComponent>()
+            .Build();
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {
@@ -28,11 +23,12 @@ namespace Assets.EcsRx.Examples.RandomReactions.Systems
             return colorComponent.Color.DistinctUntilChanged().Select(x => entity);
         }
 
-        public void Execute(IEntity entity)
+        public void Process(IEntity entity)
         {
             var colorComponent = entity.GetComponent<RandomColorComponent>();
             var cubeComponent = entity.GetComponent<ViewComponent>();
-            var renderer = cubeComponent.View.GetComponent<Renderer>();
+            var view = cubeComponent.View as GameObject;
+            var renderer = view.GetComponent<Renderer>();
             renderer.material.color = colorComponent.Color.Value;
         }
     }

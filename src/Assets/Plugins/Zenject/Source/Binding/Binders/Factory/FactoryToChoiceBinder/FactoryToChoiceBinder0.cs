@@ -7,8 +7,8 @@ namespace Zenject
     public class FactoryToChoiceBinder<TContract> : FactoryFromBinder<TContract>
     {
         public FactoryToChoiceBinder(
-            BindInfo bindInfo, FactoryBindInfo factoryBindInfo)
-            : base(bindInfo, factoryBindInfo)
+            DiContainer container, BindInfo bindInfo, FactoryBindInfo factoryBindInfo)
+            : base(container, bindInfo, factoryBindInfo)
         {
         }
 
@@ -17,6 +17,18 @@ namespace Zenject
         {
             Assert.IsEqual(BindInfo.ToChoice, ToChoices.Self);
             return this;
+        }
+
+        public FactoryFromBinderUntyped To(Type concreteType)
+        {
+            BindInfo.ToChoice = ToChoices.Concrete;
+            BindInfo.ToTypes = new List<Type>()
+            {
+                concreteType
+            };
+
+            return new FactoryFromBinderUntyped(
+                BindContainer, concreteType, BindInfo, FactoryBindInfo);
         }
 
         public FactoryFromBinder<TConcrete> To<TConcrete>()
@@ -28,7 +40,7 @@ namespace Zenject
                 typeof(TConcrete)
             };
 
-            return new FactoryFromBinder<TConcrete>(BindInfo, FactoryBindInfo);
+            return new FactoryFromBinder<TConcrete>(BindContainer, BindInfo, FactoryBindInfo);
         }
     }
 }

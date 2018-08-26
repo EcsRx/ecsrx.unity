@@ -1,3 +1,5 @@
+#if !ODIN_INSPECTOR
+
 namespace Zenject
 {
     public class ContextEditor : UnityInspectorListEditor
@@ -43,5 +45,4 @@ namespace Zenject
     }
 }
 
-
-
+#endif

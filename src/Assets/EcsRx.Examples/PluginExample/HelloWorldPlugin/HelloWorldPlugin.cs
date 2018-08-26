@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.EcsRx.Examples.PluginExample.HelloWorldPlugin.systems;
+using EcsRx.Examples.PluginExample.HelloWorldPlugin.systems;
+using EcsRx.Infrastructure.Dependencies;
+using EcsRx.Infrastructure.Plugins;
 using EcsRx.Systems;
-using EcsRx.Unity.Plugins;
-using Zenject;
 
-namespace Assets.EcsRx.Examples.PluginExample.HelloWorldPlugin
+namespace EcsRx.Examples.PluginExample.HelloWorldPlugin
 {
     public class HelloWorldPlugin : IEcsRxPlugin
     {
-        public string Name { get { return "Hello World Plugin";  } }
-        public Version Version { get { return new Version(1,0,0); } }
+        public string Name => "Hello World Plugin";
+        public Version Version => new Version(1, 0, 0);
 
-        public void SetupDependencies(DiContainer container)
+        public void SetupDependencies(IDependencyContainer container)
         {
-            container.Bind<OutputHelloWorldSystem>().AsSingle();
+            container.Bind<OutputHelloWorldSystem>();
         }
 
-        public IEnumerable<ISystem> GetSystemForRegistration(DiContainer container)
+        public IEnumerable<ISystem> GetSystemsForRegistration(IDependencyContainer container)
         {
             return new[]
             {

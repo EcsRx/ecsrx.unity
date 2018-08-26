@@ -1,8 +1,8 @@
-using EcsRx.Systems.Executor;
+using EcsRx.Executor;
 using UnityEngine;
 using Zenject;
 
-namespace EcsRx.Unity.Helpers
+namespace EcsRx.Unity.MonoBehaviours
 {
     public class ActiveSystemsViewer : MonoBehaviour
     {

@@ -1,37 +1,38 @@
-﻿using EcsRx.Entities;
+﻿using EcsRx.Collections;
+using EcsRx.Entities;
 using EcsRx.Events;
+using EcsRx.Examples.PooledViews.Components;
+using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Pools;
-using EcsRx.Unity.Components;
 using EcsRx.Unity.Systems;
+using EcsRx.Views.Components;
 using UnityEngine;
 using Zenject;
 
-namespace Assets.EcsRx.Examples.PooledViews.ViewResolvers
+namespace EcsRx.Examples.PooledViews.ViewResolvers
 {
-    public class SelfDestructionViewResolver : DefaultPooledViewResolverSystem
+    public class SelfDestructionViewResolver : PooledPrefabViewResolverSystem
     {
-        public override IGroup TargetGroup
-        {
-            get { return new Group(typeof(SelfDestructComponent), typeof(ViewComponent)); }
-        }
+        public override IGroup Group { get; } = new Group(typeof(SelfDestructComponent), typeof(ViewComponent));
 
-        public SelfDestructionViewResolver(IPoolManager poolManager, IEventSystem eventSystem, IInstantiator instantiator)
-            : base(poolManager, eventSystem, instantiator)
+        public SelfDestructionViewResolver(IInstantiator instantiator, IEntityCollectionManager collectionManager, IEventSystem eventSystem) : base(instantiator, collectionManager, eventSystem)
+        {}
+
+        protected override GameObject PrefabTemplate { get; } = Resources.Load("PooledPrefab") as GameObject;
+        protected override int PoolIncrementSize => 5;
+
+        protected override void OnPoolStarting()
         {
             ViewPool.PreAllocate(20);
         }
 
-        protected override GameObject ResolvePrefabTemplate()
-        { return Resources.Load("PooledPrefab") as GameObject; }
-
-        protected override GameObject AllocateView(IEntity entity, IPool pool)
+        protected override void OnViewAllocated(GameObject view, IEntity entity)
         {
             var selfDestructComponent = entity.GetComponent<SelfDestructComponent>();
-            var allocatedView = base.AllocateView(entity, pool);
-            allocatedView.transform.position = selfDestructComponent.StartingPosition;
-            Debug.Log("Created @ " + allocatedView.transform.position);
-            return allocatedView;
+            view.transform.position = selfDestructComponent.StartingPosition;
         }
+
+        protected override void OnViewRecycled(GameObject view)
+        {}
     }
 }

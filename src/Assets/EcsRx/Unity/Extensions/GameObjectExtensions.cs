@@ -1,15 +1,16 @@
 ﻿using System;
+using EcsRx.Collections;
 using EcsRx.Entities;
-using EcsRx.Pools;
-using EcsRx.Unity.Components;
+using EcsRx.Extensions;
 using EcsRx.Unity.MonoBehaviours;
+using EcsRx.Views.Components;
 using UnityEngine;
 
-namespace Assets.EcsRx.Unity.Extensions
+namespace EcsRx.Unity.Extensions
 {
     public static class GameObjectExtensions
     {
-        public static void LinkEntity(this GameObject gameObject, IEntity entity, IPool withinPool)
+        public static void LinkEntity(this GameObject gameObject, IEntity entity, IEntityCollection withinPool)
         {
             if(gameObject.GetComponent<EntityView>())
             { throw new Exception("GameObject already has an EntityView monobehaviour applied"); }
@@ -17,12 +18,12 @@ namespace Assets.EcsRx.Unity.Extensions
             if (gameObject.GetComponent<RegisterAsEntity>())
             { throw new Exception("GameObject already has a RegisterAsEntity monobehaviour applied"); }
 
-            if (!entity.HasComponents(typeof(ViewComponent)))
+            if (!entity.HasComponent<ViewComponent>())
             { entity.AddComponent<ViewComponent>(); }
 
             var entityViewMb = gameObject.AddComponent<EntityView>();
             entityViewMb.Entity = entity;
-            entityViewMb.Pool = withinPool;
+            entityViewMb.EntityCollection = withinPool;
             
             var viewComponent = entity.GetComponent<ViewComponent>();
             viewComponent.View = gameObject;

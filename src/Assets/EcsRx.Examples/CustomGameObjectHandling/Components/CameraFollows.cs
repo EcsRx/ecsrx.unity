@@ -1,7 +1,7 @@
 ﻿using EcsRx.Components;
 using UnityEngine;
 
-namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Components
+namespace EcsRx.Examples.CustomGameObjectHandling.Components
 {
     public class CameraFollowsComponent : IComponent
     {

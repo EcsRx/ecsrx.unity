@@ -1,24 +1,25 @@
-﻿using EcsRx.Entities;
+﻿using EcsRx.Collections;
+using EcsRx.Entities;
 using EcsRx.Events;
-using EcsRx.Pools;
+using EcsRx.Unity.Extensions;
 using EcsRx.Unity.Systems;
 using UnityEngine;
 using Zenject;
 
-namespace Assets.EcsRx.Examples.SimpleMovement.ViewResolvers
+namespace EcsRx.Examples.SimpleMovement.ViewResolvers
 {
-    public class DefaultViewResolver : ViewResolverSystem
+    public class DefaultViewResolver : PrefabViewResolverSystem
     {
-        public DefaultViewResolver(IViewHandler viewHandler) : base(viewHandler)
+        public DefaultViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) : base(collectionManager, eventSystem, instantiator)
         {}
+        
+        protected override GameObject PrefabTemplate {get;} = Resources.Load<GameObject>("Cube");
 
-        public override GameObject ResolveView(IEntity entity)
+        protected override void OnViewCreated(IEntity entity, GameObject view)
         {
-            var view = GameObject.CreatePrimitive(PrimitiveType.Cube);
             view.name = "entity-" + entity.Id;
             var rigidBody = view.AddComponent<Rigidbody>();
             rigidBody.freezeRotation = true;
-            return view;
         }
     }
 }

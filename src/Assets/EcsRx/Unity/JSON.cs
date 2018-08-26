@@ -48,7 +48,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace EcsRx.Json {
+namespace EcsRx.Unity {
 
     [AttributeUsage(AttributeTargets.Property)]
     public class JsonProperty : Attribute
@@ -60,7 +60,7 @@ namespace EcsRx.Json {
 
         public static T DeserializeObject<T>(string json)
         {
-            return DeserializeObject<T>(Json.JSON.Parse(json));
+            return DeserializeObject<T>(JSON.Parse(json));
         }
 
         public static T DeserializeObject<T>(JSONNode node)
@@ -902,12 +902,7 @@ namespace EcsRx.Json {
         {
             get
             {
-                var classRepresentation =  this as JSONClass;
-                if (classRepresentation == null)
-                {
-                    classRepresentation = new JSONClass();
-                }
-                return classRepresentation;
+                return this as JSONClass;
             }
         }
 #if !PORTABLE && !DLL
@@ -924,7 +919,6 @@ namespace EcsRx.Json {
                 ob.Add("x", new JSONData(euler.x));
                 ob.Add("y", new JSONData(euler.y));
                 ob.Add("z", new JSONData(euler.z));
-                Value = ob.ToString();
             }
         }
 #endif
@@ -932,15 +926,14 @@ namespace EcsRx.Json {
         {
             get
             {
-                var values = JSON.Parse(this);
-                return new Vector2(values["x"].AsFloat, values["y"].AsFloat);
+                var cl = this as JSONClass;
+                return new Vector2(cl["x"].AsFloat, cl["y"].AsFloat);
             }
             set
             {
-                var jsonObject = this.AsObject;
-                jsonObject.Add("x", new JSONData(value.x));
-                jsonObject.Add("y", new JSONData(value.y));
-                Value = jsonObject.ToString();
+                var ob = this.AsObject;
+                ob.Add("x", new JSONData(value.x));
+                ob.Add("y", new JSONData(value.y));
             }
         }
 
@@ -948,16 +941,17 @@ namespace EcsRx.Json {
         {
             get
             {
-                var values = JSON.Parse(this);
-                return new Vector3(values["x"].AsFloat, values["y"].AsFloat, values["z"].AsFloat);
+                return new Vector3(this["x"].AsFloat, this["y"].AsFloat, this["z"].AsFloat);
             }
             set
             {
-                var jsonObject = this.AsObject;
-                jsonObject.Add("x", new JSONData(value.x));
-                jsonObject.Add("y", new JSONData(value.y));
-                jsonObject.Add("z", new JSONData(value.z));
-                Value = jsonObject.ToString();
+                var ob = this.AsObject;
+                ob.Add("x", new JSONData(value.x));
+                ob.Add("y", new JSONData(value.y));
+                ob.Add("z", new JSONData(value.z));
+                //this["x"].AsFloat = value.x;
+                //this["y"].AsFloat = value.x;
+                //this["z"].AsFloat = value.x;
             }
         }
 
@@ -965,17 +959,16 @@ namespace EcsRx.Json {
         {
             get
             {
-                var values = JSON.Parse(this);
-                return new Vector4(values["x"].AsFloat, values["y"].AsFloat, values["z"].AsFloat, values["w"].AsFloat);
+                var cl = this as JSONClass;
+                return new Vector4(cl["x"].AsFloat, cl["y"].AsFloat, cl["z"].AsFloat, cl["w"].AsFloat);
             }
             set
             {
-                var jsonObject = this.AsObject;
-                jsonObject.Add("x", new JSONData(value.x));
-                jsonObject.Add("y", new JSONData(value.y));
-                jsonObject.Add("z", new JSONData(value.z));
-                jsonObject.Add("w", new JSONData(value.w));
-                Value = jsonObject.ToString();
+                var ob = this.AsObject;
+                ob.Add("x", new JSONData(value.x));
+                ob.Add("y", new JSONData(value.y));
+                ob.Add("z", new JSONData(value.z));
+                ob.Add("w", new JSONData(value.w));
             }
         }
 

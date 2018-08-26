@@ -1,9 +1,8 @@
-using System.Reflection;
-using EcsRx.Json;
-using UnityEngine;
+﻿using System.Reflection;
 using UniRx;
+using UnityEngine;
 
-namespace Assets.EcsRx.Unity.Extensions
+namespace EcsRx.Unity.Extensions
 { 
 	public static class ComponentExtensions
 	{
@@ -14,7 +13,7 @@ namespace Assets.EcsRx.Unity.Extensions
 			{
 				if (property.CanRead && property.CanWrite)
 				{
-                    if (property.PropertyType == typeof(int) || property.PropertyType.IsEnum)
+					if (property.PropertyType == typeof(int))
 					{
 						node.Add(property.Name, new JSONData((int)property.GetValue(component, null)));
 						continue;
@@ -112,7 +111,7 @@ namespace Assets.EcsRx.Unity.Extensions
 				var propertyData = node[property.Name];
 				if (propertyData == null) return;
 
-				if (property.PropertyType == typeof(int) || property.PropertyType.IsEnum)
+				if (property.PropertyType == typeof(int))
 				{
 					property.SetValue(component, propertyData.AsInt, null);
 					return;

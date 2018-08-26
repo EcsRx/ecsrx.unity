@@ -40,7 +40,7 @@ namespace Zenject
             _instancesToInject.UnionWith(instances);
         }
 
-        public void OnInstanceResolved(object instance)
+        public void LazyInject(object instance)
         {
             if (_instancesToInject.Remove(instance))
             {
@@ -50,7 +50,7 @@ namespace Zenject
 
         public void LazyInjectAll()
         {
-#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
+#if UNITY_EDITOR
             using (ProfileBlock.Start("LazyInstanceInjector.LazyInjectAll"))
 #endif
             {

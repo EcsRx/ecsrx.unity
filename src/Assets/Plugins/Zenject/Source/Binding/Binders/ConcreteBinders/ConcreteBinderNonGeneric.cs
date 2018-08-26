@@ -8,9 +8,9 @@ namespace Zenject
     public class ConcreteBinderNonGeneric : FromBinderNonGeneric
     {
         public ConcreteBinderNonGeneric(
-            BindInfo bindInfo,
+            DiContainer bindContainer, BindInfo bindInfo,
             BindFinalizerWrapper finalizerWrapper)
-            : base(bindInfo, finalizerWrapper)
+            : base(bindContainer, bindInfo, finalizerWrapper)
         {
             ToSelf();
         }
@@ -22,9 +22,8 @@ namespace Zenject
 
             BindInfo.RequireExplicitScope = true;
             SubFinalizer = new ScopableBindingFinalizer(
-                BindInfo, SingletonTypes.FromNew, null,
-                (container, type) => new TransientProvider(
-                    type, container, BindInfo.Arguments, BindInfo.ConcreteIdentifier, BindInfo.ContextInfo));
+                BindInfo, (container, type) => new TransientProvider(
+                    type, container, BindInfo.Arguments, BindInfo.ContextInfo, BindInfo.ConcreteIdentifier));
 
             return this;
         }
@@ -41,10 +40,18 @@ namespace Zenject
 
         public FromBinderNonGeneric To(IEnumerable<Type> concreteTypes)
         {
-            BindingUtil.AssertIsDerivedFromTypes(concreteTypes, BindInfo.ContractTypes, BindInfo.InvalidBindResponse);
-
             BindInfo.ToChoice = ToChoices.Concrete;
             BindInfo.ToTypes = concreteTypes.ToList();
+
+            if (BindInfo.ToTypes.Count > 1 && BindInfo.ContractTypes.Count > 1)
+            {
+                // Be more lenient in this case to behave similar to convention based bindings
+                BindInfo.InvalidBindResponse = InvalidBindResponses.Skip;
+            }
+            else
+            {
+                BindingUtil.AssertIsDerivedFromTypes(concreteTypes, BindInfo.ContractTypes, BindInfo.InvalidBindResponse);
+            }
 
             return this;
         }

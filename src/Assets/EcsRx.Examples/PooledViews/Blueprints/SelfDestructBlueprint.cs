@@ -1,9 +1,10 @@
 ﻿using EcsRx.Blueprints;
 using EcsRx.Entities;
-using EcsRx.Unity.Components;
+using EcsRx.Examples.PooledViews.Components;
+using EcsRx.Views.Components;
 using UnityEngine;
 
-namespace Assets.EcsRx.Examples.PooledViews.Blueprints
+namespace EcsRx.Examples.PooledViews.Blueprints
 {
     public class SelfDestructBlueprint : IBlueprint
     {
@@ -24,8 +25,8 @@ namespace Assets.EcsRx.Examples.PooledViews.Blueprints
                 StartingPosition = _startPosition
             };
 
-            entity.AddComponent(selfDestructComponent);
-            entity.AddComponent<ViewComponent>();
+            var viewComponent = new ViewComponent();
+            entity.AddComponents(selfDestructComponent, viewComponent);
         }
     }
 }

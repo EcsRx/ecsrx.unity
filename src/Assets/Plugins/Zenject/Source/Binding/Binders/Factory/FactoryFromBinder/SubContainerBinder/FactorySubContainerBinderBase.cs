@@ -6,14 +6,20 @@ namespace Zenject
     public class FactorySubContainerBinderBase<TContract>
     {
         public FactorySubContainerBinderBase(
-            BindInfo bindInfo, FactoryBindInfo factoryBindInfo, object subIdentifier)
+            DiContainer bindContainer, BindInfo bindInfo, FactoryBindInfo factoryBindInfo, object subIdentifier)
         {
             FactoryBindInfo = factoryBindInfo;
             SubIdentifier = subIdentifier;
             BindInfo = bindInfo;
+            BindContainer = bindContainer;
 
             // Reset so we get errors if we end here
             factoryBindInfo.ProviderFunc = null;
+        }
+
+        protected DiContainer BindContainer
+        {
+            get; private set;
         }
 
         protected FactoryBindInfo FactoryBindInfo
@@ -59,7 +65,7 @@ namespace Zenject
                 (container) => new SubContainerDependencyProvider(
                     ContractType, SubIdentifier,
                     new SubContainerCreatorByInstaller(
-                        container, installerType, BindInfo.Arguments));
+                        container, installerType, BindInfo.Arguments), false);
 
             return new ArgConditionCopyNonLazyBinder(BindInfo);
         }
@@ -86,7 +92,7 @@ namespace Zenject
                     new SubContainerCreatorByNewPrefabInstaller(
                         container,
                         new PrefabProvider(prefab),
-                        gameObjectInfo, installerType, BindInfo.Arguments));
+                        gameObjectInfo, installerType, BindInfo.Arguments), false);
 
             return new NameTransformConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }
@@ -113,7 +119,7 @@ namespace Zenject
                     new SubContainerCreatorByNewPrefabInstaller(
                         container,
                         new PrefabProviderResource(resourcePath),
-                        gameObjectInfo, installerType, BindInfo.Arguments));
+                        gameObjectInfo, installerType, BindInfo.Arguments), false);
 
             return new NameTransformConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }

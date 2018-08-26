@@ -15,26 +15,38 @@ namespace Zenject
             _method = method;
         }
 
+        public bool IsCached
+        {
+            get { return false; }
+        }
+
+        public bool TypeVariesBasedOnMemberType
+        {
+            get { return false; }
+        }
+
         public Type GetInstanceType(InjectContext context)
         {
             return typeof(TValue);
         }
 
-        public IEnumerator<List<object>> GetAllInstancesWithInjectSplit(InjectContext context, List<TypeValuePair> args)
+        public List<object> GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction)
         {
             Assert.IsEmpty(args);
             Assert.IsNotNull(context);
 
             Assert.That(typeof(TValue).DerivesFromOrEqual(context.MemberType));
 
+            injectAction = null;
             if (context.Container.IsValidating)
             {
                 // Don't do anything when validating, we can't make any assumptions on the given method
-                yield return new List<object>() { new ValidationMarker(typeof(TValue)) };
+                return new List<object>() { new ValidationMarker(typeof(TValue)) };
             }
             else
             {
-                yield return new List<object>() { _method(context.Container) };
+                return new List<object>() { _method(context.Container) };
             }
         }
     }
@@ -50,12 +62,23 @@ namespace Zenject
             _method = method;
         }
 
+        public bool IsCached
+        {
+            get { return false; }
+        }
+
+        public bool TypeVariesBasedOnMemberType
+        {
+            get { return false; }
+        }
+
         public Type GetInstanceType(InjectContext context)
         {
             return typeof(TValue);
         }
 
-        public IEnumerator<List<object>> GetAllInstancesWithInjectSplit(InjectContext context, List<TypeValuePair> args)
+        public List<object> GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction)
         {
             Assert.IsEqual(args.Count, 1);
             Assert.IsNotNull(context);
@@ -63,14 +86,15 @@ namespace Zenject
             Assert.That(typeof(TValue).DerivesFromOrEqual(context.MemberType));
             Assert.That(args[0].Type.DerivesFromOrEqual(typeof(TParam1)));
 
+            injectAction = null;
             if (context.Container.IsValidating)
             {
                 // Don't do anything when validating, we can't make any assumptions on the given method
-                yield return new List<object>() { new ValidationMarker(typeof(TValue)) };
+                return new List<object>() { new ValidationMarker(typeof(TValue)) };
             }
             else
             {
-                yield return new List<object>()
+                return new List<object>()
                 {
                     _method(
                         context.Container,
@@ -91,12 +115,23 @@ namespace Zenject
             _method = method;
         }
 
+        public bool IsCached
+        {
+            get { return false; }
+        }
+
+        public bool TypeVariesBasedOnMemberType
+        {
+            get { return false; }
+        }
+
         public Type GetInstanceType(InjectContext context)
         {
             return typeof(TValue);
         }
 
-        public IEnumerator<List<object>> GetAllInstancesWithInjectSplit(InjectContext context, List<TypeValuePair> args)
+        public List<object> GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction)
         {
             Assert.IsEqual(args.Count, 2);
             Assert.IsNotNull(context);
@@ -105,14 +140,15 @@ namespace Zenject
             Assert.That(args[0].Type.DerivesFromOrEqual(typeof(TParam1)));
             Assert.That(args[1].Type.DerivesFromOrEqual(typeof(TParam2)));
 
+            injectAction = null;
             if (context.Container.IsValidating)
             {
                 // Don't do anything when validating, we can't make any assumptions on the given method
-                yield return new List<object>() { new ValidationMarker(typeof(TValue)) };
+                return new List<object>() { new ValidationMarker(typeof(TValue)) };
             }
             else
             {
-                yield return new List<object>()
+                return new List<object>()
                 {
                     _method(
                         context.Container,
@@ -134,12 +170,23 @@ namespace Zenject
             _method = method;
         }
 
+        public bool IsCached
+        {
+            get { return false; }
+        }
+
+        public bool TypeVariesBasedOnMemberType
+        {
+            get { return false; }
+        }
+
         public Type GetInstanceType(InjectContext context)
         {
             return typeof(TValue);
         }
 
-        public IEnumerator<List<object>> GetAllInstancesWithInjectSplit(InjectContext context, List<TypeValuePair> args)
+        public List<object> GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction)
         {
             Assert.IsEqual(args.Count, 3);
             Assert.IsNotNull(context);
@@ -149,14 +196,15 @@ namespace Zenject
             Assert.That(args[1].Type.DerivesFromOrEqual(typeof(TParam2)));
             Assert.That(args[2].Type.DerivesFromOrEqual(typeof(TParam3)));
 
+            injectAction = null;
             if (context.Container.IsValidating)
             {
                 // Don't do anything when validating, we can't make any assumptions on the given method
-                yield return new List<object>() { new ValidationMarker(typeof(TValue)) };
+                return new List<object>() { new ValidationMarker(typeof(TValue)) };
             }
             else
             {
-                yield return new List<object>()
+                return new List<object>()
                 {
                     _method(
                         context.Container,
@@ -172,11 +220,29 @@ namespace Zenject
 
     public class MethodProviderWithContainer<TParam1, TParam2, TParam3, TParam4, TValue> : IProvider
     {
-        readonly ModestTree.Util.Func<DiContainer, TParam1, TParam2, TParam3, TParam4, TValue> _method;
+        readonly
+#if !NET_4_6
+            ModestTree.Util.
+#endif
+            Func<DiContainer, TParam1, TParam2, TParam3, TParam4, TValue> _method;
 
-        public MethodProviderWithContainer(ModestTree.Util.Func<DiContainer, TParam1, TParam2, TParam3, TParam4, TValue> method)
+        public MethodProviderWithContainer(
+#if !NET_4_6
+            ModestTree.Util.
+#endif
+            Func<DiContainer, TParam1, TParam2, TParam3, TParam4, TValue> method)
         {
             _method = method;
+        }
+
+        public bool IsCached
+        {
+            get { return false; }
+        }
+
+        public bool TypeVariesBasedOnMemberType
+        {
+            get { return false; }
         }
 
         public Type GetInstanceType(InjectContext context)
@@ -184,7 +250,8 @@ namespace Zenject
             return typeof(TValue);
         }
 
-        public IEnumerator<List<object>> GetAllInstancesWithInjectSplit(InjectContext context, List<TypeValuePair> args)
+        public List<object> GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction)
         {
             Assert.IsEqual(args.Count, 4);
             Assert.IsNotNull(context);
@@ -195,14 +262,15 @@ namespace Zenject
             Assert.That(args[2].Type.DerivesFromOrEqual(typeof(TParam3)));
             Assert.That(args[3].Type.DerivesFromOrEqual(typeof(TParam4)));
 
+            injectAction = null;
             if (context.Container.IsValidating)
             {
                 // Don't do anything when validating, we can't make any assumptions on the given method
-                yield return new List<object>() { new ValidationMarker(typeof(TValue)) };
+                return new List<object>() { new ValidationMarker(typeof(TValue)) };
             }
             else
             {
-                yield return new List<object>()
+                return new List<object>()
                 {
                     _method(
                         context.Container,
@@ -219,11 +287,29 @@ namespace Zenject
 
     public class MethodProviderWithContainer<TParam1, TParam2, TParam3, TParam4, TParam5, TValue> : IProvider
     {
-        readonly ModestTree.Util.Func<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5, TValue> _method;
+        readonly
+#if !NET_4_6
+            ModestTree.Util.
+#endif
+            Func<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5, TValue> _method;
 
-        public MethodProviderWithContainer(ModestTree.Util.Func<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5, TValue> method)
+        public MethodProviderWithContainer(
+#if !NET_4_6
+            ModestTree.Util.
+#endif
+            Func<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5, TValue> method)
         {
             _method = method;
+        }
+
+        public bool IsCached
+        {
+            get { return false; }
+        }
+
+        public bool TypeVariesBasedOnMemberType
+        {
+            get { return false; }
         }
 
         public Type GetInstanceType(InjectContext context)
@@ -231,7 +317,8 @@ namespace Zenject
             return typeof(TValue);
         }
 
-        public IEnumerator<List<object>> GetAllInstancesWithInjectSplit(InjectContext context, List<TypeValuePair> args)
+        public List<object> GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction)
         {
             Assert.IsEqual(args.Count, 5);
             Assert.IsNotNull(context);
@@ -243,14 +330,15 @@ namespace Zenject
             Assert.That(args[3].Type.DerivesFromOrEqual(typeof(TParam4)));
             Assert.That(args[4].Type.DerivesFromOrEqual(typeof(TParam5)));
 
+            injectAction = null;
             if (context.Container.IsValidating)
             {
                 // Don't do anything when validating, we can't make any assumptions on the given method
-                yield return new List<object>() { new ValidationMarker(typeof(TValue)) };
+                return new List<object>() { new ValidationMarker(typeof(TValue)) };
             }
             else
             {
-                yield return new List<object>()
+                return new List<object>()
                 {
                     _method(
                         context.Container,
@@ -259,6 +347,156 @@ namespace Zenject
                         (TParam3)args[2].Value,
                         (TParam4)args[3].Value,
                         (TParam5)args[4].Value)
+                };
+            }
+        }
+    }
+
+    // Six params
+
+    public class MethodProviderWithContainer<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TValue> : IProvider
+    {
+        readonly
+#if !NET_4_6
+            ModestTree.Util.
+#endif
+            Func<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TValue> _method;
+
+        public MethodProviderWithContainer(
+#if !NET_4_6
+            ModestTree.Util.
+#endif
+            Func<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TValue> method)
+        {
+            _method = method;
+        }
+
+        public bool IsCached
+        {
+            get { return false; }
+        }
+
+        public bool TypeVariesBasedOnMemberType
+        {
+            get { return false; }
+        }
+
+        public Type GetInstanceType(InjectContext context)
+        {
+            return typeof(TValue);
+        }
+
+        public List<object> GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        {
+            Assert.IsEqual(args.Count, 5);
+            Assert.IsNotNull(context);
+
+            Assert.That(typeof(TValue).DerivesFromOrEqual(context.MemberType));
+            Assert.That(args[0].Type.DerivesFromOrEqual(typeof(TParam1)));
+            Assert.That(args[1].Type.DerivesFromOrEqual(typeof(TParam2)));
+            Assert.That(args[2].Type.DerivesFromOrEqual(typeof(TParam3)));
+            Assert.That(args[3].Type.DerivesFromOrEqual(typeof(TParam4)));
+            Assert.That(args[4].Type.DerivesFromOrEqual(typeof(TParam5)));
+            Assert.That(args[5].Type.DerivesFromOrEqual(typeof(TParam6)));
+
+            injectAction = null;
+            if (context.Container.IsValidating)
+            {
+                // Don't do anything when validating, we can't make any assumptions on the given method
+                return new List<object>() { new ValidationMarker(typeof(TValue)) };
+            }
+            else
+            {
+                return new List<object>()
+                {
+                    _method(
+                        context.Container,
+                        (TParam1)args[0].Value,
+                        (TParam2)args[1].Value,
+                        (TParam3)args[2].Value,
+                        (TParam4)args[3].Value,
+                        (TParam5)args[4].Value,
+                        (TParam6)args[5].Value)
+                };
+            }
+        }
+    }
+
+    // Ten params
+
+    public class MethodProviderWithContainer<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TValue> : IProvider
+    {
+        readonly
+#if !NET_4_6
+            ModestTree.Util.
+#endif
+            Func<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TValue> _method;
+
+        public MethodProviderWithContainer(
+#if !NET_4_6
+            ModestTree.Util.
+#endif
+            Func<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TValue> method)
+        {
+            _method = method;
+        }
+
+        public bool IsCached
+        {
+            get { return false; }
+        }
+
+        public bool TypeVariesBasedOnMemberType
+        {
+            get { return false; }
+        }
+
+        public Type GetInstanceType(InjectContext context)
+        {
+            return typeof(TValue);
+        }
+
+        public List<object> GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        {
+            Assert.IsEqual(args.Count, 10);
+            Assert.IsNotNull(context);
+
+            Assert.That(typeof(TValue).DerivesFromOrEqual(context.MemberType));
+            Assert.That(args[0].Type.DerivesFromOrEqual(typeof(TParam1)));
+            Assert.That(args[1].Type.DerivesFromOrEqual(typeof(TParam2)));
+            Assert.That(args[2].Type.DerivesFromOrEqual(typeof(TParam3)));
+            Assert.That(args[3].Type.DerivesFromOrEqual(typeof(TParam4)));
+            Assert.That(args[4].Type.DerivesFromOrEqual(typeof(TParam5)));
+            Assert.That(args[5].Type.DerivesFromOrEqual(typeof(TParam6)));
+            Assert.That(args[6].Type.DerivesFromOrEqual(typeof(TParam7)));
+            Assert.That(args[7].Type.DerivesFromOrEqual(typeof(TParam8)));
+            Assert.That(args[8].Type.DerivesFromOrEqual(typeof(TParam9)));
+            Assert.That(args[9].Type.DerivesFromOrEqual(typeof(TParam10)));
+
+            injectAction = null;
+            if (context.Container.IsValidating)
+            {
+                // Don't do anything when validating, we can't make any assumptions on the given method
+                return new List<object>() { new ValidationMarker(typeof(TValue)) };
+            }
+            else
+            {
+                return new List<object>()
+                {
+                    _method(
+                        context.Container,
+                        (TParam1)args[0].Value,
+                        (TParam2)args[1].Value,
+                        (TParam3)args[2].Value,
+                        (TParam4)args[3].Value,
+                        (TParam5)args[4].Value,
+                        (TParam6)args[5].Value,
+                        (TParam7)args[6].Value,
+                        (TParam8)args[7].Value,
+                        (TParam9)args[8].Value,
+                        (TParam10)args[9].Value)
                 };
             }
         }

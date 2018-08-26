@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using Assets.EcsRx.Examples.UsingBlueprints.Components;
-using EcsRx.Entities;
+using EcsRx.Examples.UsingBlueprints.Components;
 using EcsRx.Groups;
 
-namespace Assets.EcsRx.Examples.UsingBlueprints.Groups
+namespace EcsRx.Examples.UsingBlueprints.Groups
 {
     public class PlayerGroup : IGroup
     {
-        private readonly IEnumerable<Type> _components = new[]
+        public Type[] RequiredComponents { get; } = new[]
         {
-            typeof (HasName), typeof (WithHealthComponent)
+            typeof(HasName), typeof(WithHealthComponent)
         };
 
-        public IEnumerable<Type> TargettedComponents { get { return _components; } }
-        public Predicate<IEntity> TargettedEntities { get { return null; } }
+        public Type[] ExcludedComponents { get; } = new Type[0];
     }
 }

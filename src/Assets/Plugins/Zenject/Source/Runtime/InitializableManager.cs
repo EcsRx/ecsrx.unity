@@ -36,6 +36,18 @@ namespace Zenject
             }
         }
 
+        public void Add(IInitializable initializable)
+        {
+            Add(initializable, 0);
+        }
+
+        public void Add(IInitializable initializable, int priority)
+        {
+            Assert.That(!_hasInitialized);
+            _initializables.Add(
+                new InitializableInfo(initializable, priority));
+        }
+
         public void Initialize()
         {
             Assert.That(!_hasInitialized);
@@ -52,11 +64,9 @@ namespace Zenject
 
             foreach (var initializable in _initializables)
             {
-                Log.Debug("Initializing '" + initializable.Initializable.GetType() + "'");
-
                 try
                 {
-#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
+#if UNITY_EDITOR
                     using (ProfileBlock.Start("{0}.Initialize()", initializable.Initializable.GetType()))
 #endif
                     {

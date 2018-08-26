@@ -48,11 +48,15 @@ namespace Zenject
         GameObject InstantiatePrefab(UnityEngine.Object prefab);
         GameObject InstantiatePrefab(
             UnityEngine.Object prefab, Transform parentTransform);
+        GameObject InstantiatePrefab(
+            UnityEngine.Object prefab, Vector3 position, Quaternion rotation, Transform parentTransform);
 
         // Create a new game object from a resource path and fill in dependencies for all children
         GameObject InstantiatePrefabResource(string resourcePath);
         GameObject InstantiatePrefabResource(
             string resourcePath, Transform parentTransform);
+        GameObject InstantiatePrefabResource(
+            string resourcePath, Vector3 position, Quaternion rotation, Transform parentTransform);
 
         // Same as InstantiatePrefab but returns a component after it's initialized
         // and optionally allows extra arguments for the given component type
@@ -63,6 +67,10 @@ namespace Zenject
             UnityEngine.Object prefab, Transform parentTransform);
         T InstantiatePrefabForComponent<T>(
             UnityEngine.Object prefab, Transform parentTransform, IEnumerable<object> extraArgs);
+        T InstantiatePrefabForComponent<T>(
+            UnityEngine.Object prefab, Vector3 position, Quaternion rotation, Transform parentTransform);
+        T InstantiatePrefabForComponent<T>(
+            UnityEngine.Object prefab, Vector3 position, Quaternion rotation, Transform parentTransform, IEnumerable<object> extraArgs);
         object InstantiatePrefabForComponent(
             Type concreteType, UnityEngine.Object prefab, Transform parentTransform, IEnumerable<object> extraArgs);
 
@@ -75,6 +83,10 @@ namespace Zenject
             string resourcePath, Transform parentTransform);
         T InstantiatePrefabResourceForComponent<T>(
             string resourcePath, Transform parentTransform, IEnumerable<object> extraArgs);
+        T InstantiatePrefabResourceForComponent<T>(
+            string resourcePath, Vector3 position, Quaternion rotation, Transform parentTransform);
+        T InstantiatePrefabResourceForComponent<T>(
+            string resourcePath, Vector3 position, Quaternion rotation, Transform parentTransform, IEnumerable<object> extraArgs);
         object InstantiatePrefabResourceForComponent(
             Type concreteType, string resourcePath, Transform parentTransform, IEnumerable<object> extraArgs);
 

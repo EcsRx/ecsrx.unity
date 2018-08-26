@@ -110,7 +110,7 @@ namespace Zenject
 
         static string GetFormattedTypeName(Type type)
         {
-            var str = type.Name();
+            var str = type.PrettyName();
 
             // GraphViz does not read names with <, >, or . characters so replace them
             str = str.Replace(">", "_");

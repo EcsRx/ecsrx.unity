@@ -10,14 +10,68 @@ namespace Zenject
     {
         static Dictionary<Type, ZenjectTypeInfo> _typeInfo = new Dictionary<Type, ZenjectTypeInfo>();
 
+#if UNITY_EDITOR
+        // We store this separately from ZenjectTypeInfo because this flag is needed for contract
+        // types whereas ZenjectTypeInfo is only needed for types that are instantiated, and
+        // we want to minimize the types that generate ZenjectTypeInfo for
+        static Dictionary<Type, bool> _allowDuringValidation = new Dictionary<Type, bool>();
+#endif
+
         public static ZenjectTypeInfo GetInfo<T>()
         {
             return GetInfo(typeof(T));
         }
 
+        public static bool ShouldAllowDuringValidation<T>()
+        {
+            return ShouldAllowDuringValidation(typeof(T));
+        }
+
+#if !UNITY_EDITOR
+        public static bool ShouldAllowDuringValidation(Type type)
+        {
+            return false;
+        }
+#else
+        public static bool ShouldAllowDuringValidation(Type type)
+        {
+            bool shouldAllow;
+
+            if (!_allowDuringValidation.TryGetValue(type, out shouldAllow))
+            {
+                shouldAllow = ShouldAllowDuringValidationInternal(type);
+                _allowDuringValidation.Add(type, shouldAllow);
+            }
+
+            return shouldAllow;
+        }
+
+        static bool ShouldAllowDuringValidationInternal(Type type)
+        {
+            // During validation, do not instantiate or inject anything except for
+            // Installers, IValidatable's, or types marked with attribute ZenjectAllowDuringValidation
+            // You would typically use ZenjectAllowDuringValidation attribute for data that you
+            // inject into factories
+
+            if (type.DerivesFrom<IInstaller>() || type.DerivesFrom<IValidatable>())
+            {
+                return true;
+            }
+
+#if !NOT_UNITY3D
+            if (type.DerivesFrom<Context>())
+            {
+                return true;
+            }
+#endif
+
+            return type.HasAttribute<ZenjectAllowDuringValidationAttribute>();
+        }
+#endif
+
         public static ZenjectTypeInfo GetInfo(Type type)
         {
-#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
+#if UNITY_EDITOR
             using (ProfileBlock.Start("Zenject Reflection"))
 #endif
             {
@@ -186,11 +240,11 @@ namespace Zenject
                     propertyName, parentType.FullName, string.Join(";", allFields.Select(f => f.Name).ToArray())));
             }
 
-			return (injectable, value) => writeableFields.ForEach(f => f.SetValue(injectable, value));
-		}
+            return (injectable, value) => writeableFields.ForEach(f => f.SetValue(injectable, value));
+        }
 #endif
 
-		static InjectableInfo CreateForMember(MemberInfo memInfo, Type parentType)
+        static InjectableInfo CreateForMember(MemberInfo memInfo, Type parentType)
         {
             var injectAttributes = memInfo.AllAttributes<InjectAttributeBase>().ToList();
 
@@ -284,7 +338,12 @@ namespace Zenject
                     return singlePublicConstructor;
                 }
 
-                return null;
+                // Choose the one with the least amount of arguments
+                // This might result in some non obvious errors like null reference exceptions
+                // but is probably the best trade-off since it allows zenject to be more compatible
+                // with libraries that don't depend on zenject at all
+                // Discussion here - https://github.com/modesttree/Zenject/issues/416
+                return constructors.OrderBy(x => x.GetParameters().Count()).First();
             }
 
             return constructors[0];

@@ -17,20 +17,16 @@ namespace Zenject
 
         public virtual void Initialize()
         {
-            Log.Debug("Zenject: Initializing IInitializable's");
-
             _initializableManager.Initialize();
         }
 
         public virtual void Dispose()
         {
-            Log.Debug("Zenject: Disposing IDisposable's");
             _disposablesManager.Dispose();
         }
 
         public virtual void LateDispose()
         {
-            Log.Debug("Zenject: Disposing ILateDisposable's");
             _disposablesManager.LateDispose();
         }
 

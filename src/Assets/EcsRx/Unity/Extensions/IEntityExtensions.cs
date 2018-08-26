@@ -1,36 +1,39 @@
 ﻿using System;
 using EcsRx.Entities;
-using EcsRx.Unity.Components;
+using EcsRx.Extensions;
+using EcsRx.Views.Components;
 using UnityEngine;
 
-namespace Assets.EcsRx.Unity.Extensions
+namespace EcsRx.Unity.Extensions
 {
     public static class IEntityExtensions
     {
-        public static T GetComponent<T>(this IEntity entity) where T : MonoBehaviour
+        public static T GetUnityComponent<T>(this IEntity entity) where T : MonoBehaviour
         {
             if(!entity.HasComponent<ViewComponent>())
             { return null; }
 
             var viewComponent = entity.GetComponent<ViewComponent>();
 
-            if(!viewComponent.View)
+            if(viewComponent.View == null)
             { return null; }
 
-            return viewComponent.View.GetComponent<T>();
+            var castView = (GameObject) viewComponent.View;
+            return castView.GetComponent<T>();
         }
 
-        public static T AddComponent<T>(this IEntity entity) where T : MonoBehaviour
+        public static T AddUnityComponent<T>(this IEntity entity) where T : MonoBehaviour
         {
             if (!entity.HasComponent<ViewComponent>())
             { throw new Exception("Entity has no ViewComponent, ensure a valid ViewComponent is applied with an active View"); }
 
             var viewComponent = entity.GetComponent<ViewComponent>();
 
-            if (!viewComponent.View)
+            if (viewComponent.View == null)
             { throw new Exception("Entity's ViewComponent has no assigned View, GameObject has been applied to the View"); }
 
-            return viewComponent.View.AddComponent<T>();
+            var castView = (GameObject) viewComponent.View;
+            return castView.AddComponent<T>();
         }
     }
 }

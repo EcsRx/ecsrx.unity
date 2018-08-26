@@ -1,36 +1,28 @@
 ﻿using System;
-using Assets.EcsRx.Examples.CustomGameObjectHandling.Components;
 using EcsRx.Entities;
-using EcsRx.Groups.Accessors;
+using EcsRx.Examples.CustomGameObjectHandling.Components;
+using EcsRx.Extensions;
 using EcsRx.Groups;
+using EcsRx.Groups.Observable;
 using EcsRx.Systems;
-using EcsRx.Unity.Components;
 using UniRx;
 using UnityEngine;
 
-namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Systems
+namespace EcsRx.Examples.CustomGameObjectHandling.Systems
 {
     public class PlayerControlSystem : IReactToGroupSystem
     {
         public readonly float MovementSpeed = 2.0f;
 
-        public IGroup TargetGroup
-        {
-            get
-            {
-                return new GroupBuilder()
-                    .WithComponent<CustomViewComponent>()
-                    .WithComponent<PlayerControlledComponent>()
-                    .Build();
-            }
-        }
+        public IGroup Group => new GroupBuilder()
+            .WithComponent<CustomViewComponent>()
+            .WithComponent<PlayerControlledComponent>()
+            .Build();
 
-        public IObservable<IGroupAccessor> ReactToGroup(IGroupAccessor @group)
-        {
-            return Observable.EveryUpdate().Select(x => @group);
-        }
+        public IObservable<IObservableGroup> ReactToGroup(IObservableGroup group)
+        { return Observable.EveryUpdate().Select(x => group); }
 
-        public void Execute(IEntity entity)
+        public void Process(IEntity entity)
         {
             var strafeMovement = 0f;
             var forardMovement = 0f;

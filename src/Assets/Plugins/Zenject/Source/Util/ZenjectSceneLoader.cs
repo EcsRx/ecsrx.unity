@@ -27,11 +27,12 @@ namespace Zenject
         readonly DiContainer _sceneContainer;
 
         public ZenjectSceneLoader(
+            [InjectOptional]
             SceneContext sceneRoot,
             ProjectKernel projectKernel)
         {
             _projectKernel = projectKernel;
-            _sceneContainer = sceneRoot.Container;
+            _sceneContainer = sceneRoot == null ? null : sceneRoot.Container;
         }
 
         public void LoadScene(string sceneName)
@@ -142,16 +143,110 @@ namespace Zenject
             }
             else if (containerMode == LoadSceneRelationship.Child)
             {
-                SceneContext.ParentContainers = new DiContainer[] { _sceneContainer };
+                if (_sceneContainer == null)
+                {
+                    SceneContext.ParentContainers = null;
+                }
+                else
+                {
+                    SceneContext.ParentContainers = new DiContainer[] { _sceneContainer };
+                }
             }
             else
             {
+                Assert.IsNotNull(_sceneContainer,
+                    "Cannot use LoadSceneRelationship.Sibling when loading scenes from ProjectContext");
                 Assert.IsEqual(containerMode, LoadSceneRelationship.Sibling);
                 SceneContext.ParentContainers = _sceneContainer.ParentContainers;
             }
 
             SceneContext.ExtraBindingsInstallMethod = extraBindings;
             SceneContext.ExtraBindingsLateInstallMethod = extraBindingsLate;
+        }
+
+        public void LoadScene(int sceneIndex)
+        {
+            LoadScene(sceneIndex, LoadSceneMode.Single);
+        }
+
+        public void LoadScene(int sceneIndex, LoadSceneMode loadMode)
+        {
+            LoadScene(sceneIndex, loadMode, null);
+        }
+
+        public void LoadScene(
+            int sceneIndex, LoadSceneMode loadMode, Action<DiContainer> extraBindings)
+        {
+            LoadScene(sceneIndex, loadMode, extraBindings, LoadSceneRelationship.None);
+        }
+
+        public void LoadScene(
+            int sceneIndex,
+            LoadSceneMode loadMode,
+            Action<DiContainer> extraBindings,
+            LoadSceneRelationship containerMode)
+        {
+            LoadScene(sceneIndex, loadMode, extraBindings, containerMode, null);
+        }
+
+        public void LoadScene(
+            int sceneIndex,
+            LoadSceneMode loadMode,
+            Action<DiContainer> extraBindings,
+            LoadSceneRelationship containerMode,
+            Action<DiContainer> extraBindingsLate)
+        {
+            PrepareForLoadScene(loadMode, extraBindings, extraBindingsLate, containerMode);
+
+            Assert.That(Application.CanStreamedLevelBeLoaded(sceneIndex),
+                "Unable to load scene '{0}'", sceneIndex);
+
+            SceneManager.LoadScene(sceneIndex, loadMode);
+
+            // It would be nice here to actually verify that the new scene has a SceneContext
+            // if we have extra binding hooks, or LoadSceneRelationship != None, but
+            // we can't do that in this case since the scene isn't loaded until the next frame
+        }
+
+        public AsyncOperation LoadSceneAsync(int sceneIndex)
+        {
+            return LoadSceneAsync(sceneIndex, LoadSceneMode.Single);
+        }
+
+        public AsyncOperation LoadSceneAsync(int sceneIndex, LoadSceneMode loadMode)
+        {
+            return LoadSceneAsync(sceneIndex, loadMode, null);
+        }
+
+        public AsyncOperation LoadSceneAsync(
+            int sceneIndex, LoadSceneMode loadMode, Action<DiContainer> extraBindings)
+        {
+            return LoadSceneAsync(sceneIndex, loadMode, extraBindings, LoadSceneRelationship.None);
+        }
+
+        public AsyncOperation LoadSceneAsync(
+            int sceneIndex,
+            LoadSceneMode loadMode,
+            Action<DiContainer> extraBindings,
+            LoadSceneRelationship containerMode)
+        {
+            return LoadSceneAsync(
+                sceneIndex, loadMode, extraBindings, containerMode, null);
+        }
+
+        public AsyncOperation LoadSceneAsync(
+            int sceneIndex,
+            LoadSceneMode loadMode,
+            Action<DiContainer> extraBindings,
+            LoadSceneRelationship containerMode,
+            Action<DiContainer> extraBindingsLate)
+        {
+            PrepareForLoadScene(loadMode, extraBindings, extraBindingsLate, containerMode);
+
+            Assert.That(Application.CanStreamedLevelBeLoaded(sceneIndex),
+                "Unable to load scene '{0}'", sceneIndex);
+
+            return SceneManager.LoadSceneAsync(sceneIndex, loadMode);
         }
     }
 }

@@ -1,19 +1,22 @@
-﻿using Assets.EcsRx.Examples.SceneFirstSetup.Components;
+﻿using EcsRx.Examples.SceneFirstSetup.Components;
+using EcsRx.Extensions;
 using EcsRx.Unity;
-using EcsRx.Unity.Components;
+using EcsRx.Unity.Extensions;
+using EcsRx.Views.Components;
 
-namespace Assets.EcsRx.Examples.SceneFirstSetup
+namespace EcsRx.Examples.SceneFirstSetup
 {
-    public class Application : EcsRxApplication
+    public class Application : EcsRxApplicationBehaviour
     {
         protected override void ApplicationStarting()
         {
-            RegisterAllBoundSystems();
+            this.BindAllSystemsWithinApplicationScope();
+            this.RegisterAllBoundSystems();
         }
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = PoolManager.GetPool();
+            var defaultPool = CollectionManager.GetCollection();
 
             var cubeEntity = defaultPool.CreateEntity();
             cubeEntity.AddComponent<ViewComponent>();

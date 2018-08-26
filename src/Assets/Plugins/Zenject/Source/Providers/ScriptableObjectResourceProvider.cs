@@ -14,22 +14,32 @@ namespace Zenject
         readonly Type _resourceType;
         readonly string _resourcePath;
         readonly List<TypeValuePair> _extraArguments;
-        readonly object _concreteIdentifier;
         readonly bool _createNew;
+        readonly object _concreteIdentifier;
 
         public ScriptableObjectResourceProvider(
             string resourcePath, Type resourceType,
-            DiContainer container, object concreteIdentifier, List<TypeValuePair> extraArguments,
-            bool createNew)
+            DiContainer container, List<TypeValuePair> extraArguments,
+            bool createNew, object concreteIdentifier)
         {
             _container = container;
             Assert.DerivesFromOrEqual<ScriptableObject>(resourceType);
 
-            _concreteIdentifier = concreteIdentifier;
             _extraArguments = extraArguments;
             _resourceType = resourceType;
             _resourcePath = resourcePath;
             _createNew = createNew;
+            _concreteIdentifier = concreteIdentifier;
+        }
+
+        public bool IsCached
+        {
+            get { return false; }
+        }
+
+        public bool TypeVariesBasedOnMemberType
+        {
+            get { return false; }
         }
 
         public Type GetInstanceType(InjectContext context)
@@ -37,8 +47,8 @@ namespace Zenject
             return _resourceType;
         }
 
-        public IEnumerator<List<object>> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args)
+        public List<object> GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction)
         {
             Assert.IsNotNull(context);
 
@@ -58,8 +68,6 @@ namespace Zenject
             Assert.That(!objects.IsEmpty(),
                 "Could not find resource at path '{0}' with type '{1}'", _resourcePath, _resourceType);
 
-            yield return objects;
-
             var injectArgs = new InjectArgs()
             {
                 ExtraArgs = _extraArguments.Concat(args).ToList(),
@@ -67,11 +75,16 @@ namespace Zenject
                 ConcreteIdentifier = _concreteIdentifier,
             };
 
-            foreach (var obj in objects)
+            injectAction = () =>
             {
-                _container.InjectExplicit(
-                    obj, _resourceType, injectArgs);
-            }
+                foreach (var obj in objects)
+                {
+                    _container.InjectExplicit(
+                        obj, _resourceType, injectArgs);
+                }
+            };
+
+            return objects;
         }
     }
 }

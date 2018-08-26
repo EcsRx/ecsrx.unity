@@ -1,26 +1,21 @@
 ﻿using System;
-using Assets.EcsRx.Examples.CustomGameObjectHandling.Components;
 using EcsRx.Entities;
-using EcsRx.Groups.Accessors;
+using EcsRx.Examples.CustomGameObjectHandling.Components;
+using EcsRx.Extensions;
 using EcsRx.Groups;
+using EcsRx.Groups.Observable;
 using EcsRx.Systems;
 using UniRx;
 using UnityEngine;
 
-namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Systems
+namespace EcsRx.Examples.CustomGameObjectHandling.Systems
 {
     public class CameraFollowSystem : ISetupSystem, IReactToGroupSystem
     {
-        public IGroup TargetGroup
-        {
-            get
-            {
-                return new GroupBuilder()
-                    .WithComponent<CameraFollowsComponent>()
-                    .WithComponent<CustomViewComponent>()
-                    .Build();
-            }
-        }
+        public IGroup Group => new GroupBuilder()
+            .WithComponent<CameraFollowsComponent>()
+            .WithComponent<CustomViewComponent>()
+            .Build();
 
         public void Setup(IEntity entity)
         {
@@ -28,12 +23,10 @@ namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Systems
             cameraFollows.Camera = Camera.main;
         }
 
-        public IObservable<IGroupAccessor> ReactToGroup(IGroupAccessor @group)
-        {
-            return Observable.EveryUpdate().Select(x => @group);
-        }
+        public IObservable<IObservableGroup> ReactToGroup(IObservableGroup group)
+        { return Observable.EveryUpdate().Select(x => group); }
 
-        public void Execute(IEntity entity)
+        public void Process(IEntity entity)
         {
             var entityPosition = entity.GetComponent<CustomViewComponent>().CustomView.transform.position;
             var trailPosition = entityPosition + (Vector3.back*5.0f);

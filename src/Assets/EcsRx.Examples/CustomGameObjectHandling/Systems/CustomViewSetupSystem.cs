@@ -1,15 +1,15 @@
-﻿using Assets.EcsRx.Examples.CustomGameObjectHandling.Components;
-using EcsRx.Entities;
+﻿using EcsRx.Entities;
+using EcsRx.Examples.CustomGameObjectHandling.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Systems;
 using UnityEngine;
 
-namespace Assets.EcsRx.Examples.CustomGameObjectHandling.Systems
+namespace EcsRx.Examples.CustomGameObjectHandling.Systems
 {
     public class CustomViewSetupSystem : ISetupSystem
     {
-        public IGroup TargetGroup { get { return new Group().WithComponent<CustomViewComponent>();} }
+        public IGroup Group { get { return new Group().WithComponent<CustomViewComponent>();} }
         
         public void Setup(IEntity entity)
         {

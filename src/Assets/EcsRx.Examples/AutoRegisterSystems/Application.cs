@@ -1,20 +1,24 @@
 ﻿using EcsRx.Unity;
-using EcsRx.Unity.Components;
+using EcsRx.Unity.Extensions;
+using EcsRx.Views.Components;
 
-namespace Assets.EcsRx.Examples.AutoRegisterSystems
+namespace EcsRx.Examples.AutoRegisterSystems
 {
-    public class Application : EcsRxApplication
+    public class Application : EcsRxApplicationBehaviour
     {
         protected override void ApplicationStarting()
         {
-            RegisterAllBoundSystems();
+            // You could optionally use instead of the scene based approach
+            // this.BindAllSystemsWithinApplicationScope();
+            
+            this.RegisterAllBoundSystems();
         }
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = PoolManager.GetPool();
+            var defaultPool = CollectionManager.GetCollection();
             var entity = defaultPool.CreateEntity();
-            entity.AddComponent(new ViewComponent());
+            entity.AddComponents(new ViewComponent());
         }
     }
 }

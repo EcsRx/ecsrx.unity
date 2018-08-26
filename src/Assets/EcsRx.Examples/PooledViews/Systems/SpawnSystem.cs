@@ -1,23 +1,25 @@
 ﻿using System;
-using Assets.EcsRx.Examples.PooledViews.Blueprints;
+using EcsRx.Collections;
 using EcsRx.Entities;
+using EcsRx.Examples.PooledViews.Blueprints;
+using EcsRx.Examples.PooledViews.Components;
+using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Pools;
 using EcsRx.Systems;
-using EcsRx.Unity.Components;
+using EcsRx.Views.Components;
 using UniRx;
 using UnityEngine;
 
-namespace Assets.EcsRx.Examples.PooledViews.Systems
+namespace EcsRx.Examples.PooledViews.Systems
 {
     public class SpawnSystem : IReactToEntitySystem
     {
-        private readonly IPool _defaultPool;
+        private readonly IEntityCollection _defaultCollection;
 
-        public IGroup TargetGroup { get { return new Group(typeof(SpawnerComponent), typeof(ViewComponent));} }
+        public IGroup Group => new Group(typeof(SpawnerComponent), typeof(ViewComponent));
 
-        public SpawnSystem(IPoolManager poolManager)
-        { _defaultPool = poolManager.GetPool(); }
+        public SpawnSystem(IEntityCollectionManager collectionManager)
+        { _defaultCollection = collectionManager.GetCollection(); }
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {
@@ -25,11 +27,12 @@ namespace Assets.EcsRx.Examples.PooledViews.Systems
             return Observable.Interval(TimeSpan.FromSeconds(spawnComponent.SpawnRate)).Select(x => entity);
         }
 
-        public void Execute(IEntity entity)
+        public void Process(IEntity entity)
         {
             var viewComponent = entity.GetComponent<ViewComponent>();
-            var blueprint = new SelfDestructBlueprint(viewComponent.View.transform.position);
-            _defaultPool.CreateEntity(blueprint);
+            var view = viewComponent.View as GameObject;
+            var blueprint = new SelfDestructBlueprint(view.transform.position);
+            _defaultCollection.CreateEntity(blueprint);
         }
     }
 }

@@ -1,19 +1,23 @@
-﻿using EcsRx.Entities;
+﻿using EcsRx.Collections;
+using EcsRx.Entities;
+using EcsRx.Events;
 using EcsRx.Unity.Systems;
 using UnityEngine;
+using Zenject;
 
-namespace Assets.EcsRx.Examples.AutoRegisterSystems.Systems
+namespace EcsRx.Examples.AutoRegisterSystems.Systems
 {
-    public class DefaultViewResolver : ViewResolverSystem
+    public class DefaultViewResolver : PrefabViewResolverSystem
     {
-        public DefaultViewResolver(IViewHandler viewHandler) : base(viewHandler)
+        public DefaultViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) 
+            : base(collectionManager, eventSystem, instantiator)
         {}
 
-        public override GameObject ResolveView(IEntity entity)
+        protected override GameObject PrefabTemplate => GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+        protected override void OnViewCreated(IEntity entity, GameObject view)
         {
-            var view = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            view.name = "entity-" + entity.Id;
-            return view;
+            view.name = $"entity-{entity.Id}";
         }
     }
 }

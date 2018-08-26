@@ -1,33 +1,29 @@
-﻿using Assets.EcsRx.Examples.SceneFirstSetup.Components;
+﻿using EcsRx.Collections;
 using EcsRx.Entities;
 using EcsRx.Events;
+using EcsRx.Examples.SceneFirstSetup.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Pools;
 using EcsRx.Unity.Systems;
 using UnityEngine;
 using Zenject;
 
-namespace Assets.EcsRx.Examples.SceneFirstSetup.ViewResolvers
+namespace EcsRx.Examples.SceneFirstSetup.ViewResolvers
 {
-    public class CubeViewResolver : ViewResolverSystem
+    public class CubeViewResolver : PrefabViewResolverSystem
     {
-        private readonly Transform ParentTrasform = GameObject.Find("Entities").transform;
+        private readonly Transform _parentTransform = GameObject.Find("Entities").transform;
 
-        public override IGroup TargetGroup
-        {
-            get { return base.TargetGroup.WithComponent<CubeComponent>(); }
-        }
+        public override IGroup Group => base.Group.WithComponent<CubeComponent>();
 
-        public CubeViewResolver(IViewHandler viewHandler) : base(viewHandler)
+        public CubeViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) : base(collectionManager, eventSystem, instantiator)
         {}
 
-        public override GameObject ResolveView(IEntity entity)
+        protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("Cube");
+        protected override void OnViewCreated(IEntity entity, GameObject view)
         {
-            var view = GameObject.CreatePrimitive(PrimitiveType.Cube);
             view.transform.position = new Vector3(-2, 0, 0);
-            view.transform.parent = ParentTrasform;
-            return view;
+            view.transform.parent = _parentTransform;
         }
     }
 }

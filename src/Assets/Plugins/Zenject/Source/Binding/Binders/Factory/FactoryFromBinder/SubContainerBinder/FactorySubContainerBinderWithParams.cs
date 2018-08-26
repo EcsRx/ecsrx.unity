@@ -6,20 +6,33 @@ namespace Zenject
     public class FactorySubContainerBinderWithParams<TContract> : FactorySubContainerBinderBase<TContract>
     {
         public FactorySubContainerBinderWithParams(
-            BindInfo bindInfo, FactoryBindInfo factoryBindInfo, object subIdentifier)
-            : base(bindInfo, factoryBindInfo, subIdentifier)
+            DiContainer bindContainer, BindInfo bindInfo, FactoryBindInfo factoryBindInfo, object subIdentifier)
+            : base(bindContainer, bindInfo, factoryBindInfo, subIdentifier)
         {
         }
 
 #if !NOT_UNITY3D
 
+        [System.Obsolete("ByNewPrefab has been renamed to ByNewContextPrefab to avoid confusion with ByNewPrefabInstaller and ByNewPrefabMethod")]
+        public NameTransformConditionCopyNonLazyBinder ByNewPrefab(Type installerType, UnityEngine.Object prefab)
+        {
+            return ByNewContextPrefab(installerType, prefab);
+        }
+
+        [System.Obsolete("ByNewPrefab has been renamed to ByNewContextPrefab to avoid confusion with ByNewPrefabInstaller and ByNewPrefabMethod")]
         public NameTransformConditionCopyNonLazyBinder ByNewPrefab<TInstaller>(UnityEngine.Object prefab)
             where TInstaller : IInstaller
         {
-            return ByNewPrefab(typeof(TInstaller), prefab);
+            return ByNewContextPrefab<TInstaller>(prefab);
         }
 
-        public NameTransformConditionCopyNonLazyBinder ByNewPrefab(Type installerType, UnityEngine.Object prefab)
+        public NameTransformConditionCopyNonLazyBinder ByNewContextPrefab<TInstaller>(UnityEngine.Object prefab)
+            where TInstaller : IInstaller
+        {
+            return ByNewContextPrefab(typeof(TInstaller), prefab);
+        }
+
+        public NameTransformConditionCopyNonLazyBinder ByNewContextPrefab(Type installerType, UnityEngine.Object prefab)
         {
             BindingUtil.AssertIsValidPrefab(prefab);
 
@@ -35,7 +48,7 @@ namespace Zenject
                         installerType,
                         container,
                         new PrefabProvider(prefab),
-                        gameObjectInfo));
+                        gameObjectInfo), false);
 
             return new NameTransformConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }
@@ -60,7 +73,7 @@ namespace Zenject
                         installerType,
                         container,
                         new PrefabProviderResource(resourcePath),
-                        gameObjectInfo));
+                        gameObjectInfo), false);
 
             return new NameTransformConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }

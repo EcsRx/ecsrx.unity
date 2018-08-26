@@ -1,37 +1,33 @@
 using System;
-using Assets.EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Entities;
-using EcsRx.Groups.Accessors;
+using EcsRx.Examples.RandomReactions.Components;
+using EcsRx.Extensions;
 using EcsRx.Groups;
+using EcsRx.Groups.Observable;
 using EcsRx.Systems;
 using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Assets.EcsRx.Examples.RandomReactions.Systems
+namespace EcsRx.Examples.RandomReactions.Systems
 {
     public class ColorChangingSystem : IReactToGroupSystem, ISetupSystem
     {
         private readonly float MaxDelay = 5.0f;
         private readonly float MinDelay = 1.0f;
 
-        public IGroup TargetGroup
-        {
-            get { return new Group(typeof (RandomColorComponent)); }
-        }
+        public IGroup Group => new Group(typeof (RandomColorComponent));
 
-        public IObservable<IGroupAccessor> ReactToGroup(IGroupAccessor @group)
-        {
-            return Observable.EveryUpdate().Select(x => @group);
-        }
+        public IObservable<IObservableGroup> ReactToGroup(IObservableGroup group)
+        { return Observable.EveryUpdate().Select(x => group); }
 
         public void Setup(IEntity entity)
         {
             var randomColorComponent = entity.GetComponent<RandomColorComponent>();
             randomColorComponent.NextChangeIn = Random.Range(MinDelay, MaxDelay);
         }
-
-        public void Execute(IEntity entity)
+        
+        public void Process(IEntity entity)
         {
             var randomColorComponent = entity.GetComponent<RandomColorComponent>();
             randomColorComponent.Elapsed += Time.deltaTime;

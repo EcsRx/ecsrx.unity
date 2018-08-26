@@ -1,20 +1,22 @@
 ﻿using System;
+using EcsRx.Collections;
 using EcsRx.Entities;
+using EcsRx.Examples.PooledViews.Components;
+using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Pools;
 using EcsRx.Systems;
-using EcsRx.Unity.Components;
+using EcsRx.Views.Components;
 using UniRx;
 
-namespace Assets.EcsRx.Examples.PooledViews.Systems
+namespace EcsRx.Examples.PooledViews.Systems
 {
     public class SelfDestructionSystem : IReactToEntitySystem
     {
-        public IGroup TargetGroup { get { return new Group(typeof(SelfDestructComponent), typeof(ViewComponent));} }
-        private readonly IPool _defaultPool;
+        public IGroup Group => new Group(typeof(SelfDestructComponent), typeof(ViewComponent));
+        private readonly IEntityCollection _defaultCollection;
 
-        public SelfDestructionSystem(IPoolManager poolManager)
-        { _defaultPool = poolManager.GetPool(); }
+        public SelfDestructionSystem(IEntityCollectionManager collectionManager)
+        { _defaultCollection = collectionManager.GetCollection(); }
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {
@@ -22,7 +24,7 @@ namespace Assets.EcsRx.Examples.PooledViews.Systems
             return Observable.Interval(TimeSpan.FromSeconds(selfDestructComponent.Lifetime)).First().Select(x => entity);
         }
 
-        public void Execute(IEntity entity)
-        { _defaultPool.RemoveEntity(entity); }
+        public void Process(IEntity entity)
+        { _defaultCollection.RemoveEntity(entity.Id); }
     }
 }

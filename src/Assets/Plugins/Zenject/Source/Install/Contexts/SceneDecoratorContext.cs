@@ -24,10 +24,7 @@ namespace Zenject
 
         public IEnumerable<MonoInstaller> LateInstallers
         {
-            get
-            {
-                return _lateInstallers;
-            }
+            get { return _lateInstallers; }
             set
             {
                 _lateInstallers.Clear();
@@ -37,10 +34,7 @@ namespace Zenject
 
         public IEnumerable<MonoInstaller> LateInstallerPrefabs
         {
-            get
-            {
-                return _lateInstallerPrefabs;
-            }
+            get { return _lateInstallerPrefabs; }
             set
             {
                 _lateInstallerPrefabs.Clear();
@@ -50,10 +44,7 @@ namespace Zenject
 
         public IEnumerable<ScriptableObjectInstaller> LateScriptableObjectInstallers
         {
-            get
-            {
-                return _lateScriptableObjectInstallers;
-            }
+            get { return _lateScriptableObjectInstallers; }
             set
             {
                 _lateScriptableObjectInstallers.Clear();
@@ -66,7 +57,7 @@ namespace Zenject
         string _decoratedContractName = null;
 
         DiContainer _container;
-        List<MonoBehaviour> _injectableMonoBehaviours;
+        readonly List<MonoBehaviour> _injectableMonoBehaviours = new List<MonoBehaviour>();
 
         public string DecoratedContractName
         {
@@ -92,10 +83,10 @@ namespace Zenject
         public void Initialize(DiContainer container)
         {
             Assert.IsNull(_container);
-            Assert.IsNull(_injectableMonoBehaviours);
+            Assert.That(_injectableMonoBehaviours.IsEmpty());
+
             _container = container;
 
-            _injectableMonoBehaviours = new List<MonoBehaviour>();
             GetInjectableMonoBehaviours(_injectableMonoBehaviours);
 
             foreach (var instance in _injectableMonoBehaviours)
@@ -117,7 +108,10 @@ namespace Zenject
 
         protected override void GetInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
         {
-            ZenUtilInternal.GetInjectableMonoBehaviours(this.gameObject.scene, monoBehaviours);
+            var scene = this.gameObject.scene;
+
+            ZenUtilInternal.AddStateMachineBehaviourAutoInjectersInScene(scene);
+            ZenUtilInternal.GetInjectableMonoBehavioursInScene(scene, monoBehaviours);
         }
 
         public void InstallLateDecoratorInstallers()

@@ -23,7 +23,7 @@ namespace Zenject
             if (_subContainer == null)
             {
                 Assert.That(!_isLookingUp,
-                    "Found unresolvable circular dependency when looking up sub container!  Object graph: {0}", context.GetObjectGraphString());
+                    "Found unresolvable circular dependency when looking up sub container!  Object graph:\n {0}", context.GetObjectGraphString());
                 _isLookingUp = true;
                 _subContainer = _subCreator.CreateSubContainer(new List<TypeValuePair>(), context);
                 _isLookingUp = false;

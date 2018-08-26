@@ -1,5 +1,6 @@
 using System;
 using ModestTree;
+using System.Linq;
 
 namespace Zenject
 {
@@ -25,21 +26,18 @@ namespace Zenject
             var factory = new FactoryProviderWrapper<TContract>(
                 _factoryBindInfo.ProviderFunc(container), new InjectContext(container, typeof(TContract)));
 
-            var settings = new MemoryPoolSettings()
-            {
-                InitialSize = _poolBindInfo.InitialSize,
-                ExpandMethod = _poolBindInfo.ExpandMethod,
-            };
+            var settings = new MemoryPoolSettings(
+                _poolBindInfo.InitialSize, _poolBindInfo.MaxSize, _poolBindInfo.ExpandMethod);
 
             RegisterProviderForAllContracts(
                 container,
-                new CachedProvider(
+                BindingUtil.CreateCachedProvider(
                     new TransientProvider(
                         _factoryBindInfo.FactoryType,
                         container,
-                        InjectUtil.CreateArgListExplicit(factory, settings),
-                        null,
-                        BindInfo.ContextInfo)));
+                        _factoryBindInfo.Arguments.Concat(
+                            InjectUtil.CreateArgListExplicit(factory, settings)).ToList(),
+                        BindInfo.ContextInfo, BindInfo.ConcreteIdentifier)));
         }
     }
 }

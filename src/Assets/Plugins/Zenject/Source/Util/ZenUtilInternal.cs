@@ -88,21 +88,50 @@ namespace Zenject.Internal
             }
         }
 
-        public static void GetInjectableMonoBehaviours(
+        public static void AddStateMachineBehaviourAutoInjectersInScene(Scene scene)
+        {
+            foreach (var rootObj in GetRootGameObjects(scene))
+            {
+                if (rootObj != null)
+                {
+                    AddStateMachineBehaviourAutoInjectersUnderGameObject(rootObj);
+                }
+            }
+        }
+
+        // Call this before calling GetInjectableMonoBehavioursUnderGameObject to ensure that the StateMachineBehaviour's
+        // also get injected properly
+        // The StateMachineBehaviour's cannot be retrieved until after the Start() method so we
+        // need to use ZenjectStateMachineBehaviourAutoInjecter to do the injection at that
+        // time for us
+        public static void AddStateMachineBehaviourAutoInjectersUnderGameObject(GameObject root)
+        {
+            var animators = root.GetComponentsInChildren<Animator>(true);
+
+            foreach (var animator in animators)
+            {
+                if (animator.gameObject.GetComponent<ZenjectStateMachineBehaviourAutoInjecter>() == null)
+                {
+                    animator.gameObject.AddComponent<ZenjectStateMachineBehaviourAutoInjecter>();
+                }
+            }
+        }
+
+        public static void GetInjectableMonoBehavioursInScene(
             Scene scene, List<MonoBehaviour> monoBehaviours)
         {
             foreach (var rootObj in GetRootGameObjects(scene))
             {
                 if (rootObj != null)
                 {
-                    GetInjectableMonoBehaviours(rootObj, monoBehaviours);
+                    GetInjectableMonoBehavioursUnderGameObject(rootObj, monoBehaviours);
                 }
             }
         }
 
         // NOTE: This method will not return components that are within a GameObjectContext
         // It returns monobehaviours in a bottom-up order
-        public static void GetInjectableMonoBehaviours(
+        public static void GetInjectableMonoBehavioursUnderGameObject(
             GameObject gameObject, List<MonoBehaviour> injectableComponents)
         {
             if (gameObject == null)
@@ -128,14 +157,15 @@ namespace Zenject.Internal
                 }
             }
 
-            // Recurse first so it adds components bottom up
+            // Recurse first so it adds components bottom up though it shouldn't really matter much
+            // because it should always inject in the dependency order
             for (int i = 0; i < gameObject.transform.childCount; i++)
             {
                 var child = gameObject.transform.GetChild(i);
 
                 if (child != null)
                 {
-                    GetInjectableMonoBehaviours(child.gameObject, injectableComponents);
+                    GetInjectableMonoBehavioursUnderGameObject(child.gameObject, injectableComponents);
                 }
             }
 
@@ -157,7 +187,7 @@ namespace Zenject.Internal
             // Do not inject on installers since these are always injected before they are installed
             return type != null && !type.DerivesFrom<MonoInstaller>()
                 // Don't bother performing reflection operations on unity classes since they are guaranteed not to use zenject
-                && (type.Namespace == null || !type.Namespace.StartsWith("UnityEngine."));
+                && (type.Namespace == null || !type.Namespace.StartsWith("UnityEngine.", StringComparison.Ordinal));
         }
 
         public static IEnumerable<GameObject> GetRootGameObjects(Scene scene)
@@ -186,6 +216,30 @@ namespace Zenject.Internal
                     && x.GetComponent<ProjectContext>() == null
                     && x.scene == scene);
         }
+
+        // Returns a Transform in the DontDestroyOnLoad scene (or, if we're not in play mode, within the current active scene)
+        // whose GameObject is inactive, and whose hide flags are set to HideAndDontSave. We can instantiate prefabs in here
+        // without any of their Awake() methods firing.
+        public static Transform GetOrCreateInactivePrefabParent()
+        {
+            if(disabledIndestructibleGameObject == null || (!Application.isPlaying && disabledIndestructibleGameObject.scene != SceneManager.GetActiveScene()))
+            {
+                var go = new GameObject("ZenUtilInternal_PrefabParent");
+                go.hideFlags = HideFlags.HideAndDontSave;
+                go.SetActive(false);
+
+                if(Application.isPlaying)
+                {
+                    UnityEngine.Object.DontDestroyOnLoad(go);
+                }
+
+                disabledIndestructibleGameObject = go;
+            }
+
+            return disabledIndestructibleGameObject.transform;
+        }
+
+        static GameObject disabledIndestructibleGameObject;
 #endif
     }
 }

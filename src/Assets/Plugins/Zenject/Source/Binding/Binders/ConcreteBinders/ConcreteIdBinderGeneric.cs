@@ -3,9 +3,9 @@ namespace Zenject
     public class ConcreteIdBinderGeneric<TContract> : ConcreteBinderGeneric<TContract>
     {
         public ConcreteIdBinderGeneric(
-            BindInfo bindInfo,
+            DiContainer bindContainer, BindInfo bindInfo,
             BindFinalizerWrapper finalizerWrapper)
-            : base(bindInfo, finalizerWrapper)
+            : base(bindContainer, bindInfo, finalizerWrapper)
         {
         }
 

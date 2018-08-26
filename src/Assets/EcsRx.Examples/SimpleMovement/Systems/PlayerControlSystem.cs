@@ -1,36 +1,29 @@
 ﻿using System;
-using Assets.EcsRx.Examples.SimpleMovement.Components;
 using EcsRx.Entities;
-using EcsRx.Groups.Accessors;
+using EcsRx.Examples.SimpleMovement.Components;
+using EcsRx.Extensions;
 using EcsRx.Groups;
+using EcsRx.Groups.Observable;
 using EcsRx.Systems;
-using EcsRx.Unity.Components;
+using EcsRx.Views.Components;
 using UniRx;
 using UnityEngine;
 
-namespace Assets.EcsRx.Examples.SimpleMovement.Systems
+namespace EcsRx.Examples.SimpleMovement.Systems
 {
     public class PlayerControlSystem : IReactToGroupSystem
     {
         public readonly float MovementSpeed = 2.0f;
 
-        public IGroup TargetGroup
-        {
-            get
-            {
-                return new GroupBuilder()
-                    .WithComponent<ViewComponent>()
-                    .WithComponent<PlayerControlledComponent>()
-                    .Build();
-            }
-        }
+        public IGroup Group => new GroupBuilder()
+            .WithComponent<ViewComponent>()
+            .WithComponent<PlayerControlledComponent>()
+            .Build();
 
-        public IObservable<IGroupAccessor> ReactToGroup(IGroupAccessor @group)
-        {
-            return Observable.EveryUpdate().Select(x => @group);
-        }
+        public IObservable<IObservableGroup> ReactToGroup(IObservableGroup group)
+        { return Observable.EveryUpdate().Select(x => group); }
 
-        public void Execute(IEntity entity)
+        public void Process(IEntity entity)
         {
             var strafeMovement = 0f;
             var forardMovement = 0f;
@@ -41,9 +34,10 @@ namespace Assets.EcsRx.Examples.SimpleMovement.Systems
             if (Input.GetKey(KeyCode.S)) { forardMovement = -1.0f; }
 
             var viewComponent = entity.GetComponent<ViewComponent>();
-            var transform = viewComponent.View.transform;
-            var newPosition = transform.position;
+            var view = viewComponent.View as GameObject;
+            var transform = view.transform;
 
+            var newPosition = view.transform.position;
             newPosition.x += strafeMovement * MovementSpeed * Time.deltaTime;
             newPosition.z += forardMovement * MovementSpeed * Time.deltaTime;
 

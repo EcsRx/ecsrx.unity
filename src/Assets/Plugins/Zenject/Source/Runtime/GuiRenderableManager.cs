@@ -49,7 +49,7 @@ namespace Zenject
             {
                 try
                 {
-#if UNITY_EDITOR && ZEN_PROFILING_ENABLED
+#if UNITY_EDITOR
                     using (ProfileBlock.Start("{0}.GuiRender()", renderable.Renderable.GetType()))
 #endif
                     {
@@ -59,7 +59,7 @@ namespace Zenject
                 catch (Exception e)
                 {
                     throw Assert.CreateException(
-                        e, "Error occurred while initializing IGuiRenderable with type '{0}'", renderable.Renderable.GetType());
+                        e, "Error occurred while calling {0}.GuiRender", renderable.Renderable.GetType());
                 }
             }
         }

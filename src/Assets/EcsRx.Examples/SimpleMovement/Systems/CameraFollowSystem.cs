@@ -1,27 +1,22 @@
 ﻿using System;
-using Assets.EcsRx.Examples.SimpleMovement.Components;
 using EcsRx.Entities;
-using EcsRx.Groups.Accessors;
+using EcsRx.Examples.SimpleMovement.Components;
+using EcsRx.Extensions;
 using EcsRx.Groups;
+using EcsRx.Groups.Observable;
 using EcsRx.Systems;
-using EcsRx.Unity.Components;
+using EcsRx.Views.Components;
 using UniRx;
 using UnityEngine;
 
-namespace Assets.EcsRx.Examples.SimpleMovement.Systems
+namespace EcsRx.Examples.SimpleMovement.Systems
 {
     public class CameraFollowSystem : ISetupSystem, IReactToGroupSystem
     {
-        public IGroup TargetGroup
-        {
-            get
-            {
-                return new GroupBuilder()
-                    .WithComponent<CameraFollowsComponent>()
-                    .WithComponent<ViewComponent>()
-                    .Build();
-            }
-        }
+        public IGroup Group => new GroupBuilder()
+            .WithComponent<CameraFollowsComponent>()
+            .WithComponent<ViewComponent>()
+            .Build();
 
         public void Setup(IEntity entity)
         {
@@ -29,14 +24,14 @@ namespace Assets.EcsRx.Examples.SimpleMovement.Systems
             cameraFollows.Camera = Camera.main;
         }
 
-        public IObservable<IGroupAccessor> ReactToGroup(IGroupAccessor @group)
-        {
-            return Observable.EveryUpdate().Select(x => @group);
-        }
+        public IObservable<IObservableGroup> ReactToGroup(IObservableGroup group)
+        { return Observable.EveryUpdate().Select(x => group); }
 
-        public void Execute(IEntity entity)
+        public void Process(IEntity entity)
         {
-            var entityPosition = entity.GetComponent<ViewComponent>().View.transform.position;
+            var viewComponent = entity.GetComponent<ViewComponent>();
+            var view = viewComponent.View as GameObject;
+            var entityPosition = view.transform.position;
             var trailPosition = entityPosition + (Vector3.back*5.0f);
             trailPosition += Vector3.up*2.0f;
 

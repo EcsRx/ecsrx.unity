@@ -1,7 +1,7 @@
-﻿using Assets.EcsRx.Examples.ManuallyRegisterSystems.Systems;
+﻿using EcsRx.Examples.ManuallyRegisterSystems.Systems;
 using Zenject;
 
-namespace Assets.EcsRx.Examples.ManuallyRegisterSystems.Installers
+namespace EcsRx.Examples.ManuallyRegisterSystems.Installers
 {
     public class ManualInstaller : MonoInstaller
     {

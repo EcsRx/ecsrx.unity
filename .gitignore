@@ -11,3 +11,5 @@ src/\.idea/\.idea\.src/\.idea/
 
 src/\.idea/\.idea\.src/
 /src/.idea
+/src/Assets/Plugins/Zenject/OptionalExtras
+/src/.vs
