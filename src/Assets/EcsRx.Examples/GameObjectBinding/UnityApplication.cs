@@ -11,11 +11,11 @@ namespace EcsRx.Examples.GameObjectBinding
         protected override void ApplicationStarting()
         {
             this.BindAllSystemsWithinApplicationScope();
-            this.RegisterAllBoundSystems();
         }
 
         protected override void ApplicationStarted()
         {
+            this.RegisterAllBoundSystems();
             var entityCollection = CollectionManager.GetCollection();
 
             var cubeEntity = entityCollection.CreateEntity();

@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>6</LangVersion>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -45,13 +44,6 @@
     <ImplicitlyExpandNETStandardFacades>false</ImplicitlyExpandNETStandardFacades>
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
-  <PropertyGroup>
-    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <UnityProjectGenerator>Unity/VSTU</UnityProjectGenerator>
-    <UnityProjectType>Editor:5</UnityProjectType>
-    <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
-    <UnityVersion>2018.2.5f1</UnityVersion>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.2.5f1\Editor\Data\Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -93,7 +85,7 @@
     <Compile Include="Assets\EcsRx\Unity\Editor\RegisterAsEntityInspector.cs" />
     <Compile Include="Assets\EcsRx\Unity\Editor\UIAspects\ComponentUIAspect.cs" />
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -336,28 +328,25 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.5f1/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx">
-      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/EcsRx/EcsRx.dll</HintPath>
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx.Infrastructure">
-      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/EcsRx/EcsRx.Infrastructure.dll</HintPath>
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx.MicroRx">
-      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/EcsRx/EcsRx.MicroRx.dll</HintPath>
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.MicroRx.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx.Systems">
-      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/EcsRx/EcsRx.Systems.dll</HintPath>
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.Systems.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx.Views">
-      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/EcsRx/EcsRx.Views.dll</HintPath>
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.Views.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.Rider.Unity.Editor.Plugin.Repacked">
-      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll</HintPath>
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll</HintPath>
     </Reference>
     <Reference Include="Zenject-usage">
-      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
-    </Reference>
-    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.5f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -724,7 +713,6 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

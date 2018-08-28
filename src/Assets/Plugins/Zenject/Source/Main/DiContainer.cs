@@ -47,6 +47,9 @@ namespace Zenject
 #if !NOT_UNITY3D
         Transform _contextTransform;
         bool _hasLookedUpContextTransform;
+        Transform _inheritedDefaultParent;
+        Transform _explicitDefaultParent;
+        bool _hasExplicitDefaultParent;
 #endif
 
         ZenjectSettings _settings;
@@ -91,7 +94,7 @@ namespace Zenject
                 }
 
 #if !NOT_UNITY3D
-                DefaultParent = _parentContainers.First().DefaultParent;
+                _inheritedDefaultParent = _parentContainers.First().DefaultParent;
 #endif
 
                 // Make sure to avoid duplicates which could happen if a parent container
@@ -251,10 +254,20 @@ namespace Zenject
 
 #if !NOT_UNITY3D
 
+        public Transform InheritedDefaultParent
+        {
+            get { return _inheritedDefaultParent; }
+        }
+
         public Transform DefaultParent
         {
-            get;
-            set;
+            get { return _explicitDefaultParent; }
+            set
+            {
+                _explicitDefaultParent = value;
+                // Need to use a flag because null is a valid explicit default parent
+                _hasExplicitDefaultParent = true;
+            }
         }
 #endif
 
@@ -1130,14 +1143,35 @@ namespace Zenject
 
         List<object> GetDecoratedInstances(IProvider provider, InjectContext context)
         {
-            IDecoratorProvider decoratorProvider;
+            // TODO:  This is flawed since it doesn't allow binding new decorators in subcontainers
+            var decoratorProvider = TryGetDecoratorProvider(context.BindingId.Type);
 
-            if (_decorators.TryGetValue(context.BindingId.Type, out decoratorProvider))
+            if (decoratorProvider != null)
             {
                 return decoratorProvider.GetAllInstances(provider, context);
             }
 
             return provider.GetAllInstances(context);
+        }
+
+        IDecoratorProvider TryGetDecoratorProvider(Type contractType)
+        {
+            IDecoratorProvider decoratorProvider;
+
+            if (_decorators.TryGetValue(contractType, out decoratorProvider))
+            {
+                return decoratorProvider;
+            }
+
+            for (int i = 0; i < _ancestorContainers.Length; i++)
+            {
+                if (_ancestorContainers[i]._decorators.TryGetValue(contractType, out decoratorProvider))
+                {
+                    return decoratorProvider;
+                }
+            }
+
+            return null;
         }
 
         int GetContainerHeirarchyDistance(DiContainer container)
@@ -1699,7 +1733,10 @@ namespace Zenject
 
             var groupName = gameObjectBindInfo.GroupName;
 
-            if (DefaultParent == null)
+            // Only use the inherited parent if is not set locally
+            var defaultParent = _hasExplicitDefaultParent ? _explicitDefaultParent : _inheritedDefaultParent;
+
+            if (defaultParent == null)
             {
                 if (groupName == null)
                 {
@@ -1711,10 +1748,10 @@ namespace Zenject
 
             if (groupName == null)
             {
-                return DefaultParent;
+                return defaultParent;
             }
 
-            foreach (Transform child in DefaultParent)
+            foreach (Transform child in defaultParent)
             {
                 if (child.name == groupName)
                 {
@@ -1723,7 +1760,7 @@ namespace Zenject
             }
 
             var group = new GameObject(groupName).transform;
-            group.SetParent(DefaultParent, false);
+            group.SetParent(defaultParent, false);
             return group;
         }
 
@@ -2675,7 +2712,7 @@ namespace Zenject
         //
         //      Container.Bind<Foo>().FromInstance(new Foo());
         //
-        public IdScopeConditionCopyNonLazyBinder BindInstance<TContract>(TContract instance)
+        public IdScopeConcreteIdArgConditionCopyNonLazyBinder BindInstance<TContract>(TContract instance)
         {
             var bindInfo = new BindInfo();
             bindInfo.ContractTypes.Add(typeof(TContract));
@@ -2686,7 +2723,7 @@ namespace Zenject
                 bindInfo,
                 (container, type) => new InstanceProvider(type, instance, container));
 
-            return new IdScopeConditionCopyNonLazyBinder(bindInfo);
+            return new IdScopeConcreteIdArgConditionCopyNonLazyBinder(bindInfo);
         }
 
         // Unfortunately we can't support setting scope / condition / etc. here since all the
@@ -3283,108 +3320,108 @@ namespace Zenject
             }
         }
 
-        public void BindTickableExecutionOrder<T>(int order)
+        public CopyNonLazyBinder BindTickableExecutionOrder<T>(int order)
             where T : ITickable
         {
-            BindTickableExecutionOrder(typeof(T), order);
+            return BindTickableExecutionOrder(typeof(T), order);
         }
 
-        public void BindTickableExecutionOrder(Type type, int order)
+        public CopyNonLazyBinder BindTickableExecutionOrder(Type type, int order)
         {
             Assert.That(type.DerivesFrom<ITickable>(),
                 "Expected type '{0}' to derive from ITickable", type);
 
-            BindInstance(
+            return BindInstance(
                 ModestTree.Util.ValuePair.New(type, order)).WhenInjectedInto<TickableManager>();
         }
 
-        public void BindInitializableExecutionOrder<T>(int order)
+        public CopyNonLazyBinder BindInitializableExecutionOrder<T>(int order)
             where T : IInitializable
         {
-            BindInitializableExecutionOrder(typeof(T), order);
+            return BindInitializableExecutionOrder(typeof(T), order);
         }
 
-        public void BindInitializableExecutionOrder(Type type, int order)
+        public CopyNonLazyBinder BindInitializableExecutionOrder(Type type, int order)
         {
             Assert.That(type.DerivesFrom<IInitializable>(),
                 "Expected type '{0}' to derive from IInitializable", type);
 
-            BindInstance(
+            return BindInstance(
                 ModestTree.Util.ValuePair.New(type, order)).WhenInjectedInto<InitializableManager>();
         }
 
-        public void BindDisposableExecutionOrder<T>(int order)
+        public CopyNonLazyBinder BindDisposableExecutionOrder<T>(int order)
             where T : IDisposable
         {
-            BindDisposableExecutionOrder(typeof(T), order);
+            return BindDisposableExecutionOrder(typeof(T), order);
         }
 
-        public void BindLateDisposableExecutionOrder<T>(int order)
+        public CopyNonLazyBinder BindLateDisposableExecutionOrder<T>(int order)
             where T : ILateDisposable
         {
-            BindLateDisposableExecutionOrder(typeof(T), order);
+            return BindLateDisposableExecutionOrder(typeof(T), order);
         }
 
-        public void BindDisposableExecutionOrder(Type type, int order)
+        public CopyNonLazyBinder BindDisposableExecutionOrder(Type type, int order)
         {
             Assert.That(type.DerivesFrom<IDisposable>(),
                 "Expected type '{0}' to derive from IDisposable", type);
 
-            BindInstance(
+            return BindInstance(
                 ModestTree.Util.ValuePair.New(type, order)).WhenInjectedInto<DisposableManager>();
         }
 
-        public void BindLateDisposableExecutionOrder(Type type, int order)
+        public CopyNonLazyBinder BindLateDisposableExecutionOrder(Type type, int order)
         {
             Assert.That(type.DerivesFrom<ILateDisposable>(),
             "Expected type '{0}' to derive from ILateDisposable", type);
 
-            BindInstance(
+            return BindInstance(
                 ModestTree.Util.ValuePair.New(type, order)).WithId("Late").WhenInjectedInto<DisposableManager>();
         }
 
-        public void BindFixedTickableExecutionOrder<T>(int order)
+        public CopyNonLazyBinder BindFixedTickableExecutionOrder<T>(int order)
             where T : IFixedTickable
         {
-            BindFixedTickableExecutionOrder(typeof(T), order);
+            return BindFixedTickableExecutionOrder(typeof(T), order);
         }
 
-        public void BindFixedTickableExecutionOrder(Type type, int order)
+        public CopyNonLazyBinder BindFixedTickableExecutionOrder(Type type, int order)
         {
             Assert.That(type.DerivesFrom<IFixedTickable>(),
                 "Expected type '{0}' to derive from IFixedTickable", type);
 
-            Bind<ModestTree.Util.ValuePair<Type, int>>().WithId("Fixed")
+            return Bind<ModestTree.Util.ValuePair<Type, int>>().WithId("Fixed")
                 .FromInstance(ModestTree.Util.ValuePair.New(type, order)).WhenInjectedInto<TickableManager>();
         }
 
-        public void BindLateTickableExecutionOrder<T>(int order)
+        public CopyNonLazyBinder BindLateTickableExecutionOrder<T>(int order)
             where T : ILateTickable
         {
-            BindLateTickableExecutionOrder(typeof(T), order);
+            return BindLateTickableExecutionOrder(typeof(T), order);
         }
 
-        public void BindLateTickableExecutionOrder(Type type, int order)
+        public CopyNonLazyBinder BindLateTickableExecutionOrder(Type type, int order)
         {
             Assert.That(type.DerivesFrom<ILateTickable>(),
                 "Expected type '{0}' to derive from ILateTickable", type);
 
-            Bind<ModestTree.Util.ValuePair<Type, int>>().WithId("Late")
+            return Bind<ModestTree.Util.ValuePair<Type, int>>().WithId("Late")
                 .FromInstance(ModestTree.Util.ValuePair.New(type, order)).WhenInjectedInto<TickableManager>();
         }
 
-        public void BindPoolableExecutionOrder<T>(int order)
+        public CopyNonLazyBinder BindPoolableExecutionOrder<T>(int order)
             where T : IPoolable
         {
-            BindPoolableExecutionOrder(typeof(T), order);
+            return BindPoolableExecutionOrder(typeof(T), order);
         }
 
-        public void BindPoolableExecutionOrder(Type type, int order)
+        public CopyNonLazyBinder BindPoolableExecutionOrder(Type type, int order)
         {
             Assert.That(type.DerivesFrom<IPoolable>(),
                 "Expected type '{0}' to derive from IPoolable", type);
 
-            Bind<ModestTree.Util.ValuePair<Type, int>>()
+            return Bind<ModestTree.Util.ValuePair<Type, int>>()
                 .FromInstance(ModestTree.Util.ValuePair.New(type, order)).WhenInjectedInto<PoolableManager>();
         }
 

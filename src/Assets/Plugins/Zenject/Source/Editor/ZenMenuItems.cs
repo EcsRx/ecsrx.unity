@@ -97,7 +97,7 @@ namespace Zenject.Internal
         [MenuItem("Assets/Create/Zenject/Scriptable Object Installer", false, 1)]
         public static void CreateScriptableObjectInstaller()
         {
-            AddCSharpClassTemplate("Scriptable Object Installer", "UntitledInstaller", false,
+            AddCSharpClassTemplate("Scriptable Object Installer", "UntitledInstaller", 
                   "using UnityEngine;"
                 + "\nusing Zenject;"
                 + "\n"
@@ -113,7 +113,7 @@ namespace Zenject.Internal
         [MenuItem("Assets/Create/Zenject/Mono Installer", false, 1)]
         public static void CreateMonoInstaller()
         {
-            AddCSharpClassTemplate("Mono Installer", "UntitledInstaller", false,
+            AddCSharpClassTemplate("Mono Installer", "UntitledInstaller", 
                   "using UnityEngine;"
                 + "\nusing Zenject;"
                 + "\n"
@@ -128,7 +128,7 @@ namespace Zenject.Internal
         [MenuItem("Assets/Create/Zenject/Installer", false, 1)]
         public static void CreateInstaller()
         {
-            AddCSharpClassTemplate("Installer", "UntitledInstaller", false,
+            AddCSharpClassTemplate("Installer", "UntitledInstaller", 
                   "using UnityEngine;"
                 + "\nusing Zenject;"
                 + "\n"
@@ -143,7 +143,7 @@ namespace Zenject.Internal
         [MenuItem("Assets/Create/Zenject/Editor Window", false, 20)]
         public static void CreateEditorWindow()
         {
-            AddCSharpClassTemplate("Editor Window", "UntitledEditorWindow", true,
+            AddCSharpClassTemplate("Editor Window", "UntitledEditorWindow", 
                   "using UnityEngine;"
                 + "\nusing UnityEditor;"
                 + "\nusing Zenject;"
@@ -216,23 +216,16 @@ namespace Zenject.Internal
         }
 
         public static string AddCSharpClassTemplate(
-            string friendlyName, string defaultFileName, bool editorOnly, string templateStr)
+            string friendlyName, string defaultFileName, string templateStr)
         {
             return AddCSharpClassTemplate(
-                friendlyName, defaultFileName, editorOnly, templateStr, ZenUnityEditorUtil.GetCurrentDirectoryAssetPathFromSelection());
+                friendlyName, defaultFileName, templateStr, ZenUnityEditorUtil.GetCurrentDirectoryAssetPathFromSelection());
         }
 
         public static string AddCSharpClassTemplate(
-            string friendlyName, string defaultFileName, bool editorOnly,
+            string friendlyName, string defaultFileName,
             string templateStr, string folderPath)
         {
-            if (editorOnly && !folderPath.Contains("/Editor"))
-            {
-                EditorUtility.DisplayDialog("Error",
-                    "Editor window classes must have a parent folder above them named 'Editor'.  Please create or find an Editor folder and try again", "Ok");
-                return null;
-            }
-
             var absolutePath = EditorUtility.SaveFilePanel(
                 "Choose name for " + friendlyName,
                 folderPath,

@@ -66,37 +66,37 @@ namespace Zenject
             return this;
         }
 
-        public ScopeConditionCopyNonLazyBinder FromResolve()
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder FromResolve()
         {
             return FromResolve(null);
         }
 
-        public ScopeConditionCopyNonLazyBinder FromResolve(object subIdentifier)
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder FromResolve(object subIdentifier)
         {
             return FromResolve(subIdentifier, InjectSources.Any);
         }
 
-        public ScopeConditionCopyNonLazyBinder FromResolve(object subIdentifier, InjectSources source)
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder FromResolve(object subIdentifier, InjectSources source)
         {
             return FromResolveInternal(subIdentifier, false, source);
         }
 
-        public ScopeConditionCopyNonLazyBinder FromResolveAll()
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder FromResolveAll()
         {
             return FromResolveAll(null);
         }
 
-        public ScopeConditionCopyNonLazyBinder FromResolveAll(object subIdentifier)
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder FromResolveAll(object subIdentifier)
         {
             return FromResolveAll(subIdentifier, InjectSources.Any);
         }
 
-        public ScopeConditionCopyNonLazyBinder FromResolveAll(object subIdentifier, InjectSources source)
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder FromResolveAll(object subIdentifier, InjectSources source)
         {
             return FromResolveInternal(subIdentifier, true, source);
         }
 
-        ScopeConditionCopyNonLazyBinder FromResolveInternal(object subIdentifier, bool matchAll, InjectSources source)
+        ScopeConcreteIdArgConditionCopyNonLazyBinder FromResolveInternal(object subIdentifier, bool matchAll, InjectSources source)
         {
             BindInfo.RequireExplicitScope = false;
             // Don't know how it's created so can't assume here that it violates AsSingle
@@ -107,7 +107,7 @@ namespace Zenject
                 (container, type) => new ResolveProvider(
                     type, container, subIdentifier, false, source, matchAll));
 
-            return new ScopeConditionCopyNonLazyBinder(BindInfo);
+            return new ScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo);
         }
 
         public SubContainerBinder FromSubContainerResolveAll()
@@ -254,7 +254,7 @@ namespace Zenject
             SubFinalizer = new ScopableBindingFinalizer(
                 BindInfo,
                 (container, type) => new AddToExistingGameObjectComponentProvider(
-                    gameObject, container, type, BindInfo.Arguments, BindInfo.ConcreteIdentifier));
+                    gameObject, container, type, BindInfo.Arguments, BindInfo.ConcreteIdentifier, BindInfo.InstantiatedCallback));
 
             return new ScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo);
         }
@@ -268,12 +268,12 @@ namespace Zenject
             SubFinalizer = new ScopableBindingFinalizer(
                 BindInfo,
                 (container, type) => new AddToExistingGameObjectComponentProviderGetter(
-                    gameObjectGetter, container, type, BindInfo.Arguments, BindInfo.ConcreteIdentifier));
+                    gameObjectGetter, container, type, BindInfo.Arguments, BindInfo.ConcreteIdentifier, BindInfo.InstantiatedCallback));
 
             return new ScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo);
         }
 
-        public ArgConditionCopyNonLazyBinder FromNewComponentSibling()
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder FromNewComponentSibling()
         {
             BindingUtil.AssertIsComponent(ConcreteTypes);
             BindingUtil.AssertTypesAreNotAbstract(ConcreteTypes);
@@ -281,9 +281,9 @@ namespace Zenject
             BindInfo.RequireExplicitScope = true;
             SubFinalizer = new SingleProviderBindingFinalizer(
                 BindInfo, (container, type) => new AddToCurrentGameObjectComponentProvider(
-                    container, type, BindInfo.Arguments, BindInfo.ConcreteIdentifier));
+                    container, type, BindInfo.Arguments, BindInfo.ConcreteIdentifier, BindInfo.InstantiatedCallback));
 
-            return new ArgConditionCopyNonLazyBinder(BindInfo);
+            return new ScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo);
         }
 
         public ScopeConcreteIdArgConditionCopyNonLazyBinder FromNewComponentOnRoot()
@@ -310,7 +310,7 @@ namespace Zenject
                     container,
                     type,
                     BindInfo.Arguments,
-                    gameObjectInfo, BindInfo.ConcreteIdentifier));
+                    gameObjectInfo, BindInfo.ConcreteIdentifier, BindInfo.InstantiatedCallback));
 
             return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }
@@ -350,7 +350,8 @@ namespace Zenject
             BindInfo.RequireExplicitScope = true;
             SubFinalizer = new PrefabBindingFinalizer(
                 BindInfo, gameObjectInfo, prefab,
-                (contractType, instantiator) => new InstantiateOnPrefabComponentProvider(contractType, instantiator));
+                (contractType, instantiator) =>
+                    new InstantiateOnPrefabComponentProvider(contractType, instantiator));
 
             return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }
@@ -453,12 +454,13 @@ namespace Zenject
             SubFinalizer = new ScopableBindingFinalizer(
                 BindInfo,
                 (container, type) => new ScriptableObjectResourceProvider(
-                    resourcePath, type, container, BindInfo.Arguments, createNew, BindInfo.ConcreteIdentifier));
+                    resourcePath, type, container, BindInfo.Arguments, createNew,
+                    BindInfo.ConcreteIdentifier, BindInfo.InstantiatedCallback));
 
             return new ScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo);
         }
 
-        public ScopeConditionCopyNonLazyBinder FromResource(string resourcePath)
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder FromResource(string resourcePath)
         {
             BindingUtil.AssertDerivesFromUnityObject(ConcreteTypes);
 
@@ -467,10 +469,10 @@ namespace Zenject
                 BindInfo,
                 (_, type) => new ResourceProvider(resourcePath, type, true));
 
-            return new ScopeConditionCopyNonLazyBinder(BindInfo);
+            return new ScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo);
         }
 
-        public ScopeConditionCopyNonLazyBinder FromResources(string resourcePath)
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder FromResources(string resourcePath)
         {
             BindingUtil.AssertDerivesFromUnityObject(ConcreteTypes);
 
@@ -479,7 +481,7 @@ namespace Zenject
                 BindInfo,
                 (_, type) => new ResourceProvider(resourcePath, type, false));
 
-            return new ScopeConditionCopyNonLazyBinder(BindInfo);
+            return new ScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo);
         }
 
 #endif
@@ -536,7 +538,7 @@ namespace Zenject
             return this;
         }
 
-        protected ScopeConditionCopyNonLazyBinder FromResolveGetterBase<TObj, TResult>(
+        protected ScopeConcreteIdArgConditionCopyNonLazyBinder FromResolveGetterBase<TObj, TResult>(
             object identifier, Func<TObj, TResult> method, InjectSources source, bool matchMultiple)
         {
             BindingUtil.AssertIsDerivedFromTypes(typeof(TResult), AllParentTypes);
@@ -548,10 +550,10 @@ namespace Zenject
                 BindInfo,
                 (container, type) => new GetterProvider<TObj, TResult>(identifier, method, container, source, matchMultiple));
 
-            return new ScopeConditionCopyNonLazyBinder(BindInfo);
+            return new ScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo);
         }
 
-        protected ScopeConditionCopyNonLazyBinder FromInstanceBase(object instance)
+        protected ScopeConcreteIdArgConditionCopyNonLazyBinder FromInstanceBase(object instance)
         {
             BindingUtil.AssertInstanceDerivesFromOrEqual(instance, AllParentTypes);
 
@@ -562,7 +564,7 @@ namespace Zenject
                 BindInfo,
                 (container, type) => new InstanceProvider(type, instance, container));
 
-            return new ScopeConditionCopyNonLazyBinder(BindInfo);
+            return new ScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo);
         }
     }
 }

@@ -101,5 +101,7 @@ namespace Zenject
         public ScopeTypes Scope;
 
         public List<TypeValuePair> Arguments;
+
+        public Action<InjectContext, object> InstantiatedCallback;
     }
 }

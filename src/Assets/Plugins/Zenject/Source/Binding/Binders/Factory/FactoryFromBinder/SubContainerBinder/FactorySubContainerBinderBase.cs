@@ -50,35 +50,53 @@ namespace Zenject
             get { return typeof(TContract); }
         }
 
-        public ArgConditionCopyNonLazyBinder ByInstaller<TInstaller>()
+        public
+#if NOT_UNITY3D
+            ScopeConcreteIdArgConditionCopyNonLazyBinder
+#else
+            DefaultParentScopeConcreteIdArgConditionCopyNonLazyBinder
+#endif
+            ByInstaller<TInstaller>()
             where TInstaller : InstallerBase
         {
             return ByInstaller(typeof(TInstaller));
         }
 
-        public ArgConditionCopyNonLazyBinder ByInstaller(Type installerType)
+        public
+#if NOT_UNITY3D
+            ScopeConcreteIdArgConditionCopyNonLazyBinder
+#else
+            DefaultParentScopeConcreteIdArgConditionCopyNonLazyBinder
+#endif
+            ByInstaller(Type installerType)
         {
             Assert.That(installerType.DerivesFrom<InstallerBase>(),
                 "Invalid installer type given during bind command.  Expected type '{0}' to derive from 'Installer<>'", installerType);
+
+            var subcontainerBindInfo = new SubContainerCreatorBindInfo();
 
             ProviderFunc =
                 (container) => new SubContainerDependencyProvider(
                     ContractType, SubIdentifier,
                     new SubContainerCreatorByInstaller(
-                        container, installerType, BindInfo.Arguments), false);
+                        container, subcontainerBindInfo, installerType, BindInfo.Arguments), false);
 
-            return new ArgConditionCopyNonLazyBinder(BindInfo);
+#if NOT_UNITY3D
+            return new ScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo);
+#else
+            return new DefaultParentScopeConcreteIdArgConditionCopyNonLazyBinder(subcontainerBindInfo, BindInfo);
+#endif
         }
 
 #if !NOT_UNITY3D
-        public NameTransformConditionCopyNonLazyBinder ByNewPrefabInstaller<TInstaller>(
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabInstaller<TInstaller>(
             UnityEngine.Object prefab)
             where TInstaller : InstallerBase
         {
             return ByNewPrefabInstaller(prefab, typeof(TInstaller));
         }
 
-        public NameTransformConditionCopyNonLazyBinder ByNewPrefabInstaller(
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabInstaller(
             UnityEngine.Object prefab, Type installerType)
         {
             Assert.That(installerType.DerivesFrom<InstallerBase>(),
@@ -94,17 +112,17 @@ namespace Zenject
                         new PrefabProvider(prefab),
                         gameObjectInfo, installerType, BindInfo.Arguments), false);
 
-            return new NameTransformConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
+            return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }
 
-        public NameTransformConditionCopyNonLazyBinder ByNewPrefabResourceInstaller<TInstaller>(
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabResourceInstaller<TInstaller>(
             string resourcePath)
             where TInstaller : InstallerBase
         {
             return ByNewPrefabResourceInstaller(resourcePath, typeof(TInstaller));
         }
 
-        public NameTransformConditionCopyNonLazyBinder ByNewPrefabResourceInstaller(
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabResourceInstaller(
             string resourcePath, Type installerType)
         {
             BindingUtil.AssertIsValidResourcePath(resourcePath);
@@ -121,7 +139,7 @@ namespace Zenject
                         new PrefabProviderResource(resourcePath),
                         gameObjectInfo, installerType, BindInfo.Arguments), false);
 
-            return new NameTransformConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
+            return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
         }
 #endif
     }

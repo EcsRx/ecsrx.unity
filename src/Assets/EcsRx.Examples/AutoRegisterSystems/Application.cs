@@ -10,12 +10,12 @@ namespace EcsRx.Examples.AutoRegisterSystems
         {
             // You could optionally use instead of the scene based approach
             // this.BindAllSystemsWithinApplicationScope();
-            
-            this.RegisterAllBoundSystems();
         }
 
         protected override void ApplicationStarted()
         {
+            this.RegisterAllBoundSystems();
+            
             var defaultPool = CollectionManager.GetCollection();
             var entity = defaultPool.CreateEntity();
             entity.AddComponents(new ViewComponent());

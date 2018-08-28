@@ -7,14 +7,11 @@ namespace EcsRx.Examples.ManuallyRegisterSystems
 {
     public class UnityApplication : EcsRxApplicationBehaviour
     {
-        protected override void ApplicationStarting()
+        protected override void ApplicationStarted()
         {
             this.RegisterSystem<DefaultViewResolver>();
             this.RegisterSystem<RandomMovementSystem>();
-        }
-
-        protected override void ApplicationStarted()
-        {
+            
             var defaultPool = CollectionManager.GetCollection();
             
             var entity = defaultPool.CreateEntity();

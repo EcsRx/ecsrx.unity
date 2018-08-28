@@ -14,10 +14,12 @@ namespace Zenject
         readonly DiContainer _container;
         readonly List<TypeValuePair> _extraArguments;
         readonly object _concreteIdentifier;
+        readonly Action<InjectContext, object> _instantiateCallback;
 
         public AddToGameObjectComponentProviderBase(
             DiContainer container, Type componentType,
-            List<TypeValuePair> extraArguments, object concreteIdentifier)
+            List<TypeValuePair> extraArguments, object concreteIdentifier,
+            Action<InjectContext, object> instantiateCallback)
         {
             Assert.That(componentType.DerivesFrom<Component>());
 
@@ -25,6 +27,7 @@ namespace Zenject
             _componentType = componentType;
             _container = container;
             _concreteIdentifier = concreteIdentifier;
+            _instantiateCallback = instantiateCallback;
         }
 
         public bool IsCached
@@ -110,6 +113,11 @@ namespace Zenject
                     };
 
                     _container.InjectExplicit(instance, _componentType, injectArgs);
+
+                    if (_instantiateCallback != null)
+                    {
+                        _instantiateCallback(context, instance);
+                    }
                 }
                 finally
                 {

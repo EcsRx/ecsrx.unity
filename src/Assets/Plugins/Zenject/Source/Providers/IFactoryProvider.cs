@@ -306,7 +306,7 @@ namespace Zenject
         public override List<object> GetAllInstancesWithInjectSplit(
             InjectContext context, List<TypeValuePair> args, out Action injectAction)
         {
-            Assert.IsEqual(args.Count, 5);
+            Assert.IsEqual(args.Count, 6);
             Assert.IsNotNull(context);
 
             Assert.That(typeof(TContract).DerivesFromOrEqual(context.MemberType));

@@ -6,24 +6,47 @@ namespace Zenject
 {
     // Zero parameters
 
-    public class SubContainerCreatorByMethod : ISubContainerCreator
+    public abstract class SubContainerCreatorByMethodBase : ISubContainerCreator
+    {
+        readonly DiContainer _container;
+        readonly SubContainerCreatorBindInfo _containerBindInfo;
+
+        public SubContainerCreatorByMethodBase(
+            DiContainer container, SubContainerCreatorBindInfo containerBindInfo)
+        {
+            _container = container;
+            _containerBindInfo = containerBindInfo;
+        }
+
+        public abstract DiContainer CreateSubContainer(
+            List<TypeValuePair> args, InjectContext context);
+
+        protected DiContainer CreateEmptySubContainer()
+        {
+            var subContainer = _container.CreateSubContainer();
+            SubContainerCreatorUtil.ApplyBindSettings(_containerBindInfo, subContainer);
+            return subContainer;
+        }
+    }
+
+    public class SubContainerCreatorByMethod : SubContainerCreatorByMethodBase
     {
         readonly Action<DiContainer> _installMethod;
-        readonly DiContainer _container;
 
         public SubContainerCreatorByMethod(
             DiContainer container,
+            SubContainerCreatorBindInfo containerBindInfo,
             Action<DiContainer> installMethod)
+            : base(container, containerBindInfo)
         {
             _installMethod = installMethod;
-            _container = container;
         }
 
-        public DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
         {
             Assert.IsEmpty(args);
 
-            var subContainer = _container.CreateSubContainer();
+            var subContainer = CreateEmptySubContainer();
 
             _installMethod(subContainer);
 
@@ -35,25 +58,25 @@ namespace Zenject
 
     // One parameters
 
-    public class SubContainerCreatorByMethod<TParam1> : ISubContainerCreator
+    public class SubContainerCreatorByMethod<TParam1> : SubContainerCreatorByMethodBase
     {
         readonly Action<DiContainer, TParam1> _installMethod;
-        readonly DiContainer _container;
 
         public SubContainerCreatorByMethod(
             DiContainer container,
+            SubContainerCreatorBindInfo containerBindInfo,
             Action<DiContainer, TParam1> installMethod)
+            : base(container, containerBindInfo)
         {
             _installMethod = installMethod;
-            _container = container;
         }
 
-        public DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
         {
             Assert.IsEqual(args.Count, 1);
             Assert.That(args[0].Type.DerivesFromOrEqual<TParam1>());
 
-            var subContainer = _container.CreateSubContainer();
+            var subContainer = CreateEmptySubContainer();
 
             _installMethod(subContainer, (TParam1)args[0].Value);
 
@@ -65,26 +88,26 @@ namespace Zenject
 
     // Two parameters
 
-    public class SubContainerCreatorByMethod<TParam1, TParam2> : ISubContainerCreator
+    public class SubContainerCreatorByMethod<TParam1, TParam2> : SubContainerCreatorByMethodBase
     {
         readonly Action<DiContainer, TParam1, TParam2> _installMethod;
-        readonly DiContainer _container;
 
         public SubContainerCreatorByMethod(
             DiContainer container,
+            SubContainerCreatorBindInfo containerBindInfo,
             Action<DiContainer, TParam1, TParam2> installMethod)
+            : base(container, containerBindInfo)
         {
             _installMethod = installMethod;
-            _container = container;
         }
 
-        public DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
         {
             Assert.IsEqual(args.Count, 2);
             Assert.That(args[0].Type.DerivesFromOrEqual<TParam1>());
             Assert.That(args[1].Type.DerivesFromOrEqual<TParam2>());
 
-            var subContainer = _container.CreateSubContainer();
+            var subContainer = CreateEmptySubContainer();
 
             _installMethod(
                 subContainer,
@@ -99,27 +122,27 @@ namespace Zenject
 
     // Three parameters
 
-    public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3> : ISubContainerCreator
+    public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3> : SubContainerCreatorByMethodBase
     {
         readonly Action<DiContainer, TParam1, TParam2, TParam3> _installMethod;
-        readonly DiContainer _container;
 
         public SubContainerCreatorByMethod(
             DiContainer container,
+            SubContainerCreatorBindInfo containerBindInfo,
             Action<DiContainer, TParam1, TParam2, TParam3> installMethod)
+            : base(container, containerBindInfo)
         {
             _installMethod = installMethod;
-            _container = container;
         }
 
-        public DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
         {
             Assert.IsEqual(args.Count, 3);
             Assert.That(args[0].Type.DerivesFromOrEqual<TParam1>());
             Assert.That(args[1].Type.DerivesFromOrEqual<TParam2>());
             Assert.That(args[2].Type.DerivesFromOrEqual<TParam3>());
 
-            var subContainer = _container.CreateSubContainer();
+            var subContainer = CreateEmptySubContainer();
 
             _installMethod(
                 subContainer,
@@ -135,27 +158,27 @@ namespace Zenject
 
     // Four parameters
 
-    public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4> : ISubContainerCreator
+    public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4> : SubContainerCreatorByMethodBase
     {
         readonly
 #if !NET_4_6
             ModestTree.Util.
 #endif
             Action<DiContainer, TParam1, TParam2, TParam3, TParam4> _installMethod;
-        readonly DiContainer _container;
 
         public SubContainerCreatorByMethod(
             DiContainer container,
+            SubContainerCreatorBindInfo containerBindInfo,
 #if !NET_4_6
             ModestTree.Util.
 #endif
             Action<DiContainer, TParam1, TParam2, TParam3, TParam4> installMethod)
+            : base(container, containerBindInfo)
         {
             _installMethod = installMethod;
-            _container = container;
         }
 
-        public DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
         {
             Assert.IsEqual(args.Count, 4);
             Assert.That(args[0].Type.DerivesFromOrEqual<TParam1>());
@@ -163,7 +186,7 @@ namespace Zenject
             Assert.That(args[2].Type.DerivesFromOrEqual<TParam3>());
             Assert.That(args[3].Type.DerivesFromOrEqual<TParam4>());
 
-            var subContainer = _container.CreateSubContainer();
+            var subContainer = CreateEmptySubContainer();
 
             _installMethod(
                 subContainer,
@@ -180,27 +203,27 @@ namespace Zenject
 
     // Five parameters
 
-    public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4, TParam5> : ISubContainerCreator
+    public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4, TParam5> : SubContainerCreatorByMethodBase
     {
         readonly
 #if !NET_4_6
             ModestTree.Util.
 #endif
             Action<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5> _installMethod;
-        readonly DiContainer _container;
 
         public SubContainerCreatorByMethod(
             DiContainer container,
+            SubContainerCreatorBindInfo containerBindInfo,
 #if !NET_4_6
             ModestTree.Util.
 #endif
             Action<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5> installMethod)
+            : base(container, containerBindInfo)
         {
             _installMethod = installMethod;
-            _container = container;
         }
 
-        public DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
         {
             Assert.IsEqual(args.Count, 5);
             Assert.That(args[0].Type.DerivesFromOrEqual<TParam1>());
@@ -209,7 +232,7 @@ namespace Zenject
             Assert.That(args[3].Type.DerivesFromOrEqual<TParam4>());
             Assert.That(args[4].Type.DerivesFromOrEqual<TParam5>());
 
-            var subContainer = _container.CreateSubContainer();
+            var subContainer = CreateEmptySubContainer();
 
             _installMethod(
                 subContainer,
@@ -227,27 +250,27 @@ namespace Zenject
 
     // Six parameters
 
-    public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> : ISubContainerCreator
+    public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> : SubContainerCreatorByMethodBase
     {
         readonly
 #if !NET_4_6
             ModestTree.Util.
 #endif
             Action<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> _installMethod;
-        readonly DiContainer _container;
 
         public SubContainerCreatorByMethod(
             DiContainer container,
+            SubContainerCreatorBindInfo containerBindInfo,
 #if !NET_4_6
             ModestTree.Util.
 #endif
             Action<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> installMethod)
+            : base(container, containerBindInfo)
         {
             _installMethod = installMethod;
-            _container = container;
         }
 
-        public DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
         {
             Assert.IsEqual(args.Count, 5);
             Assert.That(args[0].Type.DerivesFromOrEqual<TParam1>());
@@ -257,7 +280,7 @@ namespace Zenject
             Assert.That(args[4].Type.DerivesFromOrEqual<TParam5>());
             Assert.That(args[5].Type.DerivesFromOrEqual<TParam6>());
 
-            var subContainer = _container.CreateSubContainer();
+            var subContainer = CreateEmptySubContainer();
 
             _installMethod(
                 subContainer,
@@ -276,27 +299,27 @@ namespace Zenject
 
     // 10 parameters
 
-    public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10> : ISubContainerCreator
+    public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10> : SubContainerCreatorByMethodBase
     {
         readonly
 #if !NET_4_6
             ModestTree.Util.
 #endif
             Action<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10> _installMethod;
-        readonly DiContainer _container;
 
         public SubContainerCreatorByMethod(
             DiContainer container,
+            SubContainerCreatorBindInfo containerBindInfo,
 #if !NET_4_6
             ModestTree.Util.
 #endif
             Action<DiContainer, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10> installMethod)
+            : base(container, containerBindInfo)
         {
             _installMethod = installMethod;
-            _container = container;
         }
 
-        public DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
         {
             Assert.IsEqual(args.Count, 10);
 
@@ -311,7 +334,7 @@ namespace Zenject
             Assert.That(args[8].Type.DerivesFromOrEqual<TParam9>());
             Assert.That(args[9].Type.DerivesFromOrEqual<TParam10>());
 
-            var subContainer = _container.CreateSubContainer();
+            var subContainer = CreateEmptySubContainer();
 
             _installMethod(
                 subContainer,

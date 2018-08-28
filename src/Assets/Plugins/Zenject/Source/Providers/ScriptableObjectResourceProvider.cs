@@ -16,11 +16,13 @@ namespace Zenject
         readonly List<TypeValuePair> _extraArguments;
         readonly bool _createNew;
         readonly object _concreteIdentifier;
+        readonly Action<InjectContext, object> _instantiateCallback;
 
         public ScriptableObjectResourceProvider(
             string resourcePath, Type resourceType,
             DiContainer container, List<TypeValuePair> extraArguments,
-            bool createNew, object concreteIdentifier)
+            bool createNew, object concreteIdentifier,
+            Action<InjectContext, object> instantiateCallback)
         {
             _container = container;
             Assert.DerivesFromOrEqual<ScriptableObject>(resourceType);
@@ -30,6 +32,7 @@ namespace Zenject
             _resourcePath = resourcePath;
             _createNew = createNew;
             _concreteIdentifier = concreteIdentifier;
+            _instantiateCallback = instantiateCallback;
         }
 
         public bool IsCached
@@ -81,6 +84,11 @@ namespace Zenject
                 {
                     _container.InjectExplicit(
                         obj, _resourceType, injectArgs);
+
+                    if (_instantiateCallback != null)
+                    {
+                        _instantiateCallback(context, obj);
+                    }
                 }
             };
 

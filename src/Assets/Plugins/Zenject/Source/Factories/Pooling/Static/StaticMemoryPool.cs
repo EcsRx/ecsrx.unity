@@ -65,6 +65,11 @@ namespace Zenject
             StaticMemoryPoolRegistry.Remove(this);
         }
 
+        public void ClearActiveCount()
+        {
+            _activeCount = 0;
+        }
+
         public void Clear()
         {
             Resize(0);

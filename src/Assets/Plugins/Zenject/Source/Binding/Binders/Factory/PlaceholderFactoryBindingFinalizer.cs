@@ -23,17 +23,28 @@ namespace Zenject
         {
             var provider = _factoryBindInfo.ProviderFunc(container);
 
-            RegisterProviderForAllContracts(
+            var transientProvider = new TransientProvider(
+                _factoryBindInfo.FactoryType,
                 container,
-                BindingUtil.CreateCachedProvider(
-                    new TransientProvider(
-                        _factoryBindInfo.FactoryType,
-                        container,
-                        _factoryBindInfo.Arguments.Concat(
-                            InjectUtil.CreateArgListExplicit(
-                                provider,
-                                new InjectContext(container, typeof(TContract)))).ToList(),
-                        BindInfo.ContextInfo, BindInfo.ConcreteIdentifier)));
+                _factoryBindInfo.Arguments.Concat(
+                    InjectUtil.CreateArgListExplicit(
+                        provider,
+                        new InjectContext(container, typeof(TContract)))).ToList(),
+                BindInfo.ContextInfo, BindInfo.ConcreteIdentifier, null);
+
+            IProvider mainProvider;
+
+            if (BindInfo.Scope == ScopeTypes.Unset || BindInfo.Scope == ScopeTypes.Singleton)
+            {
+                mainProvider = BindingUtil.CreateCachedProvider(transientProvider);
+            }
+            else
+            {
+                Assert.IsEqual(BindInfo.Scope, ScopeTypes.Transient);
+                mainProvider = transientProvider;
+            }
+
+            RegisterProviderForAllContracts(container, mainProvider);
         }
     }
 }

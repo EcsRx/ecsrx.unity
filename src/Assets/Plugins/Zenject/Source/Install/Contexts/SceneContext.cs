@@ -232,7 +232,6 @@ namespace Zenject
             }
             else
             {
-                // This is necessary otherwise we inherit the project root DefaultParent
                 _container.DefaultParent = null;
             }
 

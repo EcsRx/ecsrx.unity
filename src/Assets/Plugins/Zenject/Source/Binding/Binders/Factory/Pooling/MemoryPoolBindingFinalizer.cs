@@ -29,15 +29,26 @@ namespace Zenject
             var settings = new MemoryPoolSettings(
                 _poolBindInfo.InitialSize, _poolBindInfo.MaxSize, _poolBindInfo.ExpandMethod);
 
-            RegisterProviderForAllContracts(
+            var transientProvider = new TransientProvider(
+                _factoryBindInfo.FactoryType,
                 container,
-                BindingUtil.CreateCachedProvider(
-                    new TransientProvider(
-                        _factoryBindInfo.FactoryType,
-                        container,
-                        _factoryBindInfo.Arguments.Concat(
-                            InjectUtil.CreateArgListExplicit(factory, settings)).ToList(),
-                        BindInfo.ContextInfo, BindInfo.ConcreteIdentifier)));
+                _factoryBindInfo.Arguments.Concat(
+                    InjectUtil.CreateArgListExplicit(factory, settings)).ToList(),
+                BindInfo.ContextInfo, BindInfo.ConcreteIdentifier, null);
+
+            IProvider mainProvider;
+
+            if (BindInfo.Scope == ScopeTypes.Unset || BindInfo.Scope == ScopeTypes.Singleton)
+            {
+                mainProvider = BindingUtil.CreateCachedProvider(transientProvider);
+            }
+            else
+            {
+                Assert.IsEqual(BindInfo.Scope, ScopeTypes.Transient);
+                mainProvider = transientProvider;
+            }
+
+            RegisterProviderForAllContracts(container, mainProvider);
         }
     }
 }

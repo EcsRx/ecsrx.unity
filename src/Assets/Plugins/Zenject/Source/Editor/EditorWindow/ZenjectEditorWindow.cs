@@ -46,7 +46,7 @@ namespace Zenject
             get { return _container; }
         }
 
-        public void OnEnable()
+        public virtual void OnEnable()
         {
             if (_fatalError != null)
             {
@@ -56,7 +56,7 @@ namespace Zenject
             Initialize();
         }
 
-        void Initialize()
+        protected virtual void Initialize()
         {
             Assert.IsNull(_container);
 
@@ -79,7 +79,7 @@ namespace Zenject
             _kernel.Initialize();
         }
 
-        public void OnDisable()
+        public virtual void OnDisable()
         {
             if (_fatalError != null)
             {
@@ -89,7 +89,7 @@ namespace Zenject
             _kernel.Dispose();
         }
 
-        public void Update()
+        public virtual void Update()
         {
             if (_fatalError != null)
             {
@@ -110,7 +110,7 @@ namespace Zenject
             Repaint();
         }
 
-        public void OnGUI()
+        public virtual void OnGUI()
         {
             if (_fatalError != null)
             {
@@ -145,7 +145,7 @@ namespace Zenject
             }
         }
 
-        void ExecuteFullReload()
+        protected virtual void ExecuteFullReload()
         {
             _kernel = null;
             _guiRenderableManager = null;

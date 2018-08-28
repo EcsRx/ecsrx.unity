@@ -29,34 +29,79 @@ namespace Zenject
             set { _finalizerWrapper.SubFinalizer = value; }
         }
 
-        public ScopeConditionCopyNonLazyBinder ByInstaller<TInstaller>()
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder ByInstance(DiContainer subContainer)
+        {
+            SubFinalizer = new SubContainerBindingFinalizer(
+                _bindInfo, _subIdentifier, _resolveAll,
+                (_) => new SubContainerCreatorByInstance(subContainer));
+
+            return new ScopeConcreteIdArgConditionCopyNonLazyBinder(_bindInfo);
+        }
+
+        public
+#if NOT_UNITY3D
+            WithKernelScopeConcreteIdArgConditionCopyNonLazyBinder
+#else
+            WithKernelDefaultParentScopeConcreteIdArgConditionCopyNonLazyBinder
+#endif
+            ByInstaller<TInstaller>()
             where TInstaller : InstallerBase
         {
             return ByInstaller(typeof(TInstaller));
         }
 
-        public ScopeConditionCopyNonLazyBinder ByInstaller(Type installerType)
+        public
+#if NOT_UNITY3D
+            WithKernelScopeConcreteIdArgConditionCopyNonLazyBinder
+#else
+            WithKernelDefaultParentScopeConcreteIdArgConditionCopyNonLazyBinder
+#endif
+            ByInstaller(Type installerType)
         {
             Assert.That(installerType.DerivesFrom<InstallerBase>(),
                 "Invalid installer type given during bind command.  Expected type '{0}' to derive from 'Installer<>'", installerType);
 
-            SubFinalizer = new SubContainerInstallerBindingFinalizer(
-                _bindInfo, installerType, _subIdentifier, _resolveAll);
+            var subContainerBindInfo = new SubContainerCreatorBindInfo();
 
-            return new ScopeConditionCopyNonLazyBinder(_bindInfo);
+            SubFinalizer = new SubContainerBindingFinalizer(
+                _bindInfo, _subIdentifier, _resolveAll,
+                (container) => new SubContainerCreatorByInstaller(container, subContainerBindInfo, installerType));
+
+            return new
+#if NOT_UNITY3D
+                WithKernelScopeConcreteIdArgConditionCopyNonLazyBinder
+#else
+                WithKernelDefaultParentScopeConcreteIdArgConditionCopyNonLazyBinder
+#endif
+                (subContainerBindInfo, _bindInfo);
         }
 
-        public ScopeConditionCopyNonLazyBinder ByMethod(Action<DiContainer> installerMethod)
+        public
+#if NOT_UNITY3D
+            WithKernelScopeConcreteIdArgConditionCopyNonLazyBinder
+#else
+            WithKernelDefaultParentScopeConcreteIdArgConditionCopyNonLazyBinder
+#endif
+            ByMethod(Action<DiContainer> installerMethod)
         {
-            SubFinalizer = new SubContainerMethodBindingFinalizer(
-                _bindInfo, installerMethod, _subIdentifier, _resolveAll);
+            var subContainerBindInfo = new SubContainerCreatorBindInfo();
 
-            return new ScopeConditionCopyNonLazyBinder(_bindInfo);
+            SubFinalizer = new SubContainerBindingFinalizer(
+                _bindInfo, _subIdentifier, _resolveAll,
+                (container) => new SubContainerCreatorByMethod(container, subContainerBindInfo, installerMethod));
+
+            return new
+#if NOT_UNITY3D
+                WithKernelScopeConcreteIdArgConditionCopyNonLazyBinder
+#else
+                WithKernelDefaultParentScopeConcreteIdArgConditionCopyNonLazyBinder
+#endif
+                (subContainerBindInfo, _bindInfo);
         }
 
 #if !NOT_UNITY3D
 
-        public NameTransformScopeConditionCopyNonLazyBinder ByNewPrefabMethod(
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabMethod(
             UnityEngine.Object prefab, Action<DiContainer> installerMethod)
         {
             BindingUtil.AssertIsValidPrefab(prefab);
@@ -70,7 +115,7 @@ namespace Zenject
                     new PrefabProvider(prefab),
                     gameObjectInfo, installerMethod));
 
-            return new NameTransformScopeConditionCopyNonLazyBinder(_bindInfo, gameObjectInfo);
+            return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(_bindInfo, gameObjectInfo);
         }
 
         public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabInstaller<TInstaller>(
@@ -99,7 +144,7 @@ namespace Zenject
         }
 
 
-        public NameTransformScopeConditionCopyNonLazyBinder ByNewPrefabResourceMethod(
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabResourceMethod(
             string resourcePath, Action<DiContainer> installerMethod)
         {
             BindingUtil.AssertIsValidResourcePath(resourcePath);
@@ -113,7 +158,7 @@ namespace Zenject
                     new PrefabProviderResource(resourcePath),
                     gameObjectInfo, installerMethod));
 
-            return new NameTransformScopeConditionCopyNonLazyBinder(_bindInfo, gameObjectInfo);
+            return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(_bindInfo, gameObjectInfo);
         }
 
         public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabResourceInstaller<TInstaller>(
@@ -143,12 +188,12 @@ namespace Zenject
         }
 
         [System.Obsolete("ByNewPrefab has been renamed to ByNewContextPrefab to avoid confusion with ByNewPrefabInstaller and ByNewPrefabMethod")]
-        public NameTransformScopeConditionCopyNonLazyBinder ByNewPrefab(UnityEngine.Object prefab)
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefab(UnityEngine.Object prefab)
         {
             return ByNewContextPrefab(prefab);
         }
 
-        public NameTransformScopeConditionCopyNonLazyBinder ByNewContextPrefab(UnityEngine.Object prefab)
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewContextPrefab(UnityEngine.Object prefab)
         {
             BindingUtil.AssertIsValidPrefab(prefab);
 
@@ -159,10 +204,10 @@ namespace Zenject
                 (container) => new SubContainerCreatorByNewPrefab(
                     container, new PrefabProvider(prefab), gameObjectInfo));
 
-            return new NameTransformScopeConditionCopyNonLazyBinder(_bindInfo, gameObjectInfo);
+            return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(_bindInfo, gameObjectInfo);
         }
 
-        public NameTransformScopeConditionCopyNonLazyBinder ByNewPrefabResource(string resourcePath)
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabResource(string resourcePath)
         {
             BindingUtil.AssertIsValidResourcePath(resourcePath);
 
@@ -173,7 +218,7 @@ namespace Zenject
                 (container) => new SubContainerCreatorByNewPrefab(
                     container, new PrefabProviderResource(resourcePath), gameObjectInfo));
 
-            return new NameTransformScopeConditionCopyNonLazyBinder(_bindInfo, gameObjectInfo);
+            return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(_bindInfo, gameObjectInfo);
         }
 #endif
     }

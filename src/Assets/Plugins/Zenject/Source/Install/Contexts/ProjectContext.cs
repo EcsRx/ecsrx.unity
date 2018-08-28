@@ -27,6 +27,11 @@ namespace Zenject
 
         static ProjectContext _instance;
 
+        // TODO: Set this to false the next time major version is incremented
+        [Tooltip("When true, objects that are created at runtime will be parented to the ProjectContext")]
+        [SerializeField]
+        bool _parentNewObjectsUnderContext = true;
+
         [SerializeField]
         ZenjectSettings _settings = null;
 
@@ -142,6 +147,12 @@ namespace Zenject
             }
         }
 
+        public bool ParentNewObjectsUnderContext
+        {
+            get { return _parentNewObjectsUnderContext; }
+            set { _parentNewObjectsUnderContext = value; }
+        }
+
         public void EnsureIsInitialized()
         {
             // Do nothing - Initialize occurs in Instance property
@@ -226,7 +237,15 @@ namespace Zenject
 
         void InstallBindings(List<MonoBehaviour> injectableMonoBehaviours)
         {
-            _container.DefaultParent = this.transform;
+            if (_parentNewObjectsUnderContext)
+            {
+                _container.DefaultParent = this.transform;
+            }
+            else
+            {
+                _container.DefaultParent = null;
+            }
+
             _container.Settings = _settings ?? ZenjectSettings.Default;
 
             _container.Bind<ZenjectSceneLoader>().AsSingle();

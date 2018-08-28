@@ -8,10 +8,11 @@ namespace EcsRx.Examples.PooledViews
         protected override void ApplicationStarting()
         {
             this.BindAllSystemsWithinApplicationScope();
-            this.RegisterAllBoundSystems();
         }
 
         protected override void ApplicationStarted()
-        {}
+        {
+            this.RegisterAllBoundSystems();
+        }
     }
 }

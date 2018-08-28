@@ -13,8 +13,9 @@ namespace Zenject
 
         public AddToExistingGameObjectComponentProvider(
             GameObject gameObject, DiContainer container, Type componentType,
-            List<TypeValuePair> extraArguments, object concreteIdentifier)
-            : base(container, componentType, extraArguments, concreteIdentifier)
+            List<TypeValuePair> extraArguments, object concreteIdentifier,
+            Action<InjectContext, object> instantiateCallback)
+            : base(container, componentType, extraArguments, concreteIdentifier, instantiateCallback)
         {
             _gameObject = gameObject;
         }
@@ -39,8 +40,9 @@ namespace Zenject
 
         public AddToExistingGameObjectComponentProviderGetter(
             Func<InjectContext, GameObject> gameObjectGetter, DiContainer container, Type componentType,
-            List<TypeValuePair> extraArguments, object concreteIdentifier)
-            : base(container, componentType, extraArguments, concreteIdentifier)
+            List<TypeValuePair> extraArguments, object concreteIdentifier,
+            Action<InjectContext, object> instantiateCallback)
+            : base(container, componentType, extraArguments, concreteIdentifier, instantiateCallback)
         {
             _gameObjectGetter = gameObjectGetter;
         }
