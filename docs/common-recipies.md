@@ -1,4 +1,4 @@
-# Common Recipies
+# Common Recipes
 
 This is an attempt to try and provide some basic use cases for different system types etc.
 
@@ -13,7 +13,7 @@ Here is an example of a bullet being shot
 ```
 public class BulletInteractionSystem : IReactToDataSystem
 {
-	public IGroup TargetGroup { get { return new Group (typeof(BulletComponent), typeof(ViewComponent)); } }
+	public IGroup Group { get { return new Group (typeof(BulletComponent), typeof(ViewComponent)); } }
 
 	public IObservable<Collider> ReactToData(IEntity entity)
 	{
@@ -22,7 +22,7 @@ public class BulletInteractionSystem : IReactToDataSystem
 			.Where(collider => collider.gameObject.tag == "Enemy");
 	}
 
-	public void Execute(Collider collider, IEntity entity)
+	public void Process(Collider collider, IEntity entity)
 	{
         // Do something with the collider and the entity
 	}
@@ -37,9 +37,9 @@ Sometimes you just want to listen for an event to happen then do something with 
 Here is an example of an enemy being hit and removing them if their health <= 0
 
 ```
-public class EnemyAttackedSys : EventReactionSystem<EnemyHitEvent>
+public class EnemyAttackedSystem : EventReactionSystem<EnemyHitEvent>
 {
-    public EnemyAttackedSys(IEventSystem eventSystem) : base(eventSystem)
+    public EnemyAttackedSystem(IEventSystem eventSystem) : base(eventSystem)
     {}
 
     public override void EventTriggered(EnemyHitEvent eventData)
@@ -49,7 +49,7 @@ public class EnemyAttackedSys : EventReactionSystem<EnemyHitEvent>
 }
 ```
 
-It is generally best practice to make events contain all the data it needs to run so you do not need to query external sources or access any state outside of the scope of the event. You can do this but it can often be more problematic, the above example came from the RogueLike2d example [EnemyAttackedSystem.cs](https://github.com/grofit/ecsrx.roguelike2d/blob/master/Assets/Game/Systems/EnemyAttackedSystem.cs)
+It is generally best practice to make events contain all the data it needs to run so you do not need to query external sources or access any state outside of the scope of the event. You can do this but it can often be more problematic, the above example came from the RogueLike2d example [EnemyAttackedSystem.cs](https://github.com/ecsrx/ecsrx.roguelike2d/blob/master/Assets/Game/Systems/EnemyAttackedSystem.cs)
 
 --- 
 
@@ -57,12 +57,12 @@ It is generally best practice to make events contain all the data it needs to ru
 
 Sometimes you need to do some logic at a higher level than just one entity or you need to have a few entities but your main interactions are at the UI level or somewhere else, in these cases you can solve the problem by using an `IManualSystem` to allow you more control over the underlying system and how it interacts with entities and other aspects of the application.
 
-This example is stolen from the Roguelike2d example [FoodTextUpdateSystem.cs](https://github.com/grofit/ecsrx.roguelike2d/blob/master/Assets/Game/Systems/FoodTextUpdateSystem.cs) and shows how the system is really only fussed about keeping the UI reading for food up to date, but has to interact with many different events and the player entity to manage this.
+This example is stolen from the Roguelike2d example [FoodTextUpdateSystem.cs](https://github.com/ecsrx/ecsrx.roguelike2d/blob/master/Assets/Game/Systems/FoodTextUpdateSystem.cs) and shows how the system is really only fussed about keeping the UI reading for food up to date, but has to interact with many different events and the player entity to manage this.
 
-```
-public class FoodTextUpdateSystem : IManualSystem
+```c#
+ public class FoodTextUpdateSystem : IManualSystem
 {
-    public IGroup TargetGroup { get { return new Group(typeof(PlayerComponent); } }
+    public IGroup Group { get; } = new Group(typeof(PlayerComponent));
 
     private readonly IEventSystem _eventSystem;
     private PlayerComponent _playerComponent;
@@ -72,11 +72,11 @@ public class FoodTextUpdateSystem : IManualSystem
     public FoodTextUpdateSystem(IEventSystem eventSystem)
     { _eventSystem = eventSystem; }
 
-    public void StartSystem(IGroupAccessor @group)
+    public void StartSystem(IObservableGroup group)
     {
         this.WaitForScene().Subscribe(x =>
         {
-            var player = @group.Entities.First();
+            var player = group.First();
             _playerComponent = player.GetComponent<PlayerComponent>();
             _foodText = GameObject.Find("FoodText").GetComponent<Text>();
 
@@ -87,14 +87,14 @@ public class FoodTextUpdateSystem : IManualSystem
     private void SetupSubscriptions()
     {
         _playerComponent.Food.DistinctUntilChanged()
-            .Subscribe(foodAmount => { _foodText.text = string.Format("Food: {0}", foodAmount); })
+            .Subscribe(foodAmount => { _foodText.text = $"Food: {foodAmount}"; })
             .AddTo(_subscriptions);
 
         _eventSystem.Receive<FoodPickupEvent>()
             .Subscribe(x =>
             {
                 var foodPoints = x.Food.GetComponent<FoodComponent>().FoodAmount;
-                _foodText.text = string.Format("+{0} Food: {1}", foodPoints, _playerComponent.Food.Value);
+                _foodText.text = $"+{foodPoints} Food: {_playerComponent.Food.Value}";
             })
             .AddTo(_subscriptions);
 
@@ -102,14 +102,12 @@ public class FoodTextUpdateSystem : IManualSystem
             .Subscribe(x =>
             {
                 var attackScore = x.Enemy.GetComponent<EnemyComponent>().EnemyPower;
-                _foodText.text = string.Format("-{0} Food: {1}", attackScore, _playerComponent.Food.Value);
+                _foodText.text = $"-{attackScore} Food: {_playerComponent.Food.Value}";
             })
             .AddTo(_subscriptions);
     }
 
-    public void StopSystem(IGroupAccessor @group)
-    {
-        _subscriptions.DisposeAll();
-    }
+    public void StopSystem(IObservableGroup group)
+    { _subscriptions.DisposeAll(); }
 }
 ```

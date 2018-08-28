@@ -8,7 +8,7 @@ namespace EcsRx.Unity.Extensions
 {
     public static class IEntityExtensions
     {
-        public static T GetUnityComponent<T>(this IEntity entity) where T : MonoBehaviour
+        public static T GetUnityComponent<T>(this IEntity entity) where T : Behaviour
         {
             if(!entity.HasComponent<ViewComponent>())
             { return null; }
@@ -22,7 +22,7 @@ namespace EcsRx.Unity.Extensions
             return castView.GetComponent<T>();
         }
 
-        public static T AddUnityComponent<T>(this IEntity entity) where T : MonoBehaviour
+        public static T AddUnityComponent<T>(this IEntity entity) where T : Behaviour
         {
             if (!entity.HasComponent<ViewComponent>())
             { throw new Exception("Entity has no ViewComponent, ensure a valid ViewComponent is applied with an active View"); }
@@ -34,6 +34,12 @@ namespace EcsRx.Unity.Extensions
 
             var castView = (GameObject) viewComponent.View;
             return castView.AddComponent<T>();
+        }
+
+        public static GameObject GetGameObject(this IEntity entity)
+        {
+            var viewComponent = entity.GetComponent<ViewComponent>();
+            return viewComponent.View as GameObject;
         }
     }
 }

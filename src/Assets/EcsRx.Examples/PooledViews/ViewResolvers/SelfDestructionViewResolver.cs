@@ -22,17 +22,19 @@ namespace EcsRx.Examples.PooledViews.ViewResolvers
         protected override int PoolIncrementSize => 5;
 
         protected override void OnPoolStarting()
-        {
-            ViewPool.PreAllocate(20);
-        }
+        { ViewPool.PreAllocate(30); }
 
         protected override void OnViewAllocated(GameObject view, IEntity entity)
         {
+            view.name = $"pooled-active-{entity.Id}";
+            
             var selfDestructComponent = entity.GetComponent<SelfDestructComponent>();
             view.transform.position = selfDestructComponent.StartingPosition;
         }
 
-        protected override void OnViewRecycled(GameObject view)
-        {}
+        protected override void OnViewRecycled(GameObject view, IEntity entity)
+        {
+            view.name = "pooled-inactive";
+        }
     }
 }

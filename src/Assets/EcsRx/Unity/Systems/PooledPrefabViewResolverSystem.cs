@@ -15,25 +15,21 @@ namespace EcsRx.Unity.Systems
     {
         public IInstantiator Instantiator { get; }
         public IEntityCollectionManager CollectionManager { get; }
-
-        public override IViewPool ViewPool { get; }
         
         protected abstract GameObject PrefabTemplate { get; }
         protected abstract int PoolIncrementSize { get; }
 
-        protected IViewPool CreateViewPool()
-        { return new ViewPool(PoolIncrementSize, new GameObjectViewHandler(Instantiator, PrefabTemplate)); }
+        protected override IViewPool CreateViewPool()
+        { return new ViewPool(PoolIncrementSize, new PrefabViewHandler(Instantiator, PrefabTemplate)); }
 
         protected PooledPrefabViewResolverSystem(IInstantiator instantiator, IEntityCollectionManager collectionManager, IEventSystem eventSystem) : base(eventSystem) 
         {
             Instantiator = instantiator;
-            CollectionManager = collectionManager;
-            ViewPool = CreateViewPool();
+            CollectionManager = collectionManager;            
         }
-        
-        protected abstract void OnPoolStarting();
+
         protected abstract void OnViewAllocated(GameObject view, IEntity entity);
-        protected abstract void OnViewRecycled(GameObject view);
+        protected abstract void OnViewRecycled(GameObject view, IEntity entity);
 
         protected override void OnViewRecycled(object view, IEntity entity)
         {
@@ -44,7 +40,7 @@ namespace EcsRx.Unity.Systems
             entityView.Entity = null;
             entityView.EntityCollection = null;
 
-            OnViewRecycled(gameObject);
+            OnViewRecycled(gameObject, entity);
         }
 
         protected override void OnViewAllocated(object view, IEntity entity)

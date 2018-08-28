@@ -30,7 +30,7 @@ namespace EcsRx.Unity.Systems
         }
 
         protected IViewHandler CreateViewHandler()
-        { return new GameObjectViewHandler(Instantiator, PrefabTemplate); }
+        { return new PrefabViewHandler(Instantiator, PrefabTemplate); }
 
         public override IViewHandler ViewHandler { get; }
 

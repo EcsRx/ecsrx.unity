@@ -4,21 +4,19 @@ using Zenject;
 
 namespace EcsRx.Unity.Handlers
 {
-    public class GameObjectViewHandler : IViewHandler
+    public class PrefabViewHandler : IViewHandler
     {
         public IInstantiator Instantiator { get; }
         protected GameObject PrefabTemplate { get; }
         
-        public GameObjectViewHandler(IInstantiator instantiator, GameObject prefabTemplate)
+        public PrefabViewHandler(IInstantiator instantiator, GameObject prefabTemplate)
         {
             Instantiator = instantiator;
             PrefabTemplate = prefabTemplate;
         }
         
         public void DestroyView(object view)
-        {
-            Object.Destroy(view as GameObject);
-        }
+        { Object.Destroy(view as GameObject); }
 
         public void SetActiveState(object view, bool isActive)
         { (view as GameObject).SetActive(isActive); }
