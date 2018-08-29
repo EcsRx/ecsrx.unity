@@ -1,8 +1,8 @@
-﻿using System;
-using EcsRx.Collections;
+﻿using EcsRx.Collections;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
+using EcsRx.Unity.Dependencies;
 using EcsRx.Unity.Handlers;
 using EcsRx.Unity.MonoBehaviours;
 using EcsRx.Views.Components;
@@ -11,18 +11,17 @@ using EcsRx.Views.ViewHandlers;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
-using Zenject;
 
 namespace EcsRx.Unity.Systems
 {
     public abstract class PrefabViewResolverSystem : ViewResolverSystem
     {
         public IEntityCollectionManager CollectionManager { get; }
-        public IInstantiator Instantiator { get; }
+        public IUnityInstantiator Instantiator { get; }
 
         protected abstract GameObject PrefabTemplate { get; }
 
-        protected PrefabViewResolverSystem(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) : base(eventSystem)
+        protected PrefabViewResolverSystem(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IUnityInstantiator instantiator) : base(eventSystem)
         {
             CollectionManager = collectionManager;
             Instantiator = instantiator;

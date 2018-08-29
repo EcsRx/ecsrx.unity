@@ -1,18 +1,17 @@
 ﻿using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
+using EcsRx.Zenject;
 
-namespace EcsRx.Examples.PooledViews
+namespace EcsRx.Examples.ManualSystems
 {
-    public class UnityApplication : EcsRxApplicationBehaviour
+    public class Application : EcsRxApplicationBehaviour
     {
         protected override void ApplicationStarting()
         {
             this.BindAllSystemsWithinApplicationScope();
-        }
-
-        protected override void ApplicationStarted()
-        {
             this.RegisterAllBoundSystems();
         }
+
+        protected override void ApplicationStarted() { }
     }
 }

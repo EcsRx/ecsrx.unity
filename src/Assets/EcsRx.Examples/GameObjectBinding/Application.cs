@@ -3,19 +3,20 @@ using EcsRx.Extensions;
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
+using EcsRx.Zenject;
 
 namespace EcsRx.Examples.GameObjectBinding
 {
-    public class UnityApplication : EcsRxApplicationBehaviour
+    public class Application : EcsRxApplicationBehaviour
     {
         protected override void ApplicationStarting()
         {
             this.BindAllSystemsWithinApplicationScope();
+            this.RegisterAllBoundSystems();
         }
 
         protected override void ApplicationStarted()
         {
-            this.RegisterAllBoundSystems();
             var entityCollection = CollectionManager.GetCollection();
 
             var cubeEntity = entityCollection.CreateEntity();

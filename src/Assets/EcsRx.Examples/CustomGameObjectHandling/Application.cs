@@ -1,18 +1,19 @@
 ﻿using EcsRx.Examples.CustomGameObjectHandling.Components;
-using EcsRx.Examples.CustomGameObjectHandling.Systems;
-using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
-using Zenject;
+using EcsRx.Zenject;
 
 namespace EcsRx.Examples.CustomGameObjectHandling
 {
-    public class UnityApplication : EcsRxApplicationBehaviour
-    {        
-        protected override void ApplicationStarted()
+    public class Application : EcsRxApplicationBehaviour
+    {
+        protected override void ApplicationStarting()
         {
             this.BindAllSystemsWithinApplicationScope();
             this.RegisterAllBoundSystems();
+        }
 
+        protected override void ApplicationStarted()
+        {
             var defaultPool = CollectionManager.GetCollection();
             var viewEntity = defaultPool.CreateEntity();
             viewEntity.AddComponents(new CustomViewComponent(), new PlayerControlledComponent(), new CameraFollowsComponent());

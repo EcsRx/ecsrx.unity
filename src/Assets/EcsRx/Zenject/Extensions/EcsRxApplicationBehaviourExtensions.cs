@@ -5,6 +5,7 @@ using EcsRx.Infrastructure.Dependencies;
 using EcsRx.Systems;
 using EcsRx.Unity.Installers;
 using EcsRx.Views.Systems;
+using EcsRx.Zenject;
 using Zenject;
 
 namespace EcsRx.Unity.Extensions

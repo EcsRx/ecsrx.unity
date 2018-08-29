@@ -300,25 +300,25 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.5f1/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.dll</HintPath>
+      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/EcsRx/EcsRx.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx.Infrastructure">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.Infrastructure.dll</HintPath>
+      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/EcsRx/EcsRx.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx.MicroRx">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.MicroRx.dll</HintPath>
+      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/EcsRx/EcsRx.MicroRx.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx.Systems">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.Systems.dll</HintPath>
+      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/EcsRx/EcsRx.Systems.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx.Views">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.Views.dll</HintPath>
+      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/EcsRx/EcsRx.Views.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.Rider.Unity.Editor.Plugin.Repacked">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll</HintPath>
+      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll</HintPath>
     </Reference>
     <Reference Include="Zenject-usage">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
+      <HintPath>C:/Code/Others/gh/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.5f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

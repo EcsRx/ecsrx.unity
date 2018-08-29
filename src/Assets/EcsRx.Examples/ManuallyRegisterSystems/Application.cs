@@ -1,17 +1,20 @@
 ﻿using EcsRx.Examples.ManuallyRegisterSystems.Systems;
-using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
+using EcsRx.Zenject;
 
 namespace EcsRx.Examples.ManuallyRegisterSystems
 {
-    public class UnityApplication : EcsRxApplicationBehaviour
+    public class Application : EcsRxApplicationBehaviour
     {
-        protected override void ApplicationStarted()
+        protected override void ApplicationStarting()
         {
             this.RegisterSystem<DefaultViewResolver>();
             this.RegisterSystem<RandomMovementSystem>();
-            
+        }
+
+        protected override void ApplicationStarted()
+        {
             var defaultPool = CollectionManager.GetCollection();
             
             var entity = defaultPool.CreateEntity();

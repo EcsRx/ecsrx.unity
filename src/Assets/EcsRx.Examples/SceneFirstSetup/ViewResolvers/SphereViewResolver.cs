@@ -4,6 +4,7 @@ using EcsRx.Events;
 using EcsRx.Examples.SceneFirstSetup.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
+using EcsRx.Unity.Dependencies;
 using EcsRx.Unity.Systems;
 using UnityEngine;
 using Zenject;
@@ -16,7 +17,8 @@ namespace EcsRx.Examples.SceneFirstSetup.ViewResolvers
 
         public override IGroup Group => base.Group.WithComponent<SphereComponent>();
 
-        public SphereViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) : base(collectionManager, eventSystem, instantiator)
+        public SphereViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IUnityInstantiator instantiator)
+            : base(collectionManager, eventSystem, instantiator)
         {}
 
         protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("Sphere");

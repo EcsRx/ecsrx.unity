@@ -4,7 +4,7 @@ using EcsRx.Groups;
 using EcsRx.Groups.Observable;
 using Zenject;
 
-namespace EcsRx.Unity.Extensions
+namespace EcsRx.Zenject.Extensions
 {
     public static class ZenjectExtensions
     {

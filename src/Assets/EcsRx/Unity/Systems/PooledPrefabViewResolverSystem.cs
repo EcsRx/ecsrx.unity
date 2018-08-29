@@ -2,18 +2,18 @@ using EcsRx.Collections;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
+using EcsRx.Unity.Dependencies;
 using EcsRx.Unity.Handlers;
 using EcsRx.Unity.MonoBehaviours;
 using EcsRx.Views.Pooling;
 using EcsRx.Views.Systems;
 using UnityEngine;
-using Zenject;
 
 namespace EcsRx.Unity.Systems
 {
     public abstract class PooledPrefabViewResolverSystem : PooledViewResolverSystem
     {
-        public IInstantiator Instantiator { get; }
+        public IUnityInstantiator Instantiator { get; }
         public IEntityCollectionManager CollectionManager { get; }
         
         protected abstract GameObject PrefabTemplate { get; }
@@ -22,7 +22,7 @@ namespace EcsRx.Unity.Systems
         protected override IViewPool CreateViewPool()
         { return new ViewPool(PoolIncrementSize, new PrefabViewHandler(Instantiator, PrefabTemplate)); }
 
-        protected PooledPrefabViewResolverSystem(IInstantiator instantiator, IEntityCollectionManager collectionManager, IEventSystem eventSystem) : base(eventSystem) 
+        protected PooledPrefabViewResolverSystem(IUnityInstantiator instantiator, IEntityCollectionManager collectionManager, IEventSystem eventSystem) : base(eventSystem) 
         {
             Instantiator = instantiator;
             CollectionManager = collectionManager;            

@@ -2,10 +2,11 @@
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
+using EcsRx.Zenject;
 
 namespace EcsRx.Examples.RandomReactions
 {
-    public class UnityApplication : EcsRxApplicationBehaviour
+    public class Application : EcsRxApplicationBehaviour
     {
         private readonly int _cubeCount = 5000;
         

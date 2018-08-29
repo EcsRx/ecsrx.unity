@@ -1,6 +1,6 @@
-﻿using EcsRx.Unity;
-using EcsRx.Unity.Extensions;
+﻿using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
+using EcsRx.Zenject;
 
 namespace EcsRx.Examples.AutoRegisterSystems
 {
@@ -10,12 +10,11 @@ namespace EcsRx.Examples.AutoRegisterSystems
         {
             // You could optionally use instead of the scene based approach
             // this.BindAllSystemsWithinApplicationScope();
+            this.RegisterAllBoundSystems();
         }
 
         protected override void ApplicationStarted()
-        {
-            this.RegisterAllBoundSystems();
-            
+        {           
             var defaultPool = CollectionManager.GetCollection();
             var entity = defaultPool.CreateEntity();
             entity.AddComponents(new ViewComponent());
