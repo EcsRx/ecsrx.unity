@@ -1,6 +1,7 @@
 ﻿using EcsRx.Collections;
 using EcsRx.Entities;
 using EcsRx.Events;
+using EcsRx.Unity.Dependencies;
 using EcsRx.Unity.Systems;
 using UnityEngine;
 using Zenject;
@@ -9,7 +10,7 @@ namespace EcsRx.Examples.AutoRegisterSystems.Systems
 {
     public class DefaultViewResolver : PrefabViewResolverSystem
     {
-        public DefaultViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) 
+        public DefaultViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IUnityInstantiator instantiator) 
             : base(collectionManager, eventSystem, instantiator)
         {}
 

@@ -1,15 +1,15 @@
-﻿using EcsRx.Views.ViewHandlers;
+﻿using EcsRx.Unity.Dependencies;
+using EcsRx.Views.ViewHandlers;
 using UnityEngine;
-using Zenject;
 
 namespace EcsRx.Unity.Handlers
 {
     public class PrefabViewHandler : IViewHandler
     {
-        public IInstantiator Instantiator { get; }
+        public IUnityInstantiator Instantiator { get; }
         protected GameObject PrefabTemplate { get; }
         
-        public PrefabViewHandler(IInstantiator instantiator, GameObject prefabTemplate)
+        public PrefabViewHandler(IUnityInstantiator instantiator, GameObject prefabTemplate)
         {
             Instantiator = instantiator;
             PrefabTemplate = prefabTemplate;

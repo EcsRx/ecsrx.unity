@@ -2,11 +2,12 @@
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
+using EcsRx.Zenject;
 using UnityEngine;
 
 namespace EcsRx.Examples.SimpleMovement
 {
-    public class UnityApplication : EcsRxApplicationBehaviour
+    public class Application : EcsRxApplicationBehaviour
     {        
         protected override void ApplicationStarting()
         {

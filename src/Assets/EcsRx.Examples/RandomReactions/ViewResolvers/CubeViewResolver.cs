@@ -1,9 +1,9 @@
 ﻿using EcsRx.Collections;
 using EcsRx.Entities;
 using EcsRx.Events;
+using EcsRx.Unity.Dependencies;
 using EcsRx.Unity.Systems;
 using UnityEngine;
-using Zenject;
 
 namespace EcsRx.Examples.RandomReactions.ViewResolvers
 {
@@ -16,7 +16,8 @@ namespace EcsRx.Examples.RandomReactions.ViewResolvers
 
         protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("colored-cube");
 
-        public CubeViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IInstantiator instantiator) : base(collectionManager, eventSystem, instantiator)
+        public CubeViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IUnityInstantiator instantiator)
+            : base(collectionManager, eventSystem, instantiator)
         {}
         
         private void IncrementRow()

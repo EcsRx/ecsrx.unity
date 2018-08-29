@@ -11,7 +11,6 @@ using Zenject;
 
 namespace EcsRx.Unity.MonoBehaviours
 {
-    // TODO: Zenject inject issue timing
     public class RegisterAsEntity : MonoBehaviour
     {
         [Inject]

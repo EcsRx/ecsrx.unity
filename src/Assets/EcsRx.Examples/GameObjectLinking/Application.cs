@@ -1,10 +1,11 @@
-﻿using EcsRx.Examples.UsingBlueprints.Blueprints;
-using EcsRx.Unity;
+﻿using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
+using EcsRx.Zenject;
+using UnityEngine;
 
-namespace EcsRx.Examples.UsingBlueprints
+namespace EcsRx.Examples.GameObjectLinking
 {
-    public class UnityApplication : EcsRxApplicationBehaviour
+    public class Application : EcsRxApplicationBehaviour
     {
         protected override void ApplicationStarting()
         {
@@ -15,9 +16,10 @@ namespace EcsRx.Examples.UsingBlueprints
         protected override void ApplicationStarted()
         {
             var defaultPool = CollectionManager.GetCollection();
+            var entity = defaultPool.CreateEntity();
 
-            defaultPool.CreateEntity(new PlayerBlueprint("Player One"));
-            defaultPool.CreateEntity(new PlayerBlueprint("Player Two", 150.0f));
+            var existingGameObject = GameObject.Find("ExistingGameObject");
+            existingGameObject.LinkEntity(entity, defaultPool);
         }
     }
 }

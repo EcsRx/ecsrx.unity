@@ -4,19 +4,16 @@ using System.Linq;
 using EcsRx.Collections;
 using EcsRx.Events;
 using EcsRx.Executor;
-using EcsRx.Executor.Handlers;
 using EcsRx.Extensions;
 using EcsRx.Infrastructure;
 using EcsRx.Infrastructure.Dependencies;
 using EcsRx.Infrastructure.Modules;
 using EcsRx.Infrastructure.Plugins;
-using EcsRx.Systems;
-using EcsRx.Unity.Dependencies;
-using EcsRx.Views.Systems;
+using EcsRx.Zenject.Dependencies;
 using UnityEngine;
 using Zenject;
 
-namespace EcsRx.Unity
+namespace EcsRx.Zenject
 {
     [DefaultExecutionOrder(-20000)]
     public abstract class EcsRxApplicationBehaviour : MonoBehaviour, IEcsRxApplication
@@ -38,7 +35,7 @@ namespace EcsRx.Unity
             if(_sceneContext == null) 
             { throw new Exception("Cannot find SceneContext, please make sure one is on the scene"); }
             
-            _sceneContext.PreInstall += OnZenjectReady;
+            _sceneContext.PostInstall += OnZenjectReady;
         }
 
         protected void OnZenjectReady()

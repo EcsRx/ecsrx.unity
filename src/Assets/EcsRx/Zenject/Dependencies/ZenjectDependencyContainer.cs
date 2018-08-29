@@ -1,15 +1,21 @@
 ﻿using System.Collections.Generic;
 using EcsRx.Infrastructure.Dependencies;
+using EcsRx.Unity.Dependencies;
+using UnityEngine;
 using Zenject;
 
-namespace EcsRx.Unity.Dependencies
+namespace EcsRx.Zenject.Dependencies
 {
-    public class ZenjectDependencyContainer : IDependencyContainer
+    public class ZenjectDependencyContainer : IDependencyContainer, IUnityInstantiator
     {
         private readonly DiContainer _container;
 
         public ZenjectDependencyContainer(DiContainer container)
-        { _container = container; }
+        {
+            _container = container;
+            _container.Bind<IUnityInstantiator>().FromInstance(this);
+            _container.Bind<IDependencyContainer>().FromInstance(this);
+        }
 
         public void LoadModule(IDependencyModule module)
         {
@@ -18,6 +24,9 @@ namespace EcsRx.Unity.Dependencies
 
         public object NativeContainer => _container;
         
+        public GameObject InstantiatePrefab(GameObject prefab)
+        { return _container.InstantiatePrefab(prefab); }
+
         public void Bind<TFrom, TTo>(BindingConfiguration configuration = null) where TTo : TFrom
         {
             var bindingSetup = _container.Bind<TFrom>();

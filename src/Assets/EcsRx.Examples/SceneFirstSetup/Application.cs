@@ -3,6 +3,7 @@ using EcsRx.Extensions;
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
+using EcsRx.Zenject;
 
 namespace EcsRx.Examples.SceneFirstSetup
 {

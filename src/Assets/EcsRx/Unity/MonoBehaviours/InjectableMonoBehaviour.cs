@@ -1,4 +1,5 @@
 ﻿using EcsRx.Events;
+using EcsRx.Unity.Dependencies;
 using UnityEngine;
 using Zenject;
 
@@ -10,7 +11,7 @@ namespace EcsRx.Unity.MonoBehaviours
         public IEventSystem EventSystem { get; private set; }
 
         [Inject]
-        private IInstantiator Instantiator { get; set; }
+        private IUnityInstantiator Instantiator { get; set; }
 
         /// <summary>
         /// This is the point in which any injected dependencies will have been resolved for use

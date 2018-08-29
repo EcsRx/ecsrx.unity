@@ -2,10 +2,11 @@
 using EcsRx.Extensions;
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
+using EcsRx.Zenject;
 
 namespace EcsRx.Examples.PluginExample
 {
-    public class UnityApplication : EcsRxApplicationBehaviour
+    public class Application : EcsRxApplicationBehaviour
     {
         protected override void ApplicationStarting()
         {
