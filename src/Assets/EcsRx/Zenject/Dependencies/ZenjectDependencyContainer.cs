@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using EcsRx.Infrastructure.Dependencies;
 using EcsRx.Unity.Dependencies;
 using UnityEngine;
@@ -37,12 +38,22 @@ namespace EcsRx.Zenject.Dependencies
                 return;
             }
 
-            if (configuration.BindInstance != null)
+            if (configuration.ToInstance != null)
             {
-                var instanceBinding = bindingSetup.FromInstance((TFrom)configuration.BindInstance);
+                var instanceBinding = bindingSetup.FromInstance((TFrom)configuration.ToInstance);
                 
                 if(configuration.AsSingleton)
                 { instanceBinding.AsSingle(); }
+
+                return;
+            }
+            
+            if (configuration.ToMethod != null)
+            {
+                var methodBinding = bindingSetup.FromMethod(x => (TTo)configuration.ToMethod(this));
+
+                if(configuration.AsSingleton)
+                { methodBinding.AsSingle(); }
 
                 return;
             }
@@ -53,13 +64,16 @@ namespace EcsRx.Zenject.Dependencies
             var binding = bindingSetup.To<TFrom>();
             
             if(configuration.AsSingleton)
-            { binding.AsSingle(); } 
-            
-            if (configuration.WithConstructorArgs.Count == 0)
-            { return; }
+            { binding.AsSingle(); }
 
-            binding.WithArguments(configuration.WithConstructorArgs.Values);
-            _container.Bind<TFrom>().To<TTo>().AsSingle();
+            if (configuration.WithNamedConstructorArgs.Count > 0)
+            { binding.WithArguments(configuration.WithNamedConstructorArgs.Values); }
+
+            if (configuration.WithTypedConstructorArgs.Count > 0)
+            {
+                var typePairs = configuration.WithTypedConstructorArgs.Select(x => new TypeValuePair(x.Key, x.Value));
+                binding.WithArgumentsExplicit(typePairs);
+            }
         }
 
         public void Bind<T>(BindingConfiguration configuration = null)

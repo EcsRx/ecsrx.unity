@@ -41,6 +41,7 @@ namespace EcsRx.Zenject
         protected void OnZenjectReady()
         {   
             DependencyContainer = new ZenjectDependencyContainer(_sceneContext.Container);
+            _sceneContext.Container.Inject(this);
             StartApplication();
         }
 
