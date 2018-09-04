@@ -18,7 +18,8 @@ namespace EcsRx.Unity.Extensions
 
             var orderedSystems = allSystems
                 .OrderByDescending(x => x is ViewResolverSystem)
-                .ThenByDescending(x => x is ISetupSystem);
+                .ThenByDescending(x => x is ISetupSystem)
+                .ThenByPriority();
 
             orderedSystems.ForEachRun(application.SystemExecutor.AddSystem);
         }
