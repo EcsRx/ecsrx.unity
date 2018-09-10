@@ -1,8 +1,8 @@
 # EcsRx.Unity
 
-[![Join the chat at https://gitter.im/grofit/ecsrx](https://badges.gitter.im/grofit/ecsrx.svg)](https://gitter.im/grofit/ecsrx?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [EcsRx](https://github.com/EcsRx/ecsrx) is a reactive take on the common ECS pattern with a well separated design, this library builds off that basis and adds unity specific helpers and functionality.
+
+[![Discord](https://img.shields.io/discord/488609938399297536.svg)](https://discord.gg/bS2rnGz)
 
 If you do not need support for Unity and just want to use [EcsRx](https://github.com/EcsRx/ecsrx) in .net projects then head on over to the [EcsRx](https://github.com/EcsRx/ecsrx) repo [https://github.com/EcsRx/ecsrx](https://github.com/EcsRx/ecsrx).
 
@@ -69,4 +69,4 @@ Much like any other ECS implementation you have the notion of entities (`IEntity
 - [EcsRx Core Docs](https://github.com/EcsRx/ecsrx/tree/master/docs)
 - [EcsRx Unity Docs](/docs)
 
-If you have any problems, or feel that you are still unsure of something head on over to our [Gitter](https://gitter.im/grofit/ecsrx) channel.
+If you have any problems, or feel that you are still unsure of something head on over to our [Discord Channel](https://discord.gg/bS2rnGz).
