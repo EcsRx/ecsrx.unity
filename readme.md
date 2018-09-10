@@ -34,7 +34,7 @@ There are a lot of example projects within the repository which you can clone an
 
 - [ecsrx/ecsrx.buffs](https://github.com/ecsrx/ecsrx.buffs) (Example EcsRx plugin)
 
-There is also a supplementary databinding framework [grofit/bindingsrx](https://github.com/grofit/bindingsrx) which can speed up development of UI related interactions by adding one/two way data binding on UI and other unity objects.
+There is also a supplementary data-binding framework [grofit/bindingsrx](https://github.com/grofit/bindingsrx) which can speed up development of UI related interactions by adding one/two way data binding on UI and other unity objects.
 
 ## Requirements
 
@@ -60,7 +60,7 @@ The package contains a wrapper around the **Core** framework and some unity help
 - Install Zenject
 - Install UniRx 
 
-You will ultimately need to create a `SceneContext` from *Zenject* then register the `DefaultEcsRxInstaller` and any of your own installer classes. Then create an your own implementation of `EcsRxApplication` where you can setup your systems and entities.
+You will ultimately need to create a `SceneContext` from *Zenject* then create an your own implementation of `EcsRxApplicationBehaviour` where you can setup your systems and entities.
 
 Much like any other ECS implementation you have the notion of entities (`IEntity`), components (`IComponent`) and systems (`ISystem`), although there are a few types of systems which you can implement based upon your needs, check out the docs folder for more information on these subjects as its more than just a 1 liner.
 
