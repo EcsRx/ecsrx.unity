@@ -9,6 +9,7 @@ using EcsRx.Infrastructure;
 using EcsRx.Infrastructure.Dependencies;
 using EcsRx.Infrastructure.Modules;
 using EcsRx.Infrastructure.Plugins;
+using EcsRx.Persistence.Modules;
 using EcsRx.Zenject.Dependencies;
 using UnityEngine;
 using Zenject;
@@ -58,6 +59,7 @@ namespace EcsRx.Zenject
         protected virtual void RegisterModules()
         {
             DependencyContainer.LoadModule<FrameworkModule>();
+            DependencyContainer.LoadModule<PersistenceModule>();
 
             SystemExecutor = DependencyContainer.Resolve<ISystemExecutor>();
             EventSystem = DependencyContainer.Resolve<IEventSystem>();

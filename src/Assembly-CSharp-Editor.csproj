@@ -53,37 +53,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\EcsRx\Unity\Editor\ActiveSystemsViewerInspector.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\BoolEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\BoundsEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\ColorEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\DefaultEditorInputRegistry.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\EditorInputRegistry.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\EnumEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\FloatEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\GameObjectEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\IEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\IntEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\ReactiveBoolEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\ReactiveBoundsEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\ReactiveColorEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\ReactiveFloatEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\ReactiveIntEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\ReactiveRectEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\ReactiveStringEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\ReactiveVector2EditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\ReactiveVector3EditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\RectEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\SimpleEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\StringEditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\Vector2EditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EditorInputs\Vector3EditorInput.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\EntityViewInspector.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\Extensions\EditorExtensions.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\Helpers\TypeHelper.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\PoolManagerViewerInspector.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\RegisterAsEntityInspector.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Editor\UIAspects\ComponentUIAspect.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorHelper\EditorGuiHelper.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\BoolEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\BoundsEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\ColorEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\DefaultEditorInputRegistry.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\EditorInputRegistry.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\EnumEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\FloatEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\GameObjectEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\IEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\IntEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\ReactiveBoolEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\ReactiveBoundsEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\ReactiveColorEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\ReactiveFloatEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\ReactiveIntEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\ReactiveRectEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\ReactiveStringEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\ReactiveVector2EditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\ReactiveVector3EditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\RectEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\SimpleEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\StringEditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\Vector2EditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\Vector3EditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\Infrastructure\EditorContext.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\Inspectors\RegisterAsEntityInspector.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\Models\ComponentEditorState.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\UIAspects\ComponentUIAspect.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\UIAspects\EntityDataUIAspect.cs" />
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
@@ -347,6 +346,12 @@
     </Reference>
     <Reference Include="Zenject-usage">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/JsonDotNet/Assemblies/Windows/Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="LazyData">
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/LazyData.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.5f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

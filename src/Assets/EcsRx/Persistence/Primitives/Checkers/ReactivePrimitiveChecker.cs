@@ -1,0 +1,14 @@
+using System;
+using LazyData.Mappings.Types.Primitives.Checkers;
+using UniRx;
+
+namespace EcsRx.Persistence.Primitives.Checkers
+{
+    public class ReactivePrimitiveChecker : IPrimitiveChecker
+    {
+        public bool IsPrimitive(Type type)
+        {
+            return type.GetGenericTypeDefinition().IsAssignableFrom(typeof(ReactiveProperty<>));
+        }
+    }
+}

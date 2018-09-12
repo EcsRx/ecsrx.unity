@@ -2,6 +2,7 @@
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
+using EcsRx.Persistence.MonoBehaviours;
 using EcsRx.Unity.Dependencies;
 using EcsRx.Unity.Handlers;
 using EcsRx.Unity.MonoBehaviours;
