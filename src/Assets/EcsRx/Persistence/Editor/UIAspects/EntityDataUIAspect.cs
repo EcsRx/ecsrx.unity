@@ -5,6 +5,10 @@ using EcsRx.Components;
 using EcsRx.Persistence.Data;
 using EcsRx.Persistence.Editor.EditorHelper;
 using EcsRx.Persistence.Editor.Models;
+using EcsRx.Unity.Helpers;
+using EcsRx.Unity.MonoBehaviours.Editor.Events;
+using EcsRx.Unity.MonoBehaviours.Editor.Extensions;
+using EcsRx.Views.Components;
 using UnityEditor;
 using UnityEngine;
 
@@ -40,8 +44,7 @@ namespace EcsRx.Persistence.Editor.UIAspects
             {
                 EntityData.Components.Remove(componentToRemove);
 
-                if (ComponentRemoved != null)
-                { ComponentRemoved(this, new ComponentEvent(componentToRemove)); }
+                ComponentRemoved?.Invoke(this, new ComponentEvent(componentToRemove));
             }
             _componentsRemovalList.Clear();
 
@@ -65,7 +68,7 @@ namespace EcsRx.Persistence.Editor.UIAspects
                 .Where(x => !EntityData.Components.Select(y => y.GetType().FullName).Contains(x.FullName))
                 .ToArray();
 
-            var types = availableTypes.Select(x => string.Format("{0} [{1}]", x.Name, x.Namespace)).ToArray();
+            var types = availableTypes.Select(x => $"{x.Name} [{x.Namespace}]").ToArray();
 
             var index = -1;
             EditorGUIHelper.WithHorizontalLayout(() =>

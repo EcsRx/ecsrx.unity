@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{0F82C266-B129-FC86-404A-370C3030009B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -78,7 +79,11 @@
     <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\StringEditorInput.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\Vector2EditorInput.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Editor\EditorInputs\Vector3EditorInput.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\Events\ComponentAddedEvent.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\Extensions\IntExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\Helpers\ComponentLookup.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Editor\Infrastructure\EditorContext.cs" />
+    <Compile Include="Assets\EcsRx\Persistence\Editor\Inspectors\EntityViewInspector.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Editor\Inspectors\RegisterAsEntityInspector.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Editor\Models\ComponentEditorState.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Editor\UIAspects\ComponentUIAspect.cs" />
@@ -341,17 +346,17 @@
     <Reference Include="EcsRx.Views">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.Views.dll</HintPath>
     </Reference>
+    <Reference Include="LazyData">
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/LazyData.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/JsonDotNet/Assemblies/Windows/Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.Rider.Unity.Editor.Plugin.Repacked">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll</HintPath>
     </Reference>
     <Reference Include="Zenject-usage">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/JsonDotNet/Assemblies/Windows/Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="LazyData">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/LazyData.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.5f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
