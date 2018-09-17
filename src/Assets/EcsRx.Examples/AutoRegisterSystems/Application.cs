@@ -1,6 +1,7 @@
 ﻿using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
 using EcsRx.Zenject;
+using EcsRx.Zenject.Extensions;
 
 namespace EcsRx.Examples.AutoRegisterSystems
 {

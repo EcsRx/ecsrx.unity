@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Zenject;
 
-namespace EcsRx.Unity.Installers
+namespace EcsRx.Zenject.Installers
 {
     /// <summary>
     /// This is for just binding systems and not registering them

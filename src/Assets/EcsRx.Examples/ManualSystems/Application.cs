@@ -1,6 +1,7 @@
 ﻿using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Zenject;
+using EcsRx.Zenject.Extensions;
 
 namespace EcsRx.Examples.ManualSystems
 {

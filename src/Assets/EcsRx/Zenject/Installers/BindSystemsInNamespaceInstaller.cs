@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EcsRx.Systems;
 using ModestTree;
 using Zenject;
 
-namespace EcsRx.Unity.Installers
+namespace EcsRx.Zenject.Installers
 {
-    public class BindSystemsInNamespace
+    public class BindSystemsInNamespaceInstaller
     {
         public DiContainer Container { get; }
         public IEnumerable<string> SystemNamespaces { get; }
 
-        public BindSystemsInNamespace(DiContainer container, IEnumerable<string> systemNamespaces)
+        public BindSystemsInNamespaceInstaller(DiContainer container, IEnumerable<string> systemNamespaces)
         {
             Container = container;
             SystemNamespaces = systemNamespaces;
@@ -20,7 +19,7 @@ namespace EcsRx.Unity.Installers
 
         public static void Bind(DiContainer container, IEnumerable<string> systemNamespaces)
         {
-            new BindSystemsInNamespace(container, systemNamespaces).Bind();
+            new BindSystemsInNamespaceInstaller(container, systemNamespaces).Bind();
         }
 
         public void Bind()
