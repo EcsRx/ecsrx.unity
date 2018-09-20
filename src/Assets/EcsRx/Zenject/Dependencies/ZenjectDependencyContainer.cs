@@ -61,7 +61,7 @@ namespace EcsRx.Zenject.Dependencies
             if(!string.IsNullOrEmpty(configuration.WithName))
             { bindingSetup.WithId(configuration.WithName); }
             
-            var binding = bindingSetup.To<TFrom>();
+            var binding = bindingSetup.To<TTo>();
             
             if(configuration.AsSingleton)
             { binding.AsSingle(); }
@@ -86,6 +86,9 @@ namespace EcsRx.Zenject.Dependencies
 
             return _container.ResolveId<T>(name);
         }
+
+        public bool HasBinding<T>(string name = null)
+        { return _container.HasBindingId<T>(name); }
 
         public void Unbind<T>()
         {

@@ -285,7 +285,7 @@
     <None Include="Assets\Plugins\Zenject\Source\Usage\link.xml" />
     <None Include="Assets\Plugins\Zenject\LICENSE.txt" />
     <None Include="Assets\Plugins\Zenject\Version.txt" />
-    <None Include="Assets\Plugins\Zenject\zenject.asmdef" />
+    <None Include="Assets\Plugins\Zenject\Zenject.asmdef" />
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>

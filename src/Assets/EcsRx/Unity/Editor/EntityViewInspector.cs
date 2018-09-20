@@ -59,12 +59,13 @@ namespace EcsRx.Unity
             var componentsToRemove = new List<int>();
             if (showComponents)
             {
-                for (var i = 0; i < _entityView.Entity.Components.Count(); i++)
+                var currentComponents = _entityView.Entity.Components.ToArray();
+                for (var i = 0; i < currentComponents.Length; i++)
                 {
                     var currentIndex = i;
                     this.UseVerticalBoxLayout(() =>
                     {
-                        var componentType = _entityView.Entity.Components.ElementAt(currentIndex).GetType();
+                        var componentType = currentComponents[currentIndex].GetType();
                         var typeName = componentType.Name;
                         var typeNamespace = componentType.Namespace;
 
@@ -84,7 +85,7 @@ namespace EcsRx.Unity
                             EditorGUILayout.Space();
                         });
                         
-                        var component = _entityView.Entity.Components.ElementAt(currentIndex);
+                        var component = currentComponents[currentIndex];
                         ComponentUIAspect.ShowComponentProperties(component);
                     });
                 }
@@ -92,10 +93,14 @@ namespace EcsRx.Unity
 
             EditorGUILayout.EndVertical();
 
+            if (componentsToRemove.Count == 0)
+            { return; }
+
+            var activeComponents = _entityView.Entity.Components.ToArray();
             var componentArray = new Type[componentsToRemove.Count];
             for (var i = 0; i < componentsToRemove.Count; i++)
             {
-                var component = _entityView.Entity.Components.ElementAt(i);
+                var component = activeComponents[i];
                 componentArray[i] = component.GetType();
             }
             _entityView.Entity.RemoveComponents(componentArray);

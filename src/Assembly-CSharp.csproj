@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{4CFFDA30-0E63-039E-0DCA-DAC117CE2649}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -131,8 +130,8 @@
     <Compile Include="Assets\EcsRx\Zenject\EcsRxApplicationBehaviour.cs" />
     <Compile Include="Assets\EcsRx\Zenject\Extensions\EcsRxApplicationBehaviourExtensions.cs" />
     <Compile Include="Assets\EcsRx\Zenject\Extensions\IZenjectExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Zenject\Helpers\BindSystemsInNamespace.cs" />
     <Compile Include="Assets\EcsRx\Zenject\Installers\AutoBindSystemsInstaller.cs" />
-    <Compile Include="Assets\EcsRx\Zenject\Installers\BindSystemsInNamespaceInstaller.cs" />
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>

@@ -1,3 +1,9 @@
+using System.Linq;
+using EcsRx.Extensions;
+using EcsRx.Infrastructure.Dependencies;
+using EcsRx.Systems;
+using EcsRx.Views.Systems;
+using EcsRx.Zenject.Helpers;
 using Zenject;
 
 namespace EcsRx.Zenject.Extensions
@@ -41,7 +47,13 @@ namespace EcsRx.Zenject.Extensions
         /// <typeparam name="T">The implementation of ISystem to register</typeparam>
         public static void RegisterSystem<T>(this EcsRxApplicationBehaviour application) where T : ISystem
         {
-            var system = application.DependencyContainer.Resolve<T>();
+            ISystem system;
+            
+            if(application.DependencyContainer.HasBinding<ISystem>(typeof(T).Name))
+            { system = application.DependencyContainer.Resolve<ISystem>(typeof(T).Name); }
+            else
+            { system = application.DependencyContainer.Resolve<T>(); }
+            
             application.SystemExecutor.AddSystem(system);
         }
 

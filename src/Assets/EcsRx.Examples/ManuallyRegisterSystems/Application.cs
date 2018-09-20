@@ -10,7 +10,10 @@ namespace EcsRx.Examples.ManuallyRegisterSystems
     {
         protected override void ApplicationStarting()
         {
-            this.RegisterSystem<DefaultViewResolver>();
+            // This one we are manually binding and registering at same time
+            this.BindAndRegisterSystem<DefaultViewResolver>();
+            
+            // This one we are manually registering from the installer which has already bound it
             this.RegisterSystem<RandomMovementSystem>();
         }
 

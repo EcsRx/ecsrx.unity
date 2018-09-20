@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EcsRx.Systems;
 using ModestTree;
 using Zenject;
 
-namespace EcsRx.Zenject.Installers
+namespace EcsRx.Zenject.Helpers
 {
-    public class BindSystemsInNamespaceInstaller
+    public class BindSystemsInNamespace
     {
         public DiContainer Container { get; }
         public IEnumerable<string> SystemNamespaces { get; }
 
-        public BindSystemsInNamespaceInstaller(DiContainer container, IEnumerable<string> systemNamespaces)
+        public BindSystemsInNamespace(DiContainer container, IEnumerable<string> systemNamespaces)
         {
             Container = container;
             SystemNamespaces = systemNamespaces;
@@ -19,7 +20,7 @@ namespace EcsRx.Zenject.Installers
 
         public static void Bind(DiContainer container, IEnumerable<string> systemNamespaces)
         {
-            new BindSystemsInNamespaceInstaller(container, systemNamespaces).Bind();
+            new BindSystemsInNamespace(container, systemNamespaces).Bind();
         }
 
         public void Bind()
