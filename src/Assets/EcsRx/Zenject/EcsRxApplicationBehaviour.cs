@@ -61,8 +61,8 @@ namespace EcsRx.Zenject
 
         protected virtual void RegisterModules()
         {
-            DependencyContainer.LoadModule<FrameworkModule>();
-            DependencyContainer.LoadModule<PersistenceModule>();
+            Container.LoadModule<FrameworkModule>();
+            Container.LoadModule<PersistenceModule>();
 
             SystemExecutor = Container.Resolve<ISystemExecutor>();
             EventSystem = Container.Resolve<IEventSystem>();

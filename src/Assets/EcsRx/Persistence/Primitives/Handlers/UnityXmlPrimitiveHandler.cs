@@ -2,7 +2,7 @@ using System;
 using System.Xml.Linq;
 using EcsRx.Persistence.Primitives.Checkers;
 using LazyData.Mappings.Types.Primitives.Checkers;
-using LazyData.Serialization.Xml.Handlers;
+using LazyData.Xml.Handlers;
 using UnityEngine;
 
 namespace EcsRx.Persistence.Primitives.Handlers

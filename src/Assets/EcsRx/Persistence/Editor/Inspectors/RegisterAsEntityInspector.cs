@@ -1,9 +1,10 @@
 using System;
+using EcsRx.Infrastructure.Extensions;
 using EcsRx.Persistence.Editor.EditorHelper;
 using EcsRx.Persistence.Editor.Infrastructure;
 using EcsRx.Persistence.Editor.UIAspects;
 using EcsRx.Persistence.MonoBehaviours;
-using LazyData.Serialization.Binary;
+using LazyData.Binary;
 using UnityEditor;
 using UnityEngine;
 

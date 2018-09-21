@@ -123,7 +123,6 @@ namespace EcsRx.Persistence.Editor.EditorHelper
             style.normal.textColor = originalColor;
         }
 
-        // Only works with unity 5.3+
         public static void SaveActiveSceneChanges(this UnityEditor.Editor editor)
         {
             var activeScene = SceneManager.GetActiveScene();

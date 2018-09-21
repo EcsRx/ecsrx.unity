@@ -1,3 +1,4 @@
+/*
 using System;
 using EcsRx.Persistence.Primitives.Checkers;
 using LazyData.Mappings.Types.Primitives.Checkers;
@@ -63,3 +64,4 @@ namespace EcsRx.Persistence.Primitives.Handlers
         }
     }
 }
+*/

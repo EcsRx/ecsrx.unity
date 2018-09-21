@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using EcsRx.Persistence.Primitives.Checkers;
 using EcsRx.Persistence.Primitives.Helpers;
 using LazyData.Mappings.Types.Primitives.Checkers;
@@ -7,6 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace EcsRx.Persistence.Primitives.Handlers
 {
+    
     public class ReactiveJsonPrimitiveHandler : IJsonPrimitiveHandler
     {
         private readonly BasicJsonPrimitiveHandler _basicPrimitiveHandler;
@@ -37,3 +39,4 @@ namespace EcsRx.Persistence.Primitives.Handlers
         }
     }
 }
+*/

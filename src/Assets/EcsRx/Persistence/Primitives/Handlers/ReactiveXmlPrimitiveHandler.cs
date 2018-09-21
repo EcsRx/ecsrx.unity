@@ -3,10 +3,11 @@ using System.Xml.Linq;
 using EcsRx.Persistence.Primitives.Checkers;
 using EcsRx.Persistence.Primitives.Helpers;
 using LazyData.Mappings.Types.Primitives.Checkers;
-using LazyData.Serialization.Xml.Handlers;
+using LazyData.Xml.Handlers;
 
 namespace EcsRx.Persistence.Primitives.Handlers
 {
+    
     public class ReactiveXmlPrimitiveHandler : IXmlPrimitiveHandler
     {
         private readonly BasicXmlPrimitiveHandler _basicPrimitiveHandler;

@@ -43,7 +43,6 @@ namespace EcsRx.Persistence.Editor.UIAspects
             foreach (var componentToRemove in _componentsRemovalList)
             {
                 EntityData.Components.Remove(componentToRemove);
-
                 ComponentRemoved?.Invoke(this, new ComponentEvent(componentToRemove));
             }
             _componentsRemovalList.Clear();
@@ -82,8 +81,7 @@ namespace EcsRx.Persistence.Editor.UIAspects
             var component = (IComponent)Activator.CreateInstance(componentType);
             EntityData.Components.Add(component);
 
-            if(ComponentAdded != null)
-            { ComponentAdded(this, new ComponentEvent(component)); }
+            ComponentAdded?.Invoke(this, new ComponentEvent(component));
         }
 
         private void ComponentSection(IComponent component)
@@ -92,8 +90,8 @@ namespace EcsRx.Persistence.Editor.UIAspects
             var textColor = GUI.contentColor;
             var componentType = component.GetType();
             var componentName = componentType.Name;
-            var componentBackgroundColor = componentName.GetHashCode().ToColor(0.3f);
-            var componentHeadingColor = componentName.GetHashCode().ToColor(0.6f);
+            var componentBackgroundColor = componentName.GetHashCode().ToColor(0.6f);
+            var componentHeadingColor = componentName.GetHashCode().ToColor(0.2f);
 
             if (!_componentShowList.ContainsKey(componentName))
             {
@@ -114,13 +112,13 @@ namespace EcsRx.Persistence.Editor.UIAspects
                 var headingRect = EditorGUIHelper.WithHorizontalBoxLayout(() =>
                 {
                     var iconStyle = new GUIStyle { fontSize = 12 };
-                    iconStyle.normal.textColor = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+                    iconStyle.normal.textColor = Color.white;
                     GUILayout.Label(isShowing ? "▲" : "▼", iconStyle, GUILayout.Width(20), GUILayout.Height(15));
 
                     GUI.contentColor = textColor;
-                    var headingStyle = new GUIStyle { alignment = TextAnchor.MiddleLeft, fontSize = 12 };
+                    var headingStyle = new GUIStyle { alignment = TextAnchor.MiddleLeft, fontSize = 12, fontStyle = FontStyle.Bold};
                     headingStyle.normal.textColor = Color.white;
-                    EditorGUIHelper.DrawOutlinedLabel(componentName, 1, headingStyle);
+                    GUILayout.Label(componentName, headingStyle);
                 });
 
                 if (Event.current.type == EventType.Repaint)

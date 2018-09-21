@@ -1,8 +1,8 @@
 using System;
 using System.IO;
 using EcsRx.Persistence.Primitives.Checkers;
+using LazyData.Binary.Handlers;
 using LazyData.Mappings.Types.Primitives.Checkers;
-using LazyData.Serialization.Binary.Handlers;
 using UnityEngine;
 
 namespace EcsRx.Persistence.Primitives.Handlers

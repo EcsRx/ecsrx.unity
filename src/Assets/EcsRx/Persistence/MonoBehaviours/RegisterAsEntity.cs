@@ -4,7 +4,7 @@ using EcsRx.Entities;
 using EcsRx.Persistence.Data;
 using EcsRx.Views.Components;
 using LazyData;
-using LazyData.Serialization.Binary;
+using LazyData.Binary;
 using UnityEngine;
 using Zenject;
 
@@ -42,7 +42,9 @@ namespace EcsRx.Persistence.MonoBehaviours
 
             var collectionToUse = GetCollectionManager();
             var createdEntity = collectionToUse.CreateEntity();
+            createdEntity.AddComponents(EntityData.Components.ToArray());
             createdEntity.AddComponents(new ViewComponent { View = gameObject });
+            
             SetupEntityBinding(createdEntity, collectionToUse);
 
             Destroy(this);

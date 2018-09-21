@@ -299,24 +299,6 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.5f1/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="EcsRx">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.dll</HintPath>
-    </Reference>
-    <Reference Include="EcsRx.Infrastructure">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="EcsRx.MicroRx">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.MicroRx.dll</HintPath>
-    </Reference>
-    <Reference Include="EcsRx.Systems">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.Systems.dll</HintPath>
-    </Reference>
-    <Reference Include="EcsRx.Views">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.Views.dll</HintPath>
-    </Reference>
-    <Reference Include="LazyData">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/LazyData.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/JsonDotNet/Assemblies/Windows/Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -325,6 +307,30 @@
     </Reference>
     <Reference Include="Zenject-usage">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
+    </Reference>
+    <Reference Include="EcsRx.Systems">
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/Dependencies/Ecsrx/EcsRx.Systems.dll</HintPath>
+    </Reference>
+    <Reference Include="EcsRx">
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/Dependencies/Ecsrx/EcsRx.dll</HintPath>
+    </Reference>
+    <Reference Include="LazyData.Binary">
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/Dependencies/LazyData/LazyData.Binary.dll</HintPath>
+    </Reference>
+    <Reference Include="EcsRx.Views">
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/Dependencies/Ecsrx/EcsRx.Views.dll</HintPath>
+    </Reference>
+    <Reference Include="EcsRx.Infrastructure">
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/Dependencies/Ecsrx/EcsRx.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="LazyData">
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/Dependencies/LazyData/LazyData.dll</HintPath>
+    </Reference>
+    <Reference Include="EcsRx.MicroRx">
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/Dependencies/Ecsrx/EcsRx.MicroRx.dll</HintPath>
+    </Reference>
+    <Reference Include="LazyData.Xml">
+      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/Dependencies/LazyData/LazyData.Xml.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.5f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

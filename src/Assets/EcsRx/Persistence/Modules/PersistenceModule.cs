@@ -2,17 +2,15 @@ using EcsRx.Infrastructure.Dependencies;
 using EcsRx.Infrastructure.Extensions;
 using EcsRx.Persistence.Primitives.Checkers;
 using EcsRx.Persistence.Primitives.Handlers;
+using LazyData.Binary;
+using LazyData.Binary.Handlers;
 using LazyData.Mappings.Mappers;
 using LazyData.Mappings.Types;
 using LazyData.Mappings.Types.Primitives;
 using LazyData.Mappings.Types.Primitives.Checkers;
 using LazyData.Registries;
-using LazyData.Serialization.Binary;
-using LazyData.Serialization.Binary.Handlers;
-using LazyData.Serialization.Json;
-using LazyData.Serialization.Json.Handlers;
-using LazyData.Serialization.Xml;
-using LazyData.Serialization.Xml.Handlers;
+using LazyData.Xml;
+using LazyData.Xml.Handlers;
 using UnityEngine;
 
 namespace EcsRx.Persistence.Modules
@@ -45,11 +43,13 @@ namespace EcsRx.Persistence.Modules
             container.Bind<ITypeMapper, EverythingTypeMapper>();
             container.Bind<IMappingRegistry, MappingRegistry>();
 
+            /*
             container.Bind<IJsonPrimitiveHandler, BasicJsonPrimitiveHandler>();
             container.Bind<IJsonPrimitiveHandler, ReactiveJsonPrimitiveHandler>();
             container.Bind<IJsonPrimitiveHandler, UnityJsonPrimitiveHandler>();
             container.Bind<IJsonSerializer, JsonSerializer>();
             container.Bind<IJsonDeserializer, JsonDeserializer>();
+            */
             
             container.Bind<IBinaryPrimitiveHandler, BasicBinaryPrimitiveHandler>();
             container.Bind<IBinaryPrimitiveHandler, ReactiveBinaryPrimitiveHandler>();
