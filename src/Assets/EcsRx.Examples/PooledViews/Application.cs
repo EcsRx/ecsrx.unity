@@ -1,5 +1,4 @@
-﻿using EcsRx.Unity;
-using EcsRx.Unity.Extensions;
+﻿using EcsRx.Infrastructure.Extensions;
 using EcsRx.Zenject;
 
 namespace EcsRx.Examples.PooledViews

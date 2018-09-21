@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using EcsRx.Examples.PluginExample.HelloWorldPlugin.systems;
 using EcsRx.Infrastructure.Dependencies;
+using EcsRx.Infrastructure.Extensions;
 using EcsRx.Infrastructure.Plugins;
 using EcsRx.Systems;
 

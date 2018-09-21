@@ -1,8 +1,10 @@
 ﻿using EcsRx.Examples.RandomReactions.Components;
+using EcsRx.Infrastructure.Extensions;
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
 using EcsRx.Zenject;
+using EcsRx.Zenject.Extensions;
 
 namespace EcsRx.Examples.RandomReactions
 {
@@ -18,7 +20,7 @@ namespace EcsRx.Examples.RandomReactions
 
         protected override void ApplicationStarted()
         {
-            var collection = CollectionManager.GetCollection();
+            var collection = EntityCollectionManager.GetCollection();
 
             for (var i = 0; i < _cubeCount; i++)
             {

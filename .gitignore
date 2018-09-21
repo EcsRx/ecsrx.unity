@@ -13,3 +13,5 @@ src/\.idea/\.idea\.src/
 /src/.idea
 /src/Assets/Plugins/Zenject/OptionalExtras
 /src/.vs
+/src/Assets/EcsRx/*.pdb
+/src/Assets/EcsRx/*.pdb.meta

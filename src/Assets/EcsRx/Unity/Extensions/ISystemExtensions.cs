@@ -10,5 +10,10 @@ namespace EcsRx.Unity.Extensions
         {
             return Observable.EveryUpdate().First();
         }
+        
+        public static void AfterUpdateDo(this ISystem system, Action<long> action)
+        {
+            Observable.EveryUpdate().First().Subscribe(action);
+        }
     }
 }

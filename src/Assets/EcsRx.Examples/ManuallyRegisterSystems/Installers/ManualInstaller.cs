@@ -7,7 +7,7 @@ namespace EcsRx.Examples.ManuallyRegisterSystems.Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<DefaultViewResolver>().ToSelf().AsSingle();
+            // Manually bind RandomMovementSystem
             Container.Bind<RandomMovementSystem>().ToSelf().AsSingle();
         }
     }

@@ -128,6 +128,7 @@
     <Compile Include="Assets\EcsRx\Unity\Extensions\GameObjectExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\IEntityExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\ISystemExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Extensions\IUnityInstantiatorExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\ViewComponentExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Handlers\PrefabViewHandler.cs" />
     <Compile Include="Assets\EcsRx\Unity\JSON.cs" />
@@ -139,11 +140,9 @@
     <Compile Include="Assets\EcsRx\Unity\Systems\PrefabViewResolverSystem.cs" />
     <Compile Include="Assets\EcsRx\Zenject\Dependencies\ZenjectDependencyContainer.cs" />
     <Compile Include="Assets\EcsRx\Zenject\EcsRxApplicationBehaviour.cs" />
-    <Compile Include="Assets\EcsRx\Zenject\Extensions\EcsRxApplicationBehaviourExtensions.cs" />
     <Compile Include="Assets\EcsRx\Zenject\Extensions\IZenjectExtensions.cs" />
+    <Compile Include="Assets\EcsRx\Zenject\Helpers\BindSystemsInNamespace.cs" />
     <Compile Include="Assets\EcsRx\Zenject\Installers\AutoBindSystemsInstaller.cs" />
-    <Compile Include="Assets\EcsRx\Zenject\Installers\BindSystemsInNamespace.cs" />
-    <None Include="Assets\JsonDotNet\link.xml" />
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>

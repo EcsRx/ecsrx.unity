@@ -7,6 +7,7 @@ using EcsRx.Executor;
 using EcsRx.Extensions;
 using EcsRx.Infrastructure;
 using EcsRx.Infrastructure.Dependencies;
+using EcsRx.Infrastructure.Extensions;
 using EcsRx.Infrastructure.Modules;
 using EcsRx.Infrastructure.Plugins;
 using EcsRx.Persistence.Modules;
@@ -19,12 +20,14 @@ namespace EcsRx.Zenject
     [DefaultExecutionOrder(-20000)]
     public abstract class EcsRxApplicationBehaviour : MonoBehaviour, IEcsRxApplication
     {
-        public IDependencyContainer DependencyContainer { get; private set; }
+        public IDependencyContainer Container { get; private set; }
         
         public ISystemExecutor SystemExecutor { get; private set; }
         public IEventSystem EventSystem { get; private set; }
-        public IEntityCollectionManager CollectionManager { get; private set; }
-        public List<IEcsRxPlugin> Plugins { get; } = new List<IEcsRxPlugin>();
+        public IEntityCollectionManager EntityCollectionManager { get; private set; }
+        public IEnumerable<IEcsRxPlugin> Plugins => _plugins;
+        
+        private List<IEcsRxPlugin> _plugins { get; } = new List<IEcsRxPlugin>();
         
         private SceneContext _sceneContext;
 
@@ -41,15 +44,15 @@ namespace EcsRx.Zenject
 
         protected void OnZenjectReady()
         {   
-            DependencyContainer = new ZenjectDependencyContainer(_sceneContext.Container);
+            Container = new ZenjectDependencyContainer(_sceneContext.Container);
             StartApplication();
         }
 
         public virtual void StartApplication()
         {
             RegisterModules();
-            
             _sceneContext.Container.Inject(this);
+            
             ApplicationStarting();
             RegisterAllPluginDependencies();
             SetupAllPluginSystems();
@@ -61,24 +64,24 @@ namespace EcsRx.Zenject
             DependencyContainer.LoadModule<FrameworkModule>();
             DependencyContainer.LoadModule<PersistenceModule>();
 
-            SystemExecutor = DependencyContainer.Resolve<ISystemExecutor>();
-            EventSystem = DependencyContainer.Resolve<IEventSystem>();
-            CollectionManager = DependencyContainer.Resolve<IEntityCollectionManager>();
+            SystemExecutor = Container.Resolve<ISystemExecutor>();
+            EventSystem = Container.Resolve<IEventSystem>();
+            EntityCollectionManager = Container.Resolve<IEntityCollectionManager>();
         }
 
         protected virtual void ApplicationStarting() { }
         protected abstract void ApplicationStarted();
 
         protected virtual void RegisterAllPluginDependencies()
-        { Plugins.ForEachRun(x => x.SetupDependencies(DependencyContainer)); }
+        { _plugins.ForEachRun(x => x.SetupDependencies(Container)); }
 
         protected virtual void SetupAllPluginSystems()
         {
-            Plugins.SelectMany(x => x.GetSystemsForRegistration(DependencyContainer))
+            _plugins.SelectMany(x => x.GetSystemsForRegistration(Container))
                 .ForEachRun(x => SystemExecutor.AddSystem(x));
         }
 
         protected void RegisterPlugin(IEcsRxPlugin plugin)
-        { Plugins.Add(plugin); }
+        { _plugins.Add(plugin); }
     }
 }
