@@ -1,4 +1,5 @@
 ﻿using EcsRx.Examples.ManuallyRegisterSystems.Systems;
+using EcsRx.Infrastructure.Extensions;
 using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
 using EcsRx.Zenject;
@@ -19,7 +20,7 @@ namespace EcsRx.Examples.ManuallyRegisterSystems
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = CollectionManager.GetCollection();
+            var defaultPool = EntityCollectionManager.GetCollection();
             
             var entity = defaultPool.CreateEntity();
             entity.AddComponents(new ViewComponent());

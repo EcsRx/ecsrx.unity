@@ -1,4 +1,5 @@
-﻿using EcsRx.Unity;
+﻿using EcsRx.Infrastructure.Extensions;
+using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Zenject;
 using EcsRx.Zenject.Extensions;
@@ -16,7 +17,7 @@ namespace EcsRx.Examples.GameObjectLinking
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = CollectionManager.GetCollection();
+            var defaultPool = EntityCollectionManager.GetCollection();
             var entity = defaultPool.CreateEntity();
 
             var existingGameObject = GameObject.Find("ExistingGameObject");

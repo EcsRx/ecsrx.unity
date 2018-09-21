@@ -1,5 +1,6 @@
 ﻿using EcsRx.Examples.SceneFirstSetup.Components;
 using EcsRx.Extensions;
+using EcsRx.Infrastructure.Extensions;
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
@@ -18,7 +19,7 @@ namespace EcsRx.Examples.SceneFirstSetup
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = CollectionManager.GetCollection();
+            var defaultPool = EntityCollectionManager.GetCollection();
 
             var cubeEntity = defaultPool.CreateEntity();
             cubeEntity.AddComponent<ViewComponent>();

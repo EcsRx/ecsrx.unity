@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using System.Linq;
+using EcsRx.Groups;
 using EcsRx.Infrastructure.Dependencies;
+using EcsRx.Systems;
 using EcsRx.Unity.Dependencies;
 using UnityEngine;
 using Zenject;
@@ -28,19 +31,19 @@ namespace EcsRx.Zenject.Dependencies
         public GameObject InstantiatePrefab(GameObject prefab)
         { return _container.InstantiatePrefab(prefab); }
 
-        public void Bind<TFrom, TTo>(BindingConfiguration configuration = null) where TTo : TFrom
+        public void Bind(Type fromType, Type toType, BindingConfiguration configuration = null)
         {
-            var bindingSetup = _container.Bind<TFrom>();
+            var bindingSetup = _container.Bind(fromType);
             
             if (configuration == null)
             {
-                bindingSetup.To<TTo>().AsSingle();
+                bindingSetup.To(toType).AsSingle();
                 return;
             }
 
             if (configuration.ToInstance != null)
             {
-                var instanceBinding = bindingSetup.FromInstance((TFrom)configuration.ToInstance);
+                var instanceBinding = bindingSetup.FromInstance(configuration.ToInstance);
                 
                 if(configuration.AsSingleton)
                 { instanceBinding.AsSingle(); }
@@ -50,18 +53,18 @@ namespace EcsRx.Zenject.Dependencies
             
             if (configuration.ToMethod != null)
             {
-                var methodBinding = bindingSetup.FromMethod(x => (TTo)configuration.ToMethod(this));
+                var methodBinding = bindingSetup.FromMethod(x => configuration.ToMethod(this));
 
                 if(configuration.AsSingleton)
                 { methodBinding.AsSingle(); }
 
                 return;
             }
-
-            if(!string.IsNullOrEmpty(configuration.WithName))
-            { bindingSetup.WithId(configuration.WithName); }
             
-            var binding = bindingSetup.To<TTo>();
+            var binding = bindingSetup.To(toType);
+            
+            if(!string.IsNullOrEmpty(configuration.WithName))
+            { binding.WithConcreteId(configuration.WithName); }
             
             if(configuration.AsSingleton)
             { binding.AsSingle(); }
@@ -76,32 +79,24 @@ namespace EcsRx.Zenject.Dependencies
             }
         }
 
-        public void Bind<T>(BindingConfiguration configuration = null)
-        { Bind<T,T>(configuration); }
+        public void Bind(Type type, BindingConfiguration configuration = null)
+        { Bind(type, type, configuration); }
 
-        public T Resolve<T>(string name = null)
+        public object Resolve(Type type, string name = null)
         {
             if(string.IsNullOrEmpty(name))
-            { return _container.Resolve<T>(); }
+            { return _container.Resolve(type); }
 
-            return _container.ResolveId<T>(name);
+            return _container.ResolveId(type, name);
         }
 
-        public bool HasBinding<T>(string name = null)
-        { return _container.HasBindingId<T>(name); }
+        public bool HasBinding(Type type, string name = null)
+        { return _container.HasBindingId(type, name); }
 
-        public void Unbind<T>()
-        {
-            _container.Unbind<T>();
-        }
+        public void Unbind(Type type)
+        { _container.Unbind(type); }
 
-        public IEnumerable<T> ResolveAll<T>()
-        { return _container.ResolveAll<T>(); }
-
-        public void LoadModule<T>() where T : IDependencyModule, new()
-        {
-            var module = new T();
-            LoadModule(module);
-        }
+        public IEnumerable ResolveAll(Type type)
+        { return _container.ResolveAll(type); }
     }
 }

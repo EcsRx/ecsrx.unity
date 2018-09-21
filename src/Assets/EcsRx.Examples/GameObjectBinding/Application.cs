@@ -1,5 +1,6 @@
 ﻿using EcsRx.Examples.GameObjectBinding.Components;
 using EcsRx.Extensions;
+using EcsRx.Infrastructure.Extensions;
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
@@ -18,7 +19,7 @@ namespace EcsRx.Examples.GameObjectBinding
 
         protected override void ApplicationStarted()
         {
-            var entityCollection = CollectionManager.GetCollection();
+            var entityCollection = EntityCollectionManager.GetCollection();
 
             var cubeEntity = entityCollection.CreateEntity();
             cubeEntity.AddComponent<ViewComponent>();

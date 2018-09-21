@@ -1,4 +1,5 @@
 ﻿using EcsRx.Examples.SimpleMovement.Components;
+using EcsRx.Infrastructure.Extensions;
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Views.Components;
@@ -18,7 +19,7 @@ namespace EcsRx.Examples.SimpleMovement
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = CollectionManager.GetCollection();
+            var defaultPool = EntityCollectionManager.GetCollection();
             var viewEntity = defaultPool.CreateEntity();
             viewEntity.AddComponents(new ViewComponent(), 
                 new PlayerControlledComponent(), new CameraFollowsComponent());

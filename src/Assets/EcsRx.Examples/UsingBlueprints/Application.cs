@@ -1,4 +1,5 @@
 ﻿using EcsRx.Examples.UsingBlueprints.Blueprints;
+using EcsRx.Infrastructure.Extensions;
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
 using EcsRx.Zenject;
@@ -16,7 +17,7 @@ namespace EcsRx.Examples.UsingBlueprints
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = CollectionManager.GetCollection();
+            var defaultPool = EntityCollectionManager.GetCollection();
 
             defaultPool.CreateEntity(new PlayerBlueprint("Player One"));
             defaultPool.CreateEntity(new PlayerBlueprint("Player Two", 150.0f));
