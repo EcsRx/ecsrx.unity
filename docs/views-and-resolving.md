@@ -95,3 +95,17 @@ public class WallViewResolver : DynamicViewResolverSystem
     { GameObject.Destroy(view); }
 }
 ```
+
+## HELP! MY SCENE FIRST GOs ARE NOT BEING DESTROYED WITH MY ENTITIES!
+
+Ok so this occured recently and caused a bit of discussion, so currently only views created from within `ViewResolver` based systems are auto disposed when the entity is removed. If you have created your view in the scene and are just getting it registered as an entity, then there will be no systems setup to do any custom disposal on your `ViewComponent` being removed (unless you have explicitly added one).
+
+So if you want this behaviour you need to do one of the following:
+
+- Where you destroy your entity get the `ViewComponent` out and destroy the associated GO manually
+- Create an `ITeardownSystem` with relevant grouping which will get the `ViewComponent` out and destroy the associated GO manually
+- Create an empty `ViewResolverSystem` with relevant grouping which will auto teardown your GO
+
+### BUT WHY?
+
+The problem is trickier than it first appears as when you create a scene first entity, it has a view ahead of time, so no system has created it. However the EcsRx world doesnt know this, as `ViewResolver` systems will short out early if a view already exists, so as nothing knows if it has been handled it would be dangerous to just make all `RegisterAsEntity` related GOs auto explode when the entity goes pop. Now this being said we are discussing if this should be allowed as an explicit opt in feature on `RegisterAsEntity` and if we do add this then it may cause odd behaviour in some niche situations so beware either way...
