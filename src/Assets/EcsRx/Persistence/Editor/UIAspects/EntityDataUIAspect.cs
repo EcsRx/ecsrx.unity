@@ -38,7 +38,10 @@ namespace EcsRx.Persistence.Editor.UIAspects
 
             EditorGUILayout.Space();
             foreach (var component in EntityData.Components)
-            { ComponentSection(component); }
+            {
+                ComponentSection(component);
+                GUILayout.Space(5.0f);
+            }
 
             foreach (var componentToRemove in _componentsRemovalList)
             {
@@ -90,8 +93,8 @@ namespace EcsRx.Persistence.Editor.UIAspects
             var textColor = GUI.contentColor;
             var componentType = component.GetType();
             var componentName = componentType.Name;
-            var componentBackgroundColor = componentName.GetHashCode().ToColor(0.6f);
-            var componentHeadingColor = componentName.GetHashCode().ToColor(0.2f);
+            var componentHeadingColor = componentName.GetHashCode().ToMutedColor();
+            var componentBackgroundColor = componentName.GetHashCode().ToMutedColor(0.15f);
 
             if (!_componentShowList.ContainsKey(componentName))
             {
@@ -119,6 +122,16 @@ namespace EcsRx.Persistence.Editor.UIAspects
                     var headingStyle = new GUIStyle { alignment = TextAnchor.MiddleLeft, fontSize = 12, fontStyle = FontStyle.Bold};
                     headingStyle.normal.textColor = Color.white;
                     GUILayout.Label(componentName, headingStyle);
+
+                    var buttonStyle = GUI.skin.button;
+                    buttonStyle.alignment = TextAnchor.MiddleRight;
+                    buttonStyle.fixedWidth = 20.0f;
+                    GUI.backgroundColor = backgroundColor;
+                    if (GUILayout.Button("X", buttonStyle))
+                    {
+                        if (EditorUtility.DisplayDialog("Remove " + componentName, RemoveComponentMessage, "Yes", "No"))
+                        { _componentsRemovalList.Add(component); }
+                    }
                 });
 
                 if (Event.current.type == EventType.Repaint)
@@ -128,16 +141,7 @@ namespace EcsRx.Persistence.Editor.UIAspects
                 GUI.contentColor = textColor;
 
                 if (isShowing)
-                {
-                    ComponentUIAspect.ShowComponentProperties(component);
-
-                    EditorGUILayout.Space();
-                    if (GUILayout.Button("Remove Component"))
-                    {
-                        if (EditorUtility.DisplayDialog("Remove " + componentName, RemoveComponentMessage, "Yes", "No"))
-                        { _componentsRemovalList.Add(component); }
-                    }
-                }
+                { ComponentUIAspect.ShowComponentProperties(component); }
             });
         }
     }

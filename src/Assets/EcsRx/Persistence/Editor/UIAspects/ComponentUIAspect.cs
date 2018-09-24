@@ -1,4 +1,5 @@
-﻿using EcsRx.Components;
+﻿using System.Linq;
+using EcsRx.Components;
 using EcsRx.Persistence.Editor.EditorInputs;
 using UnityEditor;
 using UnityEngine;
@@ -10,7 +11,11 @@ namespace EcsRx.Persistence.Editor.UIAspects
          public static void ShowComponentProperties<T>(T component)
             where T : IComponent
         {
-            var componentProperties = component.GetType().GetProperties();
+            var componentProperties = component.GetType().GetProperties().ToArray();
+
+            var handledProperties = 0;
+            
+            GUILayout.Space(5.0f);
             foreach (var property in componentProperties)
             {
                 EditorGUILayout.BeginHorizontal();
@@ -21,6 +26,7 @@ namespace EcsRx.Persistence.Editor.UIAspects
                 if (handler == null)
                 {
                     Debug.LogWarning("This type is not supported: " + propertyType.Name + " - In component: " + component.GetType().Name);
+                    EditorGUILayout.EndHorizontal();
                     continue;
                 }
 
@@ -30,6 +36,16 @@ namespace EcsRx.Persistence.Editor.UIAspects
                 { property.SetValue(component, updatedValue, null); }
 
                 EditorGUILayout.EndHorizontal();
+                GUILayout.Space(5.0f);
+                handledProperties++;
+            }
+
+            if (handledProperties == 0)
+            {
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("No supported properties for this component");
+                EditorGUILayout.EndHorizontal();
+                GUILayout.Space(5.0f);
             }
         }
     }
