@@ -6,13 +6,6 @@ namespace EcsRx.Examples.AutoRegisterSystems
 {
     public class Application : EcsRxApplicationBehaviour
     {
-        protected override void ApplicationStarting()
-        {
-            // You could optionally use instead of the scene based approach
-            // this.BindAllSystemsWithinApplicationScope();
-            this.RegisterAllBoundSystems();
-        }
-
         protected override void ApplicationStarted()
         {           
             var defaultPool = EntityCollectionManager.GetCollection();

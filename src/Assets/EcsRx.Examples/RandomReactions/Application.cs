@@ -12,12 +12,6 @@ namespace EcsRx.Examples.RandomReactions
     {
         private readonly int _cubeCount = 5000;
         
-        protected override void ApplicationStarting()
-        {
-            this.BindAllSystemsWithinApplicationScope();
-            this.RegisterAllBoundSystems();
-        }
-
         protected override void ApplicationStarted()
         {
             var collection = EntityCollectionManager.GetCollection();

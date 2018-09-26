@@ -9,12 +9,6 @@ namespace EcsRx.Examples.GameObjectLinking
 {
     public class Application : EcsRxApplicationBehaviour
     {
-        protected override void ApplicationStarting()
-        {
-            this.BindAllSystemsWithinApplicationScope();
-            this.RegisterAllBoundSystems();
-        }
-
         protected override void ApplicationStarted()
         {
             var defaultPool = EntityCollectionManager.GetCollection();
