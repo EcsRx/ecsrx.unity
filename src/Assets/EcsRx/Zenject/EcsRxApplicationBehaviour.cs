@@ -30,6 +30,8 @@ namespace EcsRx.Zenject
         
         private SceneContext _sceneContext;
 
+        protected abstract void ApplicationStarted();
+        
         private void Awake()
         {
             var sceneContexts = FindObjectsOfType<SceneContext>();
@@ -49,31 +51,64 @@ namespace EcsRx.Zenject
 
         public virtual void StartApplication()
         {
-            RegisterModules();
-            _sceneContext.Container.Inject(this);
-            
-            ApplicationStarting();
-            RegisterAllPluginDependencies();
-            SetupAllPluginSystems();
+            LoadModules();
+            LoadPlugins();
+            SetupPlugins();
+            ResolveApplicationDependencies();
+            BindSystems();
+            StartPluginSystems();
+            StartSystems();
             ApplicationStarted();
         }
+        
+        /// <summary>
+        /// Load any plugins that your application needs
+        /// </summary>
+        /// <remarks>It is recommended you just call RegisterPlugin method in here for each plugin you need</remarks>
+        protected virtual void LoadPlugins(){}
 
-        protected virtual void RegisterModules()
+        /// <summary>
+        /// Load any modules that your application needs
+        /// </summary>
+        /// <remarks>
+        /// If you wish to use the default setup call through to base, if you wish to stop the default framework
+        /// modules loading then do not call base and register your own internal framework module.
+        /// </remarks>
+        protected virtual void LoadModules()
         {
             Container.LoadModule<FrameworkModule>();
-
+        }
+        
+        /// <summary>
+        /// Resolve any dependencies the application needs
+        /// </summary>
+        /// <remarks>By default it will setup SystemExecutor, EventSystem, EntityCollectionManager</remarks>
+        protected virtual void ResolveApplicationDependencies()
+        {
             SystemExecutor = Container.Resolve<ISystemExecutor>();
             EventSystem = Container.Resolve<IEventSystem>();
             EntityCollectionManager = Container.Resolve<IEntityCollectionManager>();
+            _sceneContext.Container.Inject(this);
         }
+        
+        /// <summary>
+        /// Bind any systems that the application will need
+        /// </summary>
+        /// <remarks>By default will auto bind any systems within application scope</remarks>
+        protected virtual void BindSystems()
+        { this.BindAllSystemsWithinApplicationScope(); }
 
-        protected virtual void ApplicationStarting() { }
-        protected abstract void ApplicationStarted();
-
-        protected virtual void RegisterAllPluginDependencies()
+        /// <summary>
+        /// Start any systems that the application will need
+        /// </summary>
+        /// <remarks>By default it will auto start any systems which have been bound</remarks>
+        protected virtual void StartSystems()
+        { this.StartAllBoundSystems(); }
+        
+        protected virtual void SetupPlugins()
         { _plugins.ForEachRun(x => x.SetupDependencies(Container)); }
 
-        protected virtual void SetupAllPluginSystems()
+        protected virtual void StartPluginSystems()
         {
             _plugins.SelectMany(x => x.GetSystemsForRegistration(Container))
                 .ForEachRun(x => SystemExecutor.AddSystem(x));

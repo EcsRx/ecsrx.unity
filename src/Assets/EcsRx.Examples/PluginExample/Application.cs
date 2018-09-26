@@ -8,7 +8,7 @@ namespace EcsRx.Examples.PluginExample
 {
     public class Application : EcsRxApplicationBehaviour
     {
-        protected override void ApplicationStarting()
+        protected override void LoadPlugins()
         {
             RegisterPlugin(new HelloWorldPlugin.HelloWorldPlugin());
         }

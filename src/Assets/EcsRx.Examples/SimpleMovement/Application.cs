@@ -11,12 +11,6 @@ namespace EcsRx.Examples.SimpleMovement
 {
     public class Application : EcsRxApplicationBehaviour
     {        
-        protected override void ApplicationStarting()
-        {
-            this.BindAllSystemsWithinApplicationScope();
-            this.RegisterAllBoundSystems();
-        }
-
         protected override void ApplicationStarted()
         {
             var defaultPool = EntityCollectionManager.GetCollection();
