@@ -1,39 +1,76 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using EcsRx.Components;
 using EcsRx.Persistence.Editor.EditorInputs;
+using EcsRx.Persistence.Editor.EditorInputs.Reactive;
+using UniRx;
 using UnityEditor;
 using UnityEngine;
 
 namespace EcsRx.Persistence.Editor.UIAspects
 {
-    public class ComponentUIAspect
+    public static class ComponentUIAspect
     {
-         public static void ShowComponentProperties<T>(T component)
-            where T : IComponent
-        {
-            var componentProperties = component.GetType().GetProperties().ToArray();
+        private static IDictionary<Type, IEditorInput[]> _cachedEditorInputs = new Dictionary<Type, IEditorInput[]>();
 
+        public static void CacheEditorInputs(IComponent component)
+        {
+            var componentType = component.GetType();
+            var componentProperties = componentType.GetProperties().ToArray();
+            var handlers = new IEditorInput[componentProperties.Length];
+
+            for (var i = 0; i < componentProperties.Length; i++)
+            {
+                var property = componentProperties[i];
+                var propertyType = property.PropertyType;
+
+                var handler = DefaultEditorInputRegistry.GetHandlerFor(propertyType);
+                handlers[i] = handler;
+            }
+            
+            _cachedEditorInputs.Add(componentType, handlers);
+            Observable.Timer(TimeSpan.FromMinutes(1)).First().Subscribe(x => _cachedEditorInputs.Remove(componentType));
+        }
+        
+        public static bool ShowComponentProperties<T>(T component) where T : IComponent
+        {
+            var componentType = component.GetType();
+            if(!_cachedEditorInputs.ContainsKey(componentType))
+            { CacheEditorInputs(component); }
+
+            var componentProperties = componentType.GetProperties().ToArray();
+            var handlers = _cachedEditorInputs[componentType];
             var handledProperties = 0;
+           
+            var hasChanged = false;
             
             GUILayout.Space(5.0f);
-            foreach (var property in componentProperties)
+            for (var i = 0; i < componentProperties.Length; i++)
             {
+                var property = componentProperties[i];
+                var handler = handlers[i];
+                
                 EditorGUILayout.BeginHorizontal();
                 var propertyType = property.PropertyType;
                 var propertyValue = property.GetValue(component, null);
 
-                var handler = DefaultEditorInputRegistry.GetHandlerFor(propertyType);
                 if (handler == null)
                 {
-                    Debug.LogWarning("This type is not supported: " + propertyType.Name + " - In component: " + component.GetType().Name);
+                    Debug.LogWarning($"This type is not supported [{propertyType.Name}] - In component {component.GetType().Name}");
                     EditorGUILayout.EndHorizontal();
                     continue;
                 }
 
-                var updatedValue = handler.CreateUI(property.Name, propertyValue);
+                var uiStateChange = handler.CreateUI(property.Name, propertyValue);
 
-                if (updatedValue != null)
-                { property.SetValue(component, updatedValue, null); }
+                if (uiStateChange.HasChanged)
+                {
+                    hasChanged = true;
+
+                    if(uiStateChange.Value != null)
+                    { property.SetValue(component, uiStateChange.Value, null); }
+                }
 
                 EditorGUILayout.EndHorizontal();
                 GUILayout.Space(5.0f);
@@ -47,6 +84,8 @@ namespace EcsRx.Persistence.Editor.UIAspects
                 EditorGUILayout.EndHorizontal();
                 GUILayout.Space(5.0f);
             }
+
+            return hasChanged;
         }
     }
 }

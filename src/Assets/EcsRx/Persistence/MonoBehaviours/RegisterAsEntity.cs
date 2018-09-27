@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using EcsRx.Collections;
 using EcsRx.Entities;
 using EcsRx.Persistence.Data;
@@ -65,8 +66,17 @@ namespace EcsRx.Persistence.MonoBehaviours
         {
             if (Serializer == null) { return; }
             EntityData.EntityId = EntityId;
-            var data = Serializer.Serialize(EntityData);
-            EntityState = data.AsBytes;
+            
+            try
+            {
+                var data = Serializer.Serialize(EntityData);
+                EntityState = data.AsBytes;
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"Unable to Serialize [{gameObject.name}] - {e.Message}");
+                EntityState = null;
+            }
         }
 
         public void DeserializeState()
@@ -78,7 +88,14 @@ namespace EcsRx.Persistence.MonoBehaviours
             { return; }
             
             var data = new DataObject(EntityState);
-            Deserializer.DeserializeInto(data, EntityData);
+
+            try
+            {
+                Deserializer.DeserializeInto(data, EntityData);
+            }
+            catch (Exception e)
+            { Debug.Log($"Unable to Deserialize [{gameObject.name}] - {e.Message}"); }
+            
             EntityId = EntityData.EntityId;
         }
 

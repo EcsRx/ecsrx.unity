@@ -7,6 +7,7 @@ using EcsRx.Persistence.MonoBehaviours;
 using LazyData.Binary;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace EcsRx.Persistence.Editor.Inspectors
 {
@@ -59,8 +60,9 @@ namespace EcsRx.Persistence.Editor.Inspectors
             PoolSection();
 
             _entityDataAspect.DisplayUI();
-
-            PersistChanges();
-        }
+            
+            if(SceneManager.GetActiveScene().isDirty)
+            { PersistChanges(); }
+        }        
     }
 }

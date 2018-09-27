@@ -10,7 +10,7 @@ namespace EcsRx.Examples.SceneFirstSetup.Components
         public int Age { get; set; }
         public bool IsHappy { get; set; }
         public float Roundness { get; set; }
-        public ReactiveProperty<float> ReactiveFloat { get; }
+        public ReactiveProperty<float> ReactiveFloat { get; set; }
 
         public TestComponent()
         {

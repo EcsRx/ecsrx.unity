@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using EcsRx.Persistence.Editor.EditorInputs.Basic;
+using EcsRx.Persistence.Editor.EditorInputs.Reactive;
+using EcsRx.Persistence.Editor.EditorInputs.Unity;
 
 namespace EcsRx.Persistence.Editor.EditorInputs
 {
@@ -21,15 +24,15 @@ namespace EcsRx.Persistence.Editor.EditorInputs
                 new BoundsEditorInput(),
                 new RectEditorInput(),
                 new EnumEditorInput(),
-                new ReactiveIntEditorInput(),
-                new ReactiveFloatEditorInput(),
-                new ReactiveStringEditorInput(),
-                new ReactiveBoolEditorInput(),
-                new ReactiveVector2EditorInput(),
-                new ReactiveVector3EditorInput(),
-                new ReactiveColorEditorInput(),
-                new ReactiveBoundsEditorInput(),
-                new ReactiveRectEditorInput(),
+                new ReactivePropertyIntEditorInput(),
+                new ReactivePropertyFloatEditorInput(),
+                new ReactivePropertyStringEditorInput(),
+                new ReactivePropertyBoolEditorInput(),
+                new ReactivePropertyVector2EditorInput(),
+                new ReactivePropertyVector3EditorInput(),
+                new ReactivePropertyColorEditorInput(),
+                new ReactivePropertyBoundsEditorInput(),
+                new ReactivePropertyRectEditorInput(),
                 new GameObjectEditorInput()
             });
         }

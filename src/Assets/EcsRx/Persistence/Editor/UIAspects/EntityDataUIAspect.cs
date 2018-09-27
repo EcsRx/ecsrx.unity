@@ -10,7 +10,9 @@ using EcsRx.Unity.MonoBehaviours.Editor.Events;
 using EcsRx.Unity.MonoBehaviours.Editor.Extensions;
 using EcsRx.Views.Components;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace EcsRx.Persistence.Editor.UIAspects
 {
@@ -140,8 +142,13 @@ namespace EcsRx.Persistence.Editor.UIAspects
                 GUI.backgroundColor = backgroundColor;
                 GUI.contentColor = textColor;
 
-                if (isShowing)
-                { ComponentUIAspect.ShowComponentProperties(component); }
+                if (!isShowing) { return; }
+                
+                var hasChanged = ComponentUIAspect.ShowComponentProperties(component);
+                
+                if(EditorApplication.isPlaying) { return; }
+                
+                if(hasChanged) { EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene()); }
             });
         }
     }
