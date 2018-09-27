@@ -509,9 +509,6 @@
     <Reference Include="LazyData.Xml">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/Dependencies/LazyData/LazyData.Xml.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/JsonDotNet/Assemblies/Windows/Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Zenject-usage">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
     </Reference>

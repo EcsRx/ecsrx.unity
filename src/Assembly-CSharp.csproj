@@ -124,14 +124,12 @@
     <Compile Include="Assets\EcsRx\Persistence\Primitives\Handlers\UnityXmlPrimitiveHandler.cs" />
     <Compile Include="Assets\EcsRx\Persistence\Primitives\Helpers\ReactiveValueHandler.cs" />
     <Compile Include="Assets\EcsRx\Unity\Dependencies\IUnityInstantiator.cs" />
-    <Compile Include="Assets\EcsRx\Unity\Extensions\ComponentExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\GameObjectExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\IEntityExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\ISystemExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\IUnityInstantiatorExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\ViewComponentExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Handlers\PrefabViewHandler.cs" />
-    <Compile Include="Assets\EcsRx\Unity\JSON.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\ActiveSystemsViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityCollectionManagerViewer.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\InjectableMonoBehaviour.cs" />
@@ -143,7 +141,6 @@
     <Compile Include="Assets\EcsRx\Zenject\Extensions\IZenjectExtensions.cs" />
     <Compile Include="Assets\EcsRx\Zenject\Helpers\BindSystemsInNamespace.cs" />
     <Compile Include="Assets\EcsRx\Zenject\Installers\AutoBindSystemsInstaller.cs" />
-    <None Include="Assets\JsonDotNet\link.xml" />
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
@@ -368,9 +365,6 @@
     </Reference>
     <Reference Include="LazyData.Xml">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/Dependencies/LazyData/LazyData.Xml.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/JsonDotNet/Assemblies/Windows/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Zenject-usage">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>

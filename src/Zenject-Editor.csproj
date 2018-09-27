@@ -323,9 +323,6 @@
     <Reference Include="LazyData.Xml">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/Dependencies/LazyData/LazyData.Xml.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/JsonDotNet/Assemblies/Windows/Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="JetBrains.Rider.Unity.Editor.Plugin.Repacked">
       <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll</HintPath>
     </Reference>
