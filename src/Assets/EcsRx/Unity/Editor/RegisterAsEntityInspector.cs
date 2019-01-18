@@ -5,7 +5,7 @@ using EcsRx.Components;
 using EcsRx.Unity.Extensions;
 using EcsRx.Unity.MonoBehaviours;
 using EcsRx.Unity.UIAspects;
-using EcsRx.Views.Components;
+using EcsRx.Plugins.Views.Components;
 using UnityEditor;
 using UnityEngine;
 
@@ -27,7 +27,7 @@ namespace EcsRx.Unity
         {
             this.UseVerticalBoxLayout(() =>
             {
-                _registerAsEntity.CollectionName = this.WithTextField("EntityCollection: ", _registerAsEntity.CollectionName);
+                _registerAsEntity.CollectionId = this.WithNumberField("EntityCollection: ", _registerAsEntity.CollectionId);
             });
         }
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using EcsRx.Groups;
 using EcsRx.Infrastructure.Dependencies;
-using EcsRx.Systems;
+using EcsRx.Plugins.ReactiveSystems.Systems;
 using EcsRx.Unity.Dependencies;
 using UnityEngine;
 using Zenject;
@@ -54,7 +54,7 @@ namespace EcsRx.Zenject.Dependencies
             if (configuration.ToMethod != null)
             {
                 var methodBinding = bindingSetup.FromMethod(x => configuration.ToMethod(this));
-
+                
                 if(configuration.AsSingleton)
                 { methodBinding.AsSingle(); }
 

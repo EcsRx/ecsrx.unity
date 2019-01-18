@@ -1,5 +1,5 @@
-﻿using EcsRx.Infrastructure.Extensions;
-using EcsRx.Views.Components;
+﻿using EcsRx.Extensions;
+using EcsRx.Plugins.Views.Components;
 using EcsRx.Zenject;
 
 namespace EcsRx.Examples.AutoRegisterSystems

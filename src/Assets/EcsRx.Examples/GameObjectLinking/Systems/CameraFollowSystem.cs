@@ -1,8 +1,8 @@
 ﻿using EcsRx.Entities;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Systems;
-using EcsRx.Views.Components;
+using EcsRx.Plugins.ReactiveSystems.Systems;
+using EcsRx.Plugins.Views.Components;
 using UnityEngine;
 
 namespace EcsRx.Examples.GameObjectLinking.Systems

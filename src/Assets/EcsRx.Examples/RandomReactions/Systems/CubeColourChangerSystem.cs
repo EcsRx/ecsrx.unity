@@ -3,8 +3,8 @@ using EcsRx.Entities;
 using EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Systems;
-using EcsRx.Views.Components;
+using EcsRx.Plugins.ReactiveSystems.Systems;
+using EcsRx.Plugins.Views.Components;
 using UniRx;
 using UnityEngine;
 

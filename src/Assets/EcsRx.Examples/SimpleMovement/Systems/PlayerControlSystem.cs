@@ -4,8 +4,8 @@ using EcsRx.Examples.SimpleMovement.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Groups.Observable;
-using EcsRx.Systems;
-using EcsRx.Views.Components;
+using EcsRx.Plugins.ReactiveSystems.Systems;
+using EcsRx.Plugins.Views.Components;
 using UniRx;
 using UnityEngine;
 

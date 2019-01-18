@@ -6,7 +6,8 @@ using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Unity.Dependencies;
 using EcsRx.Unity.Systems;
-using EcsRx.Views.Components;
+using EcsRx.Plugins.Views.Components;
+using EcsRx.Plugins.Views.Pooling;
 using UnityEngine;
 
 namespace EcsRx.Examples.PooledViews.ViewResolvers

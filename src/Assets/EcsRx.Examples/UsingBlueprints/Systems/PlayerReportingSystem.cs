@@ -3,7 +3,7 @@ using EcsRx.Examples.UsingBlueprints.Components;
 using EcsRx.Examples.UsingBlueprints.Groups;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Systems;
+using EcsRx.Plugins.ReactiveSystems.Systems;
 using UnityEngine;
 
 namespace EcsRx.Examples.UsingBlueprints.Systems

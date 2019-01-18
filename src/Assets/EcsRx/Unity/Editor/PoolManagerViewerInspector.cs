@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using EcsRx.Unity.MonoBehaviours;
+﻿using EcsRx.Unity.MonoBehaviours;
 using UnityEditor;
 
 namespace EcsRx.Unity
@@ -24,8 +23,8 @@ namespace EcsRx.Unity
             foreach (var pool in poolManager.Collections)
             {
                 EditorGUILayout.BeginVertical();
-                EditorGUILayout.LabelField("EntityCollection: " + pool.Name);
-                EditorGUILayout.LabelField("Entities: " + pool.Count());
+                EditorGUILayout.LabelField("EntityCollection: " + pool.Id);
+                EditorGUILayout.LabelField("Entities: " + pool.Count);
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.Space();
             }

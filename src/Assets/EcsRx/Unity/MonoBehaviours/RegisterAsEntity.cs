@@ -4,9 +4,11 @@ using System.Linq;
 using EcsRx.Collections;
 using EcsRx.Components;
 using EcsRx.Entities;
+using EcsRx.Extensions;
 using EcsRx.Unity.Extensions;
-using EcsRx.Views.Components;
+using EcsRx.Plugins.Views.Components;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace EcsRx.Unity.MonoBehaviours
@@ -16,8 +18,9 @@ namespace EcsRx.Unity.MonoBehaviours
         [Inject]
         public IEntityCollectionManager CollectionManager { get; private set; }
 
+        [FormerlySerializedAs("CollectionName")] 
         [SerializeField]
-        public string CollectionName;
+        public int CollectionId;
 
         [SerializeField]
         public List<string> Components = new List<string>();
@@ -32,12 +35,12 @@ namespace EcsRx.Unity.MonoBehaviours
 
             IEntityCollection collectionToUse;
 
-            if (string.IsNullOrEmpty(CollectionName))
+            if (CollectionId == 0)
             { collectionToUse = CollectionManager.GetCollection(); }
-            else if (CollectionManager.Collections.All(x => x.Name != CollectionName))
-            { collectionToUse = CollectionManager.CreateCollection(CollectionName); }
+            else if (CollectionManager.Collections.All(x => x.Id != CollectionId))
+            { collectionToUse = CollectionManager.CreateCollection(CollectionId); }
             else
-            { collectionToUse = CollectionManager.GetCollection(CollectionName); }
+            { collectionToUse = CollectionManager.GetCollection(CollectionId); }
 
             var createdEntity = collectionToUse.CreateEntity();
             createdEntity.AddComponents(new ViewComponent { View = gameObject });
@@ -73,7 +76,7 @@ namespace EcsRx.Unity.MonoBehaviours
         
         public IEntityCollection GetCollection()
         {
-            return CollectionManager.GetCollection(CollectionName);
+            return CollectionManager.GetCollection(CollectionId);
         }
     }
 }

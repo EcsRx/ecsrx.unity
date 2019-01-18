@@ -1,7 +1,7 @@
 ﻿using EcsRx.Entities;
 using EcsRx.Examples.PluginExample.HelloWorldPlugin.components;
 using EcsRx.Groups;
-using EcsRx.Systems;
+using EcsRx.Plugins.ReactiveSystems.Systems;
 using UnityEngine;
 
 namespace EcsRx.Examples.PluginExample.HelloWorldPlugin.systems

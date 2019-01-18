@@ -4,7 +4,7 @@ using EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Groups.Observable;
-using EcsRx.Systems;
+using EcsRx.Plugins.ReactiveSystems.Systems;
 using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;

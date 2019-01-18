@@ -1,7 +1,8 @@
 ﻿using EcsRx.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Examples.PooledViews.Components;
-using EcsRx.Views.Components;
+using EcsRx.Extensions;
+using EcsRx.Plugins.Views.Components;
 using UnityEngine;
 
 namespace EcsRx.Examples.PooledViews.Blueprints

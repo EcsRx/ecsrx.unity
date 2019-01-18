@@ -1,7 +1,7 @@
 ﻿using System;
 using EcsRx.Entities;
 using EcsRx.Extensions;
-using EcsRx.Views.Components;
+using EcsRx.Plugins.Views.Components;
 using UnityEngine;
 
 namespace EcsRx.Unity.Extensions
