@@ -12,10 +12,7 @@ namespace EcsRx.Examples.RandomReactions.Systems
 {
     public class CubeColourChangerSystem : IReactToEntitySystem
     {
-        public IGroup Group => new GroupBuilder()
-            .WithComponent<ViewComponent>()
-            .WithComponent<RandomColorComponent>()
-            .Build();
+        public IGroup Group => new Group(typeof(ViewComponent), typeof(RandomColorComponent));
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {

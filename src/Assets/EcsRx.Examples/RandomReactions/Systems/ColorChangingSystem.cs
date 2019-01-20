@@ -16,7 +16,7 @@ namespace EcsRx.Examples.RandomReactions.Systems
         private readonly float MaxDelay = 5.0f;
         private readonly float MinDelay = 1.0f;
 
-        public IGroup Group => new Group(typeof (RandomColorComponent));
+        public IGroup Group => new Group(typeof(RandomColorComponent));
 
         public IObservable<IObservableGroup> ReactToGroup(IObservableGroup group)
         { return Observable.EveryUpdate().Select(x => group); }

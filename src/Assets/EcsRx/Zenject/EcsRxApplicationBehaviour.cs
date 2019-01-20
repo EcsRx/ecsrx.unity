@@ -10,6 +10,10 @@ using EcsRx.Infrastructure.Dependencies;
 using EcsRx.Infrastructure.Extensions;
 using EcsRx.Infrastructure.Modules;
 using EcsRx.Infrastructure.Plugins;
+using EcsRx.Plugins.Batching;
+using EcsRx.Plugins.Computeds;
+using EcsRx.Plugins.ReactiveSystems;
+using EcsRx.Plugins.Views;
 using EcsRx.Zenject.Dependencies;
 using UnityEngine;
 using Zenject;
@@ -60,12 +64,18 @@ namespace EcsRx.Zenject
             StartSystems();
             ApplicationStarted();
         }
-        
+
         /// <summary>
         /// Load any plugins that your application needs
         /// </summary>
         /// <remarks>It is recommended you just call RegisterPlugin method in here for each plugin you need</remarks>
-        protected virtual void LoadPlugins(){}
+        protected virtual void LoadPlugins()
+        {
+            RegisterPlugin(new ViewsPlugin());
+            RegisterPlugin(new ReactiveSystemsPlugin());
+            RegisterPlugin(new BatchPlugin());
+            RegisterPlugin(new ComputedsPlugin());
+        }
 
         /// <summary>
         /// Load any modules that your application needs
