@@ -8,6 +8,12 @@ namespace EcsRx.Examples.ManuallyRegisterSystems
 {
     public class Application : EcsRxApplicationBehaviour
     {
+        // We override this to stop auto bindings
+        protected override void BindSystems()
+        {
+            Container.Bind<ISystem, RandomMovementSystem>();
+        }
+
         protected override void StartSystems()
         {
             // This one we are manually binding and starting at the same time
@@ -19,8 +25,6 @@ namespace EcsRx.Examples.ManuallyRegisterSystems
 
         protected override void ApplicationStarted()
         {
-            
-            
             var defaultPool = EntityCollectionManager.GetCollection();
             
             var entity = defaultPool.CreateEntity();
