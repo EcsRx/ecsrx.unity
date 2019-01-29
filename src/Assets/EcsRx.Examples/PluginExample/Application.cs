@@ -10,6 +10,7 @@ namespace EcsRx.Examples.PluginExample
     {
         protected override void LoadPlugins()
         {
+            base.LoadPlugins();
             RegisterPlugin(new HelloWorldPlugin.HelloWorldPlugin());
         }
         
