@@ -41,7 +41,7 @@ namespace EcsRx.Unity
 
                 this.UseVerticalBoxLayout(() =>
                 {
-                    this.WithLabelField("EntityCollection: ", _entityView.EntityCollection.Name);
+                    this.WithLabelField("EntityCollection: ", _entityView.EntityCollection.Id.ToString());
                 });
             });
         }

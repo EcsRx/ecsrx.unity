@@ -4,7 +4,7 @@ using EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Groups.Observable;
-using EcsRx.Systems;
+using EcsRx.Plugins.ReactiveSystems.Systems;
 using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -16,10 +16,11 @@ namespace EcsRx.Examples.RandomReactions.Systems
         private readonly float MaxDelay = 5.0f;
         private readonly float MinDelay = 1.0f;
 
-        public IGroup Group => new Group(typeof (RandomColorComponent));
+        public IGroup Group => new Group(typeof(RandomColorComponent));
 
         public IObservable<IObservableGroup> ReactToGroup(IObservableGroup group)
         { return Observable.EveryUpdate().Select(x => group); }
+
 
         public void Setup(IEntity entity)
         {
@@ -33,7 +34,7 @@ namespace EcsRx.Examples.RandomReactions.Systems
             randomColorComponent.Elapsed += Time.deltaTime;
 
             if (!(randomColorComponent.Elapsed >= randomColorComponent.NextChangeIn))
-            { return;}
+            { return; }
 
             randomColorComponent.Elapsed -= randomColorComponent.NextChangeIn;
             randomColorComponent.NextChangeIn = Random.Range(MinDelay, MaxDelay);

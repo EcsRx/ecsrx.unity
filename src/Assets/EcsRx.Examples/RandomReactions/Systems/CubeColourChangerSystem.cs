@@ -3,8 +3,8 @@ using EcsRx.Entities;
 using EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Systems;
-using EcsRx.Views.Components;
+using EcsRx.Plugins.ReactiveSystems.Systems;
+using EcsRx.Plugins.Views.Components;
 using UniRx;
 using UnityEngine;
 
@@ -12,11 +12,9 @@ namespace EcsRx.Examples.RandomReactions.Systems
 {
     public class CubeColourChangerSystem : IReactToEntitySystem
     {
-        public IGroup Group => new GroupBuilder()
-            .WithComponent<ViewComponent>()
-            .WithComponent<RandomColorComponent>()
-            .Build();
+        public IGroup Group => new Group(typeof(ViewComponent), typeof(RandomColorComponent));
 
+        private static int count;
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {
             var colorComponent = entity.GetComponent<RandomColorComponent>();

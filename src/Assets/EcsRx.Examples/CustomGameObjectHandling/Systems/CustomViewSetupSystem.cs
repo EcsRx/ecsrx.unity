@@ -2,7 +2,7 @@
 using EcsRx.Examples.CustomGameObjectHandling.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Systems;
+using EcsRx.Plugins.ReactiveSystems.Systems;
 using UnityEngine;
 
 namespace EcsRx.Examples.CustomGameObjectHandling.Systems

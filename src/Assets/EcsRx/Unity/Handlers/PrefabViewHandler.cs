@@ -1,5 +1,5 @@
-﻿using EcsRx.Unity.Dependencies;
-using EcsRx.Views.ViewHandlers;
+﻿using EcsRx.Plugins.Views.ViewHandlers;
+using EcsRx.Unity.Dependencies;
 using UnityEngine;
 
 namespace EcsRx.Unity.Handlers

@@ -2,11 +2,11 @@ using EcsRx.Collections;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
+using EcsRx.Plugins.Views.Pooling;
+using EcsRx.Plugins.Views.Systems;
 using EcsRx.Unity.Dependencies;
 using EcsRx.Unity.Handlers;
 using EcsRx.Unity.MonoBehaviours;
-using EcsRx.Views.Pooling;
-using EcsRx.Views.Systems;
 using UnityEngine;
 
 namespace EcsRx.Unity.Systems

@@ -10,6 +10,11 @@ using EcsRx.Infrastructure.Dependencies;
 using EcsRx.Infrastructure.Extensions;
 using EcsRx.Infrastructure.Modules;
 using EcsRx.Infrastructure.Plugins;
+using EcsRx.Plugins.Batching;
+using EcsRx.Plugins.Computeds;
+using EcsRx.Plugins.ReactiveSystems;
+using EcsRx.Plugins.Views;
+using EcsRx.Systems;
 using EcsRx.Zenject.Dependencies;
 using UnityEngine;
 using Zenject;
@@ -61,11 +66,20 @@ namespace EcsRx.Zenject
             ApplicationStarted();
         }
         
+        public virtual void StopApplication()
+        { StopAndUnbindAllSystems(); }
+
         /// <summary>
         /// Load any plugins that your application needs
         /// </summary>
         /// <remarks>It is recommended you just call RegisterPlugin method in here for each plugin you need</remarks>
-        protected virtual void LoadPlugins(){}
+        protected virtual void LoadPlugins()
+        {
+            RegisterPlugin(new ViewsPlugin());
+            RegisterPlugin(new ReactiveSystemsPlugin());
+            RegisterPlugin(new BatchPlugin());
+            RegisterPlugin(new ComputedsPlugin());
+        }
 
         /// <summary>
         /// Load any modules that your application needs
@@ -97,6 +111,13 @@ namespace EcsRx.Zenject
         /// <remarks>By default will auto bind any systems within application scope</remarks>
         protected virtual void BindSystems()
         { this.BindAllSystemsWithinApplicationScope(); }
+        
+        protected virtual void StopAndUnbindAllSystems()
+        {
+            var allSystems = SystemExecutor.Systems.ToList();
+            allSystems.ForEachRun(SystemExecutor.RemoveSystem);
+            Container.Unbind<ISystem>();
+        }
 
         /// <summary>
         /// Start any systems that the application will need

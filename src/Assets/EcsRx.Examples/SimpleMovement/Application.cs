@@ -1,8 +1,9 @@
 ﻿using EcsRx.Examples.SimpleMovement.Components;
+using EcsRx.Extensions;
 using EcsRx.Infrastructure.Extensions;
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
-using EcsRx.Views.Components;
+using EcsRx.Plugins.Views.Components;
 using EcsRx.Zenject;
 using EcsRx.Zenject.Extensions;
 using UnityEngine;

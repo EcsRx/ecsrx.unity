@@ -1,10 +1,13 @@
 ﻿using EcsRx.Examples.RandomReactions.Components;
+using EcsRx.Extensions;
+using EcsRx.Groups;
 using EcsRx.Infrastructure.Extensions;
 using EcsRx.Unity;
 using EcsRx.Unity.Extensions;
-using EcsRx.Views.Components;
+using EcsRx.Plugins.Views.Components;
 using EcsRx.Zenject;
 using EcsRx.Zenject.Extensions;
+using UnityEngine;
 
 namespace EcsRx.Examples.RandomReactions
 {
@@ -21,6 +24,9 @@ namespace EcsRx.Examples.RandomReactions
                 var viewEntity = collection.CreateEntity();
                 viewEntity.AddComponents(new ViewComponent(), new RandomColorComponent());
             }
+
+            var group = EntityCollectionManager.GetObservableGroup(new Group(typeof(ViewComponent), typeof(RandomColorComponent)));
+            Debug.Log($"There are {group.Count} entities out of {collection.Count} matching");
         }
     }
 }

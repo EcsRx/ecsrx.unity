@@ -65,6 +65,24 @@ namespace EcsRx.Unity.Extensions
             EditorGUILayout.EndHorizontal();
             return result;
         }
+        
+        public static int WithNumberField(this Editor editor, string label, int value)
+        {
+            EditorGUILayout.BeginHorizontal();
+            editor.WithLabel(label);
+            var result = EditorGUILayout.IntField(value);
+            EditorGUILayout.EndHorizontal();
+            return result;
+        }
+        
+        public static float WithNumberField(this Editor editor, string label, float value)
+        {
+            EditorGUILayout.BeginHorizontal();
+            editor.WithLabel(label);
+            var result = EditorGUILayout.FloatField(value);
+            EditorGUILayout.EndHorizontal();
+            return result;
+        }
 
         // Only works with unity 5.3+
         public static void SaveActiveSceneChanges(this Editor editor)

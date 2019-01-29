@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using EcsRx.Groups;
 using EcsRx.Infrastructure.Dependencies;
-using EcsRx.Systems;
 using EcsRx.Unity.Dependencies;
 using UnityEngine;
 using Zenject;
@@ -17,6 +15,7 @@ namespace EcsRx.Zenject.Dependencies
         public ZenjectDependencyContainer(DiContainer container)
         {
             _container = container;
+            
             _container.Bind<IUnityInstantiator>().FromInstance(this);
             _container.Bind<IDependencyContainer>().FromInstance(this);
         }
@@ -51,13 +50,15 @@ namespace EcsRx.Zenject.Dependencies
                 return;
             }
             
+            
             if (configuration.ToMethod != null)
             {
-                var methodBinding = bindingSetup.FromMethod(x => configuration.ToMethod(this));
-
                 if(configuration.AsSingleton)
-                { methodBinding.AsSingle(); }
+                { bindingSetup.AsSingle(); }
+                else
+                { bindingSetup.AsTransient(); }
 
+                bindingSetup.FromMethodUntyped(x =>  configuration.ToMethod(this));
                 return;
             }
             
