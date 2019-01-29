@@ -14,6 +14,7 @@ using EcsRx.Plugins.Batching;
 using EcsRx.Plugins.Computeds;
 using EcsRx.Plugins.ReactiveSystems;
 using EcsRx.Plugins.Views;
+using EcsRx.Systems;
 using EcsRx.Zenject.Dependencies;
 using UnityEngine;
 using Zenject;
@@ -64,6 +65,9 @@ namespace EcsRx.Zenject
             StartSystems();
             ApplicationStarted();
         }
+        
+        public virtual void StopApplication()
+        { StopAndUnbindAllSystems(); }
 
         /// <summary>
         /// Load any plugins that your application needs
@@ -107,6 +111,13 @@ namespace EcsRx.Zenject
         /// <remarks>By default will auto bind any systems within application scope</remarks>
         protected virtual void BindSystems()
         { this.BindAllSystemsWithinApplicationScope(); }
+        
+        protected virtual void StopAndUnbindAllSystems()
+        {
+            var allSystems = SystemExecutor.Systems.ToList();
+            allSystems.ForEachRun(SystemExecutor.RemoveSystem);
+            Container.Unbind<ISystem>();
+        }
 
         /// <summary>
         /// Start any systems that the application will need

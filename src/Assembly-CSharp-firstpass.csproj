@@ -507,17 +507,17 @@
     <Reference Include="EcsRx.MicroRx">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.MicroRx.dll</HintPath>
     </Reference>
-    <Reference Include="EcsRx.Systems">
-      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Systems.dll</HintPath>
+    <Reference Include="EcsRx.Plugins.Batching">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.Batching.dll</HintPath>
     </Reference>
-    <Reference Include="EcsRx.Views">
-      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Views.dll</HintPath>
+    <Reference Include="EcsRx.Plugins.Computeds">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.Computeds.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx.Plugins.ReactiveSystems">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.ReactiveSystems.dll</HintPath>
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.ReactiveSystems.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx.Plugins.Views">
-      <HintPath>C:/Code/Personal/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.Views.dll</HintPath>
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.Views.dll</HintPath>
     </Reference>
     <Reference Include="Zenject-usage">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>

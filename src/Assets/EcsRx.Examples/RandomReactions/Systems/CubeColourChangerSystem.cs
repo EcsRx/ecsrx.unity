@@ -14,6 +14,7 @@ namespace EcsRx.Examples.RandomReactions.Systems
     {
         public IGroup Group => new Group(typeof(ViewComponent), typeof(RandomColorComponent));
 
+        private static int count;
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {
             var colorComponent = entity.GetComponent<RandomColorComponent>();

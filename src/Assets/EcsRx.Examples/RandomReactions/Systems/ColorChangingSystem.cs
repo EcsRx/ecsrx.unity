@@ -21,6 +21,7 @@ namespace EcsRx.Examples.RandomReactions.Systems
         public IObservable<IObservableGroup> ReactToGroup(IObservableGroup group)
         { return Observable.EveryUpdate().Select(x => group); }
 
+
         public void Setup(IEntity entity)
         {
             var randomColorComponent = entity.GetComponent<RandomColorComponent>();
@@ -33,7 +34,7 @@ namespace EcsRx.Examples.RandomReactions.Systems
             randomColorComponent.Elapsed += Time.deltaTime;
 
             if (!(randomColorComponent.Elapsed >= randomColorComponent.NextChangeIn))
-            { return;}
+            { return; }
 
             randomColorComponent.Elapsed -= randomColorComponent.NextChangeIn;
             randomColorComponent.NextChangeIn = Random.Range(MinDelay, MaxDelay);
