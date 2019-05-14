@@ -57,6 +57,7 @@ namespace EcsRx.Unity.UIAspects
                 if (handler == null)
                 {
                     Debug.LogWarning("This type is not supported: " + propertyType.Name + " - In component: " + component.GetType().Name);
+                    EditorGUILayout.EndHorizontal();
                     continue;
                 }
 
