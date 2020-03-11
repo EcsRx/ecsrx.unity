@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class FactoryArgumentsToChoiceBinder<TParam1, TContract> : FactoryToChoiceBinder<TParam1, TContract>
     {
         public FactoryArgumentsToChoiceBinder(

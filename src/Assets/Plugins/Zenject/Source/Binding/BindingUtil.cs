@@ -30,7 +30,7 @@ namespace Zenject
 
 #if UNITY_EDITOR
             // Unfortunately we can't do this check because asset bundles return PrefabType.None here
-            // as discussed here: https://github.com/modesttree/Zenject/issues/269#issuecomment-323419408
+            // as discussed here: https://github.com/svermeulen/Zenject/issues/269#issuecomment-323419408
             //Assert.That(PrefabUtility.GetPrefabType(prefab) == PrefabType.Prefab,
                 //"Expected prefab but found game object with name '{0}' during bind command", prefab.name);
 #endif
@@ -45,7 +45,7 @@ namespace Zenject
 
 #if UNITY_EDITOR
             // Unfortunately we can't do this check because asset bundles return PrefabType.None here
-            // as discussed here: https://github.com/modesttree/Zenject/issues/269#issuecomment-323419408
+            // as discussed here: https://github.com/svermeulen/Zenject/issues/269#issuecomment-323419408
             //Assert.That(PrefabUtility.GetPrefabType(gameObject) != PrefabType.Prefab,
                 //"Expected game object but found prefab instead with name '{0}' during bind command", gameObject.name);
 #endif
@@ -290,7 +290,7 @@ namespace Zenject
 #endif
             {
                 Assert.That(concreteType.DerivesFromOrEqual(parentType),
-                    "Invalid type given during bind command.  Expected type '{0}' to derive from type '{1}'", concreteType, parentType.PrettyName());
+                    "Invalid type given during bind command.  Expected type '{0}' to derive from type '{1}'", concreteType, parentType);
             }
         }
 
@@ -363,7 +363,7 @@ namespace Zenject
             if (!ZenUtilInternal.IsNull(instance))
             {
                 Assert.That(instance.GetType().DerivesFromOrEqual(baseType),
-                    "Invalid type given during bind command.  Expected type '{0}' to derive from type '{1}'", instance.GetType(), baseType.PrettyName());
+                    "Invalid type given during bind command.  Expected type '{0}' to derive from type '{1}'", instance.GetType(), baseType);
             }
         }
 

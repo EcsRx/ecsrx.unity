@@ -2,18 +2,18 @@
 
 using System;
 using System.Collections.Generic;
-using ModestTree;
 using UnityEngine;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class AddToNewGameObjectComponentProvider : AddToGameObjectComponentProviderBase
     {
         readonly GameObjectCreationParameters _gameObjectBindInfo;
 
         public AddToNewGameObjectComponentProvider(
             DiContainer container, Type componentType,
-            List<TypeValuePair> extraArguments, GameObjectCreationParameters gameObjectBindInfo,
+            IEnumerable<TypeValuePair> extraArguments, GameObjectCreationParameters gameObjectBindInfo,
             object concreteIdentifier,
             Action<InjectContext, object> instantiateCallback)
             : base(container, componentType, extraArguments, concreteIdentifier, instantiateCallback)

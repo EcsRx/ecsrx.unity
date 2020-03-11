@@ -15,6 +15,7 @@ using EcsRx.Plugins.Computeds;
 using EcsRx.Plugins.ReactiveSystems;
 using EcsRx.Plugins.Views;
 using EcsRx.Systems;
+using EcsRx.Unity.Modules;
 using EcsRx.Zenject.Dependencies;
 using UnityEngine;
 using Zenject;
@@ -91,6 +92,7 @@ namespace EcsRx.Zenject
         protected virtual void LoadModules()
         {
             Container.LoadModule<FrameworkModule>();
+            Container.LoadModule<UnityOverrideModule>();
         }
         
         /// <summary>

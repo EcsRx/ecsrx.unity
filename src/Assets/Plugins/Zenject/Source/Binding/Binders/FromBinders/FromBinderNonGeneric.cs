@@ -1,14 +1,19 @@
 using System;
 using System.Collections.Generic;
 
+#if !NOT_UNITY3D
+using UnityEngine;
+#endif
+
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class FromBinderNonGeneric : FromBinder
     {
         public FromBinderNonGeneric(
             DiContainer bindContainer, BindInfo bindInfo,
-            BindFinalizerWrapper finalizerWrapper)
-            : base(bindContainer, bindInfo, finalizerWrapper)
+            BindStatement bindStatement)
+            : base(bindContainer, bindInfo, bindStatement)
         {
         }
 
@@ -32,6 +37,7 @@ namespace Zenject
 
         public ScopeConcreteIdArgConditionCopyNonLazyBinder FromMethodMultiple<TConcrete>(Func<InjectContext, IEnumerable<TConcrete>> method)
         {
+            BindingUtil.AssertIsDerivedFromTypes(typeof(TConcrete), AllParentTypes);
             return FromMethodMultipleBase<TConcrete>(method);
         }
 
@@ -69,5 +75,26 @@ namespace Zenject
         {
             return FromInstanceBase(instance);
         }
+
+#if !NOT_UNITY3D
+
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder FromComponentsInChildren(
+            Func<Component, bool> predicate, bool includeInactive = true)
+        {
+            return FromComponentsInChildren(false, predicate, includeInactive);
+        }
+
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder FromComponentsInChildren(
+            bool excludeSelf = false, Func<Component, bool> predicate = null, bool includeInactive = true)
+        {
+            return FromComponentsInChildrenBase(excludeSelf, predicate, includeInactive);
+        }
+
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder FromComponentsInHierarchy(
+            Func<Component, bool> predicate = null, bool includeInactive = true)
+        {
+            return FromComponentsInHierarchyBase(predicate, includeInactive);
+        }
+#endif
     }
 }

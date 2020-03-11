@@ -19,7 +19,7 @@ namespace EcsRx.Examples.SimpleMovement.ViewResolvers
 
         protected override void OnViewCreated(IEntity entity, GameObject view)
         {
-            view.name = "entity-" + entity.Id;
+            view.name = $"entity-{entity.Id}";
             var rigidBody = view.AddComponent<Rigidbody>();
             rigidBody.freezeRotation = true;
         }

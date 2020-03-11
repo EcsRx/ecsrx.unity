@@ -3,6 +3,7 @@ using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class FactorySubContainerBinderBase<TContract>
     {
         public FactorySubContainerBinderBase(
@@ -50,25 +51,13 @@ namespace Zenject
             get { return typeof(TContract); }
         }
 
-        public
-#if NOT_UNITY3D
-            ScopeConcreteIdArgConditionCopyNonLazyBinder
-#else
-            DefaultParentScopeConcreteIdArgConditionCopyNonLazyBinder
-#endif
-            ByInstaller<TInstaller>()
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder ByInstaller<TInstaller>()
             where TInstaller : InstallerBase
         {
             return ByInstaller(typeof(TInstaller));
         }
 
-        public
-#if NOT_UNITY3D
-            ScopeConcreteIdArgConditionCopyNonLazyBinder
-#else
-            DefaultParentScopeConcreteIdArgConditionCopyNonLazyBinder
-#endif
-            ByInstaller(Type installerType)
+        public ScopeConcreteIdArgConditionCopyNonLazyBinder ByInstaller(Type installerType)
         {
             Assert.That(installerType.DerivesFrom<InstallerBase>(),
                 "Invalid installer type given during bind command.  Expected type '{0}' to derive from 'Installer<>'", installerType);
@@ -81,14 +70,32 @@ namespace Zenject
                     new SubContainerCreatorByInstaller(
                         container, subcontainerBindInfo, installerType, BindInfo.Arguments), false);
 
-#if NOT_UNITY3D
             return new ScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo);
-#else
-            return new DefaultParentScopeConcreteIdArgConditionCopyNonLazyBinder(subcontainerBindInfo, BindInfo);
-#endif
         }
 
 #if !NOT_UNITY3D
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewGameObjectInstaller<TInstaller>()
+            where TInstaller : InstallerBase
+        {
+            return ByNewGameObjectInstaller(typeof(TInstaller));
+        }
+
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewGameObjectInstaller(Type installerType)
+        {
+            Assert.That(installerType.DerivesFrom<InstallerBase>(),
+                "Invalid installer type given during bind command.  Expected type '{0}' to derive from 'Installer<>'", installerType);
+
+            var gameObjectInfo = new GameObjectCreationParameters();
+
+            ProviderFunc =
+                (container) => new SubContainerDependencyProvider(
+                    ContractType, SubIdentifier,
+                    new SubContainerCreatorByNewGameObjectInstaller(
+                        container, gameObjectInfo, installerType, BindInfo.Arguments), false);
+
+            return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
+        }
+
         public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabInstaller<TInstaller>(
             UnityEngine.Object prefab)
             where TInstaller : InstallerBase

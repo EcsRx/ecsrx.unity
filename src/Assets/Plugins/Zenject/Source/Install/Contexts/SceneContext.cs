@@ -7,17 +7,22 @@ using ModestTree;
 using ModestTree.Util;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.SceneManagement;
 using Zenject.Internal;
+using UnityEngine.Events;
 
 namespace Zenject
 {
     public class SceneContext : RunnableContext
     {
-        public event Action PreInstall = null;
-        public event Action PostInstall = null;
-        public event Action PreResolve = null;
-        public event Action PostResolve = null;
+        public event Action PreInstall;
+        public event Action PostInstall;
+        public event Action PreResolve;
+        public event Action PostResolve;
+
+        public UnityEvent OnPreInstall;
+        public UnityEvent OnPostInstall;
+        public UnityEvent OnPreResolve;
+        public UnityEvent OnPostResolve;
 
         public static Action<DiContainer> ExtraBindingsInstallMethod;
         public static Action<DiContainer> ExtraBindingsLateInstallMethod;
@@ -25,9 +30,10 @@ namespace Zenject
         public static IEnumerable<DiContainer> ParentContainers;
 
         [FormerlySerializedAs("ParentNewObjectsUnderRoot")]
+        [FormerlySerializedAs("_parentNewObjectsUnderRoot")]
         [Tooltip("When true, objects that are created at runtime will be parented to the SceneContext")]
         [SerializeField]
-        bool _parentNewObjectsUnderRoot = false;
+        bool _parentNewObjectsUnderSceneContext;
 
         [Tooltip("Optional contract names for this SceneContext, allowing contexts in subsequently loaded scenes to depend on it and be parented to it, and also for previously loaded decorators to be included")]
         [SerializeField]
@@ -63,11 +69,7 @@ namespace Zenject
         {
             get
             {
-#if UNITY_EDITOR
                 return ProjectContext.Instance.Container.IsValidating;
-#else
-                return false;
-#endif
             }
         }
 
@@ -95,18 +97,23 @@ namespace Zenject
             }
         }
 
-        public bool ParentNewObjectsUnderRoot
+        public bool ParentNewObjectsUnderSceneContext
         {
-            get { return _parentNewObjectsUnderRoot; }
-            set { _parentNewObjectsUnderRoot = value; }
+            get { return _parentNewObjectsUnderSceneContext; }
+            set { _parentNewObjectsUnderSceneContext = value; }
         }
 
         public void Awake()
         {
-            Initialize();
+#if ZEN_INTERNAL_PROFILING
+            ProfileTimers.ResetAll();
+            using (ProfileTimers.CreateTimedBlock("Other"))
+#endif
+            {
+                Initialize();
+            }
         }
 
-#if UNITY_EDITOR
         public void Validate()
         {
             Assert.That(IsValidating);
@@ -114,23 +121,21 @@ namespace Zenject
             Install();
             Resolve();
         }
-#endif
 
         protected override void RunInternal()
         {
             // We always want to initialize ProjectContext as early as possible
             ProjectContext.Instance.EnsureIsInitialized();
 
-            Assert.That(!IsValidating);
-
 #if UNITY_EDITOR
-            using (ProfileBlock.Start("SceneContext.Install"))
+            using (ProfileBlock.Start("Zenject.SceneContext.Install"))
 #endif
             {
                 Install();
             }
+
 #if UNITY_EDITOR
-            using (ProfileBlock.Start("SceneContext.Resolve"))
+            using (ProfileBlock.Start("Zenject.SceneContext.Resolve"))
 #endif
             {
                 Resolve();
@@ -159,7 +164,7 @@ namespace Zenject
                     return tempParentContainer;
                 }
 
-                return new DiContainer[] { ProjectContext.Instance.Container };
+                return new[] { ProjectContext.Instance.Container };
             }
 
             Assert.IsNull(ParentContainers,
@@ -202,10 +207,6 @@ namespace Zenject
 
         public void Install()
         {
-#if !UNITY_EDITOR
-            Assert.That(!IsValidating);
-#endif
-
             Assert.That(!_hasInstalled);
             _hasInstalled = true;
 
@@ -223,12 +224,17 @@ namespace Zenject
                 PreInstall();
             }
 
+            if (OnPreInstall != null)
+            {
+                OnPreInstall.Invoke();
+            }
+
             Assert.That(_decoratorContexts.IsEmpty());
             _decoratorContexts.AddRange(LookupDecoratorContexts());
 
-            if (_parentNewObjectsUnderRoot)
+            if (_parentNewObjectsUnderSceneContext)
             {
-                _container.DefaultParent = this.transform;
+                _container.DefaultParent = transform;
             }
             else
             {
@@ -267,6 +273,11 @@ namespace Zenject
             {
                 PostInstall();
             }
+
+            if (OnPostInstall != null)
+            {
+                OnPostInstall.Invoke();
+            }
         }
 
         public void Resolve()
@@ -274,6 +285,11 @@ namespace Zenject
             if (PreResolve != null)
             {
                 PreResolve();
+            }
+
+            if (OnPreResolve != null)
+            {
+                OnPreResolve.Invoke();
             }
 
             Assert.That(_hasInstalled);
@@ -285,6 +301,11 @@ namespace Zenject
             if (PostResolve != null)
             {
                 PostResolve();
+            }
+
+            if (OnPostResolve != null)
+            {
+                OnPostResolve.Invoke();
             }
         }
 
@@ -304,7 +325,7 @@ namespace Zenject
             InstallSceneBindings(injectableMonoBehaviours);
 
             _container.Bind(typeof(SceneKernel), typeof(MonoKernel))
-                .To<SceneKernel>().FromNewComponentOn(this.gameObject).AsSingle().NonLazy();
+                .To<SceneKernel>().FromNewComponentOn(gameObject).AsSingle().NonLazy();
 
             _container.Bind<ZenjectSceneLoader>().AsSingle();
 
@@ -339,7 +360,7 @@ namespace Zenject
 
         protected override void GetInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
         {
-            var scene = this.gameObject.scene;
+            var scene = gameObject.scene;
 
             ZenUtilInternal.AddStateMachineBehaviourAutoInjectersInScene(scene);
             ZenUtilInternal.GetInjectableMonoBehavioursInScene(scene, monoBehaviours);

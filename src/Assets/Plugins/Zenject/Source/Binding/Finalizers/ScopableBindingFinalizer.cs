@@ -4,6 +4,7 @@ using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class ScopableBindingFinalizer : ProviderBindingFinalizer
     {
         readonly Func<DiContainer, Type, IProvider> _providerFactory;

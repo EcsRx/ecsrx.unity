@@ -1,5 +1,5 @@
-using UnityEngine;
 using ModestTree;
+using UnityEngine;
 
 namespace Zenject
 {
@@ -30,7 +30,7 @@ namespace Zenject
         public void Awake()
         {
             _hasInjected = true;
-            LookupContainer().InjectGameObject(this.gameObject);
+            LookupContainer().InjectGameObject(gameObject);
         }
 
         DiContainer LookupContainer()
@@ -47,7 +47,7 @@ namespace Zenject
 
             Assert.IsEqual(_containerSource, ContainerSources.SearchHierarchy);
 
-            var parentContext = this.transform.GetComponentInParent<Context>();
+            var parentContext = transform.GetComponentInParent<Context>();
 
             if (parentContext != null)
             {
@@ -60,7 +60,7 @@ namespace Zenject
         DiContainer GetContainerForCurrentScene()
         {
             return ProjectContext.Instance.Container.Resolve<SceneContextRegistry>()
-                .GetContainerForScene(this.gameObject.scene);
+                .GetContainerForScene(gameObject.scene);
         }
 
         public enum ContainerSources

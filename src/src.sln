@@ -10,6 +10,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zenject-Editor", "Zenject-Editor.csproj", "{D5B8C223-FD60-94E4-8328-3D060E400720}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zenject-PoolMonitor-Editor", "Zenject-PoolMonitor-Editor.csproj", "{D1981D52-7C26-4A2F-54B1-3F2018FF6872}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zenject-ReflectionBaking-Editor", "Zenject-ReflectionBaking-Editor.csproj", "{A2779ADF-4873-DD06-56B6-BF21C8C3616D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zenject-TestFramework", "Zenject-TestFramework.csproj", "{4E358D20-33E1-DCA3-88E6-73B5B2D18CF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,8 +42,23 @@ Global
 		{D5B8C223-FD60-94E4-8328-3D060E400720}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5B8C223-FD60-94E4-8328-3D060E400720}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5B8C223-FD60-94E4-8328-3D060E400720}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1981D52-7C26-4A2F-54B1-3F2018FF6872}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1981D52-7C26-4A2F-54B1-3F2018FF6872}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1981D52-7C26-4A2F-54B1-3F2018FF6872}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1981D52-7C26-4A2F-54B1-3F2018FF6872}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2779ADF-4873-DD06-56B6-BF21C8C3616D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2779ADF-4873-DD06-56B6-BF21C8C3616D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2779ADF-4873-DD06-56B6-BF21C8C3616D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2779ADF-4873-DD06-56B6-BF21C8C3616D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E358D20-33E1-DCA3-88E6-73B5B2D18CF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E358D20-33E1-DCA3-88E6-73B5B2D18CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E358D20-33E1-DCA3-88E6-73B5B2D18CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E358D20-33E1-DCA3-88E6-73B5B2D18CF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal

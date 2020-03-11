@@ -18,7 +18,7 @@ namespace EcsRx.Examples.ManuallyRegisterSystems.Systems
 
         protected override void OnViewCreated(IEntity entity, GameObject view)
         {
-            view.name = "entity-" + entity.Id;
+            view.name = $"entity-{entity.Id}";
         }
     }
 }

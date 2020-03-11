@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ModestTree;
+using Zenject.Internal;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class InjectContext : IDisposable
     {
-        public static readonly StaticMemoryPool<DiContainer, Type, InjectContext> Pool =
-            new StaticMemoryPool<DiContainer, Type, InjectContext>(OnSpawned, OnDespawned);
-
-        readonly BindingId _bindingId = new BindingId();
-
+        BindingId _bindingId;
         Type _objectType;
         InjectContext _parentContext;
         object _objectInstance;
@@ -25,20 +23,8 @@ namespace Zenject
 
         public InjectContext()
         {
-            SetDefaults();
-        }
-
-        static void OnSpawned(DiContainer container, Type memberType, InjectContext that)
-        {
-            Assert.IsNull(that._container);
-
-            that._container = container;
-            that._bindingId.Type = memberType;
-        }
-
-        static void OnDespawned(InjectContext that)
-        {
-            that.SetDefaults();
+            _bindingId = new BindingId();
+            Reset();
         }
 
         public InjectContext(DiContainer container, Type memberType)
@@ -62,21 +48,21 @@ namespace Zenject
 
         public void Dispose()
         {
-            Pool.Despawn(this);
+            ZenPools.DespawnInjectContext(this);
         }
 
-        void SetDefaults()
+        public void Reset()
         {
             _objectType = null;
             _parentContext = null;
             _objectInstance = null;
             _memberName = "";
-            _bindingId.Identifier = null;
-            _bindingId.Type = null;
             _optional = false;
             _sourceType = InjectSources.Any;
             _fallBackValue = null;
             _container = null;
+            _bindingId.Type = null;
+            _bindingId.Identifier = null;
         }
 
         public BindingId BindingId
@@ -239,11 +225,11 @@ namespace Zenject
             subContext.FallBackValue = null;
 
             // Inherit these ones by default
-            subContext.ObjectType = this.ObjectType;
-            subContext.ObjectInstance = this.ObjectInstance;
-            subContext.Optional = this.Optional;
-            subContext.SourceType = this.SourceType;
-            subContext.Container = this.Container;
+            subContext.ObjectType = ObjectType;
+            subContext.ObjectInstance = ObjectInstance;
+            subContext.Optional = Optional;
+            subContext.SourceType = SourceType;
+            subContext.Container = Container;
 
             return subContext;
         }
@@ -252,17 +238,17 @@ namespace Zenject
         {
             var clone = new InjectContext();
 
-            clone.ObjectType = this.ObjectType;
-            clone.ParentContext = this.ParentContext;
-            clone.ConcreteIdentifier = this.ConcreteIdentifier;
-            clone.ObjectInstance = this.ObjectInstance;
-            clone.Identifier = this.Identifier;
-            clone.MemberType = this.MemberType;
-            clone.MemberName = this.MemberName;
-            clone.Optional = this.Optional;
-            clone.SourceType = this.SourceType;
-            clone.FallBackValue = this.FallBackValue;
-            clone.Container = this.Container;
+            clone.ObjectType = ObjectType;
+            clone.ParentContext = ParentContext;
+            clone.ConcreteIdentifier = ConcreteIdentifier;
+            clone.ObjectInstance = ObjectInstance;
+            clone.Identifier = Identifier;
+            clone.MemberType = MemberType;
+            clone.MemberName = MemberName;
+            clone.Optional = Optional;
+            clone.SourceType = SourceType;
+            clone.FallBackValue = FallBackValue;
+            clone.Container = Container;
 
             return clone;
         }

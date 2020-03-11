@@ -1,8 +1,6 @@
-using System;
 using System.Linq;
-using UnityEngine;
-using Zenject;
 using ModestTree;
+using UnityEngine;
 
 #pragma warning disable 219
 
@@ -99,7 +97,7 @@ namespace Zenject
 
         IFoo GetRandomFoo(InjectContext ctx)
         {
-            switch (UnityEngine.Random.Range(0, 3))
+            switch (Random.Range(0, 3))
             {
                 case 0:
                 {
@@ -284,8 +282,8 @@ namespace Zenject
             Container.Bind<Bar>().WithId("Bar2").AsCached();
 
             // Here we use the 'ParentContexts' property of inject context to sync multiple corresponding identifiers
-            Container.BindInstance(foo1).When(c => c.ParentContexts.Where(x => x.MemberType == typeof(Bar) && object.Equals(x.Identifier, "Bar1")).Any());
-            Container.BindInstance(foo2).When(c => c.ParentContexts.Where(x => x.MemberType == typeof(Bar) && object.Equals(x.Identifier, "Bar2")).Any());
+            Container.BindInstance(foo1).When(c => c.ParentContexts.Where(x => x.MemberType == typeof(Bar) && Equals(x.Identifier, "Bar1")).Any());
+            Container.BindInstance(foo2).When(c => c.ParentContexts.Where(x => x.MemberType == typeof(Bar) && Equals(x.Identifier, "Bar2")).Any());
 
             // This results in:
             Assert.That(Container.ResolveId<Bar>("Bar1").Foo == foo1);

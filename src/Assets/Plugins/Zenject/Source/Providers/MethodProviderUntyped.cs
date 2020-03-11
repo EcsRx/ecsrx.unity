@@ -4,6 +4,7 @@ using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class MethodProviderUntyped : IProvider
     {
         readonly DiContainer _container;
@@ -32,8 +33,8 @@ namespace Zenject
             return context.MemberType;
         }
 
-        public List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsEmpty(args);
             Assert.IsNotNull(context);
@@ -41,7 +42,7 @@ namespace Zenject
             injectAction = null;
             if (_container.IsValidating && !TypeAnalyzer.ShouldAllowDuringValidation(context.MemberType))
             {
-                return new List<object>() { new ValidationMarker(context.MemberType) };
+                buffer.Add(new ValidationMarker(context.MemberType));
             }
             else
             {
@@ -57,7 +58,7 @@ namespace Zenject
                     Assert.That(result.GetType().DerivesFromOrEqual(context.MemberType));
                 }
 
-                return new List<object>() { result };
+                buffer.Add(result);
             }
         }
     }

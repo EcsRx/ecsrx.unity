@@ -9,11 +9,11 @@ namespace Zenject
     {
         [Inject]
         [NonSerialized]
-        Kernel _kernel = null;
+        Kernel _kernel;
 
         [Inject]
         [NonSerialized]
-        GuiRenderableManager _guiRenderableManager = null;
+        GuiRenderableManager _guiRenderableManager;
 
         [NonSerialized]
         DiContainer _container;
@@ -60,7 +60,7 @@ namespace Zenject
         {
             Assert.IsNull(_container);
 
-            _container = new DiContainer(new DiContainer[] { StaticContext.Container });
+            _container = new DiContainer(new[] { StaticContext.Container });
 
             // Make sure we don't create any game objects since editor windows don't have a scene
             _container.AssertOnNewGameObjects = true;

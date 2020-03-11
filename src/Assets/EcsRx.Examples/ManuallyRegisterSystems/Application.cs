@@ -15,6 +15,7 @@ namespace EcsRx.Examples.ManuallyRegisterSystems
             Container.Bind<ISystem, RandomMovementSystem>();
         }
 
+        // We override this to manually control how systems start
         protected override void StartSystems()
         {
             // This one we are manually binding and starting at the same time

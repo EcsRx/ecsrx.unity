@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using ModestTree;
-using System.Linq;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class ConcreteBinderNonGeneric : FromBinderNonGeneric
     {
         public ConcreteBinderNonGeneric(
             DiContainer bindContainer, BindInfo bindInfo,
-            BindFinalizerWrapper finalizerWrapper)
-            : base(bindContainer, bindInfo, finalizerWrapper)
+            BindStatement bindStatement)
+            : base(bindContainer, bindInfo, bindStatement)
         {
             ToSelf();
         }
@@ -42,7 +42,8 @@ namespace Zenject
         public FromBinderNonGeneric To(IEnumerable<Type> concreteTypes)
         {
             BindInfo.ToChoice = ToChoices.Concrete;
-            BindInfo.ToTypes = concreteTypes.ToList();
+            BindInfo.ToTypes.Clear();
+            BindInfo.ToTypes.AddRange(concreteTypes);
 
             if (BindInfo.ToTypes.Count > 1 && BindInfo.ContractTypes.Count > 1)
             {
@@ -70,7 +71,8 @@ namespace Zenject
             generator(new ConventionSelectTypesBinder(bindInfo));
 
             BindInfo.ToChoice = ToChoices.Concrete;
-            BindInfo.ToTypes = bindInfo.ResolveTypes();
+            BindInfo.ToTypes.Clear();
+            BindInfo.ToTypes.AddRange(bindInfo.ResolveTypes());
 
             return this;
         }

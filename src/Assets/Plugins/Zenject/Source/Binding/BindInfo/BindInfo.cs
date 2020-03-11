@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Zenject.Internal;
 
 namespace Zenject
 {
@@ -8,19 +9,19 @@ namespace Zenject
     {
         Unset,
         Transient,
-        Singleton,
+        Singleton
     }
 
     public enum ToChoices
     {
         Self,
-        Concrete,
+        Concrete
     }
 
     public enum InvalidBindResponses
     {
         Assert,
-        Skip,
+        Skip
     }
 
     public enum BindingInheritanceMethods
@@ -29,32 +30,43 @@ namespace Zenject
         CopyIntoAll,
         CopyDirectOnly,
         MoveIntoAll,
-        MoveDirectOnly,
+        MoveDirectOnly
     }
 
-    public class BindInfo
+    [NoReflectionBaking]
+    public class BindInfo : IDisposable
     {
+        public bool MarkAsCreationBinding;
+        public bool MarkAsUniqueSingleton;
+        public object ConcreteIdentifier;
+        public bool SaveProvider;
+        public bool OnlyBindIfNotBound;
+        public bool RequireExplicitScope;
+        public object Identifier;
+        public readonly List<Type> ContractTypes;
+        public BindingInheritanceMethods BindingInheritanceMethod;
+        public InvalidBindResponses InvalidBindResponse;
+        public bool NonLazy;
+        public BindingCondition Condition;
+        public ToChoices ToChoice;
+        public string ContextInfo;
+        public readonly List<Type> ToTypes; // Only relevant with ToChoices.Concrete
+        public ScopeTypes Scope;
+        public readonly List<TypeValuePair> Arguments;
+        public Action<InjectContext, object> InstantiatedCallback;
+
         public BindInfo()
         {
-            ContextInfo = null;
-            Identifier = null;
-            ConcreteIdentifier = null;
             ContractTypes = new List<Type>();
             ToTypes = new List<Type>();
             Arguments = new List<TypeValuePair>();
-            ToChoice = ToChoices.Self;
-            BindingInheritanceMethod = BindingInheritanceMethods.None;
-            OnlyBindIfNotBound = false;
-            SaveProvider = false;
 
-            // Change this to true if you want all dependencies to be created at the start
-            NonLazy = false;
+            Reset();
+        }
 
-            MarkAsUniqueSingleton = false;
-            MarkAsCreationBinding = true;
-
-            Scope = ScopeTypes.Unset;
-            InvalidBindResponse = InvalidBindResponses.Assert;
+        public void Dispose()
+        {
+            ZenPools.DespawnBindInfo(this);
         }
 
         [Conditional("UNITY_EDITOR")]
@@ -63,45 +75,26 @@ namespace Zenject
             ContextInfo = contextInfo;
         }
 
-        public bool MarkAsCreationBinding;
-
-        public bool MarkAsUniqueSingleton;
-
-        public object ConcreteIdentifier;
-
-        public bool SaveProvider;
-
-        public bool OnlyBindIfNotBound;
-
-        public bool RequireExplicitScope;
-
-        public object Identifier;
-
-        public List<Type> ContractTypes;
-
-        public BindingInheritanceMethods BindingInheritanceMethod;
-
-        public InvalidBindResponses InvalidBindResponse;
-
-        public bool NonLazy;
-
-        public BindingCondition Condition;
-
-        public ToChoices ToChoice;
-
-        public string ContextInfo
+        public void Reset()
         {
-            get;
-            private set;
+            MarkAsCreationBinding = true;
+            MarkAsUniqueSingleton = false;
+            ConcreteIdentifier = null;
+            SaveProvider = false;
+            OnlyBindIfNotBound = false;
+            RequireExplicitScope = false;
+            Identifier = null;
+            ContractTypes.Clear();
+            BindingInheritanceMethod = BindingInheritanceMethods.None;
+            InvalidBindResponse = InvalidBindResponses.Assert;
+            NonLazy = false;
+            Condition = null;
+            ToChoice = ToChoices.Self;
+            ContextInfo = null;
+            ToTypes.Clear();
+            Scope = ScopeTypes.Unset;
+            Arguments.Clear();
+            InstantiatedCallback = null;
         }
-
-        // Only relevant with ToChoices.Concrete
-        public List<Type> ToTypes;
-
-        public ScopeTypes Scope;
-
-        public List<TypeValuePair> Arguments;
-
-        public Action<InjectContext, object> InstantiatedCallback;
     }
 }

@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using ModestTree;
 using ModestTree.Util;
-
 #if !NOT_UNITY3D
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -12,8 +10,12 @@ using UnityEngine;
 
 namespace Zenject.Internal
 {
-    public class ZenUtilInternal
+    public static class ZenUtilInternal
     {
+#if UNITY_EDITOR
+        static GameObject _disabledIndestructibleGameObject;
+#endif
+
         // Due to the way that Unity overrides the Equals operator,
         // normal null checks such as (x == null) do not always work as
         // expected
@@ -106,13 +108,18 @@ namespace Zenject.Internal
         // time for us
         public static void AddStateMachineBehaviourAutoInjectersUnderGameObject(GameObject root)
         {
-            var animators = root.GetComponentsInChildren<Animator>(true);
-
-            foreach (var animator in animators)
+#if ZEN_INTERNAL_PROFILING
+            using (ProfileTimers.CreateTimedBlock("Searching Hierarchy"))
+#endif
             {
-                if (animator.gameObject.GetComponent<ZenjectStateMachineBehaviourAutoInjecter>() == null)
+                var animators = root.GetComponentsInChildren<Animator>(true);
+
+                foreach (var animator in animators)
                 {
-                    animator.gameObject.AddComponent<ZenjectStateMachineBehaviourAutoInjecter>();
+                    if (animator.gameObject.GetComponent<ZenjectStateMachineBehaviourAutoInjecter>() == null)
+                    {
+                        animator.gameObject.AddComponent<ZenjectStateMachineBehaviourAutoInjecter>();
+                    }
                 }
             }
         }
@@ -120,11 +127,16 @@ namespace Zenject.Internal
         public static void GetInjectableMonoBehavioursInScene(
             Scene scene, List<MonoBehaviour> monoBehaviours)
         {
-            foreach (var rootObj in GetRootGameObjects(scene))
+#if ZEN_INTERNAL_PROFILING
+            using (ProfileTimers.CreateTimedBlock("Searching Hierarchy"))
+#endif
             {
-                if (rootObj != null)
+                foreach (var rootObj in GetRootGameObjects(scene))
                 {
-                    GetInjectableMonoBehavioursUnderGameObject(rootObj, monoBehaviours);
+                    if (rootObj != null)
+                    {
+                        GetInjectableMonoBehavioursUnderGameObjectInternal(rootObj, monoBehaviours);
+                    }
                 }
             }
         }
@@ -132,6 +144,17 @@ namespace Zenject.Internal
         // NOTE: This method will not return components that are within a GameObjectContext
         // It returns monobehaviours in a bottom-up order
         public static void GetInjectableMonoBehavioursUnderGameObject(
+            GameObject gameObject, List<MonoBehaviour> injectableComponents)
+        {
+#if ZEN_INTERNAL_PROFILING
+            using (ProfileTimers.CreateTimedBlock("Searching Hierarchy"))
+#endif
+            {
+                GetInjectableMonoBehavioursUnderGameObjectInternal(gameObject, injectableComponents);
+            }
+        }
+
+        static void GetInjectableMonoBehavioursUnderGameObjectInternal(
             GameObject gameObject, List<MonoBehaviour> injectableComponents)
         {
             if (gameObject == null)
@@ -147,7 +170,7 @@ namespace Zenject.Internal
 
                 // Can be null for broken component references
                 if (monoBehaviour != null
-                    && monoBehaviour.GetType().DerivesFromOrEqual<GameObjectContext>())
+                        && monoBehaviour.GetType().DerivesFromOrEqual<GameObjectContext>())
                 {
                     // Need to make sure we don't inject on any MonoBehaviour's that are below a GameObjectContext
                     // Since that is the responsibility of the GameObjectContext
@@ -165,7 +188,7 @@ namespace Zenject.Internal
 
                 if (child != null)
                 {
-                    GetInjectableMonoBehavioursUnderGameObject(child.gameObject, injectableComponents);
+                    GetInjectableMonoBehavioursUnderGameObjectInternal(child.gameObject, injectableComponents);
                 }
             }
 
@@ -185,44 +208,48 @@ namespace Zenject.Internal
         public static bool IsInjectableMonoBehaviourType(Type type)
         {
             // Do not inject on installers since these are always injected before they are installed
-            return type != null && !type.DerivesFrom<MonoInstaller>()
-                // Don't bother performing reflection operations on unity classes since they are guaranteed not to use zenject
-                && (type.Namespace == null || !type.Namespace.StartsWith("UnityEngine.", StringComparison.Ordinal));
+            return type != null && !type.DerivesFrom<MonoInstaller>() && TypeAnalyzer.HasInfo(type);
         }
 
         public static IEnumerable<GameObject> GetRootGameObjects(Scene scene)
         {
-            if (scene.isLoaded)
+#if ZEN_INTERNAL_PROFILING
+            using (ProfileTimers.CreateTimedBlock("Searching Hierarchy"))
+#endif
             {
-                return scene.GetRootGameObjects()
-                    .Where(x => x.GetComponent<ProjectContext>() == null);
-            }
+                if (scene.isLoaded)
+                {
+                    return scene.GetRootGameObjects()
+                        .Where(x => x.GetComponent<ProjectContext>() == null);
+                }
 
-            // Note: We can't use scene.GetRootObjects() here because that apparently fails with an exception
-            // about the scene not being loaded yet when executed in Awake
-            // We also can't use GameObject.FindObjectsOfType<Transform>() because that does not include inactive game objects
-            // So we use Resources.FindObjectsOfTypeAll, even though that may include prefabs.  However, our assumption here
-            // is that prefabs do not have their "scene" property set correctly so this should work
-            //
-            // It's important here that we only inject into root objects that are part of our scene, to properly support
-            // multi-scene editing features of Unity 5.x
-            //
-            // Also, even with older Unity versions, if there is an object that is marked with DontDestroyOnLoad, then it will
-            // be injected multiple times when another scene is loaded
-            //
-            // We also make sure not to inject into the project root objects which are injected by ProjectContext.
-            return Resources.FindObjectsOfTypeAll<GameObject>()
-                .Where(x => x.transform.parent == null
-                    && x.GetComponent<ProjectContext>() == null
-                    && x.scene == scene);
+                // Note: We can't use scene.GetRootObjects() here because that apparently fails with an exception
+                // about the scene not being loaded yet when executed in Awake
+                // We also can't use GameObject.FindObjectsOfType<Transform>() because that does not include inactive game objects
+                // So we use Resources.FindObjectsOfTypeAll, even though that may include prefabs.  However, our assumption here
+                // is that prefabs do not have their "scene" property set correctly so this should work
+                //
+                // It's important here that we only inject into root objects that are part of our scene, to properly support
+                // multi-scene editing features of Unity 5.x
+                //
+                // Also, even with older Unity versions, if there is an object that is marked with DontDestroyOnLoad, then it will
+                // be injected multiple times when another scene is loaded
+                //
+                // We also make sure not to inject into the project root objects which are injected by ProjectContext.
+                return Resources.FindObjectsOfTypeAll<GameObject>()
+                    .Where(x => x.transform.parent == null
+                            && x.GetComponent<ProjectContext>() == null
+                            && x.scene == scene);
+            }
         }
 
+#if UNITY_EDITOR
         // Returns a Transform in the DontDestroyOnLoad scene (or, if we're not in play mode, within the current active scene)
         // whose GameObject is inactive, and whose hide flags are set to HideAndDontSave. We can instantiate prefabs in here
         // without any of their Awake() methods firing.
         public static Transform GetOrCreateInactivePrefabParent()
         {
-            if(disabledIndestructibleGameObject == null || (!Application.isPlaying && disabledIndestructibleGameObject.scene != SceneManager.GetActiveScene()))
+            if(_disabledIndestructibleGameObject == null || (!Application.isPlaying && _disabledIndestructibleGameObject.scene != SceneManager.GetActiveScene()))
             {
                 var go = new GameObject("ZenUtilInternal_PrefabParent");
                 go.hideFlags = HideFlags.HideAndDontSave;
@@ -233,13 +260,13 @@ namespace Zenject.Internal
                     UnityEngine.Object.DontDestroyOnLoad(go);
                 }
 
-                disabledIndestructibleGameObject = go;
+                _disabledIndestructibleGameObject = go;
             }
 
-            return disabledIndestructibleGameObject.transform;
+            return _disabledIndestructibleGameObject.transform;
         }
+#endif
 
-        static GameObject disabledIndestructibleGameObject;
 #endif
     }
 }

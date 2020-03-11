@@ -1,18 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml.Serialization;
+using ModestTree;
 #if UNITY_EDITOR
 using UnityEngine.Profiling;
+using System.Threading;
 #endif
-using ModestTree;
-using Zenject.Internal;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class ProfileBlock : IDisposable
     {
 #if UNITY_EDITOR
@@ -22,6 +19,11 @@ namespace Zenject
 
         ProfileBlock()
         {
+        }
+
+        public static Thread UnityMainThread
+        {
+            get; set;
         }
 
         public static Regex ProfilePattern
@@ -58,6 +60,12 @@ namespace Zenject
 #if ZEN_TESTS_OUTSIDE_UNITY
             return null;
 #else
+            if (UnityMainThread == null
+                || !UnityMainThread.Equals(Thread.CurrentThread))
+            {
+                return null;
+            }
+
             if (!Profiler.enabled)
             {
                 return null;
@@ -86,6 +94,12 @@ namespace Zenject
 #if ZEN_TESTS_OUTSIDE_UNITY
             return null;
 #else
+            if (UnityMainThread == null
+                || !UnityMainThread.Equals(Thread.CurrentThread))
+            {
+                return null;
+            }
+
             if (!Profiler.enabled)
             {
                 return null;
@@ -114,6 +128,12 @@ namespace Zenject
 #if ZEN_TESTS_OUTSIDE_UNITY
             return null;
 #else
+            if (UnityMainThread == null
+                || !UnityMainThread.Equals(Thread.CurrentThread))
+            {
+                return null;
+            }
+
             if (!Profiler.enabled)
             {
                 return null;
@@ -129,7 +149,7 @@ namespace Zenject
 
             if (ProfilePattern == null || ProfilePattern.Match(sampleName).Success)
             {
-                UnityEngine.Profiling.Profiler.BeginSample(sampleName);
+                Profiler.BeginSample(sampleName);
                 _blockCount++;
                 return _instance;
             }
@@ -141,7 +161,7 @@ namespace Zenject
         {
             _blockCount--;
             Assert.That(_blockCount >= 0);
-            UnityEngine.Profiling.Profiler.EndSample();
+            Profiler.EndSample();
         }
 
 #else

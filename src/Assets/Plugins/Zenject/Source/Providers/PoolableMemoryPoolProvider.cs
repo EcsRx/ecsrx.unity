@@ -40,12 +40,13 @@ namespace Zenject
             return typeof(TContract);
         }
 
-        public abstract List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction);
+        public abstract void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer);
     }
 
     // Zero parameters
 
+    [NoReflectionBaking]
     public class PoolableMemoryPoolProvider<TContract, TMemoryPool> : PoolableMemoryPoolProviderBase<TContract>, IValidatable
         where TContract : IPoolable<IMemoryPool>
         where TMemoryPool : MemoryPool<IMemoryPool, TContract>
@@ -63,8 +64,8 @@ namespace Zenject
             Container.ResolveId<TMemoryPool>(PoolId);
         }
 
-        public override List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public override void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.That(args.IsEmpty());
 
@@ -79,12 +80,13 @@ namespace Zenject
                 _pool = Container.ResolveId<TMemoryPool>(PoolId);
             }
 
-            return new List<object>() { _pool.Spawn(_pool) };
+            buffer.Add(_pool.Spawn(_pool));
         }
     }
 
     // One parameters
 
+    [NoReflectionBaking]
     public class PoolableMemoryPoolProvider<TParam1, TContract, TMemoryPool> : PoolableMemoryPoolProviderBase<TContract>, IValidatable
         where TContract : IPoolable<TParam1, IMemoryPool>
         where TMemoryPool : MemoryPool<TParam1, IMemoryPool, TContract>
@@ -102,8 +104,8 @@ namespace Zenject
             Container.ResolveId<TMemoryPool>(PoolId);
         }
 
-        public override List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public override void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsEqual(args.Count, 1);
             Assert.IsNotNull(context);
@@ -118,12 +120,13 @@ namespace Zenject
                 _pool = Container.ResolveId<TMemoryPool>(PoolId);
             }
 
-            return new List<object>() { _pool.Spawn((TParam1)args[0].Value, _pool) };
+            buffer.Add(_pool.Spawn((TParam1)args[0].Value, _pool));
         }
     }
 
     // Two parameters
 
+    [NoReflectionBaking]
     public class PoolableMemoryPoolProvider<TParam1, TParam2, TContract, TMemoryPool> : PoolableMemoryPoolProviderBase<TContract>, IValidatable
         where TContract : IPoolable<TParam1, TParam2, IMemoryPool>
         where TMemoryPool : MemoryPool<TParam1, TParam2, IMemoryPool, TContract>
@@ -141,8 +144,8 @@ namespace Zenject
             Container.ResolveId<TMemoryPool>(PoolId);
         }
 
-        public override List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public override void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsEqual(args.Count, 2);
             Assert.IsNotNull(context);
@@ -158,15 +161,16 @@ namespace Zenject
                 _pool = Container.ResolveId<TMemoryPool>(PoolId);
             }
 
-            return new List<object>() { _pool.Spawn(
+            buffer.Add(_pool.Spawn(
                 (TParam1)args[0].Value,
                 (TParam2)args[1].Value,
-                _pool) };
+                _pool));
         }
     }
 
     // Three parameters
 
+    [NoReflectionBaking]
     public class PoolableMemoryPoolProvider<TParam1, TParam2, TParam3, TContract, TMemoryPool> : PoolableMemoryPoolProviderBase<TContract>, IValidatable
         where TContract : IPoolable<TParam1, TParam2, TParam3, IMemoryPool>
         where TMemoryPool : MemoryPool<TParam1, TParam2, TParam3, IMemoryPool, TContract>
@@ -184,8 +188,8 @@ namespace Zenject
             Container.ResolveId<TMemoryPool>(PoolId);
         }
 
-        public override List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public override void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsEqual(args.Count, 3);
             Assert.IsNotNull(context);
@@ -202,16 +206,17 @@ namespace Zenject
                 _pool = Container.ResolveId<TMemoryPool>(PoolId);
             }
 
-            return new List<object>() { _pool.Spawn(
+            buffer.Add(_pool.Spawn(
                 (TParam1)args[0].Value,
                 (TParam2)args[1].Value,
                 (TParam3)args[2].Value,
-                _pool) };
+                _pool));
         }
     }
 
     // Four parameters
 
+    [NoReflectionBaking]
     public class PoolableMemoryPoolProvider<TParam1, TParam2, TParam3, TParam4, TContract, TMemoryPool> : PoolableMemoryPoolProviderBase<TContract>, IValidatable
         where TContract : IPoolable<TParam1, TParam2, TParam3, TParam4, IMemoryPool>
         where TMemoryPool : MemoryPool<TParam1, TParam2, TParam3, TParam4, IMemoryPool, TContract>
@@ -229,8 +234,8 @@ namespace Zenject
             Container.ResolveId<TMemoryPool>(PoolId);
         }
 
-        public override List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public override void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsEqual(args.Count, 4);
             Assert.IsNotNull(context);
@@ -248,17 +253,18 @@ namespace Zenject
                 _pool = Container.ResolveId<TMemoryPool>(PoolId);
             }
 
-            return new List<object>() { _pool.Spawn(
+            buffer.Add(_pool.Spawn(
                 (TParam1)args[0].Value,
                 (TParam2)args[1].Value,
                 (TParam3)args[2].Value,
                 (TParam4)args[3].Value,
-                _pool) };
+                _pool));
         }
     }
 
     // Five parameters
 
+    [NoReflectionBaking]
     public class PoolableMemoryPoolProvider<TParam1, TParam2, TParam3, TParam4, TParam5, TContract, TMemoryPool> : PoolableMemoryPoolProviderBase<TContract>, IValidatable
         where TContract : IPoolable<TParam1, TParam2, TParam3, TParam4, TParam5, IMemoryPool>
         where TMemoryPool : MemoryPool<TParam1, TParam2, TParam3, TParam4, TParam5, IMemoryPool, TContract>
@@ -276,8 +282,8 @@ namespace Zenject
             Container.ResolveId<TMemoryPool>(PoolId);
         }
 
-        public override List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public override void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsEqual(args.Count, 5);
             Assert.IsNotNull(context);
@@ -296,18 +302,19 @@ namespace Zenject
                 _pool = Container.ResolveId<TMemoryPool>(PoolId);
             }
 
-            return new List<object>() { _pool.Spawn(
+            buffer.Add(_pool.Spawn(
                 (TParam1)args[0].Value,
                 (TParam2)args[1].Value,
                 (TParam3)args[2].Value,
                 (TParam4)args[3].Value,
                 (TParam5)args[4].Value,
-                _pool) };
+                _pool));
         }
     }
 
     // Six parameters
 
+    [NoReflectionBaking]
     public class PoolableMemoryPoolProvider<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TContract, TMemoryPool> : PoolableMemoryPoolProviderBase<TContract>, IValidatable
         where TContract : IPoolable<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, IMemoryPool>
         where TMemoryPool : MemoryPool<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, IMemoryPool, TContract>
@@ -325,8 +332,8 @@ namespace Zenject
             Container.ResolveId<TMemoryPool>(PoolId);
         }
 
-        public override List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public override void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsEqual(args.Count, 6);
             Assert.IsNotNull(context);
@@ -346,14 +353,14 @@ namespace Zenject
                 _pool = Container.ResolveId<TMemoryPool>(PoolId);
             }
 
-            return new List<object>() { _pool.Spawn(
+            buffer.Add(_pool.Spawn(
                 (TParam1)args[0].Value,
                 (TParam2)args[1].Value,
                 (TParam3)args[2].Value,
                 (TParam4)args[3].Value,
                 (TParam5)args[4].Value,
                 (TParam6)args[5].Value,
-                _pool) };
+                _pool));
         }
     }
 }

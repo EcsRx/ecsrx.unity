@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ModestTree;
+using ModestTree.Util;
 #if ZEN_SIGNALS_ADD_UNIRX
 using UniRx;
 #endif
@@ -20,13 +21,13 @@ namespace Zenject
         readonly List<ILateTickable> _lateTickables = null;
 
         [Inject(Optional = true, Source = InjectSources.Local)]
-        readonly List<ModestTree.Util.ValuePair<Type, int>> _priorities = null;
+        readonly List<ValuePair<Type, int>> _priorities = null;
 
         [Inject(Optional = true, Id = "Fixed", Source = InjectSources.Local)]
-        readonly List<ModestTree.Util.ValuePair<Type, int>> _fixedPriorities = null;
+        readonly List<ValuePair<Type, int>> _fixedPriorities = null;
 
         [Inject(Optional = true, Id = "Late", Source = InjectSources.Local)]
-        readonly List<ModestTree.Util.ValuePair<Type, int>> _latePriorities = null;
+        readonly List<ValuePair<Type, int>> _latePriorities = null;
 
 #if ZEN_SIGNALS_ADD_UNIRX
         readonly Subject<Unit> _tickStream = new Subject<Unit>();

@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using ModestTree;
-using System.Linq;
 
 namespace Zenject.Internal
 {
     public interface IDecoratorProvider
     {
-        List<object> GetAllInstances(
-            IProvider provider, InjectContext context);
+        void GetAllInstances(
+            IProvider provider, InjectContext context, List<object> buffer);
     }
 
+    [NoReflectionBaking]
     public class DecoratorProvider<TContract> : IDecoratorProvider
     {
         readonly Dictionary<IProvider, List<object>> _cachedInstances =
@@ -20,6 +20,10 @@ namespace Zenject.Internal
         readonly List<Guid> _factoryBindIds = new List<Guid>();
 
         List<IFactory<TContract, TContract>> _decoratorFactories;
+
+#if ZEN_MULTITHREADING
+        readonly object _locker = new object();
+#endif
 
         public DecoratorProvider(DiContainer container)
         {
@@ -35,46 +39,54 @@ namespace Zenject.Internal
         {
             if (_decoratorFactories == null)
             {
-                _decoratorFactories = _factoryBindIds.Select(
-                    x => _container.ResolveId<IFactory<TContract, TContract>>(x)).ToList();
+                _decoratorFactories = new List<IFactory<TContract, TContract>>();
+
+                for (int i = 0; i < _factoryBindIds.Count; i++)
+                {
+                    var bindId = _factoryBindIds[i];
+                    var factory = _container.ResolveId<IFactory<TContract, TContract>>(bindId);
+                    _decoratorFactories.Add(factory);
+                }
             }
         }
 
-        public List<object> GetAllInstances(
-            IProvider provider, InjectContext context)
+        public void GetAllInstances(
+            IProvider provider, InjectContext context, List<object> buffer)
         {
-            List<object> instances;
-
             if (provider.IsCached)
             {
-                if (!_cachedInstances.TryGetValue(provider, out instances))
+                List<object> instances;
+
+#if ZEN_MULTITHREADING
+                lock (_locker)
+#endif
                 {
-                    instances = WrapProviderInstances(provider, context);
-                    _cachedInstances.Add(provider, instances);
+                    if (!_cachedInstances.TryGetValue(provider, out instances))
+                    {
+                        instances = new List<object>();
+                        WrapProviderInstances(provider, context, instances);
+                        _cachedInstances.Add(provider, instances);
+                    }
                 }
+
+                buffer.AllocFreeAddRange(instances);
             }
             else
             {
-                instances = WrapProviderInstances(provider, context);
+                WrapProviderInstances(provider, context, buffer);
             }
-
-            return instances;
         }
 
-        List<object> WrapProviderInstances(IProvider provider, InjectContext context)
+        void WrapProviderInstances(IProvider provider, InjectContext context, List<object> buffer)
         {
             LazyInitializeDecoratorFactories();
 
-            var rawInstances = provider.GetAllInstances(context);
-            var decoratedInstances = new List<object>(rawInstances.Count);
+            provider.GetAllInstances(context, buffer);
 
-            for (int i = 0; i < rawInstances.Count; i++)
+            for (int i = 0; i < buffer.Count; i++)
             {
-                decoratedInstances.Add(
-                    DecorateInstance(rawInstances[i], context));
+                buffer[i] = DecorateInstance(buffer[i], context);
             }
-
-            return decoratedInstances;
         }
 
         object DecorateInstance(object instance, InjectContext context)

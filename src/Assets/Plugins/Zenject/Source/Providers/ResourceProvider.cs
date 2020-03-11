@@ -2,12 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using ModestTree;
 using UnityEngine;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class ResourceProvider : IProvider
     {
         readonly Type _resourceType;
@@ -37,8 +37,8 @@ namespace Zenject
             return _resourceType;
         }
 
-        public List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsEmpty(args);
 
@@ -49,21 +49,23 @@ namespace Zenject
                 var obj = Resources.Load(_resourcePath, _resourceType);
 
                 Assert.That(obj != null,
-                    "Could not find resource at path '{0}' with type '{1}'", _resourcePath, _resourceType);
+                "Could not find resource at path '{0}' with type '{1}'", _resourcePath, _resourceType);
 
                 // Are there any resource types which can be injected?
                 injectAction = null;
-                return new List<object>() { obj };
+                buffer.Add(obj);
+                return;
             }
 
-            var objects = Resources.LoadAll(_resourcePath, _resourceType).Cast<object>().ToList();
+            var objects = Resources.LoadAll(_resourcePath, _resourceType);
 
-            Assert.That(!objects.IsEmpty(),
-                "Could not find resource at path '{0}' with type '{1}'", _resourcePath, _resourceType);
+            Assert.That(objects.Length > 0,
+            "Could not find resource at path '{0}' with type '{1}'", _resourcePath, _resourceType);
 
             // Are there any resource types which can be injected?
             injectAction = null;
-            return objects;
+
+            buffer.AllocFreeAddRange(objects);
         }
     }
 }

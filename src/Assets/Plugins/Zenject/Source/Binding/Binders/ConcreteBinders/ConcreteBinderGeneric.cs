@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
-using ModestTree;
 using System.Linq;
+using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class ConcreteBinderGeneric<TContract> : FromBinderGeneric<TContract>
     {
         public ConcreteBinderGeneric(
             DiContainer bindContainer, BindInfo bindInfo,
-            BindFinalizerWrapper finalizerWrapper)
-            : base(bindContainer, bindInfo, finalizerWrapper)
+            BindStatement bindStatement)
+            : base(bindContainer, bindInfo, bindStatement)
         {
             ToSelf();
         }
@@ -34,13 +35,11 @@ namespace Zenject
             where TConcrete : TContract
         {
             BindInfo.ToChoice = ToChoices.Concrete;
-            BindInfo.ToTypes = new List<Type>()
-            {
-                typeof(TConcrete)
-            };
+            BindInfo.ToTypes.Clear();
+            BindInfo.ToTypes.Add(typeof(TConcrete));
 
             return new FromBinderGeneric<TConcrete>(
-                BindContainer, BindInfo, FinalizerWrapper);
+                BindContainer, BindInfo, BindStatement);
         }
 
         public FromBinderNonGeneric To(params Type[] concreteTypes)
@@ -54,10 +53,11 @@ namespace Zenject
                 concreteTypes, BindInfo.ContractTypes, BindInfo.InvalidBindResponse);
 
             BindInfo.ToChoice = ToChoices.Concrete;
-            BindInfo.ToTypes = concreteTypes.ToList();
+            BindInfo.ToTypes.Clear();
+            BindInfo.ToTypes.AddRange(concreteTypes);
 
             return new FromBinderNonGeneric(
-                BindContainer, BindInfo, FinalizerWrapper);
+                BindContainer, BindInfo, BindStatement);
         }
 
 #if !(UNITY_WSA && ENABLE_DOTNET)

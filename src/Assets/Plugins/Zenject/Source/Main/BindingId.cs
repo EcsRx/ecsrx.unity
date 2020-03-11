@@ -1,16 +1,14 @@
 using System;
+using System.Diagnostics;
+using ModestTree;
 
 namespace Zenject
 {
-    [System.Diagnostics.DebuggerStepThrough]
-    public class BindingId : IEquatable<BindingId>
+    [DebuggerStepThrough]
+    public struct BindingId : IEquatable<BindingId>
     {
         Type _type;
         object _identifier;
-
-        public BindingId()
-        {
-        }
 
         public BindingId(Type type, object identifier)
         {
@@ -28,6 +26,16 @@ namespace Zenject
         {
             get { return _identifier; }
             set { _identifier = value; }
+        }
+
+        public override string ToString()
+        {
+            if (_identifier == null)
+            {
+                return _type.PrettyName();
+            }
+
+            return "{0} (ID: {1})".Fmt(_type, _identifier);
         }
 
         public override int GetHashCode()
@@ -48,10 +56,8 @@ namespace Zenject
                 BindingId otherId = (BindingId)other;
                 return otherId == this;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public bool Equals(BindingId that)
@@ -61,7 +67,7 @@ namespace Zenject
 
         public static bool operator ==(BindingId left, BindingId right)
         {
-            return left.Type == right.Type && object.Equals(left.Identifier, right.Identifier);
+            return left.Type == right.Type && Equals(left.Identifier, right.Identifier);
         }
 
         public static bool operator !=(BindingId left, BindingId right)

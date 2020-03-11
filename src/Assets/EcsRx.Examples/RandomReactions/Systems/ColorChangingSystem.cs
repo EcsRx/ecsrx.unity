@@ -5,22 +5,19 @@ using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Groups.Observable;
 using EcsRx.Plugins.ReactiveSystems.Systems;
+using EcsRx.Systems;
 using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace EcsRx.Examples.RandomReactions.Systems
 {
-    public class ColorChangingSystem : IReactToGroupSystem, ISetupSystem
+    public class ColorChangingSystem : IBasicSystem, ISetupSystem
     {
         private readonly float MaxDelay = 5.0f;
         private readonly float MinDelay = 1.0f;
 
         public IGroup Group => new Group(typeof(RandomColorComponent));
-
-        public IObservable<IObservableGroup> ReactToGroup(IObservableGroup group)
-        { return Observable.EveryUpdate().Select(x => group); }
-
 
         public void Setup(IEntity entity)
         {

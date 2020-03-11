@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ModestTree;
+using ModestTree.Util;
 
 namespace Zenject
 {
@@ -17,11 +18,11 @@ namespace Zenject
             [Inject(Optional = true, Source = InjectSources.Local)]
             List<IDisposable> disposables,
             [Inject(Optional = true, Source = InjectSources.Local)]
-            List<ModestTree.Util.ValuePair<Type, int>> priorities,
+            List<ValuePair<Type, int>> priorities,
             [Inject(Optional = true, Source = InjectSources.Local)]
             List<ILateDisposable> lateDisposables,
             [Inject(Id = "Late", Optional = true, Source = InjectSources.Local)]
-            List<ModestTree.Util.ValuePair<Type, int>> latePriorities)
+            List<ValuePair<Type, int>> latePriorities)
         {
             foreach (var disposable in disposables)
             {
@@ -67,7 +68,7 @@ namespace Zenject
         public void Remove(IDisposable disposable)
         {
             _disposables.RemoveWithConfirm(
-                _disposables.Where(x => x.Disposable == disposable).Single());
+                _disposables.Where(x => ReferenceEquals(x.Disposable, disposable)).Single());
         }
 
         public void LateDispose()

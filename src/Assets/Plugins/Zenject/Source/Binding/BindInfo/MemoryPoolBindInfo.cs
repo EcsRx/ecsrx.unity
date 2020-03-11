@@ -1,14 +1,13 @@
-using System;
-
 namespace Zenject
 {
     public enum PoolExpandMethods
     {
         OneAtATime,
         Double,
-        Disabled,
+        Disabled
     }
 
+    [NoReflectionBaking]
     public class MemoryPoolBindInfo
     {
         public MemoryPoolBindInfo()

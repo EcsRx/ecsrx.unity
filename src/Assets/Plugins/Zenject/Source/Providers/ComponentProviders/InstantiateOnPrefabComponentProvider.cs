@@ -2,11 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class InstantiateOnPrefabComponentProvider : IProvider
     {
         readonly IPrefabInstantiator _prefabInstantiator;
@@ -36,16 +36,16 @@ namespace Zenject
             return _componentType;
         }
 
-        public List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsNotNull(context);
 
-            var gameObject = _prefabInstantiator.Instantiate(args, out injectAction);
+            var gameObject = _prefabInstantiator.Instantiate(context, args, out injectAction);
 
             var component = gameObject.AddComponent(_componentType);
 
-            return new List<object>() { component };
+            buffer.Add(component);
         }
     }
 }

@@ -2,12 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using ModestTree;
 using UnityEngine;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class GetFromGameObjectGetterComponentProvider : IProvider
     {
         readonly Func<InjectContext, GameObject> _gameObjectGetter;
@@ -38,8 +38,8 @@ namespace Zenject
             return _componentType;
         }
 
-        public List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsNotNull(context);
 
@@ -47,7 +47,7 @@ namespace Zenject
 
             if (context.Container.IsValidating)
             {
-                return new List<object>() { new ValidationMarker(_componentType) };
+                buffer.Add(new ValidationMarker(_componentType));
             }
             else
             {
@@ -58,18 +58,19 @@ namespace Zenject
                     var match = gameObject.GetComponent(_componentType);
 
                     Assert.IsNotNull(match, "Could not find component with type '{0}' on game object '{1}'",
-                        _componentType, gameObject.name);
+                    _componentType, gameObject.name);
 
-                    return new List<object>() { match };
+                    buffer.Add(match);
+                    return;
                 }
 
                 var allComponents = gameObject.GetComponents(_componentType);
 
                 Assert.That(allComponents.Length >= 1,
-                    "Expected to find at least one component with type '{0}' on prefab '{1}'",
-                    _componentType, gameObject.name);
+                "Expected to find at least one component with type '{0}' on prefab '{1}'",
+                _componentType, gameObject.name);
 
-                return allComponents.Cast<object>().ToList();
+                buffer.AllocFreeAddRange(allComponents);
             }
         }
     }

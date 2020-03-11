@@ -9,7 +9,7 @@ namespace EcsRx.Examples.GameObjectLinking.Systems
 {
     public class ChangeScaleOnLinkingSystem : ISetupSystem
     {
-        public IGroup Group { get; } = new Group(x => {
+        public IGroup Group { get; } = new GroupWithPredicate(x => {
             var viewComponent = x.GetComponent<ViewComponent>();
             return viewComponent.View != null;
         }, typeof(ViewComponent));

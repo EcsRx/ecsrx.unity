@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class PrefabGameObjectProvider : IProvider
     {
         readonly IPrefabInstantiator _prefabCreator;
@@ -31,12 +32,12 @@ namespace Zenject
             return typeof(GameObject);
         }
 
-        public List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
-            var instance = _prefabCreator.Instantiate(args, out injectAction);
+            var instance = _prefabCreator.Instantiate(context, args, out injectAction);
 
-            return new List<object>() { instance };
+            buffer.Add(instance);
         }
     }
 }
