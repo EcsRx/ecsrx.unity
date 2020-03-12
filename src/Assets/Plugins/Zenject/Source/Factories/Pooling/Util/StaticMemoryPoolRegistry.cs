@@ -4,6 +4,7 @@ using ModestTree;
 
 namespace Zenject
 {
+#if UNITY_EDITOR
     public static class StaticMemoryPoolRegistry
     {
         public static event Action<IMemoryPool> PoolAdded = delegate {};
@@ -28,4 +29,5 @@ namespace Zenject
             PoolRemoved(memoryPool);
         }
     }
+#endif
 }

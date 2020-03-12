@@ -1,11 +1,12 @@
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class ConcreteIdBinderNonGeneric : ConcreteBinderNonGeneric
     {
         public ConcreteIdBinderNonGeneric(
             DiContainer bindContainer, BindInfo bindInfo,
-            BindFinalizerWrapper finalizerWrapper)
-            : base(bindContainer, bindInfo, finalizerWrapper)
+            BindStatement bindStatement)
+            : base(bindContainer, bindInfo, bindStatement)
         {
         }
 

@@ -8,19 +8,19 @@ namespace Zenject
     public enum ValidationErrorResponses
     {
         Log,
-        Throw,
+        Throw
     }
 
     public enum RootResolveMethods
     {
         NonLazyOnly,
-        All,
+        All
     }
 
     public enum SignalDefaultSyncModes
     {
         Synchronous,
-        Asynchronous,
+        Asynchronous
     }
 
     public enum SignalMissingHandlerResponses
@@ -32,6 +32,7 @@ namespace Zenject
 
     [Serializable]
     [ZenjectAllowDuringValidation]
+    [NoReflectionBaking]
     public class ZenjectSettings
     {
         public static ZenjectSettings Default = new ZenjectSettings();
@@ -72,7 +73,7 @@ namespace Zenject
             _validationRootResolveMethod = validationRootResolveMethod;
             _displayWarningWhenResolvingDuringInstall = displayWarningWhenResolvingDuringInstall;
             _ensureDeterministicDestructionOrderOnApplicationQuit =ensureDeterministicDestructionOrderOnApplicationQuit;
-            _signalSettings = signalSettings ?? ZenjectSettings.SignalSettings.Default;
+            _signalSettings = signalSettings ?? SignalSettings.Default;
         }
 
         // Need to define an emtpy constructor since this is created by unity serialization

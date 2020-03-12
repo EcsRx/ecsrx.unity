@@ -6,12 +6,13 @@ using EcsRx.Groups;
 using EcsRx.Groups.Observable;
 using EcsRx.Plugins.ReactiveSystems.Systems;
 using EcsRx.Plugins.Views.Components;
+using EcsRx.Systems;
 using UniRx;
 using UnityEngine;
 
 namespace EcsRx.Examples.SimpleMovement.Systems
 {
-    public class PlayerControlSystem : IReactToGroupSystem
+    public class PlayerControlSystem : IBasicSystem
     {
         public readonly float MovementSpeed = 2.0f;
 
@@ -19,9 +20,6 @@ namespace EcsRx.Examples.SimpleMovement.Systems
             .WithComponent<ViewComponent>()
             .WithComponent<PlayerControlledComponent>()
             .Build();
-
-        public IObservable<IObservableGroup> ReactToGroup(IObservableGroup group)
-        { return Observable.EveryUpdate().Select(x => group); }
 
         public void Process(IEntity entity)
         {

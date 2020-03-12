@@ -7,8 +7,8 @@ namespace EcsRx.Examples.UsingBlueprints.Blueprints
 {
     public class PlayerBlueprint : IBlueprint
     {
-        public float DefaultHealth { get; set; }
-        public string Name { get; set; }
+        public float DefaultHealth { get; }
+        public string Name { get; }
 
         public PlayerBlueprint(string name, float defaultHealth = 100.0f)
         {

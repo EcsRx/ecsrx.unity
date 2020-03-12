@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using ModestTree;
-
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class MemoryPoolExpandBinder<TContract> : FactoryArgumentsToChoiceBinder<TContract>
     {
         public MemoryPoolExpandBinder(

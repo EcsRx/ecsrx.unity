@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using ModestTree;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using ModestTree;
-using System.Linq;
 using UnityEngine.SceneManagement;
 
 namespace Zenject.Internal
@@ -255,7 +253,7 @@ namespace Zenject.Internal
                 return null;
             }
 
-            var info = new LoadedSceneInfo()
+            var info = new LoadedSceneInfo
             {
                 Scene = scene
             };

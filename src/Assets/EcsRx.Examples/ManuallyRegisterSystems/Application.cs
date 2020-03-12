@@ -12,9 +12,10 @@ namespace EcsRx.Examples.ManuallyRegisterSystems
         // We override this to stop auto bindings
         protected override void BindSystems()
         {
-            Container.Bind<ISystem, RandomMovementSystem>();
+            Container.Bind<RandomMovementSystem>();
         }
 
+        // We override this to manually control how systems start
         protected override void StartSystems()
         {
             // This one we are manually binding and starting at the same time

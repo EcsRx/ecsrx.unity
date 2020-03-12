@@ -10,16 +10,13 @@ namespace EcsRx.Examples.UsingBlueprints.Systems
 {
     public class PlayerReportingSystem : ISetupSystem
     {
-        public IGroup Group { get { return new PlayerGroup();} }
+        public IGroup Group => new PlayerGroup();
 
         public void Setup(IEntity entity)
         {
             var nameComponent = entity.GetComponent<HasName>();
             var healthComponent = entity.GetComponent<WithHealthComponent>();
-
-            var message = string.Format("{0} created with {1}/{2}",
-                nameComponent.Name,
-                healthComponent.CurrentHealth, healthComponent.MaxHealth);
+            var message = $"{nameComponent.Name} created with {healthComponent.CurrentHealth}/{healthComponent.MaxHealth}";
 
             Debug.Log(message);
         }

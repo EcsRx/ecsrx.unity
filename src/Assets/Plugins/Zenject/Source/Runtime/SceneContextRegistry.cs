@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using ModestTree;
+using UnityEngine.SceneManagement;
 
 namespace Zenject
 {
@@ -29,6 +29,13 @@ namespace Zenject
         public SceneContext GetSceneContextForScene(Scene scene)
         {
             return _map[scene];
+        }
+
+        public SceneContext TryGetSceneContextForScene(string name)
+        {
+            var scene = SceneManager.GetSceneByName(name);
+            Assert.That(scene.IsValid(), "Could not find scene with name '{0}'", name);
+            return TryGetSceneContextForScene(scene);
         }
 
         public SceneContext TryGetSceneContextForScene(Scene scene)
@@ -79,7 +86,7 @@ namespace Zenject
 
             if (!removed)
             {
-                ModestTree.Log.Warn("Failed to remove SceneContext from SceneContextRegistry");
+                Log.Warn("Failed to remove SceneContext from SceneContextRegistry");
             }
         }
     }

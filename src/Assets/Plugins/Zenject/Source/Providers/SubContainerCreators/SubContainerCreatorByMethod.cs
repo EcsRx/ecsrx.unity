@@ -6,6 +6,7 @@ namespace Zenject
 {
     // Zero parameters
 
+    [NoReflectionBaking]
     public abstract class SubContainerCreatorByMethodBase : ISubContainerCreator
     {
         readonly DiContainer _container;
@@ -19,7 +20,7 @@ namespace Zenject
         }
 
         public abstract DiContainer CreateSubContainer(
-            List<TypeValuePair> args, InjectContext context);
+            List<TypeValuePair> args, InjectContext context, out Action injectAction);
 
         protected DiContainer CreateEmptySubContainer()
         {
@@ -29,6 +30,7 @@ namespace Zenject
         }
     }
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod : SubContainerCreatorByMethodBase
     {
         readonly Action<DiContainer> _installMethod;
@@ -42,7 +44,7 @@ namespace Zenject
             _installMethod = installMethod;
         }
 
-        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context, out Action injectAction)
         {
             Assert.IsEmpty(args);
 
@@ -50,7 +52,10 @@ namespace Zenject
 
             _installMethod(subContainer);
 
-            subContainer.ResolveRoots();
+            injectAction = () => 
+            {
+                subContainer.ResolveRoots();
+            };
 
             return subContainer;
         }
@@ -58,6 +63,7 @@ namespace Zenject
 
     // One parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1> : SubContainerCreatorByMethodBase
     {
         readonly Action<DiContainer, TParam1> _installMethod;
@@ -71,7 +77,7 @@ namespace Zenject
             _installMethod = installMethod;
         }
 
-        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context, out Action injectAction)
         {
             Assert.IsEqual(args.Count, 1);
             Assert.That(args[0].Type.DerivesFromOrEqual<TParam1>());
@@ -80,7 +86,10 @@ namespace Zenject
 
             _installMethod(subContainer, (TParam1)args[0].Value);
 
-            subContainer.ResolveRoots();
+            injectAction = () => 
+            {
+                subContainer.ResolveRoots();
+            };
 
             return subContainer;
         }
@@ -88,6 +97,7 @@ namespace Zenject
 
     // Two parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1, TParam2> : SubContainerCreatorByMethodBase
     {
         readonly Action<DiContainer, TParam1, TParam2> _installMethod;
@@ -101,7 +111,7 @@ namespace Zenject
             _installMethod = installMethod;
         }
 
-        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context, out Action injectAction)
         {
             Assert.IsEqual(args.Count, 2);
             Assert.That(args[0].Type.DerivesFromOrEqual<TParam1>());
@@ -114,7 +124,10 @@ namespace Zenject
                 (TParam1)args[0].Value,
                 (TParam2)args[1].Value);
 
-            subContainer.ResolveRoots();
+            injectAction = () => 
+            {
+                subContainer.ResolveRoots();
+            };
 
             return subContainer;
         }
@@ -122,6 +135,7 @@ namespace Zenject
 
     // Three parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3> : SubContainerCreatorByMethodBase
     {
         readonly Action<DiContainer, TParam1, TParam2, TParam3> _installMethod;
@@ -135,7 +149,7 @@ namespace Zenject
             _installMethod = installMethod;
         }
 
-        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context, out Action injectAction)
         {
             Assert.IsEqual(args.Count, 3);
             Assert.That(args[0].Type.DerivesFromOrEqual<TParam1>());
@@ -150,7 +164,10 @@ namespace Zenject
                 (TParam2)args[1].Value,
                 (TParam3)args[2].Value);
 
-            subContainer.ResolveRoots();
+            injectAction = () => 
+            {
+                subContainer.ResolveRoots();
+            };
 
             return subContainer;
         }
@@ -158,6 +175,7 @@ namespace Zenject
 
     // Four parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4> : SubContainerCreatorByMethodBase
     {
         readonly
@@ -178,7 +196,7 @@ namespace Zenject
             _installMethod = installMethod;
         }
 
-        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context, out Action injectAction)
         {
             Assert.IsEqual(args.Count, 4);
             Assert.That(args[0].Type.DerivesFromOrEqual<TParam1>());
@@ -195,7 +213,10 @@ namespace Zenject
                 (TParam3)args[2].Value,
                 (TParam4)args[3].Value);
 
-            subContainer.ResolveRoots();
+            injectAction = () => 
+            {
+                subContainer.ResolveRoots();
+            };
 
             return subContainer;
         }
@@ -203,6 +224,7 @@ namespace Zenject
 
     // Five parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4, TParam5> : SubContainerCreatorByMethodBase
     {
         readonly
@@ -223,7 +245,7 @@ namespace Zenject
             _installMethod = installMethod;
         }
 
-        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context, out Action injectAction)
         {
             Assert.IsEqual(args.Count, 5);
             Assert.That(args[0].Type.DerivesFromOrEqual<TParam1>());
@@ -242,7 +264,10 @@ namespace Zenject
                 (TParam4)args[3].Value,
                 (TParam5)args[4].Value);
 
-            subContainer.ResolveRoots();
+            injectAction = () => 
+            {
+                subContainer.ResolveRoots();
+            };
 
             return subContainer;
         }
@@ -250,6 +275,7 @@ namespace Zenject
 
     // Six parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> : SubContainerCreatorByMethodBase
     {
         readonly
@@ -270,7 +296,7 @@ namespace Zenject
             _installMethod = installMethod;
         }
 
-        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context, out Action injectAction)
         {
             Assert.IsEqual(args.Count, 5);
             Assert.That(args[0].Type.DerivesFromOrEqual<TParam1>());
@@ -291,7 +317,10 @@ namespace Zenject
                 (TParam5)args[4].Value,
                 (TParam6)args[5].Value);
 
-            subContainer.ResolveRoots();
+            injectAction = () => 
+            {
+                subContainer.ResolveRoots();
+            };
 
             return subContainer;
         }
@@ -299,6 +328,7 @@ namespace Zenject
 
     // 10 parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10> : SubContainerCreatorByMethodBase
     {
         readonly
@@ -319,7 +349,7 @@ namespace Zenject
             _installMethod = installMethod;
         }
 
-        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
+        public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context, out Action injectAction)
         {
             Assert.IsEqual(args.Count, 10);
 
@@ -349,7 +379,10 @@ namespace Zenject
                 (TParam9)args[8].Value,
                 (TParam10)args[9].Value);
 
-            subContainer.ResolveRoots();
+            injectAction = () => 
+            {
+                subContainer.ResolveRoots();
+            };
 
             return subContainer;
         }

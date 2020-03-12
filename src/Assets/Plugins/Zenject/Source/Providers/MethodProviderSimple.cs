@@ -4,6 +4,7 @@ using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class MethodProviderSimple<TReturn> : IProvider
     {
         readonly Func<TReturn> _method;
@@ -28,8 +29,8 @@ namespace Zenject
             return typeof(TReturn);
         }
 
-        public List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsEmpty(args);
             Assert.IsNotNull(context);
@@ -37,7 +38,7 @@ namespace Zenject
             Assert.That(typeof(TReturn).DerivesFromOrEqual(context.MemberType));
 
             injectAction = null;
-            return new List<object>() { _method() };
+            buffer.Add(_method());
         }
     }
 }

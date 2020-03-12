@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class FactoryFromBinderBase : ScopeConcreteIdArgConditionCopyNonLazyBinder
     {
         public FactoryFromBinderBase(
@@ -193,7 +194,7 @@ namespace Zenject
                     ContractType,
                     new PrefabInstantiator(
                         container, gameObjectInfo,
-                        ContractType, new List<TypeValuePair>(),
+                        ContractType, new [] { ContractType }, new List<TypeValuePair>(),
                         new PrefabProvider(prefab), BindInfo.InstantiatedCallback));
 
             return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
@@ -211,7 +212,7 @@ namespace Zenject
                     ContractType,
                     new PrefabInstantiator(
                         container, gameObjectInfo,
-                        ContractType, new List<TypeValuePair>(),
+                        ContractType, new [] { ContractType }, new List<TypeValuePair>(),
                         new PrefabProvider(prefab),
                         BindInfo.InstantiatedCallback), true);
 
@@ -230,7 +231,7 @@ namespace Zenject
                     ContractType,
                     new PrefabInstantiator(
                         container, gameObjectInfo,
-                        ContractType, new List<TypeValuePair>(),
+                        ContractType, new [] { ContractType }, new List<TypeValuePair>(),
                         new PrefabProviderResource(resourcePath), BindInfo.InstantiatedCallback), true);
 
             return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
@@ -249,7 +250,7 @@ namespace Zenject
                     ContractType,
                     new PrefabInstantiator(
                         container, gameObjectInfo,
-                        ContractType, new List<TypeValuePair>(),
+                        ContractType, new [] { ContractType }, new List<TypeValuePair>(),
                         new PrefabProviderResource(resourcePath),
                         BindInfo.InstantiatedCallback));
 

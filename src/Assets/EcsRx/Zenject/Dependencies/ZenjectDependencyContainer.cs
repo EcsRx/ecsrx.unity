@@ -39,6 +39,9 @@ namespace EcsRx.Zenject.Dependencies
                 bindingSetup.To(toType).AsSingle();
                 return;
             }
+            
+            if(!string.IsNullOrEmpty(configuration.WithName))
+            { bindingSetup.WithId(configuration.WithName); }
 
             if (configuration.ToInstance != null)
             {
@@ -63,10 +66,7 @@ namespace EcsRx.Zenject.Dependencies
             }
             
             var binding = bindingSetup.To(toType);
-            
-            if(!string.IsNullOrEmpty(configuration.WithName))
-            { binding.WithConcreteId(configuration.WithName); }
-            
+
             if(configuration.AsSingleton)
             { binding.AsSingle(); }
 

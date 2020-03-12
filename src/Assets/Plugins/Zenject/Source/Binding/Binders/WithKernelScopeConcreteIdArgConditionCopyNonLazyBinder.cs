@@ -1,8 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class WithKernelScopeConcreteIdArgConditionCopyNonLazyBinder : ScopeConcreteIdArgConditionCopyNonLazyBinder
     {
         SubContainerCreatorBindInfo _subContainerBindInfo;

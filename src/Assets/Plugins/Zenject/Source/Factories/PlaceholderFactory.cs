@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-
 #if !NOT_UNITY3D
 using JetBrains.Annotations;
 #endif
@@ -26,7 +25,7 @@ namespace Zenject
         }
     }
 
-    [System.Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
+    [Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
     public class Factory<TValue> : PlaceholderFactory<TValue>
     {
     }
@@ -43,9 +42,9 @@ namespace Zenject
         public virtual TValue Create(TParam1 param)
         {
             return CreateInternal(
-                new List<TypeValuePair>()
+                new List<TypeValuePair>
                 {
-                    InjectUtil.CreateTypePair(param),
+                    InjectUtil.CreateTypePair(param)
                 });
         }
 
@@ -55,7 +54,7 @@ namespace Zenject
         }
     }
 
-    [System.Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
+    [Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
     public class Factory<TParam1, TValue> : PlaceholderFactory<TParam1, TValue>
     {
     }
@@ -72,10 +71,10 @@ namespace Zenject
         public virtual TValue Create(TParam1 param1, TParam2 param2)
         {
             return CreateInternal(
-                new List<TypeValuePair>()
+                new List<TypeValuePair>
                 {
                     InjectUtil.CreateTypePair(param1),
-                    InjectUtil.CreateTypePair(param2),
+                    InjectUtil.CreateTypePair(param2)
                 });
         }
 
@@ -89,7 +88,7 @@ namespace Zenject
         }
     }
 
-    [System.Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
+    [Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
     public class Factory<TParam1, TParam2, TValue> : PlaceholderFactory<TParam1, TParam2, TValue>
     {
     }
@@ -106,11 +105,11 @@ namespace Zenject
         public virtual TValue Create(TParam1 param1, TParam2 param2, TParam3 param3)
         {
             return CreateInternal(
-                new List<TypeValuePair>()
+                new List<TypeValuePair>
                 {
                     InjectUtil.CreateTypePair(param1),
                     InjectUtil.CreateTypePair(param2),
-                    InjectUtil.CreateTypePair(param3),
+                    InjectUtil.CreateTypePair(param3)
                 });
         }
 
@@ -125,7 +124,7 @@ namespace Zenject
         }
     }
 
-    [System.Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
+    [Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
     public class Factory<TParam1, TParam2, TParam3, TValue> : PlaceholderFactory<TParam1, TParam2, TParam3, TValue>
     {
     }
@@ -142,12 +141,12 @@ namespace Zenject
         public virtual TValue Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
         {
             return CreateInternal(
-                new List<TypeValuePair>()
+                new List<TypeValuePair>
                 {
                     InjectUtil.CreateTypePair(param1),
                     InjectUtil.CreateTypePair(param2),
                     InjectUtil.CreateTypePair(param3),
-                    InjectUtil.CreateTypePair(param4),
+                    InjectUtil.CreateTypePair(param4)
                 });
         }
 
@@ -163,7 +162,7 @@ namespace Zenject
         }
     }
 
-    [System.Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
+    [Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
     public class Factory<TParam1, TParam2, TParam3, TParam4, TValue>
         : PlaceholderFactory<TParam1, TParam2, TParam3, TParam4, TValue>
     {
@@ -181,13 +180,13 @@ namespace Zenject
         public virtual TValue Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
         {
             return CreateInternal(
-                new List<TypeValuePair>()
+                new List<TypeValuePair>
                 {
                     InjectUtil.CreateTypePair(param1),
                     InjectUtil.CreateTypePair(param2),
                     InjectUtil.CreateTypePair(param3),
                     InjectUtil.CreateTypePair(param4),
-                    InjectUtil.CreateTypePair(param5),
+                    InjectUtil.CreateTypePair(param5)
                 });
         }
 
@@ -204,7 +203,7 @@ namespace Zenject
         }
     }
 
-    [System.Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
+    [Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
     public class Factory<TParam1, TParam2, TParam3, TParam4, TParam5, TValue>
         : PlaceholderFactory<TParam1, TParam2, TParam3, TParam4, TParam5, TValue>
     {
@@ -222,14 +221,14 @@ namespace Zenject
         public virtual TValue Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6)
         {
             return CreateInternal(
-                new List<TypeValuePair>()
+                new List<TypeValuePair>
                 {
                     InjectUtil.CreateTypePair(param1),
                     InjectUtil.CreateTypePair(param2),
                     InjectUtil.CreateTypePair(param3),
                     InjectUtil.CreateTypePair(param4),
                     InjectUtil.CreateTypePair(param5),
-                    InjectUtil.CreateTypePair(param6),
+                    InjectUtil.CreateTypePair(param6)
                 });
         }
 
@@ -247,7 +246,7 @@ namespace Zenject
         }
     }
 
-    [System.Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
+    [Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
     public class Factory<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TValue>
         : PlaceholderFactory<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TValue>
     {
@@ -261,7 +260,7 @@ namespace Zenject
         public virtual TValue Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, TParam9 param9, TParam10 param10)
         {
             return CreateInternal(
-                new List<TypeValuePair>()
+                new List<TypeValuePair>
                 {
                     InjectUtil.CreateTypePair(param1),
                     InjectUtil.CreateTypePair(param2),
@@ -272,7 +271,7 @@ namespace Zenject
                     InjectUtil.CreateTypePair(param7),
                     InjectUtil.CreateTypePair(param8),
                     InjectUtil.CreateTypePair(param9),
-                    InjectUtil.CreateTypePair(param10),
+                    InjectUtil.CreateTypePair(param10)
                 });
         }
 
@@ -294,7 +293,7 @@ namespace Zenject
         }
     }
 
-    [System.Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
+    [Obsolete("Zenject.Factory has been renamed to PlaceholderFactory.  Zenject.Factory will be removed in future versions")]
     public class Factory<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TValue>
         : PlaceholderFactory<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TValue>
     {

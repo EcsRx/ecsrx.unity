@@ -4,6 +4,7 @@ using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class SubContainerBindingFinalizer : ProviderBindingFinalizer
     {
         readonly object _subIdentifier;

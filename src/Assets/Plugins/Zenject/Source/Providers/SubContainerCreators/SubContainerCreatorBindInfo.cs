@@ -2,6 +2,7 @@ using System;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class SubContainerCreatorBindInfo
     {
         // Null = means no custom default parent

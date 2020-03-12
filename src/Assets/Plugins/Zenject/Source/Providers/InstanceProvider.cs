@@ -4,6 +4,7 @@ using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class InstanceProvider : IProvider
     {
         readonly object _instance;
@@ -33,16 +34,17 @@ namespace Zenject
             return _instanceType;
         }
 
-        public List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
-            Assert.IsEmpty(args);
+            Assert.That(args.Count == 0);
             Assert.IsNotNull(context);
 
             Assert.That(_instanceType.DerivesFromOrEqual(context.MemberType));
 
             injectAction = () => _container.LazyInject(_instance);
-            return new List<object>() { _instance };
+
+            buffer.Add(_instance);
         }
     }
 }

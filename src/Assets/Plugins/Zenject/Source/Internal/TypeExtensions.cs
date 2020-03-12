@@ -8,7 +8,6 @@ namespace ModestTree
 {
     public static class TypeExtensions
     {
-        static readonly Dictionary<Type, string> _prettyNameCache = new Dictionary<Type, string>();
         static readonly Dictionary<Type, bool> _isClosedGenericType = new Dictionary<Type, bool>();
         static readonly Dictionary<Type, bool> _isOpenGenericType = new Dictionary<Type, bool>();
         static readonly Dictionary<Type, bool> _isValueType = new Dictionary<Type, bool>();
@@ -178,12 +177,30 @@ namespace ModestTree
 #endif
         }
 
+        public static bool ContainsGenericParameters(this Type type)
+        {
+#if UNITY_WSA && ENABLE_DOTNET && !UNITY_EDITOR
+            return type.GetTypeInfo().ContainsGenericParameters;
+#else
+            return type.ContainsGenericParameters;
+#endif
+        }
+
         public static bool IsAbstract(this Type type)
         {
 #if UNITY_WSA && ENABLE_DOTNET && !UNITY_EDITOR
             return type.GetTypeInfo().IsAbstract;
 #else
             return type.IsAbstract;
+#endif
+        }
+
+        public static bool IsSealed(this Type type)
+        {
+#if UNITY_WSA && ENABLE_DOTNET && !UNITY_EDITOR
+            return type.GetTypeInfo().IsSealed;
+#else
+            return type.IsSealed;
 #endif
         }
 
@@ -232,6 +249,14 @@ namespace ModestTree
 
         public static object GetDefaultValue(this Type type)
         {
+#if ENABLE_IL2CPP
+            // Workaround for IL2CPP returning default(T) for Activator.CreateInstance(typeof(T?))
+            if (type.IsGenericType() && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                return null;
+            }
+#endif
+
             if (type.IsValueType())
             {
                 return Activator.CreateInstance(type);
@@ -240,20 +265,15 @@ namespace ModestTree
             return null;
         }
 
-        // Returns name without generic arguments
-        public static string GetSimpleName(this Type type)
+        public static bool IsClosedGenericType(this Type type)
         {
-            var name = type.Name;
-
-            var quoteIndex = name.IndexOf("`");
-
-            if (quoteIndex == -1)
+            bool result;
+            if (!_isClosedGenericType.TryGetValue(type, out result))
             {
-                return name;
+                result = type.IsGenericType() && type != type.GetGenericTypeDefinition();
+                _isClosedGenericType[type] = result;
             }
-
-            // Remove the backtick
-            return name.Substring(0, quoteIndex);
+            return result;
         }
 
         public static IEnumerable<Type> GetParentTypes(this Type type)
@@ -271,17 +291,6 @@ namespace ModestTree
             }
         }
 
-        public static bool IsClosedGenericType(this Type type)
-        {
-            bool result;
-            if (!_isClosedGenericType.TryGetValue(type, out result))
-            {
-                result = type.IsGenericType() && type != type.GetGenericTypeDefinition();
-                _isClosedGenericType[type] = result;
-            }
-            return result;
-        }
-
         public static bool IsOpenGenericType(this Type type)
         {
             bool result;
@@ -291,155 +300,6 @@ namespace ModestTree
                 _isOpenGenericType[type] = result;
             }
             return result;
-        }
-
-        // Returns all instance fields, including private and public and also those in base classes
-        public static IEnumerable<FieldInfo> GetAllInstanceFields(this Type type)
-        {
-            foreach (var fieldInfo in type.DeclaredInstanceFields())
-            {
-                yield return fieldInfo;
-            }
-
-            if (type.BaseType() != null && type.BaseType() != typeof(object))
-            {
-                foreach (var fieldInfo in type.BaseType().GetAllInstanceFields())
-                {
-                    yield return fieldInfo;
-                }
-            }
-        }
-
-        // Returns all instance properties, including private and public and also those in base classes
-        public static IEnumerable<PropertyInfo> GetAllInstanceProperties(this Type type)
-        {
-            foreach (var propInfo in type.DeclaredInstanceProperties())
-            {
-                yield return propInfo;
-            }
-
-            if (type.BaseType() != null && type.BaseType() != typeof(object))
-            {
-                foreach (var propInfo in type.BaseType().GetAllInstanceProperties())
-                {
-                    yield return propInfo;
-                }
-            }
-        }
-
-        // Returns all instance methods, including private and public and also those in base classes
-        public static IEnumerable<MethodInfo> GetAllInstanceMethods(this Type type)
-        {
-            foreach (var methodInfo in type.DeclaredInstanceMethods())
-            {
-                yield return methodInfo;
-            }
-
-            if (type.BaseType() != null && type.BaseType() != typeof(object))
-            {
-                foreach (var methodInfo in type.BaseType().GetAllInstanceMethods())
-                {
-                    yield return methodInfo;
-                }
-            }
-        }
-
-        public static string PrettyName(this Type type)
-        {
-            string prettyName;
-
-            if (!_prettyNameCache.TryGetValue(type, out prettyName))
-            {
-                prettyName = PrettyNameInternal(type);
-                _prettyNameCache.Add(type, prettyName);
-            }
-
-            return prettyName;
-        }
-
-        static string PrettyNameInternal(Type type)
-        {
-            var sb = new StringBuilder();
-
-            if (type.IsNested)
-            {
-                sb.Append(type.DeclaringType.PrettyName());
-                sb.Append(".");
-            }
-
-            if (type.IsArray)
-            {
-                sb.Append(type.GetElementType().PrettyName());
-                sb.Append("[]");
-            }
-            else
-            {
-                var name = GetCSharpTypeName(type.Name);
-
-                if (type.IsGenericType())
-                {
-                    var quoteIndex = name.IndexOf('`');
-
-                    if (quoteIndex != -1)
-                    {
-                        sb.Append(name.Substring(0, name.IndexOf('`')));
-                    }
-                    else
-                    {
-                        sb.Append(name);
-                    }
-
-                    sb.Append("<");
-
-                    if (type.IsGenericTypeDefinition())
-                    {
-                        var numArgs = type.GenericArguments().Count();
-
-                        if (numArgs > 0)
-                        {
-                            sb.Append(new String(',', numArgs - 1));
-                        }
-                    }
-                    else
-                    {
-                        sb.Append(string.Join(", ", type.GenericArguments().Select(t => t.PrettyName()).ToArray()));
-                    }
-
-                    sb.Append(">");
-                }
-                else
-                {
-                    sb.Append(name);
-                }
-            }
-
-            return sb.ToString();
-        }
-
-        static string GetCSharpTypeName(string typeName)
-        {
-            switch (typeName)
-            {
-                case "String":
-                case "Object":
-                case "Void":
-                case "Byte":
-                case "Double":
-                case "Decimal":
-                    return typeName.ToLower();
-                case "Int16":
-                    return "short";
-                case "Int32":
-                    return "int";
-                case "Int64":
-                    return "long";
-                case "Single":
-                    return "float";
-                case "Boolean":
-                    return "bool";
-                default:
-                    return typeName;
-            }
         }
 
         public static T GetAttribute<T>(this MemberInfo provider)

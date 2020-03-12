@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ModestTree;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using ModestTree;
 using UnityEngine.SceneManagement;
 
 namespace Zenject.Internal
@@ -28,7 +28,7 @@ namespace Zenject.Internal
                 }
                 catch (Exception e)
                 {
-                    ModestTree.Log.ErrorException(e);
+                    Log.ErrorException(e);
                     return false;
                 }
                 finally
@@ -36,10 +36,8 @@ namespace Zenject.Internal
                     EditorSceneManager.RestoreSceneManagerSetup(originalSceneSetup);
                 }
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         // Feel free to call this method from an editor script, or a unit test, etc.
@@ -71,7 +69,7 @@ namespace Zenject.Internal
             }
             catch (Exception e)
             {
-                ModestTree.Log.ErrorException(e);
+                Log.ErrorException(e);
                 encounteredError = true;
             }
             finally
@@ -89,7 +87,7 @@ namespace Zenject.Internal
         // Returns the number of scenes that successfully validated
         public static int ValidateAllActiveScenes()
         {
-            var activeScenePaths = UnityEditor.EditorBuildSettings.scenes.Where(x => x.enabled)
+            var activeScenePaths = EditorBuildSettings.scenes.Where(x => x.enabled)
                 .Select(x => x.path).ToList();
 
             foreach (var scenePath in activeScenePaths)

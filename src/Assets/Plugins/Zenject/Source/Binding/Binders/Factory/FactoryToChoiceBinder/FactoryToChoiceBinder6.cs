@@ -1,9 +1,8 @@
-using System;
-using System.Collections.Generic;
 using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class FactoryToChoiceBinder<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TContract>
         : FactoryFromBinder<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TContract>
     {
@@ -24,10 +23,8 @@ namespace Zenject
             where TConcrete : TContract
         {
             BindInfo.ToChoice = ToChoices.Concrete;
-            BindInfo.ToTypes = new List<Type>()
-            {
-                typeof(TConcrete)
-            };
+            BindInfo.ToTypes.Clear();
+            BindInfo.ToTypes.Add(typeof(TConcrete));
 
             return new FactoryFromBinder<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TConcrete>(BindContainer, BindInfo, FactoryBindInfo);
         }

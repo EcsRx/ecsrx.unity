@@ -4,13 +4,16 @@ using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class CachedProvider : IProvider
     {
         readonly IProvider _creator;
 
         List<object> _instances;
 
-#if !ZEN_MULTITHREADING
+#if ZEN_MULTITHREADING
+        readonly object _locker = new object();
+#else
         bool _isCreatingInstance;
 #endif
 
@@ -35,14 +38,27 @@ namespace Zenject
 
         public int NumInstances
         {
-            get { return _instances == null ? 0 : _instances.Count; }
+            get
+            {
+#if ZEN_MULTITHREADING
+                lock (_locker)
+#endif
+                {
+                    return _instances == null ? 0 : _instances.Count;
+                }
+            }
         }
 
         // This method can be called if you want to clear the memory for an AsSingle instance,
-        // See isssue https://github.com/modesttree/Zenject/issues/441
+        // See isssue https://github.com/svermeulen/Zenject/issues/441
         public void ClearCache()
         {
-            _instances = null;
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
+            {
+                _instances = null;
+            }
         }
 
         public Type GetInstanceType(InjectContext context)
@@ -50,38 +66,46 @@ namespace Zenject
             return _creator.GetInstanceType(context);
         }
 
-        public List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsNotNull(context);
 
-            if (_instances != null)
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
             {
-                injectAction = null;
-                return _instances;
-            }
+                if (_instances != null)
+                {
+                    injectAction = null;
+                    buffer.AllocFreeAddRange(_instances);
+                    return;
+                }
 
 #if !ZEN_MULTITHREADING
-            // This should only happen with constructor injection
-            // Field or property injection should allow circular dependencies
-            if (_isCreatingInstance)
-            {
-                var instanceType = _creator.GetInstanceType(context);
-                throw Assert.CreateException(
-                    "Found circular dependency when creating type '{0}'. Object graph:\n {1}{2}\n",
-                    instanceType, context.GetObjectGraphString(), instanceType.PrettyName());
-            }
+                // This should only happen with constructor injection
+                // Field or property injection should allow circular dependencies
+                if (_isCreatingInstance)
+                {
+                    var instanceType = _creator.GetInstanceType(context);
+                    throw Assert.CreateException(
+                        "Found circular dependency when creating type '{0}'. Object graph:\n {1}{2}\n",
+                        instanceType, context.GetObjectGraphString(), instanceType);
+                }
 
-            _isCreatingInstance = true;
+                _isCreatingInstance = true;
 #endif
 
-            _instances = _creator.GetAllInstancesWithInjectSplit(context, args, out injectAction);
-            Assert.IsNotNull(_instances);
+                var instances = new List<object>();
+                _creator.GetAllInstancesWithInjectSplit(context, args, out injectAction, instances);
+                Assert.IsNotNull(instances);
 
+                _instances = instances;
 #if !ZEN_MULTITHREADING
-            _isCreatingInstance = false;
+                _isCreatingInstance = false;
 #endif
-            return _instances;
+                buffer.AllocFreeAddRange(instances);
+            }
         }
     }
 }

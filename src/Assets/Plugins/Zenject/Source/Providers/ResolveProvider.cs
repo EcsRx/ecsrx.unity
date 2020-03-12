@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class ResolveProvider : IProvider
     {
         readonly object _identifier;
@@ -41,8 +41,8 @@ namespace Zenject
             return _contractType;
         }
 
-        public List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsEmpty(args);
             Assert.IsNotNull(context);
@@ -52,14 +52,11 @@ namespace Zenject
             injectAction = null;
             if (_matchAll)
             {
-                return _container.ResolveAll(GetSubContext(context)).Cast<object>().ToList();
+                _container.ResolveAll(GetSubContext(context), buffer);
             }
             else
             {
-                return new List<object>()
-                {
-                    _container.Resolve(GetSubContext(context))
-                };
+                buffer.Add(_container.Resolve(GetSubContext(context)));
             }
         }
 

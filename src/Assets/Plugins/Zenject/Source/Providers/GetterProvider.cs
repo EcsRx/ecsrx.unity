@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class GetterProvider<TObj, TResult> : IProvider
     {
         readonly DiContainer _container;
@@ -50,8 +50,8 @@ namespace Zenject
             return subContext;
         }
 
-        public List<object> GetAllInstancesWithInjectSplit(
-            InjectContext context, List<TypeValuePair> args, out Action injectAction)
+        public void GetAllInstancesWithInjectSplit(
+            InjectContext context, List<TypeValuePair> args, out Action injectAction, List<object> buffer)
         {
             Assert.IsEmpty(args);
             Assert.IsNotNull(context);
@@ -72,18 +72,24 @@ namespace Zenject
                     _container.Resolve(GetSubContext(context));
                 }
 
-                return new List<object>() { new ValidationMarker(typeof(TResult)) };
+                buffer.Add(new ValidationMarker(typeof(TResult)));
+                return;
             }
 
             if (_matchAll)
             {
-                return _container.ResolveAll(GetSubContext(context))
-                    .Cast<TObj>().Select(x => _method(x)).Cast<object>().ToList();
+                Assert.That(buffer.Count == 0);
+                _container.ResolveAll(GetSubContext(context), buffer);
+
+                for (int i = 0; i < buffer.Count; i++)
+                {
+                    buffer[i] = _method((TObj)buffer[i]);
+                }
             }
             else
             {
-                return new List<object>() { _method(
-                    (TObj)_container.Resolve(GetSubContext(context))) };
+                buffer.Add(_method(
+                    (TObj)_container.Resolve(GetSubContext(context))));
             }
         }
     }

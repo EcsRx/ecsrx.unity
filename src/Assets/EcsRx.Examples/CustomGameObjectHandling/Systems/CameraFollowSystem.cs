@@ -5,12 +5,13 @@ using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Groups.Observable;
 using EcsRx.Plugins.ReactiveSystems.Systems;
+using EcsRx.Systems;
 using UniRx;
 using UnityEngine;
 
 namespace EcsRx.Examples.CustomGameObjectHandling.Systems
 {
-    public class CameraFollowSystem : ISetupSystem, IReactToGroupSystem
+    public class CameraFollowSystem : ISetupSystem, IBasicSystem
     {
         public IGroup Group => new GroupBuilder()
             .WithComponent<CameraFollowsComponent>()
@@ -22,9 +23,6 @@ namespace EcsRx.Examples.CustomGameObjectHandling.Systems
             var cameraFollows = entity.GetComponent<CameraFollowsComponent>();
             cameraFollows.Camera = Camera.main;
         }
-
-        public IObservable<IObservableGroup> ReactToGroup(IObservableGroup group)
-        { return Observable.EveryUpdate().Select(x => group); }
 
         public void Process(IEntity entity)
         {

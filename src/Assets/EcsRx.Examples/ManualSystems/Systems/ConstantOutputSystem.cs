@@ -19,7 +19,7 @@ namespace EcsRx.Examples.ManualSystems.Systems
         {
             _updateLoop = Observable.Interval(TimeSpan.FromSeconds(2)).Subscribe(x =>
             {
-                Debug.Log("Outputting: " + _timesOutputted++);
+                Debug.Log($"Outputting: {_timesOutputted++}");
             });
         }
 

@@ -6,8 +6,7 @@ namespace EcsRx.Examples.UsingBlueprints.Groups
 {
     public class PlayerGroup : IGroup
     {
-        public Type[] RequiredComponents { get; } = new[]
-        {
+        public Type[] RequiredComponents { get; } = {
             typeof(HasName), typeof(WithHealthComponent)
         };
 

@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ModestTree;
-using TypeExtensions = ModestTree.TypeExtensions;
+using Zenject.Internal;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public abstract class ProviderBindingFinalizer : IBindingFinalizer
     {
         public ProviderBindingFinalizer(BindInfo bindInfo)
@@ -31,7 +32,7 @@ namespace Zenject
                 // If condition is set then it's probably fine to allow the default of transient
                 Assert.That(!BindInfo.RequireExplicitScope || BindInfo.Condition != null,
                     "Scope must be set for the previous binding!  Please either specify AsTransient, AsCached, or AsSingle. Last binding: Contract: {0}, Identifier: {1} {2}",
-                    BindInfo.ContractTypes.Select(x => x.ToString()).Join(", "), BindInfo.Identifier,
+                    BindInfo.ContractTypes.Select(x => x.PrettyName()).Join(", "), BindInfo.Identifier,
                     BindInfo.ContextInfo != null ? "Context: '{0}'".Fmt(BindInfo.ContextInfo) : "");
                 return ScopeTypes.Transient;
             }
@@ -57,7 +58,7 @@ namespace Zenject
             {
                 throw Assert.CreateException(
                     e, "Error while finalizing previous binding! Contract: {0}, Identifier: {1} {2}",
-                    BindInfo.ContractTypes.Select(x => x.ToString()).Join(", "), BindInfo.Identifier,
+                    BindInfo.ContractTypes.Select(x => x.PrettyName()).Join(", "), BindInfo.Identifier,
                     BindInfo.ContextInfo != null ? "Context: '{0}'".Fmt(BindInfo.ContextInfo) : "");
             }
         }
@@ -208,7 +209,7 @@ namespace Zenject
             Assert.That(!BindInfo.ContractTypes.IsEmpty());
             Assert.That(!concreteTypes.IsEmpty());
 
-            var providerMap = DictionaryPool<Type, IProvider>.Instance.Spawn();
+            var providerMap = ZenPools.SpawnDictionary<Type, IProvider>();
             try
             {
                 foreach (var concreteType in concreteTypes)
@@ -240,9 +241,8 @@ namespace Zenject
             }
             finally
             {
-                DictionaryPool<Type, IProvider>.Instance.Despawn(providerMap);
+                ZenPools.DespawnDictionary(providerMap);
             }
         }
     }
 }
-

@@ -37,7 +37,6 @@ namespace EcsRx.Examples.RandomReactions.ViewResolvers
             _nextPosition.z += _spacing;
         }
 
-        
         protected override void OnViewCreated(IEntity entity, GameObject view)
         {
             view.transform.position = _nextPosition;

@@ -15,7 +15,7 @@ namespace EcsRx.Examples.CustomGameObjectHandling.Systems
         {
             var viewComponent = entity.GetComponent<CustomViewComponent>();
             viewComponent.CustomView = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            viewComponent.CustomView.name = "entity-" + entity.Id;
+            viewComponent.CustomView.name = $"entity-{entity.Id}";
             var rigidBody = viewComponent.CustomView.AddComponent<Rigidbody>();
             rigidBody.freezeRotation = true;
         }

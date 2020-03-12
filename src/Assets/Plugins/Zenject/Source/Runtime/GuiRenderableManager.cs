@@ -15,7 +15,7 @@ namespace Zenject
             [Inject(Optional = true, Source = InjectSources.Local)]
             List<IGuiRenderable> renderables,
             [Inject(Optional = true, Source = InjectSources.Local)]
-            List<ModestTree.Util.ValuePair<Type, int>> priorities)
+            List<ValuePair<Type, int>> priorities)
         {
             _renderables = new List<RenderableInfo>();
 
@@ -49,6 +49,9 @@ namespace Zenject
             {
                 try
                 {
+#if ZEN_INTERNAL_PROFILING
+                    using (ProfileTimers.CreateTimedBlock("User Code"))
+#endif
 #if UNITY_EDITOR
                     using (ProfileBlock.Start("{0}.GuiRender()", renderable.Renderable.GetType()))
 #endif

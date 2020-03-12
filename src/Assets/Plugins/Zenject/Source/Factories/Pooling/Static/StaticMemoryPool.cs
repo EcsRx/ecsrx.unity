@@ -4,18 +4,27 @@ using ModestTree;
 
 namespace Zenject
 {
-    public abstract class StaticMemoryPoolBase<TValue> : IDespawnableMemoryPool<TValue>, IDisposable
-        where TValue : class, new()
+    [NoReflectionBaking]
+    public abstract class StaticMemoryPoolBaseBase<TValue> : IDespawnableMemoryPool<TValue>, IDisposable
+        where TValue : class
     {
+        // I also tried using ConcurrentBag instead of Stack + lock here but that performed much much worse
         readonly Stack<TValue> _stack = new Stack<TValue>();
 
         Action<TValue> _onDespawnedMethod;
         int _activeCount;
 
-        public StaticMemoryPoolBase(Action<TValue> onDespawnedMethod)
+#if ZEN_MULTITHREADING
+        protected readonly object _locker = new object();
+#endif
+
+        public StaticMemoryPoolBaseBase(Action<TValue> onDespawnedMethod)
         {
             _onDespawnedMethod = onDespawnedMethod;
+
+#if UNITY_EDITOR
             StaticMemoryPoolRegistry.Add(this);
+#endif
         }
 
         public Action<TValue> OnDespawnedMethod
@@ -30,12 +39,28 @@ namespace Zenject
 
         public int NumActive
         {
-            get { return _activeCount; }
+            get
+            {
+#if ZEN_MULTITHREADING
+                lock (_locker)
+#endif
+                {
+                    return _activeCount;
+                }
+            }
         }
 
         public int NumInactive
         {
-            get { return _stack.Count; }
+            get
+            {
+#if ZEN_MULTITHREADING
+                lock (_locker)
+#endif
+                {
+                    return _stack.Count;
+                }
+            }
         }
 
         public Type ItemType
@@ -44,6 +69,17 @@ namespace Zenject
         }
 
         public void Resize(int desiredPoolSize)
+        {
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
+            {
+                ResizeInternal(desiredPoolSize);
+            }
+        }
+
+        // We assume here that we're in a lock
+        void ResizeInternal(int desiredPoolSize)
         {
             Assert.That(desiredPoolSize >= 0, "Attempted to resize the pool to a negative amount");
 
@@ -62,12 +98,19 @@ namespace Zenject
 
         public void Dispose()
         {
+#if UNITY_EDITOR
             StaticMemoryPoolRegistry.Remove(this);
+#endif
         }
 
         public void ClearActiveCount()
         {
-            _activeCount = 0;
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
+            {
+                _activeCount = 0;
+            }
         }
 
         public void Clear()
@@ -77,19 +120,25 @@ namespace Zenject
 
         public void ShrinkBy(int numToRemove)
         {
-            Resize(_stack.Count - numToRemove);
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
+            {
+                ResizeInternal(_stack.Count - numToRemove);
+            }
         }
 
         public void ExpandBy(int numToAdd)
         {
-            Resize(_stack.Count + numToAdd);
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
+            {
+                ResizeInternal(_stack.Count + numToAdd);
+            }
         }
 
-        TValue Alloc()
-        {
-            return new TValue();
-        }
-
+        // We assume here that we're in a lock
         protected TValue SpawnInternal()
         {
             TValue element;
@@ -119,20 +168,38 @@ namespace Zenject
                 _onDespawnedMethod(element);
             }
 
-            if (_stack.Count > 0 && ReferenceEquals(_stack.Peek(), element))
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
             {
-                ModestTree.Log.Error("Despawn error. Trying to destroy object that is already released to pool.");
+                Assert.That(!_stack.Contains(element), "Attempted to despawn element twice!");
+
+                _activeCount--;
+                _stack.Push(element);
             }
+        }
 
-            Assert.That(!_stack.Contains(element), "Attempted to despawn element twice!");
+        protected abstract TValue Alloc();
+    }
 
-            _activeCount--;
-            _stack.Push(element);
+    [NoReflectionBaking]
+    public abstract class StaticMemoryPoolBase<TValue> : StaticMemoryPoolBaseBase<TValue>
+        where TValue : class, new()
+    {
+        public StaticMemoryPoolBase(Action<TValue> onDespawnedMethod)
+            : base(onDespawnedMethod)
+        {
+        }
+
+        protected override TValue Alloc()
+        {
+            return new TValue();
         }
     }
 
     // Zero parameters
 
+    [NoReflectionBaking]
     public class StaticMemoryPool<TValue> : StaticMemoryPoolBase<TValue>, IMemoryPool<TValue>
         where TValue : class, new()
     {
@@ -152,19 +219,25 @@ namespace Zenject
 
         public TValue Spawn()
         {
-            var item = SpawnInternal();
-
-            if (_onSpawnMethod != null)
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
             {
-                _onSpawnMethod(item);
-            }
+                var item = SpawnInternal();
 
-            return item;
+                if (_onSpawnMethod != null)
+                {
+                    _onSpawnMethod(item);
+                }
+
+                return item;
+            }
         }
     }
 
     // One parameter
 
+    [NoReflectionBaking]
     public class StaticMemoryPool<TParam1, TValue> : StaticMemoryPoolBase<TValue>, IMemoryPool<TParam1, TValue>
         where TValue : class, new()
     {
@@ -186,19 +259,25 @@ namespace Zenject
 
         public TValue Spawn(TParam1 param)
         {
-            var item = SpawnInternal();
-
-            if (_onSpawnMethod != null)
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
             {
-                _onSpawnMethod(param, item);
-            }
+                var item = SpawnInternal();
 
-            return item;
+                if (_onSpawnMethod != null)
+                {
+                    _onSpawnMethod(param, item);
+                }
+
+                return item;
+            }
         }
     }
 
     // Two parameter
 
+    [NoReflectionBaking]
     public class StaticMemoryPool<TParam1, TParam2, TValue> : StaticMemoryPoolBase<TValue>, IMemoryPool<TParam1, TParam2, TValue>
         where TValue : class, new()
     {
@@ -220,19 +299,25 @@ namespace Zenject
 
         public TValue Spawn(TParam1 p1, TParam2 p2)
         {
-            var item = SpawnInternal();
-
-            if (_onSpawnMethod != null)
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
             {
-                _onSpawnMethod(p1, p2, item);
-            }
+                var item = SpawnInternal();
 
-            return item;
+                if (_onSpawnMethod != null)
+                {
+                    _onSpawnMethod(p1, p2, item);
+                }
+
+                return item;
+            }
         }
     }
 
     // Three parameters
 
+    [NoReflectionBaking]
     public class StaticMemoryPool<TParam1, TParam2, TParam3, TValue> : StaticMemoryPoolBase<TValue>, IMemoryPool<TParam1, TParam2, TParam3, TValue>
         where TValue : class, new()
     {
@@ -254,19 +339,25 @@ namespace Zenject
 
         public TValue Spawn(TParam1 p1, TParam2 p2, TParam3 p3)
         {
-            var item = SpawnInternal();
-
-            if (_onSpawnMethod != null)
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
             {
-                _onSpawnMethod(p1, p2, p3, item);
-            }
+                var item = SpawnInternal();
 
-            return item;
+                if (_onSpawnMethod != null)
+                {
+                    _onSpawnMethod(p1, p2, p3, item);
+                }
+
+                return item;
+            }
         }
     }
 
     // Four parameters
 
+    [NoReflectionBaking]
     public class StaticMemoryPool<TParam1, TParam2, TParam3, TParam4, TValue> : StaticMemoryPoolBase<TValue>, IMemoryPool<TParam1, TParam2, TParam3, TParam4, TValue>
         where TValue : class, new()
     {
@@ -298,19 +389,25 @@ namespace Zenject
 
         public TValue Spawn(TParam1 p1, TParam2 p2, TParam3 p3, TParam4 p4)
         {
-            var item = SpawnInternal();
-
-            if (_onSpawnMethod != null)
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
             {
-                _onSpawnMethod(p1, p2, p3, p4, item);
-            }
+                var item = SpawnInternal();
 
-            return item;
+                if (_onSpawnMethod != null)
+                {
+                    _onSpawnMethod(p1, p2, p3, p4, item);
+                }
+
+                return item;
+            }
         }
     }
 
     // Five parameters
 
+    [NoReflectionBaking]
     public class StaticMemoryPool<TParam1, TParam2, TParam3, TParam4, TParam5, TValue> : StaticMemoryPoolBase<TValue>, IMemoryPool<TParam1, TParam2, TParam3, TParam4, TParam5, TValue>
         where TValue : class, new()
     {
@@ -342,19 +439,25 @@ namespace Zenject
 
         public TValue Spawn(TParam1 p1, TParam2 p2, TParam3 p3, TParam4 p4, TParam5 p5)
         {
-            var item = SpawnInternal();
-
-            if (_onSpawnMethod != null)
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
             {
-                _onSpawnMethod(p1, p2, p3, p4, p5, item);
-            }
+                var item = SpawnInternal();
 
-            return item;
+                if (_onSpawnMethod != null)
+                {
+                    _onSpawnMethod(p1, p2, p3, p4, p5, item);
+                }
+
+                return item;
+            }
         }
     }
 
     // Six parameters
 
+    [NoReflectionBaking]
     public class StaticMemoryPool<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TValue> : StaticMemoryPoolBase<TValue>, IMemoryPool<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TValue>
         where TValue : class, new()
     {
@@ -386,19 +489,25 @@ namespace Zenject
 
         public TValue Spawn(TParam1 p1, TParam2 p2, TParam3 p3, TParam4 p4, TParam5 p5, TParam6 p6)
         {
-            var item = SpawnInternal();
-
-            if (_onSpawnMethod != null)
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
             {
-                _onSpawnMethod(p1, p2, p3, p4, p5, p6, item);
-            }
+                var item = SpawnInternal();
 
-            return item;
+                if (_onSpawnMethod != null)
+                {
+                    _onSpawnMethod(p1, p2, p3, p4, p5, p6, item);
+                }
+
+                return item;
+            }
         }
     }
 
     // Seven parameters
 
+    [NoReflectionBaking]
     public class StaticMemoryPool<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TValue> : StaticMemoryPoolBase<TValue>, IMemoryPool<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TValue>
         where TValue : class, new()
     {
@@ -430,14 +539,19 @@ namespace Zenject
 
         public TValue Spawn(TParam1 p1, TParam2 p2, TParam3 p3, TParam4 p4, TParam5 p5, TParam6 p6, TParam7 p7)
         {
-            var item = SpawnInternal();
-
-            if (_onSpawnMethod != null)
+#if ZEN_MULTITHREADING
+            lock (_locker)
+#endif
             {
-                _onSpawnMethod(p1, p2, p3, p4, p5, p6, p7, item);
-            }
+                var item = SpawnInternal();
 
-            return item;
+                if (_onSpawnMethod != null)
+                {
+                    _onSpawnMethod(p1, p2, p3, p4, p5, p6, p7, item);
+                }
+
+                return item;
+            }
         }
     }
 }

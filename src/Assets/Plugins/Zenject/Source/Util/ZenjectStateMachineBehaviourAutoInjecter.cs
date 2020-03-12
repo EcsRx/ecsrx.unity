@@ -1,6 +1,5 @@
-using System;
-using UnityEngine;
 using ModestTree;
+using UnityEngine;
 
 namespace Zenject
 {
@@ -22,13 +21,18 @@ namespace Zenject
         // which is why we do it here
         public void Start()
         {
-            var behaviours = _animator.GetBehaviours<StateMachineBehaviour>();
-
-            if (behaviours != null)
+            // Animator can be null when users create GameObjects directly so in that case
+            // Just don't bother attempting to inject the behaviour classes
+            if (_animator != null)
             {
-                foreach (var behaviour in behaviours)
+                var behaviours = _animator.GetBehaviours<StateMachineBehaviour>();
+
+                if (behaviours != null)
                 {
-                    _container.Inject(behaviour);
+                    foreach (var behaviour in behaviours)
+                    {
+                        _container.Inject(behaviour);
+                    }
                 }
             }
         }

@@ -6,7 +6,7 @@ namespace EcsRx.Examples.RandomReactions.Components
 {
     public class RandomColorComponent : IComponent
     {
-        public ReactiveProperty<Color> Color { get; set; }
+        public ReactiveProperty<Color> Color { get; }
         public float Elapsed { get; set; }
         public float NextChangeIn { get; set; }
 

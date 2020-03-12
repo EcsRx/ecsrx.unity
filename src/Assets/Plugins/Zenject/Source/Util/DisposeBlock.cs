@@ -4,6 +4,7 @@ using ModestTree;
 
 namespace Zenject
 {
+    [NoReflectionBaking]
     public class DisposeBlock : IDisposable
     {
         static readonly StaticMemoryPool<DisposeBlock> _pool =
@@ -84,10 +85,10 @@ namespace Zenject
             else
             {
                 // This allocation is ok because it's a struct
-                var pair = new SpawnedObjectPoolPair()
+                var pair = new SpawnedObjectPoolPair
                 {
                     Pool = pool,
-                    Object = obj,
+                    Object = obj
                 };
 
                 if (_objectPoolPairs == null)
@@ -163,7 +164,7 @@ namespace Zenject
 
         public List<T> SpawnList<T>()
         {
-            return Spawn<List<T>>(ListPool<T>.Instance);
+            return Spawn(ListPool<T>.Instance);
         }
 
         public static DisposeBlock Spawn()

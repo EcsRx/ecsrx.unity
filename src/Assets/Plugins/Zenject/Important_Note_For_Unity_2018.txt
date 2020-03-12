@@ -1,0 +1,11 @@
+
+Important Note!
+
+From Extenject 9.0 we started to target Unity 2019 and 2020.
+
+On special request to make this release available for Unity 2018 LTS.
+As this release still works 100% with Unity 2018.4 we decided to make this release backwards compatible.
+
+But please do take account of this:
+You may expect issues when installing future updates in your Unity 2018 projects.
+Which means that maybe you need to uprgrade to a newer Unity version.
