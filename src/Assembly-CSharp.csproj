@@ -127,6 +127,7 @@
     <Compile Include="Assets\EcsRx\Unity\Systems\DynamicViewResolverSystem.cs" />
     <Compile Include="Assets\EcsRx\Unity\Systems\PooledPrefabViewResolverSystem.cs" />
     <Compile Include="Assets\EcsRx\Unity\Systems\PrefabViewResolverSystem.cs" />
+    <Compile Include="Assets\EcsRx\Unity\UnityEcsRxApplicationBehaviour.cs" />
     <Compile Include="Assets\EcsRx\UnityEditor\Extensions\ComponentExtensions.cs" />
     <Compile Include="Assets\EcsRx\UnityEditor\JSON.cs" />
     <Compile Include="Assets\EcsRx\UnityEditor\MonoBehaviours\ActiveSystemsViewer.cs" />
