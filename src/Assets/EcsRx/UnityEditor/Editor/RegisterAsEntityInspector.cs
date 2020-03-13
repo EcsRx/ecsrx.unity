@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Components;
-using EcsRx.Unity.Extensions;
-using EcsRx.Unity.MonoBehaviours;
-using EcsRx.Unity.UIAspects;
 using EcsRx.Plugins.Views.Components;
+using EcsRx.UnityEditor.Editor.Extensions;
+using EcsRx.UnityEditor.Editor.UIAspects;
+using EcsRx.UnityEditor.Extensions;
+using EcsRx.UnityEditor.MonoBehaviours;
 using UnityEditor;
 using UnityEngine;
+using UEditor = UnityEditor.Editor;
 
-namespace EcsRx.Unity
+namespace EcsRx.UnityEditor.Editor
 {
     [Serializable]
     [CustomEditor(typeof(RegisterAsEntity))]
-    public partial class RegisterAsEntityInspector : UnityEditor.Editor
+    public partial class RegisterAsEntityInspector : UEditor
     {
         private RegisterAsEntity _registerAsEntity;
 

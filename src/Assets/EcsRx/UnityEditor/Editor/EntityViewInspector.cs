@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Components;
 using EcsRx.Extensions;
-using EcsRx.Unity.Extensions;
 using EcsRx.Unity.MonoBehaviours;
-using EcsRx.Unity.UIAspects;
+using EcsRx.UnityEditor.Editor.Extensions;
+using EcsRx.UnityEditor.Editor.UIAspects;
 using UnityEditor;
 using UnityEngine;
 
-namespace EcsRx.Unity
+namespace EcsRx.UnityEditor.Editor
 {
     [CustomEditor(typeof(EntityView))]
-    public class EntityViewInspector : Editor
+    public class EntityViewInspector : global::UnityEditor.Editor
     {
         private EntityView _entityView;
 

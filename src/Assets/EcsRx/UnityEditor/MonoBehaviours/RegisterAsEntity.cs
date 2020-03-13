@@ -5,13 +5,14 @@ using EcsRx.Collections;
 using EcsRx.Components;
 using EcsRx.Entities;
 using EcsRx.Extensions;
-using EcsRx.Unity.Extensions;
 using EcsRx.Plugins.Views.Components;
+using EcsRx.Unity.MonoBehaviours;
+using EcsRx.UnityEditor.Extensions;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
 
-namespace EcsRx.Unity.MonoBehaviours
+namespace EcsRx.UnityEditor.MonoBehaviours
 {
     public class RegisterAsEntity : MonoBehaviour
     {

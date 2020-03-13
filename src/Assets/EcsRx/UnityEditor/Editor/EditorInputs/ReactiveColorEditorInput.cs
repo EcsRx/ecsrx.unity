@@ -1,7 +1,7 @@
 using UniRx;
 using UnityEditor;
 
-namespace EcsRx.Unity.EditorInputs
+namespace EcsRx.UnityEditor.Editor.EditorInputs
 {
     public class ReactiveColorEditorInput : SimpleEditorInput<ColorReactiveProperty>
     {
