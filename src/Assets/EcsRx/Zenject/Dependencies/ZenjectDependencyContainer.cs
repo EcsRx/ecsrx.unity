@@ -40,8 +40,9 @@ namespace EcsRx.Zenject.Dependencies
                 return;
             }
             
-            if(!string.IsNullOrEmpty(configuration.WithName))
-            { bindingSetup.WithId(configuration.WithName); }
+            // TODO: ZENJECT FIX NEEDED FOR RESOLVE ALL
+            //if(!string.IsNullOrEmpty(configuration.WithName))
+            //{ bindingSetup.WithId(configuration.WithName); }
 
             if (configuration.ToInstance != null)
             {
