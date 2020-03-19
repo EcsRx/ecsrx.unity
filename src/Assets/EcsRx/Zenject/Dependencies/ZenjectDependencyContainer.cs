@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using EcsRx.Infrastructure.Dependencies;
 using EcsRx.Unity.Dependencies;
+using EcsRx.Zenject.Extensions;
 using UnityEngine;
 using Zenject;
 
@@ -41,8 +42,8 @@ namespace EcsRx.Zenject.Dependencies
             }
             
             // TODO: ZENJECT FIX NEEDED FOR RESOLVE ALL
-            //if(!string.IsNullOrEmpty(configuration.WithName))
-            //{ bindingSetup.WithId(configuration.WithName); }
+            if(!string.IsNullOrEmpty(configuration.WithName))
+            { bindingSetup.WithId(configuration.WithName); }
 
             if (configuration.ToInstance != null)
             {
@@ -99,6 +100,6 @@ namespace EcsRx.Zenject.Dependencies
         { _container.Unbind(type); }
 
         public IEnumerable ResolveAll(Type type)
-        { return _container.ResolveAll(type); }
+        { return _container.ResolveAllOf(type); }
     }
 }
