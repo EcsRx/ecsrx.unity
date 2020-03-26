@@ -1,7 +1,7 @@
 using System;
 using UnityEditor;
 
-namespace EcsRx.Unity.EditorInputs
+namespace EcsRx.UnityEditor.Editor.EditorInputs
 {
     public class EnumEditorInput : SimpleEditorInput<Enum>
     {

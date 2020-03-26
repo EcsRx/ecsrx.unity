@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EcsRx.Unity.EditorInputs
+namespace EcsRx.UnityEditor.Editor.EditorInputs
 {
     public interface IEditorInput
     {

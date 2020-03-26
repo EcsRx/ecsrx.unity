@@ -114,23 +114,24 @@
     <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\Groups\PlayerGroup.cs" />
     <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\Systems\PlayerReportingSystem.cs" />
     <Compile Include="Assets\EcsRx\Unity\Dependencies\IUnityInstantiator.cs" />
+    <Compile Include="Assets\EcsRx\Unity\Extensions\GameObjectExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\IEntityExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\ISystemExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\IUnityInstantiatorExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Extensions\ViewComponentExtensions.cs" />
     <Compile Include="Assets\EcsRx\Unity\Handlers\PrefabViewHandler.cs" />
-    <Compile Include="Assets\EcsRx\Unity\JSON.cs" />
     <Compile Include="Assets\EcsRx\Unity\Modules\UnityOverrideModule.cs" />
+    <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\EntityView.cs" />
     <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\InjectableMonoBehaviour.cs" />
     <Compile Include="Assets\EcsRx\Unity\Scheduling\UnityUpdateScheduler.cs" />
     <Compile Include="Assets\EcsRx\Unity\Systems\DynamicViewResolverSystem.cs" />
     <Compile Include="Assets\EcsRx\Unity\Systems\PooledPrefabViewResolverSystem.cs" />
     <Compile Include="Assets\EcsRx\Unity\Systems\PrefabViewResolverSystem.cs" />
+    <Compile Include="Assets\EcsRx\Unity\UnityEcsRxApplicationBehaviour.cs" />
     <Compile Include="Assets\EcsRx\UnityEditor\Extensions\ComponentExtensions.cs" />
-    <Compile Include="Assets\EcsRx\UnityEditor\Extensions\GameObjectExtensions.cs" />
+    <Compile Include="Assets\EcsRx\UnityEditor\JSON.cs" />
     <Compile Include="Assets\EcsRx\UnityEditor\MonoBehaviours\ActiveSystemsViewer.cs" />
     <Compile Include="Assets\EcsRx\UnityEditor\MonoBehaviours\EntityCollectionManagerViewer.cs" />
-    <Compile Include="Assets\EcsRx\UnityEditor\MonoBehaviours\EntityView.cs" />
     <Compile Include="Assets\EcsRx\UnityEditor\MonoBehaviours\RegisterAsEntity.cs" />
     <Compile Include="Assets\EcsRx\Zenject\Dependencies\ZenjectDependencyContainer.cs" />
     <Compile Include="Assets\EcsRx\Zenject\EcsRxApplicationBehaviour.cs" />
@@ -352,6 +353,18 @@
     </Reference>
     <Reference Include="EcsRx.Plugins.Views">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.Views.dll</HintPath>
+    </Reference>
+    <Reference Include="Zenject.ReflectionBaking.Mono.Cecil">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Mdb">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Pdb">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Rocks">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
     <Reference Include="Zenject-usage">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>

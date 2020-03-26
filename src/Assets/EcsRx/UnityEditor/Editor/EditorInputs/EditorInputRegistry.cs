@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EcsRx.Unity.EditorInputs
+namespace EcsRx.UnityEditor.Editor.EditorInputs
 {
     public class EditorInputRegistry
     {

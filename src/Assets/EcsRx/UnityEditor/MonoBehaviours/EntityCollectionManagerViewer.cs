@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace EcsRx.Unity.MonoBehaviours
+namespace EcsRx.UnityEditor.MonoBehaviours
 {
     public class EntityCollectionManagerViewer : MonoBehaviour
     {

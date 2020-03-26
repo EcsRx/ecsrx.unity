@@ -1,11 +1,10 @@
-﻿using EcsRx.Executor;
-using EcsRx.Unity.MonoBehaviours;
+﻿using EcsRx.UnityEditor.MonoBehaviours;
 using UnityEditor;
 
-namespace EcsRx.Unity
+namespace EcsRx.UnityEditor.Editor
 {
     [CustomEditor(typeof(ActiveSystemsViewer))]
-    public class ActiveSystemsViewerInspector : Editor
+    public class ActiveSystemsViewerInspector : global::UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
