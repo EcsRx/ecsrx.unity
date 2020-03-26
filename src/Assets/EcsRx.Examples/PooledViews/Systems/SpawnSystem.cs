@@ -1,5 +1,7 @@
 ﻿using System;
 using EcsRx.Collections;
+using EcsRx.Collections.Database;
+using EcsRx.Collections.Entity;
 using EcsRx.Entities;
 using EcsRx.Examples.PooledViews.Blueprints;
 using EcsRx.Examples.PooledViews.Components;
@@ -18,8 +20,8 @@ namespace EcsRx.Examples.PooledViews.Systems
 
         public IGroup Group => new Group(typeof(SpawnerComponent), typeof(ViewComponent));
 
-        public SpawnSystem(IEntityCollectionManager collectionManager)
-        { _defaultCollection = collectionManager.GetCollection(); }
+        public SpawnSystem(IEntityDatabase entityDatabase)
+        { _defaultCollection = entityDatabase.GetCollection(); }
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {

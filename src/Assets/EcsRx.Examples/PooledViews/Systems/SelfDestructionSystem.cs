@@ -1,5 +1,6 @@
 ﻿using System;
-using EcsRx.Collections;
+using EcsRx.Collections.Database;
+using EcsRx.Collections.Entity;
 using EcsRx.Entities;
 using EcsRx.Examples.PooledViews.Components;
 using EcsRx.Extensions;
@@ -15,8 +16,8 @@ namespace EcsRx.Examples.PooledViews.Systems
         public IGroup Group => new Group(typeof(SelfDestructComponent), typeof(ViewComponent));
         private readonly IEntityCollection _defaultCollection;
 
-        public SelfDestructionSystem(IEntityCollectionManager collectionManager)
-        { _defaultCollection = collectionManager.GetCollection(); }
+        public SelfDestructionSystem(IEntityDatabase entityDatabase)
+        { _defaultCollection = entityDatabase.GetCollection(); }
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {

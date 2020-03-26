@@ -1,4 +1,5 @@
 ﻿using EcsRx.Collections;
+using EcsRx.Collections.Entity;
 using EcsRx.Entities;
 using UnityEngine;
 

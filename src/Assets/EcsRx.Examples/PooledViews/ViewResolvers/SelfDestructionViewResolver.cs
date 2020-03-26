@@ -16,8 +16,8 @@ namespace EcsRx.Examples.PooledViews.ViewResolvers
     {
         public override IGroup Group { get; } = new Group(typeof(SelfDestructComponent), typeof(ViewComponent));
 
-        public SelfDestructionViewResolver(IUnityInstantiator instantiator, IEntityCollectionManager collectionManager, IEventSystem eventSystem)
-            : base(instantiator, collectionManager, eventSystem)
+        public SelfDestructionViewResolver(IUnityInstantiator instantiator, IEntityCollectionManager entityDatabase, IEventSystem eventSystem)
+            : base(instantiator, entityDatabase, eventSystem)
         {}
 
         protected override GameObject PrefabTemplate { get; } = Resources.Load("PooledPrefab") as GameObject;

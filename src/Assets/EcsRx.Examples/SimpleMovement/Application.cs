@@ -14,7 +14,7 @@ namespace EcsRx.Examples.SimpleMovement
     {        
         protected override void ApplicationStarted()
         {
-            var defaultPool = EntityCollectionManager.GetCollection();
+            var defaultPool = EntityDatabase.GetCollection();
             var viewEntity = defaultPool.CreateEntity();
             viewEntity.AddComponents(new ViewComponent(), 
                 new PlayerControlledComponent(), new CameraFollowsComponent());

@@ -17,7 +17,7 @@ namespace EcsRx.Examples.RandomReactions
         
         protected override void ApplicationStarted()
         {
-            var collection = EntityCollectionManager.GetCollection();
+            var collection = EntityDatabase.GetCollection();
 
             for (var i = 0; i < _cubeCount; i++)
             {

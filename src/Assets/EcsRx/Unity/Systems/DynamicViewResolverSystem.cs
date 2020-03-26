@@ -1,5 +1,6 @@
 ﻿using EcsRx.Unity.Dependencies;
 using EcsRx.Collections;
+using EcsRx.Collections.Database;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
@@ -16,15 +17,15 @@ namespace EcsRx.Unity.Systems
     public abstract class DynamicViewResolverSystem : ISetupSystem, ITeardownSystem
     {
         public IEventSystem EventSystem { get; }
-        public IEntityCollectionManager CollectionManager { get; }
+        public IEntityDatabase EntityDatabase { get; }
         public IUnityInstantiator Instantiator { get; }
 
         public abstract IGroup Group { get; }
 
-        protected DynamicViewResolverSystem(IEventSystem eventSystem, IEntityCollectionManager collectionManager, IUnityInstantiator instantiator)
+        protected DynamicViewResolverSystem(IEventSystem eventSystem, IEntityDatabase entityDatabase, IUnityInstantiator instantiator)
         {
             EventSystem = eventSystem;
-            CollectionManager = collectionManager;
+            EntityDatabase = entityDatabase;
             Instantiator = instantiator;
         }
 
@@ -44,7 +45,7 @@ namespace EcsRx.Unity.Systems
             {
                 entityBinding = viewGameObject.AddComponent<EntityView>();
                 entityBinding.Entity = entity;
-                entityBinding.EntityCollection = CollectionManager.GetCollectionFor(entity);
+                entityBinding.EntityCollection = EntityDatabase.GetCollectionFor(entity);
             }
 
             if (viewComponent.DestroyWithView)

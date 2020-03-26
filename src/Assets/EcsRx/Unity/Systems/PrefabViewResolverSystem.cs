@@ -1,4 +1,5 @@
 ﻿using EcsRx.Collections;
+using EcsRx.Collections.Database;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
@@ -16,14 +17,14 @@ namespace EcsRx.Unity.Systems
 {
     public abstract class PrefabViewResolverSystem : ViewResolverSystem
     {
-        public IEntityCollectionManager CollectionManager { get; }
+        public IEntityDatabase EntityDatabase { get; }
         public IUnityInstantiator Instantiator { get; }
 
         protected abstract GameObject PrefabTemplate { get; }
 
-        protected PrefabViewResolverSystem(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IUnityInstantiator instantiator) : base(eventSystem)
+        protected PrefabViewResolverSystem(IEntityDatabase entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator) : base(eventSystem)
         {
-            CollectionManager = collectionManager;
+            EntityDatabase = entityDatabase;
             Instantiator = instantiator;
             ViewHandler = CreateViewHandler();
         }
@@ -53,7 +54,7 @@ namespace EcsRx.Unity.Systems
                 entityBinding = gameObject.AddComponent<EntityView>();
                 entityBinding.Entity = entity;
 
-                entityBinding.EntityCollection = CollectionManager.GetCollectionFor(entity);
+                entityBinding.EntityCollection = EntityDatabase.GetCollectionFor(entity);
             }
 
             if (viewComponent.DestroyWithView)

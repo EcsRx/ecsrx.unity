@@ -12,8 +12,8 @@ namespace EcsRx.Examples.ManuallyRegisterSystems.Systems
     {
         protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("Cube");
 
-        public DefaultViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IUnityInstantiator instantiator) 
-            : base(collectionManager, eventSystem, instantiator)
+        public DefaultViewResolver(IEntityCollectionManager entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator) 
+            : base(entityDatabase, eventSystem, instantiator)
         {}
 
         protected override void OnViewCreated(IEntity entity, GameObject view)

@@ -17,8 +17,8 @@ namespace EcsRx.Examples.SceneFirstSetup.ViewResolvers
 
         public override IGroup Group => base.Group.WithComponent<CubeComponent>();
 
-        public CubeViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IUnityInstantiator instantiator)
-            : base(collectionManager, eventSystem, instantiator)
+        public CubeViewResolver(IEntityCollectionManager entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator)
+            : base(entityDatabase, eventSystem, instantiator)
         {}
 
         protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("Cube");

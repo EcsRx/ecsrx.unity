@@ -8,7 +8,7 @@ namespace EcsRx.Examples.CustomGameObjectHandling
     {
         protected override void ApplicationStarted()
         {
-            var defaultPool = EntityCollectionManager.GetCollection();
+            var defaultPool = EntityDatabase.GetCollection();
             var viewEntity = defaultPool.CreateEntity();
             viewEntity.AddComponents(new CustomViewComponent(), new PlayerControlledComponent(), new CameraFollowsComponent());
         }

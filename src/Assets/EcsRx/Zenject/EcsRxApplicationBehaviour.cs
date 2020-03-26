@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Collections;
+using EcsRx.Collections.Database;
 using EcsRx.Events;
 using EcsRx.Executor;
 using EcsRx.Extensions;
@@ -30,6 +31,7 @@ namespace EcsRx.Zenject
         public ISystemExecutor SystemExecutor { get; private set; }
         public IEventSystem EventSystem { get; private set; }
         public IEntityCollectionManager EntityCollectionManager { get; private set; }
+        public IEntityDatabase EntityDatabase { get; private set; }
         public IEnumerable<IEcsRxPlugin> Plugins => _plugins;
         
         private List<IEcsRxPlugin> _plugins { get; } = new List<IEcsRxPlugin>();
@@ -103,6 +105,7 @@ namespace EcsRx.Zenject
         {
             SystemExecutor = Container.Resolve<ISystemExecutor>();
             EventSystem = Container.Resolve<IEventSystem>();
+            EntityDatabase = Container.Resolve<IEntityDatabase>();
             EntityCollectionManager = Container.Resolve<IEntityCollectionManager>();
             _sceneContext.Container.Inject(this);
         }

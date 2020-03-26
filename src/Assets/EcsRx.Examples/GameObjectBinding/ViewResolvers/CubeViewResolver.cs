@@ -16,8 +16,8 @@ namespace EcsRx.Examples.GameObjectBinding.ViewResolvers
 
         protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("Cube");
 
-        public CubeViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IUnityInstantiator instantiator) 
-            : base(collectionManager, eventSystem, instantiator)
+        public CubeViewResolver(IEntityCollectionManager entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator) 
+            : base(entityDatabase, eventSystem, instantiator)
         {}
 
         protected override void OnViewCreated(IEntity entity, GameObject view)

@@ -18,8 +18,8 @@ namespace EcsRx.Examples.RandomReactions.ViewResolvers
 
         protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("colored-cube");
 
-        public CubeViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IUnityInstantiator instantiator)
-            : base(collectionManager, eventSystem, instantiator)
+        public CubeViewResolver(IEntityCollectionManager entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator)
+            : base(entityDatabase, eventSystem, instantiator)
         {}
         
         private void IncrementRow()

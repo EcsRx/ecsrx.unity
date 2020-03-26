@@ -41,45 +41,39 @@ namespace EcsRx.Zenject.Dependencies
                 return;
             }
             
-            // TODO: ZENJECT FIX NEEDED FOR RESOLVE ALL
             if(!string.IsNullOrEmpty(configuration.WithName))
             { bindingSetup.WithId(configuration.WithName); }
 
+            ScopeConcreteIdArgConditionCopyNonLazyBinder binding;
+            
             if (configuration.ToInstance != null)
+            { binding = bindingSetup.FromInstance(configuration.ToInstance); }
+            else if (configuration.ToMethod != null)
+            { binding = bindingSetup.FromMethodUntyped(x =>  configuration.ToMethod(this)); }
+            else
             {
-                var instanceBinding = bindingSetup.FromInstance(configuration.ToInstance);
-                
-                if(configuration.AsSingleton)
-                { instanceBinding.AsSingle(); }
+                binding = bindingSetup.To(toType);
 
-                return;
+                if (configuration.WithNamedConstructorArgs.Count > 0)
+                { binding.WithArguments(configuration.WithNamedConstructorArgs.Values); }
+
+                if (configuration.WithTypedConstructorArgs.Count > 0)
+                {
+                    var typePairs = configuration.WithTypedConstructorArgs.Select(x => new TypeValuePair(x.Key, x.Value));
+                    binding.WithArgumentsExplicit(typePairs);
+                }
             }
-            
-            
-            if (configuration.ToMethod != null)
-            {
-                if(configuration.AsSingleton)
-                { bindingSetup.AsSingle(); }
-                else
-                { bindingSetup.AsTransient(); }
 
-                bindingSetup.FromMethodUntyped(x =>  configuration.ToMethod(this));
-                return;
-            }
-            
-            var binding = bindingSetup.To(toType);
-
-            if(configuration.AsSingleton)
+            if (configuration.AsSingleton)
             { binding.AsSingle(); }
+            else
+            { binding.AsTransient();}
+            
+            if(configuration.OnActivation != null)
+            { binding.OnInstantiated((context, instance) => { configuration.OnActivation(this, instance); }); }
 
-            if (configuration.WithNamedConstructorArgs.Count > 0)
-            { binding.WithArguments(configuration.WithNamedConstructorArgs.Values); }
-
-            if (configuration.WithTypedConstructorArgs.Count > 0)
-            {
-                var typePairs = configuration.WithTypedConstructorArgs.Select(x => new TypeValuePair(x.Key, x.Value));
-                binding.WithArgumentsExplicit(typePairs);
-            }
+            if (configuration.WhenInjectedInto != null && configuration.WhenInjectedInto.Count > 0)
+            { binding.WhenInjectedInto(configuration.WhenInjectedInto.ToArray()); }
         }
 
         public void Bind(Type type, BindingConfiguration configuration = null)
@@ -87,10 +81,9 @@ namespace EcsRx.Zenject.Dependencies
 
         public object Resolve(Type type, string name = null)
         {
-            if(string.IsNullOrEmpty(name))
-            { return _container.Resolve(type); }
-
-            return _container.ResolveId(type, name);
+            return string.IsNullOrEmpty(name) ? 
+                _container.Resolve(type) : 
+                _container.ResolveId(type, name);
         }
 
         public bool HasBinding(Type type, string name = null)
@@ -101,5 +94,8 @@ namespace EcsRx.Zenject.Dependencies
 
         public IEnumerable ResolveAll(Type type)
         { return _container.ResolveAllOf(type); }
+
+        public void Dispose()
+        {}
     }
 }
