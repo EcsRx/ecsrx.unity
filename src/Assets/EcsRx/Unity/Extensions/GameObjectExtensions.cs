@@ -1,5 +1,6 @@
 ﻿using System;
 using EcsRx.Collections;
+using EcsRx.Collections.Entity;
 using EcsRx.Entities;
 using EcsRx.Extensions;
 using EcsRx.Unity.MonoBehaviours;
@@ -14,9 +15,6 @@ namespace EcsRx.Unity.Extensions
         {
             if(gameObject.GetComponent<EntityView>())
             { throw new Exception("GameObject already has an EntityView monobehaviour applied"); }
-
-            if (gameObject.GetComponent<RegisterAsEntity>())
-            { throw new Exception("GameObject already has a RegisterAsEntity monobehaviour applied"); }
 
             if (!entity.HasComponent<ViewComponent>())
             { entity.AddComponent<ViewComponent>(); }

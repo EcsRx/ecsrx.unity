@@ -2,7 +2,7 @@ using EcsRx.Executor;
 using UnityEngine;
 using Zenject;
 
-namespace EcsRx.Unity.MonoBehaviours
+namespace EcsRx.UnityEditor.MonoBehaviours
 {
     public class ActiveSystemsViewer : MonoBehaviour
     {

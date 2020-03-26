@@ -9,7 +9,7 @@ namespace EcsRx.Examples.GameObjectBinding
     {
         protected override void ApplicationStarted()
         {
-            var entityCollection = EntityCollectionManager.GetCollection();
+            var entityCollection = EntityDatabase.GetCollection();
 
             var cubeEntity = entityCollection.CreateEntity();
             cubeEntity.AddComponent<ViewComponent>();

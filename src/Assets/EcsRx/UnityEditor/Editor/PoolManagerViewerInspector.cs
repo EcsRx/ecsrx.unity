@@ -1,15 +1,15 @@
-﻿using EcsRx.Unity.MonoBehaviours;
+﻿using EcsRx.UnityEditor.MonoBehaviours;
 using UnityEditor;
 
-namespace EcsRx.Unity
+namespace EcsRx.UnityEditor.Editor
 {
-    [CustomEditor(typeof(EntityCollectionManagerViewer))]
-    public class PoolManagerViewerInspector : Editor
+    [CustomEditor(typeof(EntityDatabaseViewer))]
+    public class PoolManagerViewerInspector : global::UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
-            var poolManagerViewer = (EntityCollectionManagerViewer)target;
-            var poolManager = poolManagerViewer.CollectionManager;
+            var poolManagerViewer = (EntityDatabaseViewer)target;
+            var poolManager = poolManagerViewer.EntityDatabase;
 
             if (poolManager == null)
             {

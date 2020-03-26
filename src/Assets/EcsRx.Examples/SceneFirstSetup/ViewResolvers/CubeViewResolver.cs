@@ -1,4 +1,5 @@
 ﻿using EcsRx.Collections;
+using EcsRx.Collections.Database;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Examples.SceneFirstSetup.Components;
@@ -17,8 +18,8 @@ namespace EcsRx.Examples.SceneFirstSetup.ViewResolvers
 
         public override IGroup Group => base.Group.WithComponent<CubeComponent>();
 
-        public CubeViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IUnityInstantiator instantiator)
-            : base(collectionManager, eventSystem, instantiator)
+        public CubeViewResolver(IEntityDatabase entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator)
+            : base(entityDatabase, eventSystem, instantiator)
         {}
 
         protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("Cube");

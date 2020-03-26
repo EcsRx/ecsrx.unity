@@ -11,7 +11,7 @@ namespace EcsRx.Examples.GameObjectLinking
     {
         protected override void ApplicationStarted()
         {
-            var defaultPool = EntityCollectionManager.GetCollection();
+            var defaultPool = EntityDatabase.GetCollection();
             var entity = defaultPool.CreateEntity();
 
             var existingGameObject = GameObject.Find("ExistingGameObject");

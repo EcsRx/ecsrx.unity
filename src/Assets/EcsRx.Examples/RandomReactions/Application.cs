@@ -17,7 +17,7 @@ namespace EcsRx.Examples.RandomReactions
         
         protected override void ApplicationStarted()
         {
-            var collection = EntityCollectionManager.GetCollection();
+            var collection = EntityDatabase.GetCollection();
 
             for (var i = 0; i < _cubeCount; i++)
             {
@@ -25,7 +25,7 @@ namespace EcsRx.Examples.RandomReactions
                 viewEntity.AddComponents(new ViewComponent(), new RandomColorComponent());
             }
 
-            var group = EntityCollectionManager.GetObservableGroup(new Group(typeof(ViewComponent), typeof(RandomColorComponent)));
+            var group = ObservableGroupManager.GetObservableGroup(new Group(typeof(ViewComponent), typeof(RandomColorComponent)));
             Debug.Log($"There are {group.Count} entities out of {collection.Count} matching");
         }
     }

@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace EcsRx.Unity.EditorInputs
+namespace EcsRx.UnityEditor.Editor.EditorInputs
 {
     public class RectEditorInput : SimpleEditorInput<Rect>
     {

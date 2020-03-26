@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Collections;
+using EcsRx.Collections.Database;
+using EcsRx.Collections.Entity;
 using EcsRx.Components;
 using EcsRx.Entities;
 using EcsRx.Extensions;
-using EcsRx.Unity.Extensions;
 using EcsRx.Plugins.Views.Components;
+using EcsRx.Unity.MonoBehaviours;
+using EcsRx.UnityEditor.Extensions;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
 
-namespace EcsRx.Unity.MonoBehaviours
+namespace EcsRx.UnityEditor.MonoBehaviours
 {
     public class RegisterAsEntity : MonoBehaviour
     {
         [Inject]
-        public IEntityCollectionManager CollectionManager { get; private set; }
+        public IEntityDatabase EntityDatabase { get; private set; }
 
         [FormerlySerializedAs("CollectionName")] 
         [SerializeField]
@@ -36,11 +39,11 @@ namespace EcsRx.Unity.MonoBehaviours
             IEntityCollection collectionToUse;
 
             if (CollectionId == 0)
-            { collectionToUse = CollectionManager.GetCollection(); }
-            else if (CollectionManager.Collections.All(x => x.Id != CollectionId))
-            { collectionToUse = CollectionManager.CreateCollection(CollectionId); }
+            { collectionToUse = EntityDatabase.GetCollection(); }
+            else if (EntityDatabase.Collections.All(x => x.Id != CollectionId))
+            { collectionToUse = EntityDatabase.CreateCollection(CollectionId); }
             else
-            { collectionToUse = CollectionManager.GetCollection(CollectionId); }
+            { collectionToUse = EntityDatabase.GetCollection(CollectionId); }
 
             var createdEntity = collectionToUse.CreateEntity();
             createdEntity.AddComponents(new ViewComponent { View = gameObject });
@@ -76,7 +79,7 @@ namespace EcsRx.Unity.MonoBehaviours
         
         public IEntityCollection GetCollection()
         {
-            return CollectionManager.GetCollection(CollectionId);
+            return EntityDatabase.GetCollection(CollectionId);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EcsRx.Collections;
+using EcsRx.Collections.Database;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Unity.Dependencies;
@@ -11,8 +12,8 @@ namespace EcsRx.Examples.SimpleMovement.ViewResolvers
 {
     public class DefaultViewResolver : PrefabViewResolverSystem
     {
-        public DefaultViewResolver(IEntityCollectionManager collectionManager, IEventSystem eventSystem, IUnityInstantiator instantiator)
-            : base(collectionManager, eventSystem, instantiator)
+        public DefaultViewResolver(IEntityDatabase entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator)
+            : base(entityDatabase, eventSystem, instantiator)
         {}
         
         protected override GameObject PrefabTemplate {get;} = Resources.Load<GameObject>("Cube");

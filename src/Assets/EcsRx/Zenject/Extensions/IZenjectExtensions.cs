@@ -13,15 +13,15 @@ namespace EcsRx.Zenject.Extensions
     {
         public static IObservableGroup ResolveObservableGroup(this DiContainer container, IGroup group)
         {
-            var collectionManager = container.Resolve<IEntityCollectionManager>();
-            return collectionManager.GetObservableGroup(group);
+            var observableGroupManager = container.Resolve<IObservableGroupManager>();
+            return observableGroupManager.GetObservableGroup(group);
         }
         
         public static IObservableGroup ResolveObservableGroup(this DiContainer container, params Type[] componentTypes)
         {
-            var collectionManager = container.Resolve<IEntityCollectionManager>();
+            var observableGroupManager = container.Resolve<IObservableGroupManager>();
             var group = new Group(componentTypes);
-            return collectionManager.GetObservableGroup(group);
+            return observableGroupManager.GetObservableGroup(group);
         }
         
         public static IEnumerable ResolveAllOf(this DiContainer container, Type type)
