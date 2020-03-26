@@ -53,7 +53,7 @@ namespace EcsRx.Zenject
         /// Resolve any dependencies the application needs
         /// </summary>
         /// <remarks>By default it will setup SystemExecutor, EventSystem, EntityCollectionManager</remarks>
-        protected virtual void ResolveApplicationDependencies()
+        protected override void ResolveApplicationDependencies()
         {
             base.ResolveApplicationDependencies();
             _sceneContext.Container.Inject(this);
