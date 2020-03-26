@@ -1,4 +1,5 @@
 ﻿using EcsRx.Collections;
+using EcsRx.Collections.Database;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Examples.GameObjectBinding.Components;
@@ -16,7 +17,7 @@ namespace EcsRx.Examples.GameObjectBinding.ViewResolvers
         public override IGroup Group => base.Group.WithComponent<SphereComponent>();
         protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("Sphere");
 
-        public SphereViewResolver(IEntityCollectionManager entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator)
+        public SphereViewResolver(IEntityDatabase entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator)
             : base(entityDatabase, eventSystem, instantiator)
         {
         }

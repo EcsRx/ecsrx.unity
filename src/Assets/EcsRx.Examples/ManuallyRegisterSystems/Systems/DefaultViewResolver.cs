@@ -1,4 +1,5 @@
 ﻿using EcsRx.Collections;
+using EcsRx.Collections.Database;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Unity.Dependencies;
@@ -12,7 +13,7 @@ namespace EcsRx.Examples.ManuallyRegisterSystems.Systems
     {
         protected override GameObject PrefabTemplate { get; } = Resources.Load<GameObject>("Cube");
 
-        public DefaultViewResolver(IEntityCollectionManager entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator) 
+        public DefaultViewResolver(IEntityDatabase entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator) 
             : base(entityDatabase, eventSystem, instantiator)
         {}
 

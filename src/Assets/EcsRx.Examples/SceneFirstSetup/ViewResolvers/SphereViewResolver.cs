@@ -1,4 +1,5 @@
 ﻿using EcsRx.Collections;
+using EcsRx.Collections.Database;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Examples.SceneFirstSetup.Components;
@@ -17,7 +18,7 @@ namespace EcsRx.Examples.SceneFirstSetup.ViewResolvers
 
         public override IGroup Group => base.Group.WithComponent<SphereComponent>();
 
-        public SphereViewResolver(IEntityCollectionManager entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator)
+        public SphereViewResolver(IEntityDatabase entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator)
             : base(entityDatabase, eventSystem, instantiator)
         {}
 

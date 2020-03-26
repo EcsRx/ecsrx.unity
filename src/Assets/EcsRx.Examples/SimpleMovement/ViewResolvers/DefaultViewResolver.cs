@@ -1,4 +1,5 @@
 ﻿using EcsRx.Collections;
+using EcsRx.Collections.Database;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Unity.Dependencies;
@@ -11,7 +12,7 @@ namespace EcsRx.Examples.SimpleMovement.ViewResolvers
 {
     public class DefaultViewResolver : PrefabViewResolverSystem
     {
-        public DefaultViewResolver(IEntityCollectionManager entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator)
+        public DefaultViewResolver(IEntityDatabase entityDatabase, IEventSystem eventSystem, IUnityInstantiator instantiator)
             : base(entityDatabase, eventSystem, instantiator)
         {}
         

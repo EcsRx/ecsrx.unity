@@ -3,13 +3,13 @@ using UnityEditor;
 
 namespace EcsRx.UnityEditor.Editor
 {
-    [CustomEditor(typeof(EntityCollectionManagerViewer))]
+    [CustomEditor(typeof(EntityDatabaseViewer))]
     public class PoolManagerViewerInspector : global::UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
-            var poolManagerViewer = (EntityCollectionManagerViewer)target;
-            var poolManager = poolManagerViewer.CollectionManager;
+            var poolManagerViewer = (EntityDatabaseViewer)target;
+            var poolManager = poolManagerViewer.EntityDatabase;
 
             if (poolManager == null)
             {

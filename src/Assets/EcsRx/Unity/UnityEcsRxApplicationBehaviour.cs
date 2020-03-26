@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Collections;
+using EcsRx.Collections.Database;
 using EcsRx.Events;
 using EcsRx.Executor;
 using EcsRx.Extensions;
@@ -26,7 +27,8 @@ namespace EcsRx.Unity
         
         public ISystemExecutor SystemExecutor { get; private set; }
         public IEventSystem EventSystem { get; private set; }
-        public IEntityCollectionManager EntityCollectionManager { get; private set; }
+        public IEntityDatabase EntityDatabase { get; private set; }
+        public IObservableGroupManager ObservableGroupManager { get; private set; }
         public IEnumerable<IEcsRxPlugin> Plugins => _plugins;
         
         protected List<IEcsRxPlugin> _plugins { get; } = new List<IEcsRxPlugin>();
@@ -81,7 +83,8 @@ namespace EcsRx.Unity
         {
             SystemExecutor = Container.Resolve<ISystemExecutor>();
             EventSystem = Container.Resolve<IEventSystem>();
-            EntityCollectionManager = Container.Resolve<IEntityCollectionManager>();
+            EntityDatabase = Container.Resolve<IEntityDatabase>();
+            ObservableGroupManager = Container.Resolve<IObservableGroupManager>();
         }
         
         /// <summary>

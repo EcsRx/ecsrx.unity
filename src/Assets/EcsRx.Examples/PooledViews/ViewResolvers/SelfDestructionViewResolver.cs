@@ -1,4 +1,5 @@
 ﻿using EcsRx.Collections;
+using EcsRx.Collections.Database;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Examples.PooledViews.Components;
@@ -16,7 +17,7 @@ namespace EcsRx.Examples.PooledViews.ViewResolvers
     {
         public override IGroup Group { get; } = new Group(typeof(SelfDestructComponent), typeof(ViewComponent));
 
-        public SelfDestructionViewResolver(IUnityInstantiator instantiator, IEntityCollectionManager entityDatabase, IEventSystem eventSystem)
+        public SelfDestructionViewResolver(IUnityInstantiator instantiator, IEntityDatabase entityDatabase, IEventSystem eventSystem)
             : base(instantiator, entityDatabase, eventSystem)
         {}
 

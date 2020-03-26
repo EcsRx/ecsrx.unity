@@ -131,7 +131,7 @@
     <Compile Include="Assets\EcsRx\UnityEditor\Extensions\ComponentExtensions.cs" />
     <Compile Include="Assets\EcsRx\UnityEditor\JSON.cs" />
     <Compile Include="Assets\EcsRx\UnityEditor\MonoBehaviours\ActiveSystemsViewer.cs" />
-    <Compile Include="Assets\EcsRx\UnityEditor\MonoBehaviours\EntityCollectionManagerViewer.cs" />
+    <Compile Include="Assets\EcsRx\UnityEditor\MonoBehaviours\EntityDatabaseViewer.cs" />
     <Compile Include="Assets\EcsRx\UnityEditor\MonoBehaviours\RegisterAsEntity.cs" />
     <Compile Include="Assets\EcsRx\Zenject\Dependencies\ZenjectDependencyContainer.cs" />
     <Compile Include="Assets\EcsRx\Zenject\EcsRxApplicationBehaviour.cs" />
@@ -353,18 +353,6 @@
     </Reference>
     <Reference Include="EcsRx.Plugins.Views">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.Views.dll</HintPath>
-    </Reference>
-    <Reference Include="Zenject.ReflectionBaking.Mono.Cecil">
-      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Mdb">
-      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Pdb">
-      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Rocks">
-      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
     <Reference Include="Zenject-usage">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
