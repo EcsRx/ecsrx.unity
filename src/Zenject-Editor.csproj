@@ -321,17 +321,35 @@
     <Reference Include="EcsRx.Plugins.Computeds">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.Computeds.dll</HintPath>
     </Reference>
+    <Reference Include="EcsRx.Plugins.Persistence">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.Persistence.dll</HintPath>
+    </Reference>
     <Reference Include="EcsRx.Plugins.ReactiveSystems">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.ReactiveSystems.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx.Plugins.Views">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.Views.dll</HintPath>
     </Reference>
+    <Reference Include="LazyData.Binary">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/LazyData.Binary.dll</HintPath>
+    </Reference>
+    <Reference Include="LazyData">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/LazyData.dll</HintPath>
+    </Reference>
+    <Reference Include="Persistity">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/Persistity.dll</HintPath>
+    </Reference>
+    <Reference Include="Persistity.Flow">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/Persistity.Flow.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.Rider.Unity.Editor.Plugin.Repacked">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll</HintPath>
     </Reference>
     <Reference Include="Zenject-usage">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
+    </Reference>
+    <Reference Include="Persistity.Wiretap">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/Persistity.Wiretap.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.15f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

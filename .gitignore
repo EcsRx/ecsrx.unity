@@ -16,3 +16,5 @@ src/\.idea/\.idea\.src/
 /src/Assets/EcsRx/*.pdb
 /src/Assets/EcsRx/*.pdb.meta
 src/Logs/
+
+src/entity-database.edb
