@@ -320,20 +320,20 @@
     <Reference Include="JetBrains.Rider.Unity.Editor.Plugin.Repacked">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll</HintPath>
     </Reference>
-    <Reference Include="Zenject.ReflectionBaking.Mono.Cecil">
-      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.dll</HintPath>
+    <Reference Include="Zenject-usage">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
     </Reference>
     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Mdb">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Zenject.ReflectionBaking.Mono.Cecil">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Pdb">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.Pdb.dll</HintPath>
     </Reference>
     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Rocks">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.Rocks.dll</HintPath>
-    </Reference>
-    <Reference Include="Zenject-usage">
-      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.15f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
