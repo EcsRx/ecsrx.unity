@@ -1,9 +1,6 @@
-﻿using EcsRx.Collections;
+﻿using SystemsRx.Events;
 using EcsRx.Collections.Database;
 using EcsRx.Entities;
-using EcsRx.Events;
-using EcsRx.Groups;
-using EcsRx.Plugins.Views.Components;
 using EcsRx.Unity.Dependencies;
 using EcsRx.Unity.Systems;
 using UnityEngine;

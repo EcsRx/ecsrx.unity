@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SystemsRx.Events;
+using SystemsRx.Executor;
+using SystemsRx.Extensions;
+using SystemsRx.Infrastructure.Dependencies;
+using SystemsRx.Infrastructure.Extensions;
+using SystemsRx.Infrastructure.Modules;
+using SystemsRx.Infrastructure.Plugins;
+using SystemsRx.Systems;
 using EcsRx.Collections;
 using EcsRx.Collections.Database;
-using EcsRx.Events;
-using EcsRx.Executor;
-using EcsRx.Extensions;
 using EcsRx.Infrastructure;
-using EcsRx.Infrastructure.Dependencies;
-using EcsRx.Infrastructure.Extensions;
 using EcsRx.Infrastructure.Modules;
-using EcsRx.Infrastructure.Plugins;
 using EcsRx.Plugins.Batching;
 using EcsRx.Plugins.Computeds;
 using EcsRx.Plugins.ReactiveSystems;
 using EcsRx.Plugins.Views;
-using EcsRx.Systems;
 using EcsRx.Unity.Modules;
 using UnityEngine;
 
@@ -29,9 +30,9 @@ namespace EcsRx.Unity
         public IEventSystem EventSystem { get; private set; }
         public IEntityDatabase EntityDatabase { get; private set; }
         public IObservableGroupManager ObservableGroupManager { get; private set; }
-        public IEnumerable<IEcsRxPlugin> Plugins => _plugins;
+        public IEnumerable<ISystemsRxPlugin> Plugins => _plugins;
         
-        protected List<IEcsRxPlugin> _plugins { get; } = new List<IEcsRxPlugin>();
+        protected List<ISystemsRxPlugin> _plugins { get; } = new List<ISystemsRxPlugin>();
 
         protected abstract void ApplicationStarted();
         
@@ -72,6 +73,7 @@ namespace EcsRx.Unity
         protected virtual void LoadModules()
         {
             Container.LoadModule<FrameworkModule>();
+            Container.LoadModule<EcsRxInfrastructureModule>();
             Container.LoadModule<UnityOverrideModule>();
         }
         
@@ -117,7 +119,7 @@ namespace EcsRx.Unity
                 .ForEachRun(x => SystemExecutor.AddSystem(x));
         }
 
-        protected void RegisterPlugin(IEcsRxPlugin plugin)
+        protected void RegisterPlugin(ISystemsRxPlugin plugin)
         { _plugins.Add(plugin); }
     }
 }

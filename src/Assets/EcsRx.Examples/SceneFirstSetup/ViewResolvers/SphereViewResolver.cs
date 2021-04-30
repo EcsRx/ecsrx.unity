@@ -1,14 +1,12 @@
-﻿using EcsRx.Collections;
+﻿using SystemsRx.Events;
 using EcsRx.Collections.Database;
 using EcsRx.Entities;
-using EcsRx.Events;
 using EcsRx.Examples.SceneFirstSetup.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Unity.Dependencies;
 using EcsRx.Unity.Systems;
 using UnityEngine;
-using Zenject;
 
 namespace EcsRx.Examples.SceneFirstSetup.ViewResolvers
 {

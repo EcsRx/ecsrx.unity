@@ -1,18 +1,14 @@
-﻿using System;
-using EcsRx.Entities;
+﻿using EcsRx.Entities;
 using EcsRx.Examples.SimpleMovement.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Groups.Observable;
-using EcsRx.Plugins.ReactiveSystems.Systems;
 using EcsRx.Plugins.Views.Components;
 using EcsRx.Systems;
-using UniRx;
 using UnityEngine;
 
 namespace EcsRx.Examples.SimpleMovement.Systems
 {
-    public class PlayerControlSystem : IBasicSystem
+    public class PlayerControlSystem : IBasicEntitySystem
     {
         public readonly float MovementSpeed = 2.0f;
 

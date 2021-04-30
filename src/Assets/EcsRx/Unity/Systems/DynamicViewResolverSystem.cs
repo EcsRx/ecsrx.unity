@@ -1,8 +1,7 @@
-﻿using EcsRx.Unity.Dependencies;
-using EcsRx.Collections;
+﻿using SystemsRx.Events;
+using EcsRx.Unity.Dependencies;
 using EcsRx.Collections.Database;
 using EcsRx.Entities;
-using EcsRx.Events;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Plugins.ReactiveSystems.Systems;

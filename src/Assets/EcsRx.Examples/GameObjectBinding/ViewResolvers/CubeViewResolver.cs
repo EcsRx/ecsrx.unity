@@ -1,7 +1,6 @@
-﻿using EcsRx.Collections;
+﻿using SystemsRx.Events;
 using EcsRx.Collections.Database;
 using EcsRx.Entities;
-using EcsRx.Events;
 using EcsRx.Examples.GameObjectBinding.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;

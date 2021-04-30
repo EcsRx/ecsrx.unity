@@ -1,6 +1,6 @@
-using EcsRx.Infrastructure.Dependencies;
-using EcsRx.Infrastructure.Extensions;
-using EcsRx.Scheduling;
+using SystemsRx.Infrastructure.Dependencies;
+using SystemsRx.Infrastructure.Extensions;
+using SystemsRx.Scheduling;
 using EcsRx.Unity.Scheduling;
 
 namespace EcsRx.Unity.Modules
