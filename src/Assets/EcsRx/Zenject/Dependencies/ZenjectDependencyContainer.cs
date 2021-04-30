@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using EcsRx.Infrastructure.Dependencies;
+using SystemsRx.Infrastructure.Dependencies;
 using EcsRx.Unity.Dependencies;
 using EcsRx.Zenject.Extensions;
 using UnityEngine;

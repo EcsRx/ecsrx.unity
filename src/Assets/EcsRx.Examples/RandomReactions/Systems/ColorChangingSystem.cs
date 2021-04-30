@@ -1,18 +1,15 @@
-using System;
 using EcsRx.Entities;
 using EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Groups.Observable;
 using EcsRx.Plugins.ReactiveSystems.Systems;
 using EcsRx.Systems;
-using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace EcsRx.Examples.RandomReactions.Systems
 {
-    public class ColorChangingSystem : IBasicSystem, ISetupSystem
+    public class ColorChangingSystem : IBasicEntitySystem, ISetupSystem
     {
         private readonly float MaxDelay = 5.0f;
         private readonly float MinDelay = 1.0f;

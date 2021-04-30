@@ -1,12 +1,9 @@
-﻿using EcsRx.Collections;
+﻿using SystemsRx.Events;
 using EcsRx.Collections.Database;
 using EcsRx.Entities;
-using EcsRx.Events;
 using EcsRx.Unity.Dependencies;
-using EcsRx.Unity.Extensions;
 using EcsRx.Unity.Systems;
 using UnityEngine;
-using Zenject;
 
 namespace EcsRx.Examples.SimpleMovement.ViewResolvers
 {

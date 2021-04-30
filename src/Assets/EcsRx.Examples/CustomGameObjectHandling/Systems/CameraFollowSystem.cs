@@ -1,17 +1,14 @@
-﻿using System;
-using EcsRx.Entities;
+﻿using EcsRx.Entities;
 using EcsRx.Examples.CustomGameObjectHandling.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Groups.Observable;
 using EcsRx.Plugins.ReactiveSystems.Systems;
 using EcsRx.Systems;
-using UniRx;
 using UnityEngine;
 
 namespace EcsRx.Examples.CustomGameObjectHandling.Systems
 {
-    public class CameraFollowSystem : ISetupSystem, IBasicSystem
+    public class CameraFollowSystem : ISetupSystem, IBasicEntitySystem
     {
         public IGroup Group => new GroupBuilder()
             .WithComponent<CameraFollowsComponent>()

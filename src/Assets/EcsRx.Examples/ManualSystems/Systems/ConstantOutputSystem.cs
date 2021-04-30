@@ -1,4 +1,5 @@
 ﻿using System;
+using SystemsRx.Systems.Conventional;
 using EcsRx.Groups;
 using EcsRx.Groups.Observable;
 using EcsRx.Systems;
@@ -9,13 +10,10 @@ namespace EcsRx.Examples.ManualSystems.Systems
 {
     public class ConstantOutputSystem : IManualSystem
     {
-        // Empty group will match nothing
-        public IGroup Group => new EmptyGroup();
-
         private IDisposable _updateLoop;
         private float _timesOutputted = 0;
 
-        public void StartSystem(IObservableGroup group)
+        public void StartSystem()
         {
             _updateLoop = Observable.Interval(TimeSpan.FromSeconds(2)).Subscribe(x =>
             {
@@ -23,7 +21,7 @@ namespace EcsRx.Examples.ManualSystems.Systems
             });
         }
 
-        public void StopSystem(IObservableGroup group)
+        public void StopSystem()
         {
             _updateLoop.Dispose();
             _timesOutputted = 0;

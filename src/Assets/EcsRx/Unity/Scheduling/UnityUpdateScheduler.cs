@@ -1,5 +1,5 @@
 using System;
-using EcsRx.Scheduling;
+using SystemsRx.Scheduling;
 using UniRx;
 using UnityEngine;
 

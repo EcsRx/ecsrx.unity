@@ -1,8 +1,7 @@
-﻿using EcsRx.Examples.ManuallyRegisterSystems.Systems;
+﻿using SystemsRx.Infrastructure.Extensions;
+using EcsRx.Examples.ManuallyRegisterSystems.Systems;
 using EcsRx.Extensions;
-using EcsRx.Infrastructure.Extensions;
 using EcsRx.Plugins.Views.Components;
-using EcsRx.Systems;
 using EcsRx.Zenject;
 
 namespace EcsRx.Examples.ManuallyRegisterSystems

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using SystemsRx.Infrastructure.Dependencies;
+using SystemsRx.Infrastructure.Extensions;
+using SystemsRx.Infrastructure.Plugins;
+using SystemsRx.Systems;
 using EcsRx.Examples.PluginExample.HelloWorldPlugin.systems;
-using EcsRx.Infrastructure.Dependencies;
-using EcsRx.Infrastructure.Extensions;
-using EcsRx.Infrastructure.Plugins;
-using EcsRx.Systems;
 
 namespace EcsRx.Examples.PluginExample.HelloWorldPlugin
 {
-    public class HelloWorldPlugin : IEcsRxPlugin
+    public class HelloWorldPlugin : ISystemsRxPlugin
     {
         public string Name => "Hello World Plugin";
         public Version Version => new Version(1, 0, 0);
