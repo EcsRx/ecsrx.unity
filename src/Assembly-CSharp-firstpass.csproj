@@ -507,6 +507,12 @@
     <Reference Include="EcsRx.Plugins.Views">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.Views.dll</HintPath>
     </Reference>
+    <Reference Include="SystemsRx">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/SystemsRx.dll</HintPath>
+    </Reference>
+    <Reference Include="SystemsRx.Infrastructure">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/SystemsRx.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.dll</HintPath>
     </Reference>
@@ -522,11 +528,8 @@
     <Reference Include="Zenject-usage">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
     </Reference>
-    <Reference Include="SystemsRx.Infrastructure">
-      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/SystemsRx.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="SystemsRx">
-      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/SystemsRx.dll</HintPath>
+    <Reference Include="EcsRx.Plugins.GroupBinding">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.GroupBinding.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.15f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
