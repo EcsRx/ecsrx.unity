@@ -492,14 +492,14 @@
     <Reference Include="EcsRx.Infrastructure">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="EcsRx.MicroRx">
-      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.MicroRx.dll</HintPath>
-    </Reference>
     <Reference Include="EcsRx.Plugins.Batching">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.Batching.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx.Plugins.Computeds">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.Computeds.dll</HintPath>
+    </Reference>
+    <Reference Include="EcsRx.Plugins.GroupBinding">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.GroupBinding.dll</HintPath>
     </Reference>
     <Reference Include="EcsRx.Plugins.ReactiveSystems">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.ReactiveSystems.dll</HintPath>
@@ -512,6 +512,12 @@
     </Reference>
     <Reference Include="SystemsRx.Infrastructure">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/SystemsRx.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="SystemsRx.MicroRx">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/SystemsRx.MicroRx.dll</HintPath>
+    </Reference>
+    <Reference Include="SystemsRx.Plugins.Computeds">
+      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/SystemsRx.Plugins.Computeds.dll</HintPath>
     </Reference>
     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Lib/Zenject.ReflectionBaking.Mono.Cecil.dll</HintPath>
@@ -527,9 +533,6 @@
     </Reference>
     <Reference Include="Zenject-usage">
       <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
-    </Reference>
-    <Reference Include="EcsRx.Plugins.GroupBinding">
-      <HintPath>E:/Code/open-source/ecsrx/ecsrx.unity/src/Assets/EcsRx/EcsRx.Plugins.GroupBinding.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.15f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
