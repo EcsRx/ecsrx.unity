@@ -1,15 +1,12 @@
 ﻿using SystemsRx.Events;
-using EcsRx.Collections;
 using EcsRx.Collections.Database;
 using EcsRx.Entities;
-using EcsRx.Events;
 using EcsRx.Examples.GameObjectBinding.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Unity.Dependencies;
 using EcsRx.Unity.Systems;
 using UnityEngine;
-using Zenject;
 
 namespace EcsRx.Examples.GameObjectBinding.ViewResolvers
 {

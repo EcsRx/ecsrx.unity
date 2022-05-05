@@ -1,15 +1,12 @@
 ﻿using SystemsRx.Events;
-using EcsRx.Collections;
 using EcsRx.Collections.Database;
 using EcsRx.Entities;
-using EcsRx.Events;
 using EcsRx.Examples.PooledViews.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Unity.Dependencies;
 using EcsRx.Unity.Systems;
 using EcsRx.Plugins.Views.Components;
-using EcsRx.Plugins.Views.Pooling;
 using UnityEngine;
 
 namespace EcsRx.Examples.PooledViews.ViewResolvers
