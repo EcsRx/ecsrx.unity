@@ -14,6 +14,6 @@ You can create a link.xml file and place it in the assets folder to avoid any co
 </linker>
 ```
 
-## IReactToDataSystems
+## IReactToDataSystems (Or any generic systems)
 
 If you create an IReactToDataSystem for a value type, it will get stripped and cause issues. You can work around this by wrapping the value type in a class, or just don't make IReactToDataSystems for value types.
