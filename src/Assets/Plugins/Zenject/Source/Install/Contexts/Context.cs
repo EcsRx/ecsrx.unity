@@ -109,16 +109,12 @@ namespace Zenject
                 Assert.IsNotNull(installer, "Found null installer in Context '{0}'", name);
 
 #if UNITY_EDITOR
-#if UNITY_2019_1_OR_NEWER
-                // TODO - Is there a way to check this using GetPrefabAssetType in 2019+?
-#else
-#if UNITY_2018_3
-                Assert.That(PrefabUtility.GetPrefabAssetType(installer.gameObject) == PrefabAssetType.NotAPrefab,
+#if UNITY_2018_3_OR_NEWER
+                Assert.That(!PrefabUtility.IsPartOfPrefabAsset(installer.gameObject),
 #else
                 Assert.That(PrefabUtility.GetPrefabType(installer.gameObject) != PrefabType.Prefab,
 #endif
                     "Found prefab with name '{0}' in the Installer property of Context '{1}'.  You should use the property 'InstallerPrefabs' for this instead.", installer.name, name);
-#endif
 #endif
             }
 

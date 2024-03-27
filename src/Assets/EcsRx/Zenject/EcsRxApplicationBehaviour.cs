@@ -28,7 +28,7 @@ namespace EcsRx.Zenject
         /// </summary>
         protected void OnZenjectReady()
         {   
-            Container = new ZenjectDependencyContainer(_sceneContext.Container);
+            DependencyRegistry = new ZenjectDependencyRegistry(_sceneContext.Container);
             StartApplication();
         }
         

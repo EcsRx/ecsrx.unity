@@ -10,15 +10,13 @@ namespace Zenject.Internal
 {
     public static class ZenMenuItems
     {
-        // NOTE: We use shift+alt+v instead of control+shift+v because control+shift+v conflicts
-        // with a vuforia shortcut
         [MenuItem("Edit/Zenject/Validate Current Scenes #&v")]
         public static void ValidateCurrentScene()
         {
             ValidateCurrentSceneInternal();
         }
 
-        [MenuItem("Edit/Zenject/Validate Then Run #%r")]
+        [MenuItem("Edit/Zenject/Validate Then Run #&r")]
         public static void ValidateCurrentSceneThenRun()
         {
             if (ValidateCurrentSceneInternal())

@@ -27,7 +27,7 @@ namespace Zenject
             List<TypeValuePair> args, InjectContext parentContext, out Action injectAction)
         {
             bool shouldMakeActive;
-            var gameObj = CreateGameObject(out shouldMakeActive);
+            var gameObj = CreateGameObject(parentContext, out shouldMakeActive);
 
             var context = gameObj.AddComponent<GameObjectContext>();
 
@@ -55,7 +55,7 @@ namespace Zenject
         }
 
         protected abstract void AddInstallers(List<TypeValuePair> args, GameObjectContext context);
-        protected abstract GameObject CreateGameObject(out bool shouldMakeActive);
+        protected abstract GameObject CreateGameObject(InjectContext context, out bool shouldMakeActive);
     }
 }
 

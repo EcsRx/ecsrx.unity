@@ -126,6 +126,21 @@ namespace Zenject
         }
 
         public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabMethod(
+            Func<InjectContext, UnityEngine.Object> prefabGetter, Action<DiContainer> installerMethod)
+        {
+            var gameObjectInfo = new GameObjectCreationParameters();
+
+            SubFinalizer = new SubContainerPrefabBindingFinalizer(
+                _bindInfo, _subIdentifier, _resolveAll,
+                (container) => new SubContainerCreatorByNewPrefabMethod(
+                    container,
+                    new PrefabProviderCustom(prefabGetter),
+                    gameObjectInfo, installerMethod));
+
+            return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(_bindInfo, gameObjectInfo);
+        }
+
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabMethod(
             UnityEngine.Object prefab, Action<DiContainer> installerMethod)
         {
             BindingUtil.AssertIsValidPrefab(prefab);
@@ -159,6 +174,31 @@ namespace Zenject
                 _bindInfo, _subIdentifier, _resolveAll,
                 (container) => new SubContainerCreatorByNewGameObjectInstaller(
                     container, gameObjectInfo, installerType, _bindInfo.Arguments));
+
+            return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(_bindInfo, gameObjectInfo);
+        }
+
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabInstaller<TInstaller>(
+            Func<InjectContext, UnityEngine.Object> prefabGetter)
+            where TInstaller : InstallerBase
+        {
+            return ByNewPrefabInstaller(prefabGetter, typeof(TInstaller));
+        }
+
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabInstaller(
+            Func<InjectContext, UnityEngine.Object> prefabGetter, Type installerType)
+        {
+            Assert.That(installerType.DerivesFrom<InstallerBase>(),
+                "Invalid installer type given during bind command.  Expected type '{0}' to derive from 'Installer<>'", installerType);
+
+            var gameObjectInfo = new GameObjectCreationParameters();
+
+            SubFinalizer = new SubContainerPrefabBindingFinalizer(
+                _bindInfo, _subIdentifier, _resolveAll,
+                (container) => new SubContainerCreatorByNewPrefabInstaller(
+                    container,
+                    new PrefabProviderCustom(prefabGetter),
+                    gameObjectInfo, installerType, _bindInfo.Arguments));
 
             return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(_bindInfo, gameObjectInfo);
         }

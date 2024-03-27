@@ -97,6 +97,32 @@ namespace Zenject
         }
 
         public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabInstaller<TInstaller>(
+            Func<InjectContext, UnityEngine.Object> prefabGetter)
+            where TInstaller : InstallerBase
+        {
+            return ByNewPrefabInstaller(prefabGetter, typeof(TInstaller));
+        }
+
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabInstaller(
+            Func<InjectContext, UnityEngine.Object> prefabGetter, Type installerType)
+        {
+            Assert.That(installerType.DerivesFrom<InstallerBase>(),
+                "Invalid installer type given during bind command.  Expected type '{0}' to derive from 'Installer<>'", installerType);
+
+            var gameObjectInfo = new GameObjectCreationParameters();
+
+            ProviderFunc =
+                (container) => new SubContainerDependencyProvider(
+                    ContractType, SubIdentifier,
+                    new SubContainerCreatorByNewPrefabInstaller(
+                        container,
+                        new PrefabProviderCustom(prefabGetter),
+                        gameObjectInfo, installerType, BindInfo.Arguments), false);
+
+            return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
+        }
+
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabInstaller<TInstaller>(
             UnityEngine.Object prefab)
             where TInstaller : InstallerBase
         {

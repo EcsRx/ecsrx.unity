@@ -15,7 +15,7 @@ namespace Zenject
             _prefab = prefab;
         }
 
-        public UnityEngine.Object GetPrefab()
+        public UnityEngine.Object GetPrefab(InjectContext _)
         {
             return _prefab;
         }

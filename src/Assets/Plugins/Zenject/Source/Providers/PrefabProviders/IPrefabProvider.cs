@@ -4,7 +4,7 @@ namespace Zenject
 {
     public interface IPrefabProvider
     {
-        UnityEngine.Object GetPrefab();
+        UnityEngine.Object GetPrefab(InjectContext context);
     }
 }
 

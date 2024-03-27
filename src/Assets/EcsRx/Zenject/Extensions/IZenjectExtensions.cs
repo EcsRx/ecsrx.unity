@@ -5,12 +5,19 @@ using System.Linq;
 using EcsRx.Collections;
 using EcsRx.Groups;
 using EcsRx.Groups.Observable;
+using SystemsRx.Infrastructure.Dependencies;
 using Zenject;
 
 namespace EcsRx.Zenject.Extensions
 {
     public static class ZenjectExtensions
     {
+        public static DiContainer GetContainer(this IDependencyRegistry registry)
+        { return registry.NativeRegistry as DiContainer; }
+    
+        public static DiContainer GetContainer(this IDependencyResolver resolver)
+        { return resolver.NativeResolver as DiContainer; }
+        
         public static IObservableGroup ResolveObservableGroup(this DiContainer container, IGroup group)
         {
             var observableGroupManager = container.Resolve<IObservableGroupManager>();

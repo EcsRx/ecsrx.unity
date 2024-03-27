@@ -1,4 +1,4 @@
-﻿#if (NET_4_6)
+﻿#if (NET_4_6 || NET_STANDARD_2_0)
 
 using System;
 using System.Collections;
@@ -86,15 +86,27 @@ namespace UniRx
 
     public static class CoroutineAsyncExtensions
     {
-        public static CoroutineAsyncBridge<WWW> GetAwaiter(this WWW www)
-        {
-            return CoroutineAsyncBridge<WWW>.Start(www);
-        }
-
         public static CoroutineAsyncBridge GetAwaiter(this Coroutine coroutine)
         {
             return CoroutineAsyncBridge.Start(coroutine);
         }
+
+#if !(CSHARP_7_OR_LATER || (UNITY_2018_3_OR_NEWER && (NET_STANDARD_2_0 || NET_4_6)))
+
+        // should use UniRx.Async in C# 7.0
+
+#if UNITY_2018_3_OR_NEWER
+#pragma warning disable CS0618
+#endif
+        public static CoroutineAsyncBridge<WWW> GetAwaiter(this WWW www)
+        {
+            return CoroutineAsyncBridge<WWW>.Start(www);
+        }
+#if UNITY_2018_3_OR_NEWER
+#pragma warning restore CS0618
+#endif
+
+
 
         public static CoroutineAsyncBridge<AsyncOperation> GetAwaiter(this AsyncOperation asyncOperation)
         {
@@ -105,6 +117,8 @@ namespace UniRx
         {
             return CoroutineAsyncBridge.Start(coroutine);
         }
+
+#endif
     }
 }
 

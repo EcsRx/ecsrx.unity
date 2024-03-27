@@ -12,7 +12,7 @@ namespace Zenject
     {
         List<InitializableInfo> _initializables;
 
-        bool _hasInitialized;
+        protected bool _hasInitialized;
 
         [Inject]
         public InitializableManager(

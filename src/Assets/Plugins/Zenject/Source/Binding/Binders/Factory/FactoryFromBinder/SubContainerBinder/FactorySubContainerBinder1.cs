@@ -42,6 +42,22 @@ namespace Zenject
         }
 
         public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabMethod(
+            Func<InjectContext, UnityEngine.Object> prefabGetter, Action<DiContainer, TParam1> installerMethod)
+        {
+            var gameObjectInfo = new GameObjectCreationParameters();
+
+            ProviderFunc =
+                (container) => new SubContainerDependencyProvider(
+                    ContractType, SubIdentifier,
+                    new SubContainerCreatorByNewPrefabMethod<TParam1>(
+                        container,
+                        new PrefabProviderCustom(prefabGetter),
+                        gameObjectInfo, installerMethod), false);
+
+            return new NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder(BindInfo, gameObjectInfo);
+        }
+
+        public NameTransformScopeConcreteIdArgConditionCopyNonLazyBinder ByNewPrefabMethod(
             UnityEngine.Object prefab, Action<DiContainer, TParam1> installerMethod)
         {
             BindingUtil.AssertIsValidPrefab(prefab);

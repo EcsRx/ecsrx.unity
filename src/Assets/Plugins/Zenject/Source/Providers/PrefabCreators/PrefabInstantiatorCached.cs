@@ -34,9 +34,9 @@ namespace Zenject
             get { return _subInstantiator.GameObjectCreationParameters; }
         }
 
-        public UnityEngine.Object GetPrefab()
+        public UnityEngine.Object GetPrefab(InjectContext context)
         {
-            return _subInstantiator.GetPrefab();
+            return _subInstantiator.GetPrefab(context);
         }
 
         public GameObject Instantiate(InjectContext context, List<TypeValuePair> args, out Action injectAction)

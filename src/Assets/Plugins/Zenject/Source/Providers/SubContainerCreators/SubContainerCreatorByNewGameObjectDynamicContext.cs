@@ -20,7 +20,7 @@ namespace Zenject
             _gameObjectBindInfo = gameObjectBindInfo;
         }
 
-        protected override GameObject CreateGameObject(out bool shouldMakeActive)
+        protected override GameObject CreateGameObject(InjectContext context, out bool shouldMakeActive)
         {
             shouldMakeActive = true;
             var gameObject = Container.CreateEmptyGameObject(_gameObjectBindInfo, null);

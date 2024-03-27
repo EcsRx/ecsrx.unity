@@ -24,7 +24,8 @@ namespace EcsRx.Unity
     [DefaultExecutionOrder(-20000)]
     public abstract class UnityEcsRxApplicationBehaviour : MonoBehaviour, IEcsRxApplication
     {
-        public IDependencyContainer Container { get; protected set; }
+        public IDependencyRegistry DependencyRegistry { get; protected set; }
+        public IDependencyResolver DependencyResolver { get; protected set; }
         
         public ISystemExecutor SystemExecutor { get; private set; }
         public IEventSystem EventSystem { get; private set; }
@@ -41,15 +42,17 @@ namespace EcsRx.Unity
             LoadModules();
             LoadPlugins();
             SetupPlugins();
-            ResolveApplicationDependencies();
             BindSystems();
+
+            DependencyResolver = DependencyRegistry.BuildResolver();
+            ResolveApplicationDependencies();
             StartPluginSystems();
             StartSystems();
             ApplicationStarted();
         }
         
         public virtual void StopApplication()
-        { StopAndUnbindAllSystems(); }
+        { StopAllSystems(); }
 
         /// <summary>
         /// Load any plugins that your application needs
@@ -72,9 +75,9 @@ namespace EcsRx.Unity
         /// </remarks>
         protected virtual void LoadModules()
         {
-            Container.LoadModule<FrameworkModule>();
-            Container.LoadModule<EcsRxInfrastructureModule>();
-            Container.LoadModule<UnityOverrideModule>();
+            DependencyRegistry.LoadModule<FrameworkModule>();
+            DependencyRegistry.LoadModule<EcsRxInfrastructureModule>();
+            DependencyRegistry.LoadModule<UnityOverrideModule>();
         }
         
         /// <summary>
@@ -83,10 +86,10 @@ namespace EcsRx.Unity
         /// <remarks>By default it will setup SystemExecutor, EventSystem, EntityCollectionManager</remarks>
         protected virtual void ResolveApplicationDependencies()
         {
-            SystemExecutor = Container.Resolve<ISystemExecutor>();
-            EventSystem = Container.Resolve<IEventSystem>();
-            EntityDatabase = Container.Resolve<IEntityDatabase>();
-            ObservableGroupManager = Container.Resolve<IObservableGroupManager>();
+            SystemExecutor = DependencyResolver.Resolve<ISystemExecutor>();
+            EventSystem = DependencyResolver.Resolve<IEventSystem>();
+            EntityDatabase = DependencyResolver.Resolve<IEntityDatabase>();
+            ObservableGroupManager = DependencyResolver.Resolve<IObservableGroupManager>();
         }
         
         /// <summary>
@@ -96,11 +99,11 @@ namespace EcsRx.Unity
         protected virtual void BindSystems()
         { this.BindAllSystemsWithinApplicationScope(); }
         
-        protected virtual void StopAndUnbindAllSystems()
+        protected virtual void StopAllSystems()
         {
             var allSystems = SystemExecutor.Systems.ToList();
             allSystems.ForEachRun(SystemExecutor.RemoveSystem);
-            Container.Unbind<ISystem>();
+            DependencyRegistry.Unbind<ISystem>();
         }
 
         /// <summary>
@@ -111,11 +114,11 @@ namespace EcsRx.Unity
         { this.StartAllBoundSystems(); }
         
         protected virtual void SetupPlugins()
-        { _plugins.ForEachRun(x => x.SetupDependencies(Container)); }
+        { _plugins.ForEachRun(x => x.SetupDependencies(DependencyRegistry)); }
 
         protected virtual void StartPluginSystems()
         {
-            _plugins.SelectMany(x => x.GetSystemsForRegistration(Container))
+            _plugins.SelectMany(x => x.GetSystemsForRegistration(DependencyResolver))
                 .ForEachRun(x => SystemExecutor.AddSystem(x));
         }
 

@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx.InternalUtil;
 using UniRx.Triggers;
 using UnityEngine;
 using System.Threading;
@@ -30,11 +31,6 @@ namespace UniRx
         EndOfFrame,
         GameObjectUpdate,
         LateUpdate,
-#if SupportCustomYieldInstruction
-        /// <summary>[Obsolete]Same as Update</summary>
-        [Obsolete]
-        AfterUpdate
-#endif
     }
 
     public static class FrameCountTypeExtensions
@@ -156,7 +152,7 @@ namespace UniRx
             {
                 if (reThrowOnError && HasError)
                 {
-                    throw Error;
+                    Error.Throw();
                 }
 
                 return false;
@@ -233,7 +229,13 @@ namespace UniRx
     {
         readonly static HashSet<Type> YieldInstructionTypes = new HashSet<Type>
         {
+            #if UNITY_2018_3_OR_NEWER
+#pragma warning disable CS0618
+#endif
             typeof(WWW),
+            #if UNITY_2018_3_OR_NEWER
+#pragma warning restore CS0618
+#endif
             typeof(WaitForEndOfFrame),
             typeof(WaitForFixedUpdate),
             typeof(WaitForSeconds),
@@ -555,7 +557,7 @@ namespace UniRx
 
         public static IObservable<T> FromCoroutine<T>(Func<IObserver<T>, IEnumerator> coroutine)
         {
-            return FromCoroutine<T>((observer, cancellationToken) => WrapToCancellableEnumerator(coroutine(observer), cancellationToken));
+            return FromCoroutine<T>((observer, cancellationToken) => WrapToCancellableEnumerator(coroutine(observer), observer, cancellationToken));
         }
 
         /// <summary>
@@ -564,10 +566,10 @@ namespace UniRx
         /// </summary>
         public static IObservable<T> FromMicroCoroutine<T>(Func<IObserver<T>, IEnumerator> coroutine, FrameCountType frameCountType = FrameCountType.Update)
         {
-            return FromMicroCoroutine<T>((observer, cancellationToken) => WrapToCancellableEnumerator(coroutine(observer), cancellationToken), frameCountType);
+            return FromMicroCoroutine<T>((observer, cancellationToken) => WrapToCancellableEnumerator(coroutine(observer), observer, cancellationToken), frameCountType);
         }
 
-        static IEnumerator WrapToCancellableEnumerator(IEnumerator enumerator, CancellationToken cancellationToken)
+        static IEnumerator WrapToCancellableEnumerator<T>(IEnumerator enumerator, IObserver<T> observer, CancellationToken cancellationToken)
         {
             var hasNext = default(bool);
             do
@@ -576,12 +578,19 @@ namespace UniRx
                 {
                     hasNext = enumerator.MoveNext();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    var d = enumerator as IDisposable;
-                    if (d != null)
+                    try
                     {
-                        d.Dispose();
+                        observer.OnError(ex);
+                    }
+                    finally
+                    {
+                        var d = enumerator as IDisposable;
+                        if (d != null)
+                        {
+                            d.Dispose();
+                        }
                     }
                     yield break;
                 }
@@ -986,12 +995,6 @@ namespace UniRx
                     return source.SelectMany(_ => MainThreadDispatcher.UpdateAsObservable().Take(1), (x, _) => x);
                 case MainThreadDispatchType.LateUpdate:
                     return source.SelectMany(_ => MainThreadDispatcher.LateUpdateAsObservable().Take(1), (x, _) => x);
-#if SupportCustomYieldInstruction
-#pragma warning disable 612 // Type or member is obsolete
-                case MainThreadDispatchType.AfterUpdate:
-                    return source.SelectMany(_ => EveryAfterUpdate().Take(1), (x, _) => x);
-#pragma warning restore 612 // Type or member is obsolete
-#endif
                 default:
                     throw new ArgumentException("type is invalid");
             }
@@ -1147,7 +1150,7 @@ namespace UniRx
         internal static class Stubs
         {
             public static readonly Action Nop = () => { };
-            public static readonly Action<Exception> Throw = ex => { throw ex; };
+            public static readonly Action<Exception> Throw = ex => { ex.Throw(); };
 
             // Stubs<T>.Ignore can't avoid iOS AOT problem.
             public static void Ignore<T>(T t)

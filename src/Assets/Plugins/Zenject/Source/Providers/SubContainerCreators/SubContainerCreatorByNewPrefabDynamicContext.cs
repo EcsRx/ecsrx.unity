@@ -23,9 +23,9 @@ namespace Zenject
             _gameObjectBindInfo = gameObjectBindInfo;
         }
 
-        protected override GameObject CreateGameObject(out bool shouldMakeActive)
+        protected override GameObject CreateGameObject(InjectContext context, out bool shouldMakeActive)
         {
-            var prefab = _prefabProvider.GetPrefab();
+            var prefab = _prefabProvider.GetPrefab(context);
 
             var gameObj = Container.CreateAndParentPrefab(
                 prefab, _gameObjectBindInfo, null, out shouldMakeActive);

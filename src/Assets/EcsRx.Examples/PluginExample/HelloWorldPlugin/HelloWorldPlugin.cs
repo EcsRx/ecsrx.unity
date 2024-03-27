@@ -13,12 +13,12 @@ namespace EcsRx.Examples.PluginExample.HelloWorldPlugin
         public string Name => "Hello World Plugin";
         public Version Version => new Version(1, 0, 0);
 
-        public void SetupDependencies(IDependencyContainer container)
+        public void SetupDependencies(IDependencyRegistry container)
         {
             container.Bind<OutputHelloWorldSystem>();
         }
 
-        public IEnumerable<ISystem> GetSystemsForRegistration(IDependencyContainer container)
+        public IEnumerable<ISystem> GetSystemsForRegistration(IDependencyResolver container)
         {
             return new[]
             {

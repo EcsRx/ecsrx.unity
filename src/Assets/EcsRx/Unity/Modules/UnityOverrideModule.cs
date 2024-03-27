@@ -7,10 +7,10 @@ namespace EcsRx.Unity.Modules
 {
     public class UnityOverrideModule : IDependencyModule 
     {
-        public void Setup(IDependencyContainer container)
+        public void Setup(IDependencyRegistry  registry)
         {
-            container.Unbind<IUpdateScheduler>();
-            container.Bind<IUpdateScheduler, UnityUpdateScheduler>(x => x.AsSingleton());
+            registry.Unbind<IUpdateScheduler>();
+            registry.Bind<IUpdateScheduler, UnityUpdateScheduler>(x => x.AsSingleton());
         }
     }
 }
