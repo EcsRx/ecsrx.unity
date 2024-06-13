@@ -5,8 +5,8 @@ using EcsRx.Entities;
 using EcsRx.Examples.PooledViews.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Plugins.ReactiveSystems.Systems;
 using EcsRx.Plugins.Views.Components;
+using EcsRx.Systems;
 using UniRx;
 
 namespace EcsRx.Examples.PooledViews.Systems

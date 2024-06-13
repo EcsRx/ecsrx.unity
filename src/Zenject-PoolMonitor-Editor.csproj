@@ -326,38 +326,29 @@
      <Reference Include="Zenject.ReflectionBaking.Mono.Cecil">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.dll</HintPath>
      </Reference>
-     <Reference Include="SystemsRx.MicroRx">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.MicroRx.7.0.40\lib\netstandard2.1\SystemsRx.MicroRx.dll</HintPath>
-     </Reference>
      <Reference Include="EcsRx">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.7.0.158\lib\netstandard2.1\EcsRx.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.8.0.184\lib\netstandard2.1\EcsRx.dll</HintPath>
+     </Reference>
+     <Reference Include="SystemsRx.MicroRx">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.MicroRx.8.0.62\lib\netstandard2.1\SystemsRx.MicroRx.dll</HintPath>
      </Reference>
      <Reference Include="SystemsRx">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.7.0.40\lib\netstandard2.1\SystemsRx.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx.Infrastructure">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Infrastructure.7.0.158\lib\netstandard2.1\EcsRx.Infrastructure.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx.Plugins.Batching">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Batching.7.0.158\lib\netstandard2.1\EcsRx.Plugins.Batching.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.8.0.62\lib\netstandard2.1\SystemsRx.dll</HintPath>
      </Reference>
      <Reference Include="SystemsRx.Infrastructure">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.Infrastructure.7.0.40\lib\netstandard2.1\SystemsRx.Infrastructure.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.Infrastructure.8.0.62\lib\netstandard2.1\SystemsRx.Infrastructure.dll</HintPath>
+     </Reference>
+     <Reference Include="EcsRx.Infrastructure">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Infrastructure.8.0.184\lib\netstandard2.1\EcsRx.Infrastructure.dll</HintPath>
+     </Reference>
+     <Reference Include="EcsRx.Plugins.Batching">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Batching.8.0.184\lib\netstandard2.1\EcsRx.Plugins.Batching.dll</HintPath>
      </Reference>
      <Reference Include="EcsRx.Plugins.Views">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Views.7.0.158\lib\netstandard2.1\EcsRx.Plugins.Views.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx.Plugins.ReactiveSystems">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.ReactiveSystems.7.0.158\lib\netstandard2.1\EcsRx.Plugins.ReactiveSystems.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx.Plugins.Computeds">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Computeds.7.0.158\lib\netstandard2.1\EcsRx.Plugins.Computeds.dll</HintPath>
-     </Reference>
-     <Reference Include="SystemsRx.Plugins.Computeds">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.Plugins.Computeds.7.0.40\lib\netstandard2.1\SystemsRx.Plugins.Computeds.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Views.8.0.184\lib\netstandard2.1\EcsRx.Plugins.Views.dll</HintPath>
      </Reference>
      <Reference Include="EcsRx.Plugins.GroupBinding">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.GroupBinding.7.0.158\lib\netstandard2.1\EcsRx.Plugins.GroupBinding.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.GroupBinding.8.0.184\lib\netstandard2.1\EcsRx.Plugins.GroupBinding.dll</HintPath>
      </Reference>
      <Reference Include="nunit.framework">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>

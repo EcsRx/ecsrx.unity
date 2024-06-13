@@ -140,11 +140,13 @@
      <Compile Include="Assets\Plugins\UniRx\Scripts\Observable.FromAsync.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Subjects\Subject.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableEventTrigger.cs" />
+     <Compile Include="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableJointTrigger.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\ObserveExtensions.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Operators\Materialize.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Operators\Scan.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableStateMachineTrigger.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Operators\OperatorObserverBase.cs" />
+     <Compile Include="Assets\Plugins\UniRx\Scripts\InternalUtil\UnityEqualityComparer.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\UnityWinRTBridge\Thread.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Operators\ZipLatest.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\System\Tuple.cs" />
@@ -202,6 +204,7 @@
      <Compile Include="Assets\Plugins\UniRx\Scripts\Subjects\ReplaySubject.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Operators\Switch.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\MainThreadDispatcher.cs" />
+     <Compile Include="Assets\Plugins\UniRx\Scripts\InternalUtil\ExceptionExtensions.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Operators\CombineLatest.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\InternalUtil\AscynLock.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Disposables\CompositeDisposable.cs" />
@@ -237,6 +240,7 @@
      <Compile Include="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableCollisionTrigger.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Operators\RefCount.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableTriggerExtensions.cs" />
+     <Compile Include="Assets\Plugins\UniRx\Scripts\InternalUtil\CancellableTaskCompletionSource.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Asynchronous\WebRequestExtensions.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\Operators\DelayFrame.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Subjects\ISubject.cs" />
@@ -257,17 +261,13 @@
      <Compile Include="Assets\Plugins\UniRx\Scripts\Disposables\DisposableExtensions.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Disposables\ScheduledDisposable.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\Diagnostics\ObservableDebugExtensions.cs" />
+     <Compile Include="Assets\Plugins\UniRx\Scripts\InternalUtil\PromiseHelper.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Operators\Take.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Disposables\Disposable.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Operators\DelaySubscription.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Operators\StartWith.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Operators\DefaultIfEmpty.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Operators\Last.cs" />
-     <Compile Include="Assets\Plugins\UniRx\Scripts\InternalUtil\ExceptionExtensions.cs" />
-     <Compile Include="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\Triggers\ObservableJointTrigger.cs" />
-     <Compile Include="Assets\Plugins\UniRx\Scripts\InternalUtil\CancellableTaskCompletionSource.cs" />
-     <Compile Include="Assets\Plugins\UniRx\Scripts\InternalUtil\UnityEqualityComparer.cs" />
-     <Compile Include="Assets\Plugins\UniRx\Scripts\InternalUtil\PromiseHelper.cs" />
      <Folder Include="Assets\Plugins\UniRx\Scripts\Disposables" />
      <Folder Include="Assets\Plugins\UniRx\Scripts\InternalUtil" />
      <Folder Include="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\Diagnostics" />
@@ -558,38 +558,29 @@
      <Reference Include="Zenject.ReflectionBaking.Mono.Cecil">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.dll</HintPath>
      </Reference>
-     <Reference Include="SystemsRx.MicroRx">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.MicroRx.7.0.40\lib\netstandard2.1\SystemsRx.MicroRx.dll</HintPath>
-     </Reference>
      <Reference Include="EcsRx">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.7.0.158\lib\netstandard2.1\EcsRx.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.8.0.184\lib\netstandard2.1\EcsRx.dll</HintPath>
+     </Reference>
+     <Reference Include="SystemsRx.MicroRx">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.MicroRx.8.0.62\lib\netstandard2.1\SystemsRx.MicroRx.dll</HintPath>
      </Reference>
      <Reference Include="SystemsRx">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.7.0.40\lib\netstandard2.1\SystemsRx.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx.Infrastructure">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Infrastructure.7.0.158\lib\netstandard2.1\EcsRx.Infrastructure.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx.Plugins.Batching">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Batching.7.0.158\lib\netstandard2.1\EcsRx.Plugins.Batching.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.8.0.62\lib\netstandard2.1\SystemsRx.dll</HintPath>
      </Reference>
      <Reference Include="SystemsRx.Infrastructure">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.Infrastructure.7.0.40\lib\netstandard2.1\SystemsRx.Infrastructure.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.Infrastructure.8.0.62\lib\netstandard2.1\SystemsRx.Infrastructure.dll</HintPath>
+     </Reference>
+     <Reference Include="EcsRx.Infrastructure">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Infrastructure.8.0.184\lib\netstandard2.1\EcsRx.Infrastructure.dll</HintPath>
+     </Reference>
+     <Reference Include="EcsRx.Plugins.Batching">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Batching.8.0.184\lib\netstandard2.1\EcsRx.Plugins.Batching.dll</HintPath>
      </Reference>
      <Reference Include="EcsRx.Plugins.Views">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Views.7.0.158\lib\netstandard2.1\EcsRx.Plugins.Views.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx.Plugins.ReactiveSystems">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.ReactiveSystems.7.0.158\lib\netstandard2.1\EcsRx.Plugins.ReactiveSystems.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx.Plugins.Computeds">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Computeds.7.0.158\lib\netstandard2.1\EcsRx.Plugins.Computeds.dll</HintPath>
-     </Reference>
-     <Reference Include="SystemsRx.Plugins.Computeds">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.Plugins.Computeds.7.0.40\lib\netstandard2.1\SystemsRx.Plugins.Computeds.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Views.8.0.184\lib\netstandard2.1\EcsRx.Plugins.Views.dll</HintPath>
      </Reference>
      <Reference Include="EcsRx.Plugins.GroupBinding">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.GroupBinding.7.0.158\lib\netstandard2.1\EcsRx.Plugins.GroupBinding.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.GroupBinding.8.0.184\lib\netstandard2.1\EcsRx.Plugins.GroupBinding.dll</HintPath>
      </Reference>
      <Reference Include="mscorlib">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.28f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\mscorlib.dll</HintPath>

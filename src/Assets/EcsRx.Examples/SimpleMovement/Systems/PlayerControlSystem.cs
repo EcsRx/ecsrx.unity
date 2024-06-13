@@ -4,6 +4,7 @@ using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Plugins.Views.Components;
 using EcsRx.Systems;
+using SystemsRx.Scheduling;
 using UnityEngine;
 
 namespace EcsRx.Examples.SimpleMovement.Systems
@@ -17,7 +18,7 @@ namespace EcsRx.Examples.SimpleMovement.Systems
             .WithComponent<PlayerControlledComponent>()
             .Build();
 
-        public void Process(IEntity entity)
+        public void Process(IEntity entity, ElapsedTime elapsedTime)
         {
             var strafeMovement = 0f;
             var forardMovement = 0f;

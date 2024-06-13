@@ -13,8 +13,6 @@ using EcsRx.Collections.Database;
 using EcsRx.Infrastructure;
 using EcsRx.Infrastructure.Modules;
 using EcsRx.Plugins.Batching;
-using EcsRx.Plugins.Computeds;
-using EcsRx.Plugins.ReactiveSystems;
 using EcsRx.Plugins.Views;
 using EcsRx.Unity.Modules;
 using UnityEngine;
@@ -61,9 +59,7 @@ namespace EcsRx.Unity
         protected virtual void LoadPlugins()
         {
             RegisterPlugin(new ViewsPlugin());
-            RegisterPlugin(new ReactiveSystemsPlugin());
             RegisterPlugin(new BatchPlugin());
-            RegisterPlugin(new ComputedsPlugin());
         }
 
         /// <summary>

@@ -2,8 +2,8 @@ using EcsRx.Entities;
 using EcsRx.Examples.RandomReactions.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Plugins.ReactiveSystems.Systems;
 using EcsRx.Systems;
+using SystemsRx.Scheduling;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -22,7 +22,7 @@ namespace EcsRx.Examples.RandomReactions.Systems
             randomColorComponent.NextChangeIn = Random.Range(MinDelay, MaxDelay);
         }
         
-        public void Process(IEntity entity)
+        public void Process(IEntity entity, ElapsedTime elapsedTime)
         {
             var randomColorComponent = entity.GetComponent<RandomColorComponent>();
             randomColorComponent.Elapsed += Time.deltaTime;

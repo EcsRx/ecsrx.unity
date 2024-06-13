@@ -102,8 +102,8 @@
      <Compile Include="Assets\Plugins\Zenject\OptionalExtras\SampleGame2 (Advanced)\Scripts\Player\PlayerGui.cs" />
      <Compile Include="Assets\Plugins\Zenject\OptionalExtras\SampleGame1 (Beginner)\Scripts\Ship\States\ShipStateMoving.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\DefaultParentScopeConcreteIdArgConditionCopyNonLazyBinder.cs" />
-     <Compile Include="Assets\Plugins\Zenject\OptionalExtras\SampleGame1 (Beginner)\Scripts\Ship\States\ShipStateDead.cs" />
      <Compile Include="Assets\Plugins\Zenject\OptionalExtras\SampleGame2 (Advanced)\Scripts\Misc\LevelBoundary.cs" />
+     <Compile Include="Assets\Plugins\Zenject\OptionalExtras\SampleGame1 (Beginner)\Scripts\Ship\States\ShipStateDead.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Providers\ComponentProviders\AddToGameObjectComponentProviders\AddToNewGameObjectComponentProvider.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Providers\SubContainerCreators\SubContainerCreatorBindInfo.cs" />
      <Compile Include="Assets\Plugins\Zenject\OptionalExtras\SampleGame2 (Advanced)\Scripts\Installers\PlayerInstaller.cs" />
@@ -179,6 +179,7 @@
      <Compile Include="Assets\Plugins\Zenject\Source\Install\Contexts\ProjectContext.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Factories\Pooling\Util\StaticMemoryPoolRegistry.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\Finalizers\SingleProviderBindingFinalizer.cs" />
+     <Compile Include="Assets\Plugins\Zenject\Source\Providers\PrefabProviders\PrefabProviderCustom.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Providers\MethodProviderWithContainer.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Providers\PrefabProviders\PrefabProviderResource.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Util\ReflectionInfoTypeInfoConverter.cs" />
@@ -186,6 +187,7 @@
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\BindInfo\FactoryBindInfo.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\ConcreteBinders\ConcreteIdBinderNonGeneric.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\ConcreteBinders\ConcreteBinderGeneric.cs" />
+     <Compile Include="Assets\Plugins\Zenject\Source\Runtime\Kernels\DecoratableMonoKernel.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryToChoiceBinder\FactoryToChoiceBinder0.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Util\UnityUtil.cs" />
      <Compile Include="Assets\Plugins\Zenject\OptionalExtras\SampleGame2 (Advanced)\Scripts\Enemy\EnemyTunables.cs" />
@@ -241,8 +243,8 @@
      <Compile Include="Assets\Plugins\Zenject\Source\Util\ZenAutoInjecter.cs" />
      <Compile Include="Assets\Plugins\Zenject\OptionalExtras\SampleGame2 (Advanced)\Scripts\Player\PlayerModel.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\ScopeConcreteIdArgConditionCopyNonLazyBinder.cs" />
-     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryFromBinder\SubContainerBinder\FactorySubContainerBinder0.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\IdBinder.cs" />
+     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryFromBinder\SubContainerBinder\FactorySubContainerBinder0.cs" />
      <Compile Include="Assets\Plugins\Zenject\OptionalExtras\Signals\Internal\Binders\SignalCopyBinder.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Providers\ProviderUtil.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Runtime\TaskUpdater.cs" />
@@ -353,8 +355,6 @@
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryArgumentsToChoiceBinder\FactoryArgumentsToChoiceBinder2.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\WithKernelDefaultParentScopeConcreteIdArgConditionCopyNonLazyBinder.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryFromBinder\SubContainerBinder\FactorySubContainerBinder2.cs" />
-     <Compile Include="Assets\Plugins\Zenject\Source\Providers\PrefabProviders\PrefabProviderCustom.cs" />
-     <Compile Include="Assets\Plugins\Zenject\Source\Runtime\Kernels\DecoratableMonoKernel.cs" />
      <Folder Include="Assets\Plugins\Zenject\OptionalExtras\SampleGame1 (Beginner)\Scripts\Main" />
      <Folder Include="Assets\Plugins\Zenject\Source\Runtime\Kernels" />
      <Folder Include="Assets\Plugins\Zenject\Source\Providers\SubContainerCreators" />
@@ -740,38 +740,29 @@
      <Reference Include="Zenject.ReflectionBaking.Mono.Cecil">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.dll</HintPath>
      </Reference>
-     <Reference Include="SystemsRx.MicroRx">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.MicroRx.7.0.40\lib\netstandard2.1\SystemsRx.MicroRx.dll</HintPath>
-     </Reference>
      <Reference Include="EcsRx">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.7.0.158\lib\netstandard2.1\EcsRx.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.8.0.184\lib\netstandard2.1\EcsRx.dll</HintPath>
+     </Reference>
+     <Reference Include="SystemsRx.MicroRx">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.MicroRx.8.0.62\lib\netstandard2.1\SystemsRx.MicroRx.dll</HintPath>
      </Reference>
      <Reference Include="SystemsRx">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.7.0.40\lib\netstandard2.1\SystemsRx.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx.Infrastructure">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Infrastructure.7.0.158\lib\netstandard2.1\EcsRx.Infrastructure.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx.Plugins.Batching">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Batching.7.0.158\lib\netstandard2.1\EcsRx.Plugins.Batching.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.8.0.62\lib\netstandard2.1\SystemsRx.dll</HintPath>
      </Reference>
      <Reference Include="SystemsRx.Infrastructure">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.Infrastructure.7.0.40\lib\netstandard2.1\SystemsRx.Infrastructure.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.Infrastructure.8.0.62\lib\netstandard2.1\SystemsRx.Infrastructure.dll</HintPath>
+     </Reference>
+     <Reference Include="EcsRx.Infrastructure">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Infrastructure.8.0.184\lib\netstandard2.1\EcsRx.Infrastructure.dll</HintPath>
+     </Reference>
+     <Reference Include="EcsRx.Plugins.Batching">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Batching.8.0.184\lib\netstandard2.1\EcsRx.Plugins.Batching.dll</HintPath>
      </Reference>
      <Reference Include="EcsRx.Plugins.Views">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Views.7.0.158\lib\netstandard2.1\EcsRx.Plugins.Views.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx.Plugins.ReactiveSystems">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.ReactiveSystems.7.0.158\lib\netstandard2.1\EcsRx.Plugins.ReactiveSystems.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx.Plugins.Computeds">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Computeds.7.0.158\lib\netstandard2.1\EcsRx.Plugins.Computeds.dll</HintPath>
-     </Reference>
-     <Reference Include="SystemsRx.Plugins.Computeds">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.Plugins.Computeds.7.0.40\lib\netstandard2.1\SystemsRx.Plugins.Computeds.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Views.8.0.184\lib\netstandard2.1\EcsRx.Plugins.Views.dll</HintPath>
      </Reference>
      <Reference Include="EcsRx.Plugins.GroupBinding">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.GroupBinding.7.0.158\lib\netstandard2.1\EcsRx.Plugins.GroupBinding.dll</HintPath>
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.GroupBinding.8.0.184\lib\netstandard2.1\EcsRx.Plugins.GroupBinding.dll</HintPath>
      </Reference>
      <Reference Include="mscorlib">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.28f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\mscorlib.dll</HintPath>

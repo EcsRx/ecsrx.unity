@@ -2,9 +2,9 @@
 using EcsRx.Examples.SimpleMovement.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Plugins.ReactiveSystems.Systems;
 using EcsRx.Plugins.Views.Components;
 using EcsRx.Systems;
+using SystemsRx.Scheduling;
 using UnityEngine;
 
 namespace EcsRx.Examples.SimpleMovement.Systems
@@ -22,7 +22,7 @@ namespace EcsRx.Examples.SimpleMovement.Systems
             cameraFollows.Camera = Camera.main;
         }
 
-        public void Process(IEntity entity)
+        public void Process(IEntity entity, ElapsedTime elapsedTime)
         {
             var viewComponent = entity.GetComponent<ViewComponent>();
             var view = viewComponent.View as GameObject;

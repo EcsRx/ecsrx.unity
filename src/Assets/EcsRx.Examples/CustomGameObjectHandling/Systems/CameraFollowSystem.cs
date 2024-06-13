@@ -2,8 +2,8 @@
 using EcsRx.Examples.CustomGameObjectHandling.Components;
 using EcsRx.Extensions;
 using EcsRx.Groups;
-using EcsRx.Plugins.ReactiveSystems.Systems;
 using EcsRx.Systems;
+using SystemsRx.Scheduling;
 using UnityEngine;
 
 namespace EcsRx.Examples.CustomGameObjectHandling.Systems
@@ -21,7 +21,7 @@ namespace EcsRx.Examples.CustomGameObjectHandling.Systems
             cameraFollows.Camera = Camera.main;
         }
 
-        public void Process(IEntity entity)
+        public void Process(IEntity entity, ElapsedTime elapsedTime)
         {
             var entityPosition = entity.GetComponent<CustomViewComponent>().CustomView.transform.position;
             var trailPosition = entityPosition + (Vector3.back*5.0f);
