@@ -19,9 +19,9 @@ namespace EcsRx.UnityEditor.Editor
         public bool showComponents;
 
         private readonly IEnumerable<Type> allComponentTypes = AppDomain.CurrentDomain.GetAssemblies()
-                                .SelectMany(s => s.GetTypes())
-                                .Where(p => typeof(IComponent).IsAssignableFrom(p) && p.IsClass);
-
+            .SelectMany(s => s.GetTypes())
+            .Where(p => typeof(IComponent).IsAssignableFrom(p) && p.IsClass)
+            .ToArray();
 
         private void PoolSection()
         {
