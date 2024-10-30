@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EcsRx.Collections;
 using EcsRx.Collections.Database;
 using EcsRx.Collections.Entity;
 using EcsRx.Components;
@@ -9,9 +8,9 @@ using EcsRx.Entities;
 using EcsRx.Extensions;
 using EcsRx.Plugins.Views.Components;
 using EcsRx.Unity.MonoBehaviours;
+using EcsRx.UnityEditor.Data;
 using EcsRx.UnityEditor.Extensions;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace EcsRx.UnityEditor.MonoBehaviours
@@ -21,9 +20,11 @@ namespace EcsRx.UnityEditor.MonoBehaviours
         [Inject]
         public IEntityDatabase EntityDatabase { get; private set; }
 
-        [FormerlySerializedAs("CollectionName")] 
         [SerializeField]
         public int CollectionId;
+        
+        [SerializeField]
+        public int EntityId;
 
         [SerializeField]
         public List<string> Components = new List<string>();
@@ -31,36 +32,23 @@ namespace EcsRx.UnityEditor.MonoBehaviours
         [SerializeField]
         public List<string> ComponentEditorState = new List<string>();
         
-        [Inject]
-        public void RegisterEntity()
+        public bool HasDeserialized = false;
+        public EntityData EntityData = new EntityData();
+        
+        public void SerializeState()
         {
-            if (!gameObject.activeInHierarchy || !gameObject.activeSelf) { return; }
+            EntityData.EntityId = EntityId;
 
-            IEntityCollection collectionToUse;
-
-            if (CollectionId == 0)
-            { collectionToUse = EntityDatabase.GetCollection(); }
-            else if (EntityDatabase.Collections.All(x => x.Id != CollectionId))
-            { collectionToUse = EntityDatabase.CreateCollection(CollectionId); }
-            else
-            { collectionToUse = EntityDatabase.GetCollection(CollectionId); }
-
-            var createdEntity = collectionToUse.CreateEntity();
-            createdEntity.AddComponents(new ViewComponent { View = gameObject });
-            SetupEntityBinding(createdEntity, collectionToUse);
-            SetupEntityComponents(createdEntity);
-
-            Destroy(this);
+            foreach (var component in EntityData.Components)
+            {
+                var componentName = component.ToString();
+                Components.Add(componentName);
+                var json = component.SerializeComponent();
+                ComponentEditorState.Add(json.ToString());
+            }
         }
 
-        private void SetupEntityBinding(IEntity entity, IEntityCollection entityCollection)
-        {
-            var entityBinding = gameObject.AddComponent<EntityView>();
-            entityBinding.Entity = entity;
-            entityBinding.EntityCollection = entityCollection;
-        }
-
-        private void SetupEntityComponents(IEntity entity)
+        public void DeserializeState()
         {
             var componentsToRegister = new IComponent[Components.Count];
             for (var i = 0; i < Components.Count; i++)
@@ -74,12 +62,50 @@ namespace EcsRx.UnityEditor.MonoBehaviours
                 component.DeserializeComponent(componentProperties);
                 componentsToRegister[i] = component;
             }
-            entity.AddComponents(componentsToRegister);
+            
+            EntityData.Components = componentsToRegister;
+            EntityData.EntityId = EntityId;
+            HasDeserialized = true;
         }
         
-        public IEntityCollection GetCollection()
+        private IEntityCollection GetCollectionManager()
         {
+            if (CollectionId == 0)
+            { return EntityDatabase.GetCollection(); }
+
+            if (EntityDatabase.Collections.All(x => x.Id != CollectionId))
+            { return EntityDatabase.CreateCollection(CollectionId); }
+
             return EntityDatabase.GetCollection(CollectionId);
+        }
+
+        public IEntity CreateEntity(IEntityCollection collectionToUse)
+        {
+            if(EntityId > 0)
+            { return collectionToUse.CreateEntity(null, EntityId); }
+
+            return collectionToUse.CreateEntity();
+        }
+        
+        [Inject]
+        public void RegisterEntity()
+        {
+            if (!gameObject.activeInHierarchy || !gameObject.activeSelf) { return; }
+
+            var collectionToUse = GetCollectionManager();
+            var createdEntity = CreateEntity(collectionToUse);
+            createdEntity.AddComponents(EntityData.Components.ToArray());
+            createdEntity.AddComponents(new ViewComponent { View = gameObject });
+            SetupEntityBinding(createdEntity, collectionToUse);
+
+            Destroy(this);
+        }
+
+        private void SetupEntityBinding(IEntity entity, IEntityCollection entityCollection)
+        {
+            var entityBinding = gameObject.AddComponent<EntityView>();
+            entityBinding.Entity = entity;
+            entityBinding.EntityCollection = entityCollection;
         }
     }
 }
