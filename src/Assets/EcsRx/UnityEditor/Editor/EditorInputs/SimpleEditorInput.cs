@@ -10,10 +10,15 @@ namespace EcsRx.UnityEditor.Editor.EditorInputs
         public T GetValue(object value)
         { return (T)value; }
 
-        public object CreateUI(string label, object value)
+        public UIStateChange CreateUI(string label, object value)
         {
             var underlyingValue = GetValue(value);
-            return CreateTypeUI(label, underlyingValue);
+            var returnedValue = CreateTypeUI(label, underlyingValue);
+
+            if(returnedValue.Equals(underlyingValue))
+            { return UIStateChange.NoChange; }
+            
+            return new UIStateChange {HasChanged = true, Value = returnedValue };
         }
 
         protected abstract T CreateTypeUI(string label, T value);

@@ -4,6 +4,7 @@ using System.Linq;
 using EcsRx.Components;
 using EcsRx.Plugins.Views.Components;
 using EcsRx.UnityEditor.Editor.Extensions;
+using EcsRx.UnityEditor.Editor.Helpers;
 using EcsRx.UnityEditor.Editor.UIAspects;
 using EcsRx.UnityEditor.Extensions;
 using EcsRx.UnityEditor.MonoBehaviours;

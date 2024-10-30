@@ -540,26 +540,23 @@
      <Reference Include="Zenject-usage">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\Source\Usage\Zenject-usage.dll</HintPath>
      </Reference>
+     <Reference Include="SystemsRx.Infrastructure">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.Infrastructure.8.0.62\lib\netstandard2.1\SystemsRx.Infrastructure.dll</HintPath>
+     </Reference>
+     <Reference Include="EcsRx">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.8.0.184\lib\netstandard2.1\EcsRx.dll</HintPath>
+     </Reference>
      <Reference Include="NuGetForUnity.PluginAPI">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\NuGet\Editor\NuGetForUnity.PluginAPI.dll</HintPath>
+     </Reference>
+     <Reference Include="EcsRx.Plugins.Views">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Views.8.0.184\lib\netstandard2.1\EcsRx.Plugins.Views.dll</HintPath>
      </Reference>
      <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Pdb">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.Pdb.dll</HintPath>
      </Reference>
-     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Rocks">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.Rocks.dll</HintPath>
-     </Reference>
-     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Mdb">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.Mdb.dll</HintPath>
-     </Reference>
-     <Reference Include="NugetForUnity">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\NuGet\Editor\NugetForUnity.dll</HintPath>
-     </Reference>
-     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.8.0.184\lib\netstandard2.1\EcsRx.dll</HintPath>
+     <Reference Include="EcsRx.Infrastructure">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Infrastructure.8.0.184\lib\netstandard2.1\EcsRx.Infrastructure.dll</HintPath>
      </Reference>
      <Reference Include="SystemsRx.MicroRx">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.MicroRx.8.0.62\lib\netstandard2.1\SystemsRx.MicroRx.dll</HintPath>
@@ -567,20 +564,23 @@
      <Reference Include="SystemsRx">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.8.0.62\lib\netstandard2.1\SystemsRx.dll</HintPath>
      </Reference>
-     <Reference Include="SystemsRx.Infrastructure">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.Infrastructure.8.0.62\lib\netstandard2.1\SystemsRx.Infrastructure.dll</HintPath>
+     <Reference Include="EcsRx.Plugins.GroupBinding">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.GroupBinding.8.0.184\lib\netstandard2.1\EcsRx.Plugins.GroupBinding.dll</HintPath>
      </Reference>
-     <Reference Include="EcsRx.Infrastructure">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Infrastructure.8.0.184\lib\netstandard2.1\EcsRx.Infrastructure.dll</HintPath>
+     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Rocks">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.Rocks.dll</HintPath>
+     </Reference>
+     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Mdb">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.Mdb.dll</HintPath>
      </Reference>
      <Reference Include="EcsRx.Plugins.Batching">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Batching.8.0.184\lib\netstandard2.1\EcsRx.Plugins.Batching.dll</HintPath>
      </Reference>
-     <Reference Include="EcsRx.Plugins.Views">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Views.8.0.184\lib\netstandard2.1\EcsRx.Plugins.Views.dll</HintPath>
+     <Reference Include="NugetForUnity">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\NuGet\Editor\NugetForUnity.dll</HintPath>
      </Reference>
-     <Reference Include="EcsRx.Plugins.GroupBinding">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.GroupBinding.8.0.184\lib\netstandard2.1\EcsRx.Plugins.GroupBinding.dll</HintPath>
+     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.dll</HintPath>
      </Reference>
      <Reference Include="mscorlib">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.28f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\mscorlib.dll</HintPath>

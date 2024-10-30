@@ -41,44 +41,54 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\ReactiveColorEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\RectEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\IEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\ReactiveBoolEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\ReactiveFloatEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\StringEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\EnumEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\SimpleEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\FloatEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Vector3EditorInput.cs" />
      <Compile Include="Assets\EcsRx\UnityEditor\Editor\UIAspects\ComponentUIAspect.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\EditorInputRegistry.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Vector2EditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\DefaultEditorInputRegistry.cs" />
      <Compile Include="Assets\EcsRx\UnityEditor\Editor\PoolManagerViewerInspector.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\BoundsEditorInput.cs" />
      <Compile Include="Assets\EcsRx\UnityEditor\Editor\EntityViewInspector.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\ReactiveVector3EditorInput.cs" />
      <Compile Include="Assets\EcsRx\UnityEditor\Editor\Helpers\TypeHelper.cs" />
      <Compile Include="Assets\EcsRx\UnityEditor\Editor\ActiveSystemsViewerInspector.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\ReactiveStringEditorInput.cs" />
      <Compile Include="Assets\EcsRx\UnityEditor\Editor\Extensions\EditorExtensions.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\ReactiveIntEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\BoolEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\ReactiveVector2EditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\ColorEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\GameObjectEditorInput.cs" />
      <Compile Include="Assets\EcsRx\UnityEditor\Editor\RegisterAsEntityInspector.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\ReactiveBoundsEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\IntEditorInput.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\ReactiveRectEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Unity\GameObjectEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Basic\IntEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactivePropertyQuaternionEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactiveIntEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\EditorInputRegistry.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Unity\Vector4EditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Unity\QuaternionEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactiveBoundsEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactiveStringEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactivePropertyVector4EditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\UIStateChange.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Basic\FloatEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\SimpleEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactiveVector2EditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Unity\Vector2EditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactiveRectEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\DefaultEditorInputRegistry.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Unity\RectEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactivePropertyEnumEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactiveVector3EditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Basic\BoolEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Basic\EnumEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactiveColorEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactiveBoolEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Unity\BoundsEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactiveFloatEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Unity\Vector3EditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Basic\StringEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactiveEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\IEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Unity\ColorEditorInput.cs" />
      <Folder Include="Assets\NuGet\Editor" />
      <Folder Include="Assets\EcsRx\UnityEditor\Editor\Extensions" />
      <Folder Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs" />
      <Folder Include="Assets\EcsRx\UnityEditor\Editor" />
      <None Include="Assets\NuGet\Editor\NuGetForUnity.PluginAPI.xml" />
      <Folder Include="Assets\EcsRx\UnityEditor\Editor\UIAspects" />
+     <Folder Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive" />
+     <Folder Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Unity" />
      <Folder Include="Assets\EcsRx\UnityEditor\Editor\Helpers" />
+     <Folder Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Basic" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.28f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>
@@ -337,26 +347,23 @@
      <Reference Include="Zenject-usage">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\Source\Usage\Zenject-usage.dll</HintPath>
      </Reference>
+     <Reference Include="SystemsRx.Infrastructure">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.Infrastructure.8.0.62\lib\netstandard2.1\SystemsRx.Infrastructure.dll</HintPath>
+     </Reference>
+     <Reference Include="EcsRx">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.8.0.184\lib\netstandard2.1\EcsRx.dll</HintPath>
+     </Reference>
      <Reference Include="NuGetForUnity.PluginAPI">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\NuGet\Editor\NuGetForUnity.PluginAPI.dll</HintPath>
+     </Reference>
+     <Reference Include="EcsRx.Plugins.Views">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Views.8.0.184\lib\netstandard2.1\EcsRx.Plugins.Views.dll</HintPath>
      </Reference>
      <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Pdb">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.Pdb.dll</HintPath>
      </Reference>
-     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Rocks">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.Rocks.dll</HintPath>
-     </Reference>
-     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Mdb">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.Mdb.dll</HintPath>
-     </Reference>
-     <Reference Include="NugetForUnity">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\NuGet\Editor\NugetForUnity.dll</HintPath>
-     </Reference>
-     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.dll</HintPath>
-     </Reference>
-     <Reference Include="EcsRx">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.8.0.184\lib\netstandard2.1\EcsRx.dll</HintPath>
+     <Reference Include="EcsRx.Infrastructure">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Infrastructure.8.0.184\lib\netstandard2.1\EcsRx.Infrastructure.dll</HintPath>
      </Reference>
      <Reference Include="SystemsRx.MicroRx">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.MicroRx.8.0.62\lib\netstandard2.1\SystemsRx.MicroRx.dll</HintPath>
@@ -364,20 +371,23 @@
      <Reference Include="SystemsRx">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.8.0.62\lib\netstandard2.1\SystemsRx.dll</HintPath>
      </Reference>
-     <Reference Include="SystemsRx.Infrastructure">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\SystemsRx.Infrastructure.8.0.62\lib\netstandard2.1\SystemsRx.Infrastructure.dll</HintPath>
+     <Reference Include="EcsRx.Plugins.GroupBinding">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.GroupBinding.8.0.184\lib\netstandard2.1\EcsRx.Plugins.GroupBinding.dll</HintPath>
      </Reference>
-     <Reference Include="EcsRx.Infrastructure">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Infrastructure.8.0.184\lib\netstandard2.1\EcsRx.Infrastructure.dll</HintPath>
+     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Rocks">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.Rocks.dll</HintPath>
+     </Reference>
+     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil.Mdb">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.Mdb.dll</HintPath>
      </Reference>
      <Reference Include="EcsRx.Plugins.Batching">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Batching.8.0.184\lib\netstandard2.1\EcsRx.Plugins.Batching.dll</HintPath>
      </Reference>
-     <Reference Include="EcsRx.Plugins.Views">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.Views.8.0.184\lib\netstandard2.1\EcsRx.Plugins.Views.dll</HintPath>
+     <Reference Include="NugetForUnity">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\NuGet\Editor\NugetForUnity.dll</HintPath>
      </Reference>
-     <Reference Include="EcsRx.Plugins.GroupBinding">
-     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Packages\EcsRx.Plugins.GroupBinding.8.0.184\lib\netstandard2.1\EcsRx.Plugins.GroupBinding.dll</HintPath>
+     <Reference Include="Zenject.ReflectionBaking.Mono.Cecil">
+     <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Assets\Plugins\Zenject\OptionalExtras\ReflectionBaking\Lib\Zenject.ReflectionBaking.Mono.Cecil.dll</HintPath>
      </Reference>
      <Reference Include="nunit.framework">
      <HintPath>E:\Code\open-source\ecsrx\ecsrx.unity\src\Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
