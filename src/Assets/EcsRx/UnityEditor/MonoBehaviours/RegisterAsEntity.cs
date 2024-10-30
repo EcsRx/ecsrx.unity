@@ -30,7 +30,7 @@ namespace EcsRx.UnityEditor.MonoBehaviours
 
         [SerializeField]
         public List<string> ComponentEditorState = new List<string>();
-
+        
         [Inject]
         public void RegisterEntity()
         {

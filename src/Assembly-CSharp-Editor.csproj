@@ -79,7 +79,13 @@
      <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Reactive\ReactiveEditorInput.cs" />
      <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\IEditorInput.cs" />
      <Compile Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs\Unity\ColorEditorInput.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\UIAspects\EntityDataUIAspect.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\Models\ComponentEditorState.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\Helpers\EditorGuiHelper.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\Helpers\ComponentLookup.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Editor\Extensions\IntExtensions.cs" />
      <Folder Include="Assets\NuGet\Editor" />
+     <Folder Include="Assets\EcsRx\UnityEditor\Editor\Models" />
      <Folder Include="Assets\EcsRx\UnityEditor\Editor\Extensions" />
      <Folder Include="Assets\EcsRx\UnityEditor\Editor\EditorInputs" />
      <Folder Include="Assets\EcsRx\UnityEditor\Editor" />

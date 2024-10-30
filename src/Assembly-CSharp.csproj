@@ -120,6 +120,8 @@
      <Compile Include="Assets\EcsRx\Unity\Scheduling\UnityUpdateScheduler.cs" />
      <Compile Include="Assets\EcsRx\Zenject\Dependencies\ZenjectDependencyResolver.cs" />
      <Compile Include="Assets\EcsRx.Examples\SimpleMovement\Systems\CameraFollowSystem.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Data\EntityData.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Events\ComponentEvent.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\EcsRx.Examples\CustomGameObjectHandling\Prefabs" />
      <Folder Include="Assets\EcsRx.Examples\GameObjectLinking" />
@@ -144,6 +146,7 @@
      <Folder Include="Assets\Packages\SystemsRx.Infrastructure.8.0.62" />
      <Folder Include="Assets\EcsRx.Examples\RandomReactions\Prefabs\Resources" />
      <Folder Include="Assets\EcsRx.Examples\SimpleMovement\Systems" />
+     <Folder Include="Assets\EcsRx\UnityEditor\Events" />
      <Folder Include="Assets\EcsRx.Examples\PooledViews" />
      <Folder Include="Assets\Packages\EcsRx.Plugins.GroupBinding.8.0.184\lib\netstandard2.1" />
      <Folder Include="Assets\EcsRx.Examples\UsingBlueprints\Groups" />
@@ -209,6 +212,7 @@
      <Folder Include="Assets\Packages\EcsRx.8.0.184\lib" />
      <Folder Include="Assets\EcsRx\Zenject\Installers" />
      <Folder Include="Assets\Packages\SystemsRx.Infrastructure.8.0.62\lib" />
+     <Folder Include="Assets\EcsRx\UnityEditor\Data" />
      <Folder Include="Assets\EcsRx.Examples\UsingBlueprints" />
      <Folder Include="Assets\EcsRx.Examples" />
      <Folder Include="Assets\EcsRx.Examples\PooledViews\Prefab\Resources" />

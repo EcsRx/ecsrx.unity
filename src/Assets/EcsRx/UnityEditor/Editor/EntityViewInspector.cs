@@ -4,7 +4,8 @@ using System.Linq;
 using EcsRx.Components;
 using EcsRx.Extensions;
 using EcsRx.Unity.MonoBehaviours;
-using EcsRx.UnityEditor.Editor.Extensions;
+using EcsRx.UnityEditor.Data;
+using EcsRx.UnityEditor.Editor.Helpers;
 using EcsRx.UnityEditor.Editor.UIAspects;
 using UnityEditor;
 using UnityEngine;
@@ -15,17 +16,25 @@ namespace EcsRx.UnityEditor.Editor
     public class EntityViewInspector : global::UnityEditor.Editor
     {
         private EntityView _entityView;
+        private EntityDataUIAspect _entityDataAspect;
+        private EntityData _entityDataProxy;
+        
+        private void OnEnable()
+        {
+            _entityView = (EntityView)target;
+            _entityDataProxy = new EntityData();
+            _entityDataAspect = new EntityDataUIAspect(_entityDataProxy, this);
 
-        public bool showComponents;
+            _entityDataProxy.EntityId = _entityView.Entity.Id;
+            _entityDataProxy.Components = new List<IComponent>(_entityView.Entity.Components);
 
-        private readonly IEnumerable<Type> allComponentTypes = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(s => s.GetTypes())
-            .Where(p => typeof(IComponent).IsAssignableFrom(p) && p.IsClass)
-            .ToArray();
-
+            _entityDataAspect.ComponentAdded += (sender, args) => _entityView.Entity.AddComponents(args.Component);
+            _entityDataAspect.ComponentRemoved += (sender, args) => _entityView.Entity.RemoveComponents(args.Component.GetType());
+        }
+        
         private void PoolSection()
         {
-            this.UseVerticalBoxLayout(() =>
+            EditorGUIHelper.WithVerticalLayout(() =>
             {
                 if (GUILayout.Button("Destroy Entity"))
                 {
@@ -33,109 +42,44 @@ namespace EcsRx.UnityEditor.Editor
                     Destroy(_entityView.gameObject);
                 }
 
-                this.UseVerticalBoxLayout(() =>
+                EditorGUIHelper.WithVerticalLayout(() =>
                 {
-                    var id = _entityView.Entity.Id.ToString();
-                    this.WithLabelField("Entity Id: ", id);
+                    var entityId = _entityView.Entity.Id.ToString();
+                    EditorGUIHelper.WithLabelField("Entity Id", entityId);
                 });
 
-                this.UseVerticalBoxLayout(() =>
+                EditorGUIHelper.WithVerticalLayout(() =>
                 {
-                    this.WithLabelField("EntityCollection: ", _entityView.EntityCollection.Id.ToString());
+                    var collectionId = _entityView.EntityCollection.Id.ToString();
+                    EditorGUIHelper.WithLabelField("Collection Id", collectionId);
                 });
             });
         }
-
-        private void ComponentListings()
+        
+        private void SyncAnyExternalChanges()
         {
-            EditorGUILayout.BeginVertical(EditorExtensions.DefaultBoxStyle);
-            this.WithHorizontalLayout(() =>
+            var hasChanged = false;
+            foreach (var component in _entityView.Entity.Components)
             {
-                this.WithLabel("Components (" + _entityView.Entity.Components.Count() + ")");
-                if (this.WithIconButton("▸")) { showComponents = false; }
-                if (this.WithIconButton("▾")) { showComponents = true; }
-            });
-
-            var componentsToRemove = new List<int>();
-            if (showComponents)
-            {
-                var currentComponents = _entityView.Entity.Components.ToArray();
-                for (var i = 0; i < currentComponents.Length; i++)
+                if (!_entityDataProxy.Components.Contains(component))
                 {
-                    var currentIndex = i;
-                    this.UseVerticalBoxLayout(() =>
-                    {
-                        var componentType = currentComponents[currentIndex].GetType();
-                        var typeName = componentType.Name;
-                        var typeNamespace = componentType.Namespace;
-
-                        this.WithVerticalLayout(() =>
-                        {
-                            this.WithHorizontalLayout(() =>
-                            {
-                                if (this.WithIconButton("-"))
-                                {
-                                    componentsToRemove.Add(currentIndex);
-                                }
-
-                                this.WithLabel(typeName);
-                            });
-
-                            EditorGUILayout.LabelField(typeNamespace);
-                            EditorGUILayout.Space();
-                        });
-                        
-                        var component = currentComponents[currentIndex];
-                        ComponentUIAspect.ShowComponentProperties(component);
-                    });
+                    _entityDataProxy.Components.Add(component);
+                    hasChanged = true;
+                }
+            }
+            
+            for (var i = _entityDataProxy.Components.Count - 1; i >= 0; i--)
+            {
+                var previousComponent = _entityDataProxy.Components[i];
+                if (!_entityView.Entity.Components.Contains(previousComponent))
+                {
+                    _entityDataProxy.Components.RemoveAt(i);
+                    hasChanged = true;
                 }
             }
 
-            EditorGUILayout.EndVertical();
-
-            if (componentsToRemove.Count == 0)
-            { return; }
-
-            var activeComponents = _entityView.Entity.Components.ToArray();
-            var componentArray = new Type[componentsToRemove.Count];
-            for (var i = 0; i < componentsToRemove.Count; i++)
-            {
-                var component = activeComponents[i];
-                componentArray[i] = component.GetType();
-            }
-            _entityView.Entity.RemoveComponents(componentArray);
-        }
-
-        public static Type GetTypeWithAssembly(string typeName)
-        {
-            var type = Type.GetType(typeName);
-            if (type != null) return type;
-            foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                type = a.GetType(typeName);
-                if (type != null)
-                    return type;
-            }
-            return null;
-        }
-
-        private void ComponentSelectionSection()
-        {
-            this.UseVerticalBoxLayout(() =>
-            {
-                var availableTypes = allComponentTypes
-                    .Where(x => !_entityView.Entity.Components.Select(y => y.GetType()).Contains(x))
-                    .ToArray();
-
-                var types = availableTypes.Select(x => string.Format("{0} [{1}]", x.Name, x.Namespace)).ToArray();
-                var index = -1;
-                index = EditorGUILayout.Popup("Add Component", index, types);
-                if (index >= 0)
-                {
-                    var component = (IComponent)Activator.CreateInstance(availableTypes[index]);
-                    _entityView.Entity.AddComponents(component);
-                }
-            });
+            if(hasChanged)
+            { Repaint(); }
         }
 
         public override void OnInspectorGUI()
@@ -148,10 +92,11 @@ namespace EcsRx.UnityEditor.Editor
                 return;
             }
 
+            SyncAnyExternalChanges();
+
             PoolSection();
-            EditorGUILayout.Space();
-            ComponentSelectionSection();
-            ComponentListings();
+
+            _entityDataAspect.DisplayUI();
         }
     }
 }

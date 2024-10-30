@@ -4,7 +4,6 @@ using System.Linq;
 using EcsRx.Components;
 using EcsRx.Plugins.Views.Components;
 using EcsRx.UnityEditor.Editor.Extensions;
-using EcsRx.UnityEditor.Editor.Helpers;
 using EcsRx.UnityEditor.Editor.UIAspects;
 using EcsRx.UnityEditor.Extensions;
 using EcsRx.UnityEditor.MonoBehaviours;
@@ -22,7 +21,8 @@ namespace EcsRx.UnityEditor.Editor
 
         private readonly IEnumerable<Type> allComponentTypes = AppDomain.CurrentDomain.GetAssemblies()
                                 .SelectMany(s => s.GetTypes())
-                                .Where(p => typeof(IComponent).IsAssignableFrom(p) && p.IsClass && !typeof(ViewComponent).IsAssignableFrom(p));
+                                .Where(p => typeof(IComponent).IsAssignableFrom(p) && p.IsClass && !typeof(ViewComponent).IsAssignableFrom(p))
+                                .ToArray();
 
         private bool showComponents;
 
