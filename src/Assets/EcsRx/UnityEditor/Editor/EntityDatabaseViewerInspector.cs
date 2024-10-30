@@ -1,4 +1,5 @@
-﻿using EcsRx.UnityEditor.Editor.Extensions;
+﻿using System.Linq;
+using EcsRx.UnityEditor.Editor.Extensions;
 using EcsRx.UnityEditor.Editor.Helpers;
 using EcsRx.UnityEditor.MonoBehaviours;
 using UnityEditor;
@@ -22,8 +23,10 @@ namespace EcsRx.UnityEditor.Editor
             
             EditorGUIHelper.WithLabel("Collections");
 
+            var totalEntities = 0;
             foreach (var entityCollection in entityDatabase.Collections)
             {
+                totalEntities += entityCollection.Count;
                 EditorGUIHelper.WithVerticalBoxLayout(() =>
                 {
                     GUI.backgroundColor = entityCollection.GetHashCode().ToMutedColor();
@@ -34,6 +37,13 @@ namespace EcsRx.UnityEditor.Editor
                     });
                 });
             }
+
+            EditorGUILayout.Space();
+            
+            EditorGUIHelper.WithVerticalBoxLayout(() =>
+            {
+                EditorGUILayout.LabelField("Total Entities", totalEntities.ToString());
+            });
         }
     }
 }
