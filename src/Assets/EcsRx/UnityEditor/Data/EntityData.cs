@@ -6,7 +6,7 @@ namespace EcsRx.UnityEditor.Data
     public class EntityData
     {
         public int EntityId { get; set; }
-        public IList<IComponent> Components { get; set; }
+        public List<IComponent> Components { get; set; }
 
         public EntityData()
         {

@@ -39,18 +39,28 @@ namespace EcsRx.UnityEditor.MonoBehaviours
         {
             EntityData.EntityId = EntityId;
 
-            foreach (var component in EntityData.Components)
+            try
             {
-                var componentName = component.ToString();
-                Components.Add(componentName);
-                var json = component.SerializeComponent();
-                ComponentEditorState.Add(json.ToString());
+                Components.Clear();
+                ComponentEditorState.Clear();
+                foreach (var component in EntityData.Components)
+                {
+                    var componentName = component.ToString();
+                    Components.Add(componentName);
+                    var json = component.SerializeComponent();
+                    ComponentEditorState.Add(json.ToString());
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"Unable to Serialize [{gameObject.name}] - {e.Message}");
             }
         }
 
         public void DeserializeState()
         {
-            var componentsToRegister = new IComponent[Components.Count];
+            EntityData.Components.Clear();
+            
             for (var i = 0; i < Components.Count; i++)
             {
                 var typeName = Components[i];
@@ -60,10 +70,9 @@ namespace EcsRx.UnityEditor.MonoBehaviours
                 var component = (IComponent)Activator.CreateInstance(type);
                 var componentProperties = JSON.Parse(ComponentEditorState[i]);
                 component.DeserializeComponent(componentProperties);
-                componentsToRegister[i] = component;
+                EntityData.Components.Add(component);
             }
             
-            EntityData.Components = componentsToRegister;
             EntityData.EntityId = EntityId;
             HasDeserialized = true;
         }
@@ -94,7 +103,10 @@ namespace EcsRx.UnityEditor.MonoBehaviours
 
             var collectionToUse = GetCollectionManager();
             var createdEntity = CreateEntity(collectionToUse);
+            
+            DeserializeState();
             createdEntity.AddComponents(EntityData.Components.ToArray());
+            
             createdEntity.AddComponents(new ViewComponent { View = gameObject });
             SetupEntityBinding(createdEntity, collectionToUse);
 

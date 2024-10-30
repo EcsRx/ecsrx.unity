@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EcsRx.Components;
 using EcsRx.UnityEditor.Editor.EditorInputs;
+using EcsRx.UnityEditor.Editor.EditorInputs.Basic;
 using EcsRx.UnityEditor.Editor.Helpers;
 using EcsRx.UnityEditor.Extensions;
 using UniRx;
@@ -91,7 +92,7 @@ namespace EcsRx.UnityEditor.Editor.UIAspects
 
                 if (handler == null)
                 {
-                    Debug.LogWarning($"This type is not supported [{propertyType.Name}] - In component {component.GetType().Name}");
+                    ReadOnlyStringEditorInput.TypeUI(property.Name, $"Unsupported [{propertyType.Name}]");
                     EditorGUILayout.EndHorizontal();
                     continue;
                 }

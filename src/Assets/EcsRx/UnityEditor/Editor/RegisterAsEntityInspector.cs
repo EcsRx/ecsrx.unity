@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using EcsRx.Components;
-using EcsRx.Plugins.Views.Components;
 using EcsRx.UnityEditor.Editor.Extensions;
 using EcsRx.UnityEditor.Editor.UIAspects;
-using EcsRx.UnityEditor.Extensions;
 using EcsRx.UnityEditor.MonoBehaviours;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UEditor = UnityEditor.Editor;
 
 namespace EcsRx.UnityEditor.Editor
@@ -21,11 +15,12 @@ namespace EcsRx.UnityEditor.Editor
         private RegisterAsEntity _registerAsEntity;
         private EntityDataUIAspect _entityDataAspect;
 
-        private void PoolSection()
+        private void CollectionSection()
         {
             this.UseVerticalBoxLayout(() =>
             {
-                _registerAsEntity.CollectionId = this.WithNumberField("Entity Collection Id:", _registerAsEntity.CollectionId);
+                _registerAsEntity.CollectionId = this.WithNumberField("Override Collection Id:", _registerAsEntity.CollectionId);
+                _registerAsEntity.EntityId = this.WithNumberField("Override Entity Id:", _registerAsEntity.EntityId);
             });
         }
 
@@ -37,25 +32,23 @@ namespace EcsRx.UnityEditor.Editor
 
             if (_registerAsEntity.EntityData.EntityId != 0)
             { _registerAsEntity.EntityId = _registerAsEntity.EntityData.EntityId; }
-            else
-            { _registerAsEntity.EntityData.EntityId = _registerAsEntity.EntityId; }
         }
 
         private void PersistChanges()
         {
+            _registerAsEntity.EntityId = _registerAsEntity.EntityData.EntityId;
             if (GUI.changed)
-            { this.SaveActiveSceneChanges(); }
+            {
+                _registerAsEntity.SerializeState();
+                this.SaveActiveSceneChanges();
+            }
         }
 
         public override void OnInspectorGUI()
         {
-            PoolSection();
-
+            CollectionSection();
             _entityDataAspect.DisplayUI();
-            
-            if(SceneManager.GetActiveScene().isDirty)
-            { PersistChanges(); }
-            
+            PersistChanges();
         }
     }
 }

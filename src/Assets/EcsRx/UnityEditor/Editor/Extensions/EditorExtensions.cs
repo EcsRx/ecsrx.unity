@@ -84,7 +84,6 @@ namespace EcsRx.UnityEditor.Editor.Extensions
             return result;
         }
 
-        // Only works with unity 5.3+
         public static void SaveActiveSceneChanges(this global::UnityEditor.Editor editor)
         {
             var activeScene = SceneManager.GetActiveScene();

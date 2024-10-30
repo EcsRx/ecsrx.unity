@@ -15,7 +15,7 @@ namespace EcsRx.UnityEditor.Editor.EditorInputs
             var underlyingValue = GetValue(value);
             var returnedValue = CreateTypeUI(label, underlyingValue);
 
-            if(returnedValue.Equals(underlyingValue))
+            if(returnedValue != null && returnedValue.Equals(underlyingValue))
             { return UIStateChange.NoChange; }
             
             return new UIStateChange {HasChanged = true, Value = returnedValue };

@@ -19,8 +19,8 @@ namespace EcsRx.UnityEditor.Editor.UIAspects
     {
         private const string RemoveComponentMessage = "Are you sure you wish to remove this component and all its values from the entity?";
 
-        private readonly IDictionary<string, ComponentEditorState> _componentShowList = new Dictionary<string, ComponentEditorState>();
-        private readonly IList<IComponent> _componentsRemovalList = new List<IComponent>();
+        private readonly Dictionary<string, ComponentEditorState> _componentShowList = new Dictionary<string, ComponentEditorState>();
+        private readonly List<IComponent> _componentsRemovalList = new List<IComponent>();
 
         public event ComponentEventHandler ComponentAdded, ComponentRemoved;
 
