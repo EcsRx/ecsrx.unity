@@ -48,7 +48,7 @@ namespace EcsRx.UnityEditor.Editor.Extensions
         {
             return GUILayout.Button(icon, GUILayout.Width(20), GUILayout.Height(15));
         }
-
+        
         public static void WithLabelField(this global::UnityEditor.Editor editor, string label, string value)
         {
             EditorGUILayout.BeginHorizontal();

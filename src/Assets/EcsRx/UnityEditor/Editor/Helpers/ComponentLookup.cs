@@ -13,7 +13,8 @@ namespace EcsRx.UnityEditor.Editor.Helpers
         {
             AllComponents = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
-                .Where(IsComponent);
+                .Where(IsComponent)
+                .ToArray();
         }
 
         private static bool IsComponent(Type type)

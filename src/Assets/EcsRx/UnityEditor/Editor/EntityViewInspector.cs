@@ -36,7 +36,7 @@ namespace EcsRx.UnityEditor.Editor
         {
             EditorGUIHelper.WithVerticalLayout(() =>
             {
-                if (GUILayout.Button("Destroy Entity"))
+                if (GUILayout.Button("Destroy Entity", GUILayout.ExpandWidth(true)))
                 {
                     _entityView.EntityCollection.RemoveEntity(_entityView.Entity.Id);
                     Destroy(_entityView.gameObject);

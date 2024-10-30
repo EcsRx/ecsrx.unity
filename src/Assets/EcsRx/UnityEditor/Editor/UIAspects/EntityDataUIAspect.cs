@@ -51,16 +51,12 @@ namespace EcsRx.UnityEditor.Editor.UIAspects
             }
             _componentsRemovalList.Clear();
 
-            if (Event.current.type == EventType.MouseDown)
+            if (Event.current.type != EventType.MouseDown) { return; }
+            foreach (var componentState in _componentShowList.Values)
             {
-                foreach (var componentState in _componentShowList.Values)
-                {
-                    if (componentState.HasBeenClicked())
-                    {
-                        componentState.ShowProperties = !componentState.ShowProperties;
-                        LinkedEditor.Repaint();
-                    }
-                }
+                if (!componentState.HasBeenClicked()) { continue; }
+                componentState.ShowProperties = !componentState.ShowProperties;
+                LinkedEditor.Repaint();
             }
         }
 
