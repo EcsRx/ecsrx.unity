@@ -1,5 +1,9 @@
-﻿using EcsRx.UnityEditor.MonoBehaviours;
+﻿using EcsRx.Systems;
+using EcsRx.UnityEditor.Editor.Extensions;
+using EcsRx.UnityEditor.Editor.Helpers;
+using EcsRx.UnityEditor.MonoBehaviours;
 using UnityEditor;
+using UnityEngine;
 
 namespace EcsRx.UnityEditor.Editor
 {
@@ -18,14 +22,15 @@ namespace EcsRx.UnityEditor.Editor
                 return;
             }
             
-            EditorGUILayout.TextField("Setup Systems");
+            EditorGUIHelper.WithLabel("Running Systems");
             EditorGUILayout.Space();
             foreach (var system in executor.Systems)
             {
-                EditorGUILayout.BeginVertical();
-                EditorGUILayout.LabelField("System: " + system.GetType().Name);
-                EditorGUILayout.EndVertical();
-                EditorGUILayout.Space();
+                EditorGUIHelper.WithVerticalBoxLayout(() =>
+                {
+                    GUI.backgroundColor = system.GetHashCode().ToMutedColor();
+                    EditorGUILayout.LabelField(system.GetType().Name);
+                });
             }
         }
     }

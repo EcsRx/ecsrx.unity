@@ -75,6 +75,7 @@
      <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\Blueprints\PlayerBlueprint.cs" />
      <Compile Include="Assets\EcsRx\Unity\Extensions\IEntityExtensions.cs" />
      <Compile Include="Assets\EcsRx\Zenject\Extensions\IZenjectExtensions.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Data\EntityData.cs" />
      <Compile Include="Assets\EcsRx\Unity\Extensions\ISystemExtensions.cs" />
      <Compile Include="Assets\EcsRx\UnityEditor\JSON.cs" />
      <Compile Include="Assets\EcsRx.Examples\CustomGameObjectHandling\Components\CustomViewComponent.cs" />
@@ -101,6 +102,7 @@
      <Compile Include="Assets\EcsRx\Unity\MonoBehaviours\InjectableMonoBehaviour.cs" />
      <Compile Include="Assets\EcsRx.Examples\CustomGameObjectHandling\Systems\CameraFollowSystem.cs" />
      <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\Components\HasName.cs" />
+     <Compile Include="Assets\EcsRx\UnityEditor\Events\ComponentEvent.cs" />
      <Compile Include="Assets\EcsRx.Examples\CustomGameObjectHandling\Components\CameraFollows.cs" />
      <Compile Include="Assets\EcsRx.Examples\GameObjectBinding\Application.cs" />
      <Compile Include="Assets\EcsRx.Examples\UsingBlueprints\Components\WithHealthComponent.cs" />
@@ -120,8 +122,6 @@
      <Compile Include="Assets\EcsRx\Unity\Scheduling\UnityUpdateScheduler.cs" />
      <Compile Include="Assets\EcsRx\Zenject\Dependencies\ZenjectDependencyResolver.cs" />
      <Compile Include="Assets\EcsRx.Examples\SimpleMovement\Systems\CameraFollowSystem.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Data\EntityData.cs" />
-     <Compile Include="Assets\EcsRx\UnityEditor\Events\ComponentEvent.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\EcsRx.Examples\CustomGameObjectHandling\Prefabs" />
      <Folder Include="Assets\EcsRx.Examples\GameObjectLinking" />

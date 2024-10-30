@@ -323,8 +323,8 @@
      <Compile Include="Assets\Plugins\Zenject\Source\Factories\Pooling\Static\StaticMemoryPool.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryToChoiceBinder\DecoratorToChoiceFromBinder.cs" />
      <Compile Include="Assets\Plugins\Zenject\OptionalExtras\Signals\Internal\Binders\DeclareSignal\DeclareSignalIdRequireHandlerAsyncTickPriorityCopyBinder.cs" />
-     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryToChoiceIdBinder\FactoryToChoiceIdBinder3.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryToChoiceBinder\FactoryToChoiceBinder2.cs" />
+     <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryToChoiceIdBinder\FactoryToChoiceIdBinder3.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Providers\ComponentProviders\AddToGameObjectComponentProviders\AddToGameObjectComponentProviderBase.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Binding\Binders\Factory\FactoryFromBinder\FactoryFromBinder10.cs" />
      <Compile Include="Assets\Plugins\Zenject\Source\Factories\Pooling\PoolableMemoryPool.cs" />

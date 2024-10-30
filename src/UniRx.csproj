@@ -41,8 +41,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Plugins\UniRx\Scripts\System\IObserver.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\TimeInterval.cs" />
+     <Compile Include="Assets\Plugins\UniRx\Scripts\System\IObserver.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Operators\ContinueWith.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\UnityEngineBridge\MainThreadScheduler.cs" />
      <Compile Include="Assets\Plugins\UniRx\Scripts\Observable.Concurrency.cs" />
